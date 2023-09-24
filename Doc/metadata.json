@@ -8,6 +8,7 @@
     "RenderLib",
     "requestV2",
     "PromiseV2",
+    "Vigilance",
     "PogData"
   ]
 }

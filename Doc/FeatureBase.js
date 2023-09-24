@@ -1,4 +1,5 @@
-import { checkConfig, getScoreboard } from "./utils/Utils"
+import config from "./config"
+import { checkConfig } from "./utils/Utils"
 
 let events = {}
 let eventsRegistered = {}
@@ -8,14 +9,15 @@ let currentArea = null
 
 let firstTimeLoading = true
 
-export const addEvent = (name, category, event, bool, sideEvents = [], world, area) => {
+export const addEvent = (name, category, event, bool, sideEvents = [], world, area, isPogObject = false) => {
     events[name] = {
         event: event,
         configCategory: category,
         toggled: bool,
         sideEvents: sideEvents,
         requiredWorld: world,
-        requiredArea: area
+        requiredArea: area,
+        isPogObject: isPogObject
     }
 }
 
@@ -59,12 +61,13 @@ register("step", () => {
     currentWorld = TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))
 
     currentArea = currentWorld?.includes("The Rift") 
-        ? getScoreboard().find(f => f.match(/ ф (.+)/))
-        : getScoreboard().find(f => f.match(/ ⏣ (.+)/))
-
+        ? Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
+        : Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
     
     registeredEvents.forEach(values => {
-        const bool = checkConfig(events[values].configCategory, values)
+        const bool = events[values].isPogObject
+            ? checkConfig(events[values].configCategory, values)
+            : config[values]
         
         if(!currentWorld || !currentArea) return unregisterEvents()
         else if(bool && events[values].toggled && checkForWorld(values) && checkForArea(values) && !eventsRegistered[values]) return registerEvents(values)
