@@ -1,0 +1,13 @@
+{
+  "name": "Doc",
+  "creator": "DocilElm",
+  "description": "doc is the best.",
+  "version": "0.0.1",
+  "entry": "index.js",
+  "requires": [
+    "RenderLib",
+    "requestV2",
+    "PromiseV2",
+    "PogData"
+  ]
+}
