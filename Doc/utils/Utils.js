@@ -22,3 +22,4 @@ export const checkConfig = (category, name) => data.settings[category][name]
 
 // mc classes
 export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
+export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")

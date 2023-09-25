@@ -27,6 +27,14 @@ class Settings {
         subcategory: "Dungeons"
     })
     mobESP = false;
+
+    @SwitchProperty({
+        name: "Show Secrets Clicked",
+        description: "Draws a box in the clicked chest/wither essence/redstone skull (not see through walls)",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    showSecretsClicked = false;
 }
 
 export default new Settings()
