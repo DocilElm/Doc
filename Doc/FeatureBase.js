@@ -68,10 +68,15 @@ register("step", () => {
         const bool = events[values].isPogObject
             ? checkConfig(events[values].configCategory, values)
             : config[values]
-        
+
+        // yes for more than i hate it
+        // this must be a === null statement
+        // otherwise it'll take false into account
+        const toggledBool = events[values].toggled === null ? bool : events[values].toggled
+
         if(!currentWorld || !currentArea) return unregisterEvents()
-        else if(bool && events[values].toggled && checkForWorld(values) && checkForArea(values) && !eventsRegistered[values]) return registerEvents(values)
-        else if(!bool && !events[values].toggled && !checkForWorld(values) && !checkForArea(values) && eventsRegistered[values]) return unregisterEvents(values)
+        else if(bool && toggledBool && checkForWorld(values) && checkForArea(values) && !eventsRegistered[values]) return registerEvents(values)
+        else if(!bool && !toggledBool || eventsRegistered[values] && !checkForWorld(values) && !checkForArea(values)) return unregisterEvents(values)
     })
 }).setFps(1)
 

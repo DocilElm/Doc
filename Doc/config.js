@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General"]
+        const categories = ["General", "Dungeons"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -21,12 +21,12 @@ class Settings {
     }
     
     @SwitchProperty({
-        name: "Test",
-        description: "",
-        category: "General",
-        subcategory: "General"
+        name: "Star Mob Esp",
+        description: "Draws a box in starred mob esp (not see through walls)",
+        category: "Dungeons",
+        subcategory: "Dungeons"
     })
-    testconfig = false;
+    mobESP = false;
 }
 
 export default new Settings()

@@ -19,3 +19,6 @@ export const getScoreboard = (descending = false) => Scoreboard.getLines(descend
 export const isInScoreboard = (str) => getScoreboard().some(a => a.includes(str))
 export const isInTab = (str) => TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))?.includes(str)
 export const checkConfig = (category, name) => data.settings[category][name]
+
+// mc classes
+export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
