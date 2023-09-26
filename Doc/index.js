@@ -6,4 +6,7 @@ import config from "./config"
 import "./features/dungeons/MobESP"
 import "./features/dungeons/SecretsClickedESP"
 
+// Mining
+import "./features/mining/EmissaryWaypoints"
+
 register("command", () => config.openGUI()).setName("doc")
