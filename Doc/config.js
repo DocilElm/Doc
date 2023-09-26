@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons"]
+        const categories = ["General", "Dungeons", "Mining"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -20,6 +20,7 @@ class Settings {
         this.initialize(this)
     }
     
+    // Dungeons
     @SwitchProperty({
         name: "Star Mob Esp",
         description: "Draws a box in starred mob esp (not see through walls)",
@@ -35,6 +36,15 @@ class Settings {
         subcategory: "Dungeons"
     })
     showSecretsClicked = false;
+
+    // Mining
+    @SwitchProperty({
+        name: "Emisarry Waypoints",
+        description: "Waypoints every emissary in the dwarven mines",
+        category: "Mining",
+        subcategory: "Mining"
+    })
+    emissaryWaypoints = false;
 }
 
 export default new Settings()
