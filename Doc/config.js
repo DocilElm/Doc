@@ -18,6 +18,8 @@ import {
 class Settings {
     constructor() {
         this.initialize(this)
+        // main feature to the right and hidden feature to the left
+        this.addDependency("Gemstone Mining Profit Location", "Gemstone Mining Profit")
     }
     
     // Dungeons
@@ -53,6 +55,17 @@ class Settings {
         subcategory: "Mining"
     })
     gemstonesProfit = false;
+
+    @ButtonProperty({
+        name: "Gemstone Mining Profit Location",
+        description: "Changes The Display Location",
+        category: "Mining",
+        subcategory: "Mining",
+        placeholder: "Change"
+    })
+    changeMiningProfitDisplay() {
+        ChatLib.command("miningProfitDisplay", true);
+    }
 }
 
 export default new Settings()

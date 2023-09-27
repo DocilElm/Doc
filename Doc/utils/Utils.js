@@ -73,6 +73,7 @@ const refreshLbApi = () => {
         print(e)
         print(JSON.stringify(e))
     })
+    
 }
 
 register("step", () => refreshLbApi()).setDelay(60*5)

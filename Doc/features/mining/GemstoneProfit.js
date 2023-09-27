@@ -1,5 +1,5 @@
 import { addEvent } from "../../FeatureBase"
-import { data, getJsonDataFromFile, getTime, mathTrunc } from "../../utils/Utils"
+import { PREFIX, chat, data, getJsonDataFromFile, getTime, isInTab, mathTrunc } from "../../utils/Utils"
 
 const editGui = new Gui()
 
@@ -51,6 +51,8 @@ register("command", () => {
 }).setName("rsmsession")
 
 register("command", () => {
+    if(!isInTab("Crystal Hollows")) return chat(`${PREFIX} &cYou're not in the Crystal Hollows`), Client.currentGui.close()
+
     editGui.open()
 }).setName("miningProfitDisplay")
 

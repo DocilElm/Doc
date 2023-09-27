@@ -20,7 +20,7 @@ let firstTimeLoading = true
  * @param {string} area Scoreboard sub area name if it's required if not leave as null
  * @param {boolean} isPogObject Used to check if the config is stored inside of a pogobject if true use this as the check
  */
-export const addEvent = (name, category, event, bool, sideEvents = [], world, area, isPogObject = false) => {
+export const addEvent = (name, category, event, bool, sideEvents = [], world = null, area = null, isPogObject = false) => {
     events[name] = {
         event: event,
         configCategory: category,
