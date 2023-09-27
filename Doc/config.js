@@ -45,6 +45,14 @@ class Settings {
         subcategory: "Mining"
     })
     emissaryWaypoints = false;
+
+    @SwitchProperty({
+        name: "Gemstone Mining Profit",
+        description: "Makes an overlay that tells you how much you've made mining gemstones this session",
+        category: "Mining",
+        subcategory: "Mining"
+    })
+    gemstonesProfit = false;
 }
 
 export default new Settings()

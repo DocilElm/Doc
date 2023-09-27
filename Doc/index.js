@@ -7,6 +7,7 @@ import "./features/dungeons/MobESP"
 import "./features/dungeons/SecretsClickedESP"
 // Mining
 import "./features/mining/EmissaryWaypoints"
+import "./features/mining/GemstoneProfit"
 // Commands
 import "./features/commands/Ping"
 

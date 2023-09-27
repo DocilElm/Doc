@@ -1,4 +1,4 @@
-import { PREFIX } from "../../utils/Utils"
+import { PREFIX, S02PacketChat } from "../../utils/Utils"
 
 // https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/commands/PingCommand.js
 
@@ -15,9 +15,10 @@ register("command", () => {
     ChatLib.command("docisthebest")
 }).setName("ping")
 
-register("chat", (event) => {
-    if(!commandSent) return
-    cancel(event)
+register("chat", (event) => cancel(event)).setCriteria(/^Unknown command\. Type "\/help" for help\. \('docisthebest'\)$/)
+
+register("packetReceived", (packet, event) => {
+    if(!commandSent || !new Message(packet.func_148915_c()).getUnformattedText().includes(`Unknown command. Type "/help" for help. ('docisthebest')`)) return
 
     const ping = Date.now()-time
 
@@ -26,4 +27,4 @@ register("chat", (event) => {
     time = null
     commandSent = false
     lastPingMsg = Date.now()
-}).setCriteria(/^Unknown command\. Type "\/help" for help\. \('docisthebest'\)$/)
+}).setFilteredClass(S02PacketChat)
