@@ -37,6 +37,7 @@ export const isBetween = (number, [min, max]) => (number-min) * (number-max) <= 
 
 // mc classes
 export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
+export const BlockPosMc = Java.type("net.minecraft.util.BlockPos")
 export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
 export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
 

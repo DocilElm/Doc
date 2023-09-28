@@ -75,7 +75,7 @@ register("step", () => {
         ? Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
         : Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
     
-    registeredEvents.forEach(values => {
+    registeredEvents.forEach((values, index) => {
         const bool = events[values].isPogObject
             ? checkConfig(events[values].configCategory, values)
             : config[values]

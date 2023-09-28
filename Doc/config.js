@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -18,8 +18,22 @@ import {
 class Settings {
     constructor() {
         this.initialize(this)
+        this.setCategoryDescription("General", "Author DocilElm")
         // main feature to the right and hidden feature to the left
         this.addDependency("Gemstone Mining Profit Location", "Gemstone Mining Profit")
+        this.addDependency("Rgb Timer Title", "Timer Title")
+        this.addDependency("Secrets Click Color", "Show Secrets Clicked")
+    }
+    // General
+    @ButtonProperty({
+        name: "Discord Server",
+        description: "Join if you want to report a bug or want to make a suggestion",
+        category: "General",
+        subcategory: "General",
+        placeholder: "Join"
+    })
+    MyDiscord() {
+        java.awt.Desktop.getDesktop().browse(new java.net.URI("https://discord.gg/SK9UDzquEN"))
     }
     
     // Dungeons
@@ -38,6 +52,14 @@ class Settings {
         subcategory: "Dungeons"
     })
     showSecretsClicked = false;
+
+    @ColorProperty({
+        name: "Secrets Click Color",
+        description: "Changes the highlight color of the secret when you click it",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    showSecretsClickedColor = Color.GREEN;
 
     // Mining
     @SwitchProperty({
@@ -66,6 +88,31 @@ class Settings {
     changeMiningProfitDisplay() {
         ChatLib.command("miningProfitDisplay", true);
     }
+
+    // Fishing
+    @SwitchProperty({
+        name: "Boss Bar",
+        description: "Adds a boss bar with hp/max hp of loot sharing mobs",
+        category: "Fishing",
+        subcategory: "Fishing"
+    })
+    bossBarFishing = false;
+
+    @SwitchProperty({
+        name: "Timer Title",
+        description: "Adds the fishing timer entity from hypixel to your screen",
+        category: "Fishing",
+        subcategory: "Fishing"
+    })
+    timerTitleFishing = false;
+
+    @SwitchProperty({
+        name: "Rgb Timer Title",
+        description: "Adds the rgb format to the timer entity",
+        category: "Fishing",
+        subcategory: "Fishing"
+    })
+    rgbTitleFishing = false;
 }
 
 export default new Settings()

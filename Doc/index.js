@@ -10,5 +10,8 @@ import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
 // Commands
 import "./features/commands/Ping"
+// Fishing
+import "./features/fishing/BossBar"
+import "./features/fishing/TimerTitle"
 
 register("command", () => config.openGUI()).setName("doc")
