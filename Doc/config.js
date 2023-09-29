@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining", "Fishing"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -21,6 +21,7 @@ class Settings {
         this.setCategoryDescription("General", "Author DocilElm")
         // main feature to the right and hidden feature to the left
         this.addDependency("Gemstone Mining Profit Location", "Gemstone Mining Profit")
+        this.addDependency("Visitor Profit Display Location", "Visitor Profit Display")
         this.addDependency("Rgb Timer Title", "Timer Title")
         this.addDependency("Secrets Click Color", "Show Secrets Clicked")
     }
@@ -113,6 +114,26 @@ class Settings {
         subcategory: "Fishing"
     })
     rgbTitleFishing = false;
+
+    // Garden
+    @SwitchProperty({
+        name: "Visitor Profit Display",
+        description: "Displays most of the visitor's lore data and also the profit with copper and special item",
+        category: "Garden",
+        subcategory: "Garden"
+    })
+    visitorProfitDisplay = false;
+
+    @ButtonProperty({
+        name: "Visitor Profit Display Location",
+        description: "Changes The Display Location",
+        category: "Garden",
+        subcategory: "Garden",
+        placeholder: "Change"
+    })
+    changeVisitorProfitDisplay() {
+        ChatLib.command("visitorProfitDisplay", true);
+    }
 }
 
 export default new Settings()

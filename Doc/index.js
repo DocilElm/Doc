@@ -13,5 +13,7 @@ import "./features/commands/Ping"
 // Fishing
 import "./features/fishing/BossBar"
 import "./features/fishing/TimerTitle"
+// Garden
+import "./features/garden/VisitorProfit"
 
 register("command", () => config.openGUI()).setName("doc")

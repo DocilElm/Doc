@@ -18,7 +18,7 @@ addEvent("gemstonesProfit", "Mining", register("chat", (gemstone, amount) => {
 }).setCriteria(/^PRISTINE! You found .{1,2} Flawed ([\w]+) Gemstone x([\d]+)!$/), null, [
     register("step", () => {
         bazaarApi = getJsonDataFromFile("data/Bazaar.json")
-    }).setDelay(60*5),
+    }).setDelay(60*20),
     
     register("renderOverlay", () => {
         if(editGui.isOpen()) {

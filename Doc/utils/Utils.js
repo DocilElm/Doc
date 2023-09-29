@@ -10,8 +10,53 @@ export const data = new PogObject("Doc", {
     },
     ragaxecd: {x: 10, y: 10},
     miningProfit: {x: 10, y: 10, scale: 1},
+    visitorProfit: {x: 10, y: 10, scale: 1},
     apiCheckTime: null
 }, "data/.data.json")
+
+export const rareGardenItems = {
+    "Flowering Bouquet": "FLOWERING_BOUQUET",
+    "Overgrown Grass": "OVERGROWN_GRASS",
+    "Green Bandana": "GREEN_BANDANA",
+    "Dedication IV": "ENCHANTMENT_DEDICATION_4",
+    "Dedication 4": "ENCHANTMENT_DEDICATION_4",
+    "Music Rune": "MUSIC_RUNE;1",
+    "Space Helmet": "DCTR_SPACE_HELM",
+    "Cultivating I": "ENCHANTMENT_CULTIVATING_1",
+    "Cultivating 1": "ENCHANTMENT_CULTIVATING_1",
+    "Replenish I": "ENCHANTMENT_REPLENISH_1",
+    "Replenish 1": "ENCHANTMENT_REPLENISH_1"
+}
+export const sbNameToIdGarden = {
+    "MUTANT_NETHER_WART": "MUTANT_NETHER_STALK",
+    "ENCHANTED_HAY_BALE": "ENCHANTED_HAY_BLOCK",
+    "ENCHANTED_RED_MUSHROOM_BLOCK": "ENCHANTED_HUGE_MUSHROOM_2",
+    "ENCHANTED_CARROT": "ENCHANTED_CARROT",
+    "ENCHANTED_GOLDEN_CARROT": "ENCHANTED_GOLDEN_CARROT",
+    "ENCHANTED_POTATO": "ENCHANTED_POTATO",
+    "ENCHANTED_BAKED_POTATO": "ENCHANTED_BAKED_POTATO",
+    "ENCHANTED_PUMPKIN": "ENCHANTED_PUMPKIN",
+    "POLISHED_PUMPKIN": "POLISHED_PUMPKIN",
+    "ENCHANTED_MELON": "ENCHANTED_MELON",
+    "ENCHANTED_MELON_BLOCK": "ENCHANTED_MELON_BLOCK",
+    "ENCHANTED_RED_MUSHROOM": "ENCHANTED_RED_MUSHROOM",
+    "ENCHANTED_BROWN_MUSHROOM": "ENCHANTED_BROWN_MUSHROOM",
+    "ENCHANTED_BROWN_MUSHROOM_BLOCK": "ENCHANTED_HUGE_MUSHROOM_1",
+    "ENCHANTED_COCOA_BEAN": "ENCHANTED_COCOA",
+    "ENCHANTED_COOKIE": "ENCHANTED_COOKIE",
+    "ENCHANTED_CACTUS_GREEN": "ENCHANTED_CACTUS_GREEN",
+    "ENCHANTED_CACTUS": "ENCHANTED_CACTUS",
+    "ENCHANTED_SUGAR": "ENCHANTED_SUGAR",
+    "ENCHANTED_SUGAR_CANE": "ENCHANTED_SUGAR_CANE",
+    "ENCHANTED_RAW_BEEF": "ENCHANTED_RAW_BEEF",
+    "ENCHANTED_PORK": "ENCHANTED_PORK",
+    "ENCHANTED_GRILLED_PORK": "ENCHANTED_GRILLED_PORK",
+    "ENCHANTED_RAW_CHICKEN": "ENCHANTED_RAW_CHICKEN",
+    "ENCHANTED_MUTTON": "ENCHANTED_MUTTON",
+    "ENCHANTED_COOKED_MUTTON": "ENCHANTED_COOKED_MUTTON",
+    "ENCHANTED_NETHER_WART": "ENCHANTED_NETHER_STALK"
+}
+export const copperToCoinsItem = "ENCHANTMENT_GREEN_THUMB_1"
 
 export const chat = (msg) => ChatLib.chat(msg)
 export const chatid = (msg, id) => new Message(msg).setChatLineId(id).chat()
@@ -37,9 +82,9 @@ export const isBetween = (number, [min, max]) => (number-min) * (number-max) <= 
 
 // mc classes
 export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
-export const BlockPosMc = Java.type("net.minecraft.util.BlockPos")
 export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
 export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
+export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
 
 // api stuff
 
@@ -60,7 +105,7 @@ const saveToFile = (fileName, dataToSave = {}, recursive = true) => {
 export const getJsonDataFromFile = (fileName) => JSON.parse(FileLib.read("Doc", fileName)) ?? {}
 
 const refreshLbApi = () => {
-    if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*5) return
+    if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
 
     Promise.all([
         makeRequest("https://moulberry.codes/lowestbin.json"),
@@ -77,5 +122,5 @@ const refreshLbApi = () => {
     
 }
 
-register("step", () => refreshLbApi()).setDelay(60*5)
+register("step", () => refreshLbApi()).setDelay(60*20)
 register("gameLoad", () => refreshLbApi())
