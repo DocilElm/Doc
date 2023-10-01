@@ -2,67 +2,70 @@ import { addEvent } from "../../FeatureBase"
 import { PREFIX, data, isInTab } from "../../utils/Utils"
 import { decodeNumeral } from "../../../BloomCore/utils/Utils"
 
-let lastCast = null
 const ragAxeDisplay = new Gui()
-let timer = 0
+const cdTime = 20000
 
-let [dupeRate, noDupeRate] = 0
-let dungeonClass = ''
-let stepCheck = true
+let lastCast = null
+let checkClass = false
+let dupeClassEquation = 0
+let notDupeClassEquation = 0
 let dupeClass = true
+let isMageClass = false
 
-register("step", () => {
-    if(!isInTab("Catacombs" || stepCheck)) return
+addEvent("ragnarokAxeTimer", "Misc", register("actionBar", () => {
+    lastCast = Date.now()
+
+    if(!isInTab("Catacombs") || checkClass) return
 
     TabList.getNames().forEach(name => {
-    if(!name || name.includes("!") || !/^\[(\d{1,4})\] ([\d\w_]{1,16}) ?([^\u0000-\u007F]*)? ?([\(\)\w ]+)?(\[[^\u0000-\u007F]*\])?$/.test(name.removeFormatting())) return
+        const unformattedName = name.removeFormatting()
 
-    const [ arr, level, username, symbol, dClass ] = name.removeFormatting().match(/^\[(\d{1,4})\] ([\d\w_]{1,16}) ?([^\u0000-\u007F]*)? ?([\(\)\w ]+)?(\[[^\u0000-\u007F]*\])?$/)
+        if(!/^\[[\d]+\] [\w]+ .+ \(Mage ([IVXLCDM]+)\)$/.test(unformattedName)) return
 
-    if(username !== Player.getName() || !dClass.includes("Mage")) return
-    
-    let mageNumeral = `${dClass.replace(/[\(\)]/g, "").replace("Mage ", "")}`
-    dungeonClass = dClass.replace(/[\(\)]/g, "").replace(/\bM{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b/g, "").trim()
+        const [ arr, lvl ] = unformattedName.match(/^\[[\d]+\] [\w]+ .+ \(Mage ([IVXLCDM]+)\)$/)
 
-    const mageNumber = decodeNumeral(mageNumeral)
-    
-    noDupeRate = (20000 -(20000 *(((Math.round(mageNumber / 2) * 2) / 100) + .25)))
-    dupeRate = (20000 - (20000 * ((Math.round(mageNumber / 2) / 100) + .25)))
+        const mageNumber = decodeNumeral(lvl)
 
-    stepCheck = true
+        notDupeClassEquation = (20000 -(20000 *(((Math.round(mageNumber / 2) * 2) / 100) + .25)))
+        dupeClassEquation = (20000 - (20000 * ((Math.round(mageNumber / 2) / 100) + .25)))
 
+        isMageClass = true
     })
-}).setFps(1)
 
-register("chat", () => {
-    ChatLib.chat(`${PREFIX} &cDetected solo Mage buffs`)
-    dupeClass = false
-}).setChatCriteria("Your Mage stats are doubled because you are the only player using this class!")
+    checkClass = true
 
-addEvent("ragnarokAxeTimer", "", register("actionBar", () => {
-    lastCast = Date.now()
-}).setCriteria("${*}CASTING IN 3s"), null, [
+}).setCriteria(/^.+CASTING IN 3s$/), null, [
     register("renderOverlay", () => {
-    if(ragAxeDisplay.isOpen()) {
+        if(ragAxeDisplay.isOpen()) {
+            Renderer.translate(data.ragaxecd.x, data.ragaxecd.y)
+            Renderer.scale(data.ragaxecd.scale ?? 1)
+            Renderer.drawStringWithShadow("Axe Cooldown: 00:00", -10, -5)
+            return
+        }
+        if(!lastCast) return
+    
+        const timer = isInTab("Catacombs") && isMageClass ? dupeClass ? dupeClassEquation : notDupeClassEquation : cdTime
+    
+        const timePast = timer-(Date.now()-lastCast)
+        const stringToRender = timePast <= 0 ? "&aAxe Cooldown: Ready!" : `&cAxe Cooldown: ${timePast/1000}`
+    
         Renderer.translate(data.ragaxecd.x, data.ragaxecd.y)
         Renderer.scale(data.ragaxecd.scale ?? 1)
-        Renderer.drawStringWithShadow("Axe Cooldown: 00:00", -10, -5)
-        return
-    }
-    if(!lastCast) return
-    if(isInTab("Catacombs") && dungeonClass === "Mage") {
-        timer = dupeClass ? dupeRate : noDupeRate
-    } else {
-        timer = 20000
-    }
-
-    const timePast = timer-(Date.now()-lastCast)
-    const stringToRender = timePast <= 0 ? "&aAxe Cooldown: Ready!" : `&cAxe Cooldown: ${timePast/1000}`
+        Renderer.drawStringWithShadow(stringToRender, -10, -5)
+    }),
     
-    Renderer.translate(data.ragaxecd.x, data.ragaxecd.y)
-    Renderer.scale(data.ragaxecd.scale ?? 1)
-    Renderer.drawStringWithShadow(stringToRender, -10, -5)
-})], null, null)
+    register("chat", () => {
+        ChatLib.chat(`${PREFIX} &cDetected solo Mage buffs`)
+        dupeClass = false
+    }).setChatCriteria("Your Mage stats are doubled because you are the only player using this class!")    
+])
+
+register("worldUnload", () => {
+    lastCast = null
+    checkClass = false
+    dupeClass = true
+    isMageClass = false
+})
 
 register("command", () => {
     ragAxeDisplay.open()
@@ -80,12 +83,4 @@ register("scrolled", (mx, mr, num) => {
     if(num == 1) data.ragaxecd.scale += 0.1
     else data.ragaxecd.scale -= 0.1
     data.save()
-})
-
-register("worldUnload", () => {
-    stepCheck = true
-    dupeClass = true
-    lastCast = null
-    timer = 0
-    dungeonClass = ''
 })
