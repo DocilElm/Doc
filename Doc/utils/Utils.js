@@ -54,9 +54,17 @@ export const sbNameToIdGarden = {
     "ENCHANTED_RAW_CHICKEN": "ENCHANTED_RAW_CHICKEN",
     "ENCHANTED_MUTTON": "ENCHANTED_MUTTON",
     "ENCHANTED_COOKED_MUTTON": "ENCHANTED_COOKED_MUTTON",
-    "ENCHANTED_NETHER_WART": "ENCHANTED_NETHER_STALK"
+    "ENCHANTED_NETHER_WART": "ENCHANTED_NETHER_STALK",
+    "COMPOST": "COMPOST"
 }
 export const copperToCoinsItem = "ENCHANTMENT_GREEN_THUMB_1"
+
+export const bossMessages = {
+    "[BOSS] Sadan: So you made it all the way here... Now you wish to defy me? Sadan?!": "Terracotta: ",
+    "[BOSS] Sadan: ENOUGH!": "Giants: ",
+    "[BOSS] Sadan: You did it. I understand now, you have earned my respect.": "Sadan: ",
+    "[BOSS] Sadan: NOOOOOOOOO!!! THIS IS IMPOSSIBLE!!": "Finished: "
+}
 
 export const chat = (msg) => ChatLib.chat(msg)
 export const chatid = (msg, id) => new Message(msg).setChatLineId(id).chat()

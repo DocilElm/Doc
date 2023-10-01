@@ -1,5 +1,5 @@
 import { addEvent } from "../../FeatureBase"
-import { copperToCoinsItem, data, getJsonDataFromFile, isInTab, mathTrunc, rareGardenItems, sbNameToIdGarden } from "../../utils/Utils"
+import { PREFIX, chat, copperToCoinsItem, data, getJsonDataFromFile, isInTab, mathTrunc, rareGardenItems, sbNameToIdGarden } from "../../utils/Utils"
 
 const editGui = new Gui()
 
@@ -42,6 +42,8 @@ addEvent("visitorProfitDisplay", "Garden", register("step", () => {
             }
         }
 
+        if(!itemsRequired[containerName]) return
+
         if(/^ \+([\d,]+) Copper$/.test(unformattedLore)){
             const [ ar, copper ] = unformattedLore.match(/^ \+([\d,]+) Copper$/)
 
@@ -52,6 +54,8 @@ addEvent("visitorProfitDisplay", "Garden", register("step", () => {
             itemsRequired[containerName].specialItem = rareGardenItems[unformattedLore.replace(/^ /, "")]
         }
     })
+
+    if(!itemsRequired[containerName]) return chat(`${PREFIX} &cFailed to create visitor's profit display`)
 
     const itemPrice = itemsRequired[containerName].totalPrice
     const copperProfit = (bazaarApi?.products?.[copperToCoinsItem]?.quick_status?.sellPrice / 1500) * itemsRequired[containerName].copper
@@ -99,7 +103,7 @@ addEvent("visitorProfitDisplay", "Garden", register("step", () => {
         if(!itemsRequired[npcName]) return
     
         delete itemsRequired[npcName]
-    }).setCriteria(/^\[NPC\] ([\w ]+): ([\w\d .,'!]+)$/)
+    }).setCriteria(/^\[NPC\] ([\w ]+): (.+)$/)
 ], "Garden")
 
 register("command", () => {

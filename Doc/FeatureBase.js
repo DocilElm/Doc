@@ -22,10 +22,10 @@ let firstTimeLoading = true
  */
 export const addEvent = (name, category, event, bool, sideEvents = [], world = null, area = null, isPogObject = false) => {
     events[name] = {
-        event: event,
+        event: event.unregister(),
         configCategory: category,
         toggled: bool,
-        sideEvents: sideEvents,
+        sideEvents: sideEvents.map(reg => reg.unregister()),
         requiredWorld: world,
         requiredArea: area,
         isPogObject: isPogObject
