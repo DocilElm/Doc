@@ -8,10 +8,14 @@ export const data = new PogObject("Doc", {
     settings: {
         keybinds: {}
     },
+
     ragaxecd: {
         x: 10, 
         y: 10,
         scale: 1},
+
+    ragaxecd: {x: 10, y: 10},
+
     miningProfit: {x: 10, y: 10, scale: 1},
     visitorProfit: {x: 10, y: 10, scale: 1},
     apiCheckTime: null

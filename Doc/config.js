@@ -135,6 +135,7 @@ class Settings {
     changeVisitorProfitDisplay() {
         ChatLib.command("visitorProfitDisplay", true);
 
+
     }
     //Misc
     @SwitchProperty({
@@ -154,6 +155,7 @@ class Settings {
     })
     action() {
         ChatLib.command("ragnarokAxeDisplay", true)
+
     }
 }
 
