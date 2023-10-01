@@ -24,6 +24,7 @@ class Settings {
         this.addDependency("Visitor Profit Display Location", "Visitor Profit Display")
         this.addDependency("Rgb Timer Title", "Timer Title")
         this.addDependency("Secrets Click Color", "Show Secrets Clicked")
+        this.addDependency("Move Timer", "Ragnarok Axe Cooldown Timer")
     }
     // General
     @ButtonProperty({
@@ -133,6 +134,28 @@ class Settings {
     })
     changeVisitorProfitDisplay() {
         ChatLib.command("visitorProfitDisplay", true);
+
+
+    }
+    //Misc
+    @SwitchProperty({
+        name: "Ragnarok Axe Cooldown Timer",
+        description: "Accurate timer for the ragnarok axe cooldown (Useful for slayers/dungeons)",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    ragnarokAxeTimer = false;
+
+    @ButtonProperty({
+        name: "Move Timer",
+        description: "Moves and size the Ragnarok Axe timer display",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    action() {
+        ChatLib.command("ragnarokAxeDisplay", true)
+
     }
 }
 

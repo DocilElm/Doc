@@ -16,4 +16,8 @@ import "./features/fishing/TimerTitle"
 // Garden
 import "./features/garden/VisitorProfit"
 
+//Misc
+import "./features/misc/RagAxeTimer.js
+
+
 register("command", () => config.openGUI()).setName("doc")
