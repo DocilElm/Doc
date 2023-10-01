@@ -9,12 +9,23 @@ let currentArea = null
 
 let firstTimeLoading = true
 
-export const addEvent = (name, category, event, bool, sideEvents = [], world, area, isPogObject = false) => {
+/**
+ * 
+ * @param {string} name The name in the config.js file to use as the check
+ * @param {string} category Config's category (not used yet so you can leave it blank)
+ * @param {*} event Main register event
+ * @param {boolean} bool Boolean incase a feature needs to be toggled via keybind
+ * @param {array} sideEvents An array of side events if it's required
+ * @param {string} world Tablist name of the world if it's required if not leave as null
+ * @param {string} area Scoreboard sub area name if it's required if not leave as null
+ * @param {boolean} isPogObject Used to check if the config is stored inside of a pogobject if true use this as the check
+ */
+export const addEvent = (name, category, event, bool, sideEvents = [], world = null, area = null, isPogObject = false) => {
     events[name] = {
-        event: event,
+        event: event.unregister(),
         configCategory: category,
         toggled: bool,
-        sideEvents: sideEvents,
+        sideEvents: sideEvents.map(reg => reg.unregister()),
         requiredWorld: world,
         requiredArea: area,
         isPogObject: isPogObject

@@ -2,7 +2,7 @@
   "name": "Doc",
   "creator": "DocilElm",
   "description": "doc is the best.",
-  "version": "0.0.1",
+  "version": "0.4.4",
   "entry": "index.js",
   "requires": [
     "RenderLib",
