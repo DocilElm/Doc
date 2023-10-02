@@ -1,5 +1,5 @@
 import { addEvent } from "../../FeatureBase"
-import { PREFIX, S02PacketChat, data, entryMessages, getSeconds, isInTab } from "../../utils/Utils"
+import { PREFIX, S02PacketChat, data, entryMessages, getSeconds, isInTab, chat } from "../../utils/Utils"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/RunOverview.js
 const editGui = new Gui()

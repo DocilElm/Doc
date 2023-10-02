@@ -50,7 +50,7 @@ class Settings {
 
     @SwitchProperty({
         name: "Show Secrets Clicked",
-        description: "Draws a box in the clicked chest/wither essence/redstone skull (not see through walls)",
+        description: "Draws a box in the clicked chest/wither essence/redstone skull",
         category: "Dungeons",
         subcategory: "Dungeons"
     })
