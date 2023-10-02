@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Misc"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -25,6 +25,7 @@ class Settings {
         this.addDependency("Rgb Timer Title", "Timer Title")
         this.addDependency("Secrets Click Color", "Show Secrets Clicked")
         this.addDependency("Move Timer", "Ragnarok Axe Cooldown Timer")
+        this.addDependency("Run Splits Location", "Run Splits")
     }
     // General
     @ButtonProperty({
@@ -62,6 +63,25 @@ class Settings {
         subcategory: "Dungeons"
     })
     showSecretsClickedColor = Color.GREEN;
+
+    @SwitchProperty({
+        name: "Run Splits",
+        description: "Displays your current dungeon run's splits",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    dungeonRunSplits = false;
+
+    @ButtonProperty({
+        name: "Run Splits Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changeRunSplitsDisplay() {
+        ChatLib.command("runSplitsDisplay", true);
+    }
 
     // Mining
     @SwitchProperty({

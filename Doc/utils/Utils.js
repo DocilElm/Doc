@@ -8,16 +8,10 @@ export const data = new PogObject("Doc", {
     settings: {
         keybinds: {}
     },
-
-    ragaxecd: {
-        x: 10, 
-        y: 10,
-        scale: 1},
-
-    ragaxecd: {x: 10, y: 10},
-
+    ragaxecd: {x: 10, y: 10, scale: 1},
     miningProfit: {x: 10, y: 10, scale: 1},
     visitorProfit: {x: 10, y: 10, scale: 1},
+    runSplits: {x: 10, y: 10, scale: 1},
     apiCheckTime: null
 }, "data/.data.json")
 
@@ -66,12 +60,16 @@ export const sbNameToIdGarden = {
 }
 export const copperToCoinsItem = "ENCHANTMENT_GREEN_THUMB_1"
 
-export const bossMessages = {
-    "[BOSS] Sadan: So you made it all the way here... Now you wish to defy me? Sadan?!": "Terracotta: ",
-    "[BOSS] Sadan: ENOUGH!": "Giants: ",
-    "[BOSS] Sadan: You did it. I understand now, you have earned my respect.": "Sadan: ",
-    "[BOSS] Sadan: NOOOOOOOOO!!! THIS IS IMPOSSIBLE!!": "Finished: "
-}
+// from bloomcore
+export const entryMessages = [
+    "[BOSS] Bonzo: Gratz for making it this far, but I'm basically unbeatable.",
+    "[BOSS] Scarf: This is where the journey ends for you, Adventurers.",
+    "[BOSS] The Professor: I was burdened with terrible news recently...",
+    "[BOSS] Thorn: Welcome Adventurers! I am Thorn, the Spirit! And host of the Vegan Trials!",
+    "[BOSS] Livid: Welcome, you've arrived right on time. I am Livid, the Master of Shadows.",
+    "[BOSS] Sadan: So you made it all the way here... Now you wish to defy me? Sadan?!",
+    "[BOSS] Maxor: WELL! WELL! WELL! LOOK WHO'S HERE!"
+]
 
 export const chat = (msg) => ChatLib.chat(msg)
 export const chatid = (msg, id) => new Message(msg).setChatLineId(id).chat()
@@ -94,6 +92,7 @@ export const getTime = (oldDate) => {
     return `${hours}:${mins}:${seconds}`
 }
 export const isBetween = (number, [min, max]) => (number-min) * (number-max) <= 0
+export const getSeconds = (timeStamp, timeStamp2) => !timeStamp || !timeStamp2 ? "0s" : `${((timeStamp-timeStamp2)/1000).toFixed(2)}s`
 
 // mc classes
 export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
