@@ -98,7 +98,7 @@ addEvent("visitorProfitDisplay", "Garden", register("step", () => {
     }).setDelay(60*20),
     
     // me when lazy
-    // ^\[NPC\] ([\w ]+): ([\w\d .,'!]+)$
+    // ^\[NPC\] ([\w ]+): ([\w\d ]+)$
     register("chat", (npcName, npcMsg) => {
         if(!itemsRequired[npcName]) return
     

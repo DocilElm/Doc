@@ -27,6 +27,7 @@ class Settings {
         this.addDependency("Move Timer", "Ragnarok Axe Cooldown Timer")
         this.addDependency("Run Splits Location", "Run Splits")
         this.addDependency("Chest Profit Location", "Chest Profit")
+        this.addDependency("Croesus Profit Location", "Croesus Profit")
     }
     // General
     @ButtonProperty({
@@ -110,6 +111,25 @@ class Settings {
         subcategory: "Dungeons"
     })
     showCroesusClicks = false;
+
+    @SwitchProperty({
+        name: "Croesus Profit",
+        description: "Displays the current chest's profit inside of croesus",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    croesusProfitDisplay = false;
+
+    @ButtonProperty({
+        name: "Croesus Profit Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changecroesusProfitDisplay() {
+        ChatLib.command("croesusProfitDisplay", true);
+    }
 
     // Mining
     @SwitchProperty({

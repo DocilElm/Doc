@@ -1,5 +1,6 @@
 import request from "../../requestV2"
 import Promise from "../../PromiseV2"
+import PriceUtils from "../../BloomCore/PriceUtils"
 import PogObject from "PogData"
 
 export const PREFIX = "&0[&4Doc&0]&r"
@@ -13,7 +14,9 @@ export const data = new PogObject("Doc", {
     visitorProfit: {x: 10, y: 10, scale: 1},
     runSplits: {x: 10, y: 10, scale: 1},
     dungeonProfit: {x: 10, y: 10, scale: 1},
-    apiCheckTime: null
+    croesusProfit: {x: 10, y: 10, scale: 1},
+    apiCheckTime: null,
+    firstTime: true
 }, "data/.data.json")
 
 export const rareGardenItems = {
@@ -105,6 +108,57 @@ export const getSlotCenter = (slot) => {
     let renderY = (Renderer.screen.getHeight() / 2) + ((y - Player.getContainer().getSize() / 18) * 18)
 
     return [renderX, renderY]
+}
+
+export const getCroesusProfit = (lore) => {
+    if(!lore) return null
+
+    let result = {
+        chestPrice: 0,
+        totalvalue: 0,
+        profit: 0,
+        items: []
+    }
+
+    let essenceGathered = 0
+
+    lore.forEach(itemLore => {
+        const unformattedLore = itemLore.removeFormatting()?.replace(/'s/g, "")
+
+        if(/^([\d,]+) Coins$/.test(unformattedLore)){
+            const [ ar, chestPriceR ] = unformattedLore.match(/^([\d,]+) Coins$/)
+            result.chestPrice = parseInt(chestPriceR.replace(/,/g, ""))
+        }
+
+        if(essenceGathered >= 2 || unformattedLore.startsWith("Contents") || unformattedLore.includes("Chest")) return
+
+        let itemID = null
+        let amount = 0
+
+        if(/^Enchanted Book \(([\wd ]+)\)$/.test(unformattedLore)){
+            const [ ar, enchantName ] = unformattedLore.match(/^Enchanted Book \(([\wd ]+)\)$/)
+            itemID = enchantName.toUpperCase().replace(/ /g, "_")
+        }
+
+        if(/(Undead|Wither) Essence x(\d+)/.test(unformattedLore)){
+            const [ ar, type, amountR ] = unformattedLore.match(/(Undead|Wither) Essence x(\d+)/)
+            itemID = `ESSENCE_${type}`.toUpperCase()
+            amount = parseInt(amountR)
+
+            essenceGathered++
+        }
+
+        if(!itemID) itemID = unformattedLore.toUpperCase().replace(/ /g, "_")
+
+        result.items.push(`&b- ${itemLore}`)
+
+        // calculate item prices
+        result.totalvalue += Math.floor(PriceUtils.getSellPrice(itemID) * amount)
+    })
+
+    result.profit = result.totalvalue - result.chestPrice
+
+    return result
 }
 
 // mc classes
