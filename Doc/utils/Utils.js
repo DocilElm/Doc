@@ -12,6 +12,7 @@ export const data = new PogObject("Doc", {
     miningProfit: {x: 10, y: 10, scale: 1},
     visitorProfit: {x: 10, y: 10, scale: 1},
     runSplits: {x: 10, y: 10, scale: 1},
+    dungeonProfit: {x: 10, y: 10, scale: 1},
     apiCheckTime: null
 }, "data/.data.json")
 
@@ -71,6 +72,8 @@ export const entryMessages = [
     "[BOSS] Maxor: WELL! WELL! WELL! LOOK WHO'S HERE!"
 ]
 
+export const chestNames = new Set(["Wood Chest", "Gold Chest", "Diamond Chest", "Emerald Chest", "Obsidian Chest", "Bedrock Chest"])
+
 export const chat = (msg) => ChatLib.chat(msg)
 export const chatid = (msg, id) => new Message(msg).setChatLineId(id).chat()
 export const hover = (msg, value) => new TextComponent(msg).setHoverValue(value).chat()
@@ -81,6 +84,7 @@ export const mathTrunc = (num) => addCommas(Math.trunc((Math.round(num * 100) / 
 // bloom core probably has this so i'll just credit bloom for it ig
 export const getScoreboard = (descending = false) => Scoreboard.getLines(descending)?.map(line => line?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
 
+export const getSkyblockId = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.id
 export const isInScoreboard = (str) => getScoreboard().some(a => a.includes(str))
 export const isInTab = (str) => TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))?.includes(str)
 export const checkConfig = (category, name) => data.settings[category][name]
@@ -93,10 +97,20 @@ export const getTime = (oldDate) => {
 }
 export const isBetween = (number, [min, max]) => (number-min) * (number-max) <= 0
 export const getSeconds = (timeStamp, timeStamp2) => !timeStamp || !timeStamp2 ? "0s" : `${((timeStamp-timeStamp2)/1000).toFixed(2)}s`
+// from BloomCore
+export const getSlotCenter = (slot) => {
+    let x = slot % 9
+    let y = Math.floor(slot / 9)
+    let renderX = (Renderer.screen.getWidth() / 2) + ((x - 4) * 18)
+    let renderY = (Renderer.screen.getHeight() / 2) + ((y - Player.getContainer().getSize() / 18) * 18)
+
+    return [renderX, renderY]
+}
 
 // mc classes
 export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
 export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
+export const C0EPacketClickWindow = Java.type("net.minecraft.network.play.client.C0EPacketClickWindow")
 export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
 export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
 

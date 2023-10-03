@@ -26,6 +26,7 @@ class Settings {
         this.addDependency("Secrets Click Color", "Show Secrets Clicked")
         this.addDependency("Move Timer", "Ragnarok Axe Cooldown Timer")
         this.addDependency("Run Splits Location", "Run Splits")
+        this.addDependency("Chest Profit Location", "Chest Profit")
     }
     // General
     @ButtonProperty({
@@ -82,6 +83,33 @@ class Settings {
     changeRunSplitsDisplay() {
         ChatLib.command("runSplitsDisplay", true);
     }
+
+    @SwitchProperty({
+        name: "Chest Profit",
+        description: "Displays the current chest's profit (only works in dungeons)",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    dungeonProfitDisplay = false;
+
+    @ButtonProperty({
+        name: "Chest Profit Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changedungeonProfitDisplay() {
+        ChatLib.command("dungeonProfitDisplay", true);
+    }
+
+    @SwitchProperty({
+        name: "Show Croesus Clicks",
+        description: "Highlights the chests you've clicked, the list resets once you lobby swap",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    showCroesusClicks = false;
 
     // Mining
     @SwitchProperty({

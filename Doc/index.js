@@ -6,6 +6,8 @@ import config from "./config"
 import "./features/dungeons/MobESP"
 import "./features/dungeons/SecretsClickedESP"
 import "./features/dungeons/RunSplits"
+import "./features/dungeons/ChestProfit"
+import "./features/dungeons/CroesusClicks"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
