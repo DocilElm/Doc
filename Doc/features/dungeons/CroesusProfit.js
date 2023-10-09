@@ -1,9 +1,11 @@
 import { addEvent } from "../../FeatureBase"
-import { getCroesusProfit, getJsonDataFromFile, mathTrunc, data } from "../../utils/Utils"
+import ScalableGui from "../../classes/ScalableGui"
+import config from "../../config"
+import { getCroesusProfit, getJsonDataFromFile, mathTrunc } from "../../utils/Utils"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/dungeonChestProfit/DungeonChestProfit.js
 
-const editGui = new Gui()
+const editGui = new ScalableGui("croesusProfit").setCommand("croesusProfitDisplay")
 const defaultData = getJsonDataFromFile("data/DefaultCroesusData.json")
 
 let chestItems = {}
@@ -24,21 +26,6 @@ addEvent("croesusProfitDisplay", "", register("step", () => {
     })
 }).setFps(5), null, [
     register("renderOverlay", () => {
-        if(editGui.isOpen()){
-            let defStr = ""
-
-            Object.keys(defaultData).forEach(chestName => {
-                const chestProfit = defaultData[chestName].profit <= 0 ? `&c${mathTrunc(defaultData[chestName].profit)}` : `&a${mathTrunc(defaultData[chestName].profit)}`
-                const items = defaultData[chestName].items
-                
-                defStr += `\n&b- ${chestName}\n${items.join("\n")}\n&b - Profit&f: ${chestProfit}\n`
-            })
-
-            Renderer.translate(data.croesusProfit.x, data.croesusProfit.y)
-            Renderer.scale(data.croesusProfit.scale ?? 1)
-            Renderer.drawStringWithShadow(`${defStr}`, -10, -5)
-            return
-        }
         if(!World.isLoaded() || Object.keys(chestItems).length <= 0) return
 
         let strToDraw = ""
@@ -47,34 +34,26 @@ addEvent("croesusProfitDisplay", "", register("step", () => {
             const chestProfit = chestItems[chestName].profit <= 0 ? `&c${mathTrunc(chestItems[chestName].profit)}` : `&a${mathTrunc(chestItems[chestName].profit)}`
             const items = chestItems[chestName].items
             
+            if(config.croesusProfitMode === 1) return strToDraw += `\n&b- ${chestName}\n&b - Profit&f: ${chestProfit}\n`
+
             strToDraw += `\n&b- ${chestName}\n${items.join("\n")}\n&b - Profit&f: ${chestProfit}\n`
         })
 
-        Renderer.translate(data.croesusProfit.x, data.croesusProfit.y)
-        Renderer.scale(data.croesusProfit.scale ?? 1)
-        Renderer.drawStringWithShadow(`${strToDraw}`, -10, -5)
+        editGui.renderString(strToDraw)
     })
 ])
 
+editGui.onRender(() => {
+    let defStr = ""
+
+    Object.keys(defaultData).forEach(chestName => {
+        const chestProfit = defaultData[chestName].profit <= 0 ? `&c${mathTrunc(defaultData[chestName].profit)}` : `&a${mathTrunc(defaultData[chestName].profit)}`
+        const items = defaultData[chestName].items
+        
+        defStr += `\n&b- ${chestName}\n${items.join("\n")}\n&b - Profit&f: ${chestProfit}\n`
+    })
+
+    editGui.renderString(defStr)
+})
+
 register("worldUnload", () => chestItems = {})
-
-register("command", () => {
-    editGui.open()
-}).setName("croesusProfitDisplay")
-
-register("dragged", (dx, dy, x, y) => {
-    if(!editGui.isOpen()) return
-
-    data.croesusProfit.x = x
-    data.croesusProfit.y = y
-    data.save()
-})
-
-register("scrolled", (mx, mr, num) => {
-    if(!editGui.isOpen()) return
-
-    if(num === 1) data.croesusProfit.scale += 0.1
-    else data.croesusProfit.scale -= 0.1
-
-    data.save()
-})

@@ -1,5 +1,5 @@
 import config from "./config"
-import { checkConfig } from "./utils/Utils"
+import { checkConfig, getSubArea } from "./utils/Utils"
 
 let events = {}
 let eventsRegistered = {}
@@ -71,9 +71,7 @@ register("step", () => {
 
     currentWorld = TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))
 
-    currentArea = currentWorld?.includes("The Rift") 
-        ? Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
-        : Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
+    currentArea = currentWorld?.includes("Catacombs") ? "Dungeons" : getSubArea(currentWorld)
     
     registeredEvents.forEach(values => {
         const bool = events[values].isPogObject

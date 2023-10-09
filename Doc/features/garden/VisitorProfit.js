@@ -1,7 +1,8 @@
 import { addEvent } from "../../FeatureBase"
-import { PREFIX, chat, copperToCoinsItem, data, getJsonDataFromFile, isInTab, mathTrunc, rareGardenItems, sbNameToIdGarden } from "../../utils/Utils"
+import ScalableGui from "../../classes/ScalableGui"
+import { PREFIX, chat, copperToCoinsItem, getJsonDataFromFile, mathTrunc, rareGardenItems, sbNameToIdGarden } from "../../utils/Utils"
 
-const editGui = new Gui()
+const editGui = new ScalableGui("visitorProfit").setCommand("visitorProfitDisplay")
 
 let bazaarApi = getJsonDataFromFile("data/Bazaar.json")
 let lowestBinApi = getJsonDataFromFile("data/LowestBin.json")
@@ -72,24 +73,20 @@ addEvent("visitorProfitDisplay", "Garden", register("step", () => {
     itemsRequired[containerName].profit = (specialItemProfit - (itemsRequired[containerName].profit <= 0 ? -itemsRequired[containerName].profit : +itemsRequired[containerName].profit))
 }).setFps(1), null, [
     register("renderOverlay", () => {
-        if(editGui.isOpen()){
-            Renderer.translate(data.visitorProfit.x, data.visitorProfit.y)
-            Renderer.scale(data.visitorProfit.scale ?? 1)
-            Renderer.drawStringWithShadow(`&aNPC&f: &bDocilElm\n&aItems Required&f: \n&aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`, -10, -5)
-            return
-        }
         if(!World.isLoaded() || Object.keys(itemsRequired).length <= 0) return
+
+        let strToDraw = ""
     
         Object.keys(itemsRequired).forEach((visitor, index) => {
             const visitorItem = `${itemsRequired[visitor].item.toString()}`
             const visitorCopper = itemsRequired[visitor].copper
             const visitorProfit = mathTrunc(itemsRequired[visitor].profit)
             const visitorSpecialItem = itemsRequired[visitor].specialItem
-    
-            Renderer.translate(data.visitorProfit.x, data.visitorProfit.y)
-            Renderer.scale(data.visitorProfit.scale ?? 1)
-            Renderer.drawStringWithShadow(`&aNPC&f: &b${visitor}\n&aItems Required&f: &b${visitorItem}\n&cCopper&f: &6${visitorCopper}\n&9Special Item&f: &6${visitorSpecialItem ?? "None"}\n&aTotal Profit&f: &6${visitorProfit}`, -10, index === 0 ? -5 : -5+(60*index))
+
+            strToDraw += `&aNPC&f: &b${visitor}\n&aItems Required&f: &b${visitorItem}\n&cCopper&f: &6${visitorCopper}\n&9Special Item&f: &6${visitorSpecialItem ?? "None"}\n&aTotal Profit&f: &6${visitorProfit}\n`
         })
+
+        editGui.renderString(strToDraw)
     }),
     
     register("step", () => {
@@ -106,27 +103,8 @@ addEvent("visitorProfitDisplay", "Garden", register("step", () => {
     }).setCriteria(/^\[NPC\] ([\w ]+): (.+)$/)
 ], "Garden")
 
-register("command", () => {
-    if(!isInTab("Garden")) return chat(`${PREFIX} &cYou're not in the Garden`), Client.currentGui.close()
-
-    editGui.open()
-}).setName("visitorProfitDisplay")
-
-register("dragged", (dx, dy, x, y) => {
-    if (!editGui.isOpen()) return
-
-    data.visitorProfit.x = x
-    data.visitorProfit.y = y
-    data.save()
-})
-
-register("scrolled", (mx, mr, num) => {
-    if (!editGui.isOpen()) return
-
-    if(num === 1) data.visitorProfit.scale += 0.1
-    else data.visitorProfit.scale -= 0.1
-
-    data.save()
+editGui.onRender(() => {
+    editGui.renderString(`&aNPC&f: &bDocilElm\n&aItems Required&f: \n&aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`)
 })
 
 register("worldUnload", () => itemsRequired = {})

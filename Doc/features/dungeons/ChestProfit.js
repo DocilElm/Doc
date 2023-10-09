@@ -1,11 +1,12 @@
 import ItemHandler from "../../classes/Items"
 import { getSkyblockItemID } from "../../../BloomCore/utils/Utils"
-import { mathTrunc, chestNames, chat, PREFIX, isInTab, data } from "../../utils/Utils"
+import { mathTrunc, chestNames } from "../../utils/Utils"
 import { addEvent } from "../../FeatureBase"
+import ScalableGui from "../../classes/ScalableGui"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/dungeonChestProfit/DungeonChestProfit.js
 
-const editGui = new Gui()
+const editGui = new ScalableGui("dungeonProfit").setCommand("dungeonProfitDisplay")
 const defaultProfit = [
     `&b- &aExample Item`,
     `&b- &aExample Item &8x25`,
@@ -39,45 +40,18 @@ addEvent("dungeonProfitDisplay", "Dungeons", register("step", () => {
     openedChests.push(containerName)
 }).setFps(5), null, [
     register("renderOverlay", () => {
-        if(editGui.isOpen()){
-            Renderer.translate(data.dungeonProfit.x, data.dungeonProfit.y)
-            Renderer.scale(data.dungeonProfit.scale ?? 1)
-            Renderer.drawStringWithShadow(defaultProfit, -10, -5)
-            return
-        }
         if(!World.isLoaded() || !drawText) return
     
-        Renderer.translate(data.dungeonProfit.x, data.dungeonProfit.y)
-        Renderer.scale(data.dungeonProfit.scale ?? 1)
-        Renderer.drawStringWithShadow(`${drawText}\n&bProfit&f: ${profit}`, -10, -5)
+        editGui.renderString(`${drawText}\n&bProfit&f: ${profit}`)
     })
 ], "Catacombs")
+
+editGui.onRender(() => {
+    editGui.renderString(defaultProfit)
+})
 
 register("worldUnload", () => {
     openedChests = []
     drawText = null
     profit = 0
-})
-
-register("command", () => {
-    if(!isInTab("Catacombs")) return chat(`${PREFIX} &cYou're not in the Catacombs`), Client.currentGui.close()
-
-    editGui.open()
-}).setName("dungeonProfitDisplay")
-
-register("dragged", (dx, dy, x, y) => {
-    if(!editGui.isOpen()) return
-
-    data.dungeonProfit.x = x
-    data.dungeonProfit.y = y
-    data.save()
-})
-
-register("scrolled", (mx, mr, num) => {
-    if(!editGui.isOpen()) return
-
-    if(num === 1) data.dungeonProfit.scale += 0.1
-    else data.dungeonProfit.scale -= 0.1
-
-    data.save()
 })

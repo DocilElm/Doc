@@ -15,6 +15,7 @@ export const data = new PogObject("Doc", {
     runSplits: {x: 10, y: 10, scale: 1},
     dungeonProfit: {x: 10, y: 10, scale: 1},
     croesusProfit: {x: 10, y: 10, scale: 1},
+    bossSplits: {x: 10, y: 10, scale: 1},
     apiCheckTime: null,
     firstTime: true
 }, "data/.data.json")
@@ -65,7 +66,7 @@ export const sbNameToIdGarden = {
 export const copperToCoinsItem = "ENCHANTMENT_GREEN_THUMB_1"
 
 // from bloomcore
-export const entryMessages = [
+export const entryMessages = new Set([
     "[BOSS] Bonzo: Gratz for making it this far, but I'm basically unbeatable.",
     "[BOSS] Scarf: This is where the journey ends for you, Adventurers.",
     "[BOSS] The Professor: I was burdened with terrible news recently...",
@@ -73,7 +74,7 @@ export const entryMessages = [
     "[BOSS] Livid: Welcome, you've arrived right on time. I am Livid, the Master of Shadows.",
     "[BOSS] Sadan: So you made it all the way here... Now you wish to defy me? Sadan?!",
     "[BOSS] Maxor: WELL! WELL! WELL! LOOK WHO'S HERE!"
-]
+])
 
 export const chestNames = new Set(["Wood Chest", "Gold Chest", "Diamond Chest", "Emerald Chest", "Obsidian Chest", "Bedrock Chest"])
 
@@ -90,6 +91,7 @@ export const getScoreboard = (descending = false) => Scoreboard.getLines(descend
 export const getSkyblockId = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.id
 export const isInScoreboard = (str) => getScoreboard().some(a => a.includes(str))
 export const isInTab = (str) => TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))?.includes(str)
+export const getSubArea = (currentWorld) => currentWorld?.includes("The Rift") ? Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "") : Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
 export const checkConfig = (category, name) => data.settings[category][name]
 export const getTime = (oldDate) => {
     const seconds = Math.round((Date.now() - oldDate) / 1000 % 60)
@@ -165,8 +167,10 @@ export const getCroesusProfit = (lore) => {
 export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
 export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
 export const C0EPacketClickWindow = Java.type("net.minecraft.network.play.client.C0EPacketClickWindow")
+
 export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
 export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
+export const S3EPacketTeams = Java.type("net.minecraft.network.play.server.S3EPacketTeams")
 
 // api stuff
 

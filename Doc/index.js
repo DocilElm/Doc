@@ -10,6 +10,8 @@ import "./features/dungeons/RunSplits"
 import "./features/dungeons/ChestProfit"
 import "./features/dungeons/CroesusClicks"
 import "./features/dungeons/CroesusProfit"
+import "./features/dungeons/ExtraStats"
+import "./features/dungeons/BossSplits"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
@@ -20,6 +22,8 @@ import "./features/fishing/BossBar"
 import "./features/fishing/TimerTitle"
 // Garden
 import "./features/garden/VisitorProfit"
+// Slayers
+import "./features/slayers/BossSlainTimer"
 //Misc
 import "./features/misc/RagAxeTimer.js"
 

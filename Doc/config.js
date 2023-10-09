@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Misc"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer" , "Misc"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -28,6 +28,7 @@ class Settings {
         this.addDependency("Run Splits Location", "Run Splits")
         this.addDependency("Chest Profit Location", "Chest Profit")
         this.addDependency("Croesus Profit Location", "Croesus Profit")
+        this.addDependency("Boss Splits Location", "Boss Splits")
     }
     // General
     @ButtonProperty({
@@ -43,8 +44,8 @@ class Settings {
     
     // Dungeons
     @SwitchProperty({
-        name: "Star Mob Esp",
-        description: "Draws a box in starred mob esp (not see through walls)",
+        name: "Box Star Mobs",
+        description: "Draws a box in starred mob (not see through walls)",
         category: "Dungeons",
         subcategory: "Dungeons"
     })
@@ -112,6 +113,15 @@ class Settings {
     })
     showCroesusClicks = false;
 
+    @SelectorProperty({
+        name: "Croesus Clicks Mode",
+        description: "Overlay renderer option only works with some texture packs",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        options: ["Gui Renderer", "Overlay Renderer"]
+    })
+    croesusClicksMode = 0;
+
     @SwitchProperty({
         name: "Croesus Profit",
         description: "Displays the current chest's profit inside of croesus",
@@ -119,6 +129,15 @@ class Settings {
         subcategory: "Dungeons"
     })
     croesusProfitDisplay = false;
+
+    @SelectorProperty({
+        name: "Croesus Profit Modue",
+        description: "Changes the mode for the display",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        options: ["Normal Mode", "Compacted Mode"]
+    })
+    croesusProfitMode = 0;
 
     @ButtonProperty({
         name: "Croesus Profit Location",
@@ -129,6 +148,33 @@ class Settings {
     })
     changecroesusProfitDisplay() {
         ChatLib.command("croesusProfitDisplay", true);
+    }
+
+    @SwitchProperty({
+        name: "Show Extra Stats",
+        description: "Automatically sends the /showextrastats command at the end of a run",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    showExtraStats = false;
+
+    @SwitchProperty({
+        name: "Boss Splits",
+        description: "Displays your current dungeon boss's splits",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    dungeonBossSplits = false;
+
+    @ButtonProperty({
+        name: "Boss Splits Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changebossSplitsDisplay() {
+        ChatLib.command("bossSplitsDisplay", true);
     }
 
     // Mining
@@ -202,9 +248,18 @@ class Settings {
     })
     changeVisitorProfitDisplay() {
         ChatLib.command("visitorProfitDisplay", true);
-
-
     }
+
+    // Slayer
+    @SwitchProperty({
+        name: "Boss Slain Timer",
+        description: "Sends a chat msg with the time it took to kill the slayer (also uses scoreboard for checks)",
+        category: "Slayer",
+        subcategory: "Sayer"
+    })
+    bossSlainTimer = false;
+
+
     //Misc
     @SwitchProperty({
         name: "Ragnarok Axe Cooldown Timer",

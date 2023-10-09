@@ -1,7 +1,8 @@
 import { addEvent } from "../../FeatureBase"
-import { PREFIX, chat, data, getJsonDataFromFile, getTime, isInTab, mathTrunc } from "../../utils/Utils"
+import ScalableGui from "../../classes/ScalableGui"
+import { getJsonDataFromFile, getTime, mathTrunc } from "../../utils/Utils"
 
-const editGui = new Gui()
+const editGui = new ScalableGui("miningProfit").setCommand("miningProfitDisplay")
 
 let bazaarApi = getJsonDataFromFile("data/Bazaar.json")
 let profitMade = 0
@@ -21,54 +22,26 @@ addEvent("gemstonesProfit", "Mining", register("chat", (gemstone, amount) => {
     }).setDelay(60*20),
     
     register("renderOverlay", () => {
-        if(editGui.isOpen()) {
-            Renderer.translate(data.miningProfit.x, data.miningProfit.y)
-            Renderer.scale(data.miningProfit.scale ?? 1)
-            Renderer.drawStringWithShadow(`&aSession Profit&r: &6some random number\n&aSession Time&r: &6some random time`, -10, -5)
-            Renderer.finishDraw()
-            return
-        }
         if(!World.isLoaded() || !startedMining) return
+
+        let strToDraw = ""
     
-        Renderer.translate(data.miningProfit.x, data.miningProfit.y)
-        Renderer.scale(data.miningProfit.scale ?? 1)
-        Renderer.drawStringWithShadow(`&aSession Profit&r: &6${mathTrunc(profitMade)}\n&aSession Time&r: &6${getTime(startedMining)}`, -10, -5)
-        Renderer.finishDraw()
+        strToDraw += `&aSession Profit&r: &6${mathTrunc(profitMade)}\n&aSession Time&r: &6${getTime(startedMining)}\n`
     
         Object.keys(gemstonesMined).forEach((gems, index) => {
-            Renderer.translate(data.miningProfit.x, data.miningProfit.y)
-            Renderer.scale(data.miningProfit.scale ?? 1)
-            Renderer.drawStringWithShadow(`\n&b${gems}&r: &6${gemstonesMined[gems]}`, -10, -5+(10*(index+1)))
-            Renderer.finishDraw()
+            strToDraw += `&b${gems}&r: &6${gemstonesMined[gems]}\n`
         })
+
+        editGui.renderString(strToDraw)
     })
-], "Crystal Hollows", null)
+], "Crystal Hollows")
+
+editGui.onRender(() => {
+    editGui.renderString(`&aSession Profit&r: &6some random number\n&aSession Time&r: &6some random time`)
+})
 
 register("command", () => {
     profitMade = 0
     gemstonesMined = {}
     startedMining = null
 }).setName("rsmsession")
-
-register("command", () => {
-    if(!isInTab("Crystal Hollows")) return chat(`${PREFIX} &cYou're not in the Crystal Hollows`), Client.currentGui.close()
-
-    editGui.open()
-}).setName("miningProfitDisplay")
-
-register("dragged", (dx, dy, x, y) => {
-    if (!editGui.isOpen()) return
-
-    data.miningProfit.x = x
-    data.miningProfit.y = y
-    data.save()
-})
-
-register("scrolled", (mx, mr, num) => {
-    if (!editGui.isOpen()) return
-
-    if(num === 1) data.miningProfit.scale += 0.1
-    else data.miningProfit.scale -= 0.1
-
-    data.save()
-})
