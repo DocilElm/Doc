@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer" , "Misc"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer", "Tracker" , "Misc"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -29,6 +29,7 @@ class Settings {
         this.addDependency("Chest Profit Location", "Chest Profit")
         this.addDependency("Croesus Profit Location", "Croesus Profit")
         this.addDependency("Boss Splits Location", "Boss Splits")
+        this.addDependency("Ghost Tracker Location", "Ghost Tracker")
     }
     // General
     @ButtonProperty({
@@ -131,7 +132,7 @@ class Settings {
     croesusProfitDisplay = false;
 
     @SelectorProperty({
-        name: "Croesus Profit Modue",
+        name: "Croesus Profit Mode",
         description: "Changes the mode for the display",
         category: "Dungeons",
         subcategory: "Dungeons",
@@ -259,6 +260,25 @@ class Settings {
     })
     bossSlainTimer = false;
 
+    // Tracker
+    @SwitchProperty({
+        name: "Ghost Tracker",
+        description: "Displays stuff from your current ghost grinding session e.g total profit drops and current mf (scavenger profit isnt take into account since it's not accurate) §4Kills counter is not 100% accurate",
+        category: "Tracker",
+        subcategory: "Tracker"
+    })
+    ghostTracker = false;
+
+    @ButtonProperty({
+        name: "Ghost Tracker Location",
+        description: "Changes The Display Location",
+        category: "Tracker",
+        subcategory: "Tracker",
+        placeholder: "Change"
+    })
+    changeghostDisplayLocation() {
+        ChatLib.command("ghostDisplayLocation", true);
+    }
 
     //Misc
     @SwitchProperty({

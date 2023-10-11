@@ -89,11 +89,6 @@ addEvent("visitorProfitDisplay", "Garden", register("step", () => {
         editGui.renderString(strToDraw)
     }),
     
-    register("step", () => {
-        bazaarApi = getJsonDataFromFile("data/Bazaar.json")
-        lowestBinApi = getJsonDataFromFile("data/LowestBin.json")
-    }).setDelay(60*20),
-    
     // me when lazy
     // ^\[NPC\] ([\w ]+): ([\w\d ]+)$
     register("chat", (npcName, npcMsg) => {
@@ -107,4 +102,8 @@ editGui.onRender(() => {
     editGui.renderString(`&aNPC&f: &bDocilElm\n&aItems Required&f: \n&aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`)
 })
 
-register("worldUnload", () => itemsRequired = {})
+register("worldUnload", () => {
+    itemsRequired = {}
+    bazaarApi = getJsonDataFromFile("data/Bazaar.json")
+    lowestBinApi = getJsonDataFromFile("data/LowestBin.json")
+})

@@ -24,6 +24,8 @@ import "./features/fishing/TimerTitle"
 import "./features/garden/VisitorProfit"
 // Slayers
 import "./features/slayers/BossSlainTimer"
+// Trackers
+import "./features/trackers/GhostsTracker"
 //Misc
 import "./features/misc/RagAxeTimer.js"
 

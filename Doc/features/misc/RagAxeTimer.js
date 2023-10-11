@@ -2,7 +2,7 @@ import { addEvent } from "../../FeatureBase"
 import { PREFIX, isInTab } from "../../utils/Utils"
 import { decodeNumeral } from "../../../BloomCore/utils/Utils"
 import ScalableGui from "../../classes/ScalableGui"
-import { onChatPacket } from "../../classes/Events"
+import { onActionBarPacket, onChatPacket } from "../../classes/Events"
 
 const editGui = new ScalableGui("ragaxecd").setCommand("ragnarokAxeDisplay")
 const cdTime = 20000
@@ -14,7 +14,7 @@ let notDupeClassEquation = 0
 let dupeClass = true
 let isMageClass = false
 
-addEvent("ragnarokAxeTimer", "Misc", register("actionBar", () => {
+addEvent("ragnarokAxeTimer", "Misc", onActionBarPacket(() => {
     lastCast = Date.now()
 
     if(!isInTab("Catacombs") || checkClass) return
@@ -35,7 +35,6 @@ addEvent("ragnarokAxeTimer", "Misc", register("actionBar", () => {
     })
 
     checkClass = true
-
 }).setCriteria(/^.+CASTING IN 3s$/), null, [
     register("renderOverlay", () => {
         if(!lastCast) return

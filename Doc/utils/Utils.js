@@ -16,6 +16,7 @@ export const data = new PogObject("Doc", {
     dungeonProfit: {x: 10, y: 10, scale: 1},
     croesusProfit: {x: 10, y: 10, scale: 1},
     bossSplits: {x: 10, y: 10, scale: 1},
+    ghostTracker: {x: 10, y: 10, scale: 1},
     apiCheckTime: null,
     firstTime: true
 }, "data/.data.json")
@@ -89,6 +90,7 @@ export const mathTrunc = (num) => addCommas(Math.trunc((Math.round(num * 100) / 
 export const getScoreboard = (descending = false) => Scoreboard.getLines(descending)?.map(line => line?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
 
 export const getSkyblockId = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.id
+export const getChampion = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.champion_combat_xp
 export const isInScoreboard = (str) => getScoreboard().some(a => a.includes(str))
 export const isInTab = (str) => TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))?.includes(str)
 export const getSubArea = (currentWorld) => currentWorld?.includes("The Rift") ? Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "") : Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
