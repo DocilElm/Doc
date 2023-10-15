@@ -30,6 +30,7 @@ class Settings {
         this.addDependency("Croesus Profit Location", "Croesus Profit")
         this.addDependency("Boss Splits Location", "Boss Splits")
         this.addDependency("Ghost Tracker Location", "Ghost Tracker")
+        this.addDependency("Trophy Fishing Tracker Location", "Trophy Fishing Tracker")
     }
     // General
     @ButtonProperty({
@@ -278,6 +279,25 @@ class Settings {
     })
     changeghostDisplayLocation() {
         ChatLib.command("ghostDisplayLocation", true);
+    }
+
+    @SwitchProperty({
+        name: "Trophy Fishing Tracker",
+        description: "Displays stuff from your current trophy fishing session §4Might not be 100% accurate",
+        category: "Tracker",
+        subcategory: "Tracker"
+    })
+    trophyFishingTracker = false;
+
+    @ButtonProperty({
+        name: "Trophy Fishing Tracker Location",
+        description: "Changes The Display Location",
+        category: "Tracker",
+        subcategory: "Tracker",
+        placeholder: "Change"
+    })
+    changegtrophyDisplayLocation() {
+        ChatLib.command("trophyDisplayLocation", true);
     }
 
     //Misc

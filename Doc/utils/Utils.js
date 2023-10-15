@@ -17,6 +17,7 @@ export const data = new PogObject("Doc", {
     croesusProfit: {x: 10, y: 10, scale: 1},
     bossSplits: {x: 10, y: 10, scale: 1},
     ghostTracker: {x: 10, y: 10, scale: 1},
+    trophyFishingTracker: {x: 10, y: 10, scale: 1},
     apiCheckTime: null,
     firstTime: true
 }, "data/.data.json")
@@ -79,6 +80,34 @@ export const entryMessages = new Set([
 
 export const chestNames = new Set(["Wood Chest", "Gold Chest", "Diamond Chest", "Emerald Chest", "Obsidian Chest", "Bedrock Chest"])
 
+export const trophyTypeColors = {
+    BRONZE: "&8",
+    SILVER: "&7",
+    GOLD: "&6",
+    DIAMOND: "&b"
+}
+
+export const trophyFishColors = {
+    "Sulphur Skitter": "&f",
+    "Obfuscated 1": "&f",
+    "Steaming-Hot Flounder": "&f",
+    "Gusher": "&f",
+    "Blobfish": "&f",
+    "Obfuscated 2": "&a",
+    "Slugfish": "&a",
+    "Flyfish": "&a",
+    "Obfuscated 3": "&9",
+    "Lavahorse": "&9",
+    "Mana Ray": "&9",
+    "Volcanic Stonefish": "&9",
+    "Vanille": "&9",
+    "Skeleton Fish": "&5",
+    "Moldfin": "&5",
+    "Soul Fish": "&5",
+    "Karate Fish": "&5",
+    "Golden Fish": "&6"
+}
+
 export const chat = (msg) => ChatLib.chat(msg)
 export const chatid = (msg, id) => new Message(msg).setChatLineId(id).chat()
 export const hover = (msg, value) => new TextComponent(msg).setHoverValue(value).chat()
@@ -93,7 +122,7 @@ export const getSkyblockId = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAtt
 export const getChampion = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.champion_combat_xp
 export const isInScoreboard = (str) => getScoreboard().some(a => a.includes(str))
 export const isInTab = (str) => TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))?.includes(str)
-export const getSubArea = (currentWorld) => currentWorld?.includes("The Rift") ? Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "") : Scoreboard.getLines()?.find(f => f.getName().removeFormatting().match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
+export const getSubArea = (currentWorld) => currentWorld?.includes("The Rift") ? Scoreboard.getLines()?.find(f => f?.getName()?.removeFormatting()?.match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "") : Scoreboard.getLines()?.find(f => f?.getName()?.removeFormatting()?.match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")
 export const checkConfig = (category, name) => data.settings[category][name]
 export const getTime = (oldDate) => {
     const seconds = Math.round((Date.now() - oldDate) / 1000 % 60)
@@ -165,6 +194,17 @@ export const getCroesusProfit = (lore) => {
     return result
 }
 
+export const bossRoomId = new Set([
+    "30,30",
+    "30,125",
+    "30,225",
+    "30,344",
+    "livid",
+    "sadan",
+    "f7"
+])
+export const isInBoss = () => getScoreboard().some(line => bossRoomId.has(line.match(/^[\d\/]+ [\w\d]+ ([-\d\w,]+)$/)?.[1]))
+
 // mc classes
 export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
 export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
@@ -173,6 +213,8 @@ export const C0EPacketClickWindow = Java.type("net.minecraft.network.play.client
 export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
 export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
 export const S3EPacketTeams = Java.type("net.minecraft.network.play.server.S3EPacketTeams")
+export const S38PacketPlayerListItem = Java.type("net.minecraft.network.play.server.S38PacketPlayerListItem")
+export const S47PacketPlayerListHeaderFooter = Java.type("net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter")
 
 // api stuff
 

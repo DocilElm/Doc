@@ -88,7 +88,7 @@ addEvent("ghostTracker", "Tracker", onActionBarPacket((xpAmount, event) => {
     
         editGui.renderString(strToDraw.join("\n"))
     })
-], "Dwarven Mines")
+], "Dwarven Mines", "The Mist")
 
 editGui.onRender(() => {
     const str = [

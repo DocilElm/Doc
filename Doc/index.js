@@ -12,6 +12,7 @@ import "./features/dungeons/CroesusClicks"
 import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
 import "./features/dungeons/BossSplits"
+import "./features/dungeons/M7DragSplits"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
@@ -26,6 +27,7 @@ import "./features/garden/VisitorProfit"
 import "./features/slayers/BossSlainTimer"
 // Trackers
 import "./features/trackers/GhostsTracker"
+import "./features/trackers/TrophyFishingTracker"
 //Misc
 import "./features/misc/RagAxeTimer.js"
 
