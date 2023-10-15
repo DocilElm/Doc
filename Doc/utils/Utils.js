@@ -18,9 +18,24 @@ export const data = new PogObject("Doc", {
     bossSplits: {x: 10, y: 10, scale: 1},
     ghostTracker: {x: 10, y: 10, scale: 1},
     trophyFishingTracker: {x: 10, y: 10, scale: 1},
+    powderTracker: {x: 10, y: 10, scale: 1},
     apiCheckTime: null,
     firstTime: true
 }, "data/.data.json")
+
+// mc classes
+export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
+export const BossStatus = Java.type("net.minecraft.entity.boss.BossStatus")
+
+export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
+export const C0EPacketClickWindow = Java.type("net.minecraft.network.play.client.C0EPacketClickWindow")
+
+export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
+export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
+export const S3EPacketTeams = Java.type("net.minecraft.network.play.server.S3EPacketTeams")
+export const S38PacketPlayerListItem = Java.type("net.minecraft.network.play.server.S38PacketPlayerListItem")
+export const S47PacketPlayerListHeaderFooter = Java.type("net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter")
+
 
 export const rareGardenItems = {
     "Flowering Bouquet": "FLOWERING_BOUQUET",
@@ -114,6 +129,7 @@ export const hover = (msg, value) => new TextComponent(msg).setHoverValue(value)
 export const breakchat = () => ChatLib.chat(ChatLib.getChatBreak(" "))
 export const addCommas = (num) => num?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? num
 export const mathTrunc = (num) => addCommas(Math.trunc((Math.round(num * 100) / 100)))
+export const getPerHrItems = (item, time) => mathTrunc(Math.round(((item ?? 0)/(time ?? 1)) * 3600))
 
 // bloom core probably has this so i'll just credit bloom for it ig
 export const getScoreboard = (descending = false) => Scoreboard.getLines(descending)?.map(line => line?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
@@ -204,17 +220,7 @@ export const bossRoomId = new Set([
     "f7"
 ])
 export const isInBoss = () => getScoreboard().some(line => bossRoomId.has(line.match(/^[\d\/]+ [\w\d]+ ([-\d\w,]+)$/)?.[1]))
-
-// mc classes
-export const EntityArmorStand = Java.type("net.minecraft.entity.item.EntityArmorStand")
-export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
-export const C0EPacketClickWindow = Java.type("net.minecraft.network.play.client.C0EPacketClickWindow")
-
-export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
-export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
-export const S3EPacketTeams = Java.type("net.minecraft.network.play.server.S3EPacketTeams")
-export const S38PacketPlayerListItem = Java.type("net.minecraft.network.play.server.S38PacketPlayerListItem")
-export const S47PacketPlayerListHeaderFooter = Java.type("net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter")
+export const isDoublePowderEvent = () => BossStatus?.field_82827_c?.includes("2X POWDER")
 
 // api stuff
 

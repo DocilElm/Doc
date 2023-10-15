@@ -31,6 +31,7 @@ class Settings {
         this.addDependency("Boss Splits Location", "Boss Splits")
         this.addDependency("Ghost Tracker Location", "Ghost Tracker")
         this.addDependency("Trophy Fishing Tracker Location", "Trophy Fishing Tracker")
+        this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
     }
     // General
     @ButtonProperty({
@@ -296,8 +297,27 @@ class Settings {
         subcategory: "Tracker",
         placeholder: "Change"
     })
-    changegtrophyDisplayLocation() {
+    changetrophyDisplayLocation() {
         ChatLib.command("trophyDisplayLocation", true);
+    }
+
+    @SwitchProperty({
+        name: "Powder Mining Tracker",
+        description: "Displays stuff from your current powder mining session",
+        category: "Tracker",
+        subcategory: "Tracker"
+    })
+    powderMiningTracker = false;
+
+    @ButtonProperty({
+        name: "Powder Mining Tracker Location",
+        description: "Changes The Display Location",
+        category: "Tracker",
+        subcategory: "Tracker",
+        placeholder: "Change"
+    })
+    changepowderDisplayLocation() {
+        ChatLib.command("powderDisplayLocation", true);
     }
 
     //Misc
