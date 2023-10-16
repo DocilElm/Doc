@@ -11,7 +11,7 @@ let currentSession = {
     "chestAmount": 0,
     "time": null
 }
-// fix: issue with x2 powder function staying true whenever it's over
+
 addEvent("powderMiningTracker", "Tracker", onChatPacket((amount, powderType) => {
     const powder = isDoublePowderEvent() ? parseFloat(amount.replace(/,/g, "")*2) : parseFloat(amount.replace(/,/g, ""))
     currentSession[powderType] += powder

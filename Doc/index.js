@@ -12,11 +12,13 @@ import "./features/dungeons/CroesusClicks"
 import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
 import "./features/dungeons/BossSplits"
+import "./features/dungeons/M7DragSplits"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
 // Commands
 import "./features/commands/Ping"
+import "./features/commands/InventoryLog"
 // Fishing
 import "./features/fishing/BossBar"
 import "./features/fishing/TimerTitle"

@@ -220,7 +220,7 @@ export const bossRoomId = new Set([
     "f7"
 ])
 export const isInBoss = () => getScoreboard().some(line => bossRoomId.has(line.match(/^[\d\/]+ [\w\d]+ ([-\d\w,]+)$/)?.[1]))
-export const isDoublePowderEvent = () => BossStatus?.field_82827_c?.includes("2X POWDER")
+export const isDoublePowderEvent = () => /^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/.test(BossStatus?.field_82827_c?.removeFormatting()) && BossStatus?.field_82827_c?.removeFormatting()?.match(/^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/)?.[2] >= 1
 
 // api stuff
 
@@ -238,7 +238,7 @@ const saveToFile = (fileName, dataToSave = {}, recursive = true) => {
     FileLib.write("Doc", fileName, JSON.stringify(dataToSave), recursive)
 }
 
-export const getJsonDataFromFile = (fileName) => JSON.parse(FileLib.read("Doc", fileName)) ?? {}
+export const getJsonDataFromFile = (fileName, type = {}) => JSON.parse(FileLib.read("Doc", fileName)) ?? type
 
 const refreshLbApi = () => {
     if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
