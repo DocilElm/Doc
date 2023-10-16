@@ -1,0 +1,1812 @@
+{
+    "F1": {
+        "Bonzo's Staff": {
+            "formattedName": "§9Bonzo's Staff",
+            "appearsChest": "Emerald Chest",
+            "odds": 0.9434,
+            "scoreRequired": 31800
+        },
+        "Enchanted Book (Ultimate Jerry I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 0.9434,
+            "scoreRequired": 31800
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.8868,
+            "scoreRequired": 15900
+        },
+        "Enchanted Book (Bank I)": {
+            "formattedName": "§aEnchanted Book (§d§lBank I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 1.8868,
+            "scoreRequired": 15900
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.8302,
+            "scoreRequired": 10599
+        },
+        "Bonzo's Mask": {
+            "formattedName": "§9Bonzo's Mask",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.8302,
+            "scoreRequired": 10599
+        },
+        "Red Nose": {
+            "formattedName": "§9Red Nose",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.8302,
+            "scoreRequired": 10599
+        },
+        "Balloon Snake": {
+            "formattedName": "§9Balloon Snake",
+            "appearsChest": "Diamond Chest",
+            "odds": 3.7736,
+            "scoreRequired": 7950
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 4.717,
+            "scoreRequired": 6360
+        },
+        "Enchanted Book (Infinite Quiver VI)": {
+            "formattedName": "§aEnchanted Book (Infinite Quiver VI§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 7.5472,
+            "scoreRequired": 3975
+        },
+        "Enchanted Book (Feather Falling VI)": {
+            "formattedName": "§aEnchanted Book (Feather Falling VI§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 7.5472,
+            "scoreRequired": 3975
+        },
+        "Necromancer's Brooch": {
+            "formattedName": "§9Necromancer's Brooch",
+            "appearsChest": "Wood Chest",
+            "odds": 9.434,
+            "scoreRequired": 3180
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 14.1509,
+            "scoreRequired": 2120
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 14.1509,
+            "scoreRequired": 2120
+        },
+        "Enchanted Book (Rejuvenate I)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 23.5849,
+            "scoreRequired": 1272
+        }
+    },
+    "F2": {
+        "Red Scarf": {
+            "formattedName": "§9Red Scarf",
+            "appearsChest": "Diamond Chest",
+            "odds": 1.5873,
+            "scoreRequired": 18900
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 3.1746,
+            "scoreRequired": 9450
+        },
+        "Adaptive Blade": {
+            "formattedName": "§5Adaptive Blade",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.1746,
+            "scoreRequired": 9450
+        },
+        "Enchanted Book (Bank I)": {
+            "formattedName": "§aEnchanted Book (§d§lBank I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 3.1746,
+            "scoreRequired": 9450
+        },
+        "Adaptive Belt": {
+            "formattedName": "§5Adaptive Belt",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.7619,
+            "scoreRequired": 6300
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 4.7619,
+            "scoreRequired": 6300
+        },
+        "Scarf's Studies": {
+            "formattedName": "§9Scarf's Studies",
+            "appearsChest": "Gold Chest",
+            "odds": 6.3492,
+            "scoreRequired": 4725
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 7.9365,
+            "scoreRequired": 3780
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 7.9365,
+            "scoreRequired": 3780
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 7.9365,
+            "scoreRequired": 3780
+        },
+        "Necromancer's Brooch": {
+            "formattedName": "§9Necromancer's Brooch",
+            "appearsChest": "Wood Chest",
+            "odds": 7.9365,
+            "scoreRequired": 3780
+        },
+        "Enchanted Book (Ultimate Wise I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 15.873,
+            "scoreRequired": 1890
+        },
+        "Enchanted Book (Rejuvenate I)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 23.8095,
+            "scoreRequired": 1260
+        }
+    },
+    "F3": {
+        "Adaptive Chestplate": {
+            "formattedName": "§5Adaptive Chestplate",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.1494,
+            "scoreRequired": 26100
+        },
+        "Adaptive Leggings": {
+            "formattedName": "§5Adaptive Leggings",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.1494,
+            "scoreRequired": 26100
+        },
+        "Enchanted Book (Ultimate Jerry II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.1494,
+            "scoreRequired": 26100
+        },
+        "Adaptive Helmet": {
+            "formattedName": "§5Adaptive Helmet",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.2989,
+            "scoreRequired": 13050
+        },
+        "Adaptive Boots": {
+            "formattedName": "§5Adaptive Boots",
+            "appearsChest": "Gold Chest",
+            "odds": 2.2989,
+            "scoreRequired": 13050
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.4483,
+            "scoreRequired": 8700
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.5977,
+            "scoreRequired": 6525
+        },
+        "Necromancer's Brooch": {
+            "formattedName": "§9Necromancer's Brooch",
+            "appearsChest": "Wood Chest",
+            "odds": 4.5977,
+            "scoreRequired": 6525
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 5.7471,
+            "scoreRequired": 5220
+        },
+        "Suspicious Vial": {
+            "formattedName": "§9Suspicious Vial",
+            "appearsChest": "Diamond Chest",
+            "odds": 5.7471,
+            "scoreRequired": 5220
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 5.7471,
+            "scoreRequired": 5220
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 5.7471,
+            "scoreRequired": 5220
+        },
+        "Enchanted Book (Ultimate Wise I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 9.1954,
+            "scoreRequired": 3262
+        },
+        "Enchanted Book (Bank II)": {
+            "formattedName": "§aEnchanted Book (§d§lBank II§a)",
+            "appearsChest": "Obsidian Chest",
+            "odds": 9.1954,
+            "scoreRequired": 3262
+        },
+        "Enchanted Book (Wisdom I)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 9.1954,
+            "scoreRequired": 3262
+        },
+        "Enchanted Book (Last Stand I)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand I§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 13.7931,
+            "scoreRequired": 2175
+        },
+        "Enchanted Book (Rejuvenate II)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 13.7931,
+            "scoreRequired": 2175
+        }
+    },
+    "F4": {
+        "Spirit Sword": {
+            "formattedName": "§5Spirit Sword",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.2048,
+            "scoreRequired": 24899
+        },
+        "Spirit Shortbow": {
+            "formattedName": "§6Spirit Shortbow",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.2048,
+            "scoreRequired": 24899
+        },
+        "Spirit Boots": {
+            "formattedName": "§5Spirit Boots",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.2048,
+            "scoreRequired": 24899
+        },
+        "[Lvl 1] Spirit": {
+            "formattedName": "§7[Lvl 1] §6Spirit",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.2048,
+            "scoreRequired": 24899
+        },
+        "Enchanted Book (Ultimate Jerry II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.2048,
+            "scoreRequired": 24899
+        },
+        "Spirit Wing": {
+            "formattedName": "§5Spirit Wing",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.4096,
+            "scoreRequired": 12449
+        },
+        "Spirit Bone": {
+            "formattedName": "§5Spirit Bone",
+            "appearsChest": "Emerald Chest",
+            "odds": 2.4096,
+            "scoreRequired": 12449
+        },
+        "Spirit Stone": {
+            "formattedName": "§9Spirit Stone",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.4096,
+            "scoreRequired": 12449
+        },
+        "Enchanted Book (Rend II)": {
+            "formattedName": "§aEnchanted Book (§d§lRend II§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 2.4096,
+            "scoreRequired": 12449
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 3.6145,
+            "scoreRequired": 8300
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.6145,
+            "scoreRequired": 8300
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 6.0241,
+            "scoreRequired": 4979
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 6.0241,
+            "scoreRequired": 4979
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 6.0241,
+            "scoreRequired": 4979
+        },
+        "Enchanted Book (Ultimate Wise I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 9.6386,
+            "scoreRequired": 3112
+        },
+        "Enchanted Book (Bank II)": {
+            "formattedName": "§aEnchanted Book (§d§lBank II§a)",
+            "appearsChest": "Obsidian Chest",
+            "odds": 9.6386,
+            "scoreRequired": 3112
+        },
+        "Enchanted Book (Wisdom I)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 9.6386,
+            "scoreRequired": 3112
+        },
+        "Enchanted Book (Last Stand I)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand I§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 14.4578,
+            "scoreRequired": 2075
+        },
+        "Enchanted Book (Rejuvenate II)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 14.4578,
+            "scoreRequired": 2075
+        }
+    },
+    "F5": {
+        "Shadow Fury": {
+            "formattedName": "§6Shadow Fury",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.2625,
+            "scoreRequired": 114300
+        },
+        "Last Breath": {
+            "formattedName": "§6Last Breath",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.2625,
+            "scoreRequired": 114300
+        },
+        "Shadow Assassin Chestplate": {
+            "formattedName": "§5Shadow Assassin Chestplate",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.5249,
+            "scoreRequired": 57150
+        },
+        "Warped Stone": {
+            "formattedName": "§9Warped Stone",
+            "appearsChest": "Emerald Chest",
+            "odds": 0.5249,
+            "scoreRequired": 57150
+        },
+        "Livid Dagger": {
+            "formattedName": "§6Livid Dagger",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.0499,
+            "scoreRequired": 28575
+        },
+        "Enchanted Book (Ultimate Jerry III)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 1.0499,
+            "scoreRequired": 28575
+        },
+        "Shadow Assassin Leggings": {
+            "formattedName": "§5Shadow Assassin Leggings",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.3123,
+            "scoreRequired": 22860
+        },
+        "Shadow Assassin Cloak": {
+            "formattedName": "§5Shadow Assassin Cloak",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.3123,
+            "scoreRequired": 22860
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.5748,
+            "scoreRequired": 19050
+        },
+        "Shadow Assassin Helmet": {
+            "formattedName": "§5Shadow Assassin Helmet",
+            "appearsChest": "Emerald Chest",
+            "odds": 2.6247,
+            "scoreRequired": 11430
+        },
+        "Shadow Assassin Boots": {
+            "formattedName": "§5Shadow Assassin Boots",
+            "appearsChest": "Diamond Chest",
+            "odds": 3.937,
+            "scoreRequired": 7620
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 5.2493,
+            "scoreRequired": 5715
+        },
+        "Enchanted Book (Overload I)": {
+            "formattedName": "§aEnchanted Book (Overload I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 5.2493,
+            "scoreRequired": 5715
+        },
+        "Enchanted Book (Legion I)": {
+            "formattedName": "§aEnchanted Book (§d§lLegion I§a)",
+            "appearsChest": "Diamond Chest",
+            "odds": 5.2493,
+            "scoreRequired": 5715
+        },
+        "Enchanted Book (Lethality VI)": {
+            "formattedName": "§aEnchanted Book (Lethality VI§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 5.2493,
+            "scoreRequired": 5715
+        },
+        "Enchanted Book (Combo II)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 5.2493,
+            "scoreRequired": 5715
+        },
+        "Enchanted Book (No Pain No Gain II)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 5.2493,
+            "scoreRequired": 5715
+        },
+        "Enchanted Book (Bank III)": {
+            "formattedName": "§aEnchanted Book (§d§lBank III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 5.2493,
+            "scoreRequired": 5715
+        },
+        "Enchanted Book (Wisdom II)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 6.5617,
+            "scoreRequired": 4572
+        },
+        "Dark Orb": {
+            "formattedName": "§9Dark Orb",
+            "appearsChest": "Gold Chest",
+            "odds": 7.874,
+            "scoreRequired": 3810
+        },
+        "Enchanted Book (Ultimate Wise II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 10.4987,
+            "scoreRequired": 2857
+        },
+        "Enchanted Book (Rejuvenate III)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 11.811,
+            "scoreRequired": 2540
+        },
+        "Enchanted Book (Last Stand II)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 11.811,
+            "scoreRequired": 2540
+        }
+    },
+    "F6": {
+        "Precursor Eye": {
+            "formattedName": "§6Precursor Eye",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1125,
+            "scoreRequired": 266699
+        },
+        "Giant's Sword": {
+            "formattedName": "§6Giant's Sword",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1875,
+            "scoreRequired": 160020
+        },
+        "Necromancer Lord Chestplate": {
+            "formattedName": "§6Necromancer Lord Chestplate",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.3,
+            "scoreRequired": 100012
+        },
+        "Summoning Ring": {
+            "formattedName": "§9Summoning Ring",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.375,
+            "scoreRequired": 80010
+        },
+        "Fel Skull": {
+            "formattedName": "§6Fel Skull",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.5624,
+            "scoreRequired": 53339
+        },
+        "Necromancer Sword": {
+            "formattedName": "§6Necromancer Sword",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.7499,
+            "scoreRequired": 40005
+        },
+        "Necromancer Lord Leggings": {
+            "formattedName": "§6Necromancer Lord Leggings",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.1249,
+            "scoreRequired": 26669
+        },
+        "Soulweaver Gloves": {
+            "formattedName": "§5Soulweaver Gloves",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.1249,
+            "scoreRequired": 26669
+        },
+        "Necromancer Lord Helmet": {
+            "formattedName": "§6Necromancer Lord Helmet",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.4998,
+            "scoreRequired": 20002
+        },
+        "Sadan's Brooch": {
+            "formattedName": "§5Sadan's Brooch",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.4998,
+            "scoreRequired": 20002
+        },
+        "Enchanted Book (Ultimate Jerry III)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 1.4998,
+            "scoreRequired": 20002
+        },
+        "Giant Tooth": {
+            "formattedName": "§5Giant Tooth",
+            "appearsChest": "Gold Chest",
+            "odds": 1.8748,
+            "scoreRequired": 16001
+        },
+        "Necromancer Lord Boots": {
+            "formattedName": "§6Necromancer Lord Boots",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.2497,
+            "scoreRequired": 13334
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 3.7495,
+            "scoreRequired": 8000
+        },
+        "Enchanted Book (Swarm I)": {
+            "formattedName": "§aEnchanted Book (§d§lSwarm I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 5.6243,
+            "scoreRequired": 5334
+        },
+        "Enchanted Book (No Pain No Gain II)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 6.5617,
+            "scoreRequired": 4572
+        },
+        "Enchanted Book (Bank III)": {
+            "formattedName": "§aEnchanted Book (§d§lBank III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 6.5617,
+            "scoreRequired": 4572
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Obsidian Chest",
+            "odds": 7.4991,
+            "scoreRequired": 4000
+        },
+        "Enchanted Book (Combo II)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.4991,
+            "scoreRequired": 4000
+        },
+        "Enchanted Book (Wisdom II)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 8.4364,
+            "scoreRequired": 3556
+        },
+        "Enchanted Book (Ultimate Wise II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 12.3735,
+            "scoreRequired": 2424
+        },
+        "Enchanted Book (Rejuvenate III)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 14.2482,
+            "scoreRequired": 2105
+        },
+        "Enchanted Book (Last Stand II)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 14.2482,
+            "scoreRequired": 2105
+        }
+    },
+    "F7": {
+        "Storm the Fish": {
+            "formattedName": "§cStorm the Fish",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.073,
+            "scoreRequired": 411180
+        },
+        "Maxor the Fish": {
+            "formattedName": "§cMaxor the Fish",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.073,
+            "scoreRequired": 411180
+        },
+        "Goldor the Fish": {
+            "formattedName": "§cGoldor the Fish",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.073,
+            "scoreRequired": 411180
+        },
+        "Necron's Handle": {
+            "formattedName": "§5Necron's Handle",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1094,
+            "scoreRequired": 274119
+        },
+        "Shadow Warp": {
+            "formattedName": "§5Shadow Warp",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1459,
+            "scoreRequired": 205590
+        },
+        "Wither Shield": {
+            "formattedName": "§5Wither Shield",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1459,
+            "scoreRequired": 205590
+        },
+        "Implosion": {
+            "formattedName": "§5Implosion",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1459,
+            "scoreRequired": 205590
+        },
+        "Auto Recombobulator": {
+            "formattedName": "§6Auto Recombobulator",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.5837,
+            "scoreRequired": 51397
+        },
+        "Wither Chestplate": {
+            "formattedName": "§6Wither Chestplate",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.5837,
+            "scoreRequired": 51397
+        },
+        "Enchanted Book (One For All I)": {
+            "formattedName": "§aEnchanted Book (§d§lOne For All I§a)",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.5837,
+            "scoreRequired": 51397
+        },
+        "Wither Leggings": {
+            "formattedName": "§6Wither Leggings",
+            "appearsChest": "Emerald Chest",
+            "odds": 2.3347,
+            "scoreRequired": 12849
+        },
+        "Enchanted Book (Feather Falling VII)": {
+            "formattedName": "§aEnchanted Book (Feather Falling VII§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 2.3347,
+            "scoreRequired": 12849
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.9184,
+            "scoreRequired": 10279
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.9184,
+            "scoreRequired": 10279
+        },
+        "Wither Catalyst": {
+            "formattedName": "§9Wither Catalyst",
+            "appearsChest": "Gold Chest",
+            "odds": 2.9184,
+            "scoreRequired": 10279
+        },
+        "Enchanted Book (No Pain No Gain II)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 2.9184,
+            "scoreRequired": 10279
+        },
+        "Wither Cloak Sword": {
+            "formattedName": "§5Wither Cloak Sword",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.5021,
+            "scoreRequired": 8566
+        },
+        "Wither Helmet": {
+            "formattedName": "§6Wither Helmet",
+            "appearsChest": "Diamond Chest",
+            "odds": 3.5021,
+            "scoreRequired": 8566
+        },
+        "Wither Blood": {
+            "formattedName": "§5Wither Blood",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.5021,
+            "scoreRequired": 8566
+        },
+        "Wither Boots": {
+            "formattedName": "§6Wither Boots",
+            "appearsChest": "Gold Chest",
+            "odds": 3.5021,
+            "scoreRequired": 8566
+        },
+        "Enchanted Book (Bank III)": {
+            "formattedName": "§aEnchanted Book (§d§lBank III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 3.648,
+            "scoreRequired": 8223
+        },
+        "Enchanted Book (Wisdom II)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 3.648,
+            "scoreRequired": 8223
+        },
+        "Enchanted Book (Ultimate Jerry III)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 4.3776,
+            "scoreRequired": 6853
+        },
+        "Enchanted Book (Soul Eater I)": {
+            "formattedName": "§aEnchanted Book (§d§lSoul Eater I§a)",
+            "appearsChest": "Diamond Chest",
+            "odds": 5.8369,
+            "scoreRequired": 5139
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 5.8369,
+            "scoreRequired": 5139
+        },
+        "Enchanted Book (Ultimate Wise II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 5.8369,
+            "scoreRequired": 5139
+        },
+        "Enchanted Book (Combo II)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.2961,
+            "scoreRequired": 4111
+        },
+        "Enchanted Book (Rejuvenate III)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.2961,
+            "scoreRequired": 4111
+        },
+        "Enchanted Book (Last Stand II)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.2961,
+            "scoreRequired": 4111
+        },
+        "Enchanted Book (Infinite Quiver VII)": {
+            "formattedName": "§aEnchanted Book (Infinite Quiver VII§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.2961,
+            "scoreRequired": 4111
+        },
+        "Precursor Gear": {
+            "formattedName": "§5Precursor Gear",
+            "appearsChest": "Gold Chest",
+            "odds": 8.7553,
+            "scoreRequired": 3426
+        }
+    },
+    "M1": {
+        "Bonzo's Staff": {
+            "formattedName": "§9Bonzo's Staff",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.1628,
+            "scoreRequired": 25800
+        },
+        "Enchanted Book (Ultimate Jerry I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 1.1628,
+            "scoreRequired": 25800
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 2.3256,
+            "scoreRequired": 12900
+        },
+        "Enchanted Book (Bank I)": {
+            "formattedName": "§aEnchanted Book (§d§lBank I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 2.3256,
+            "scoreRequired": 12900
+        },
+        "Master Skull - Tier 1": {
+            "formattedName": "§fMaster Skull - Tier 1",
+            "appearsChest": "Obsidian Chest",
+            "odds": 3.4884,
+            "scoreRequired": 8600
+        },
+        "Bonzo's Mask": {
+            "formattedName": "§9Bonzo's Mask",
+            "appearsChest": "Diamond Chest",
+            "odds": 3.4884,
+            "scoreRequired": 8600
+        },
+        "Balloon Snake": {
+            "formattedName": "§9Balloon Snake",
+            "appearsChest": "Diamond Chest",
+            "odds": 3.4884,
+            "scoreRequired": 8600
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.6512,
+            "scoreRequired": 6450
+        },
+        "Red Nose": {
+            "formattedName": "§9Red Nose",
+            "appearsChest": "Diamond Chest",
+            "odds": 4.6512,
+            "scoreRequired": 6450
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 5.814,
+            "scoreRequired": 5160
+        },
+        "Enchanted Book (Infinite Quiver VI)": {
+            "formattedName": "§aEnchanted Book (Infinite Quiver VI§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 6.9767,
+            "scoreRequired": 4300
+        },
+        "Enchanted Book (Feather Falling VI)": {
+            "formattedName": "§aEnchanted Book (Feather Falling VI§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 6.9767,
+            "scoreRequired": 4300
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 11.6279,
+            "scoreRequired": 2580
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 11.6279,
+            "scoreRequired": 2580
+        },
+        "Necromancer's Brooch": {
+            "formattedName": "§9Necromancer's Brooch",
+            "appearsChest": "Wood Chest",
+            "odds": 11.6279,
+            "scoreRequired": 2580
+        },
+        "Enchanted Book (Rejuvenate I)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 17.4419,
+            "scoreRequired": 1720
+        }
+    },
+    "M2": {
+        "Red Scarf": {
+            "formattedName": "§9Red Scarf",
+            "appearsChest": "Diamond Chest",
+            "odds": 1.6129,
+            "scoreRequired": 18600
+        },
+        "Adaptive Blade": {
+            "formattedName": "§5Adaptive Blade",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.2258,
+            "scoreRequired": 9300
+        },
+        "Enchanted Book (Bank I)": {
+            "formattedName": "§aEnchanted Book (§d§lBank I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 3.2258,
+            "scoreRequired": 9300
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.8387,
+            "scoreRequired": 6199
+        },
+        "Master Skull - Tier 2": {
+            "formattedName": "§fMaster Skull - Tier 2",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.8387,
+            "scoreRequired": 6199
+        },
+        "Adaptive Belt": {
+            "formattedName": "§5Adaptive Belt",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.8387,
+            "scoreRequired": 6199
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 4.8387,
+            "scoreRequired": 6199
+        },
+        "Scarf's Studies": {
+            "formattedName": "§9Scarf's Studies",
+            "appearsChest": "Gold Chest",
+            "odds": 6.4516,
+            "scoreRequired": 4650
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 8.0645,
+            "scoreRequired": 3720
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 8.0645,
+            "scoreRequired": 3720
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 8.0645,
+            "scoreRequired": 3720
+        },
+        "Necromancer's Brooch": {
+            "formattedName": "§9Necromancer's Brooch",
+            "appearsChest": "Wood Chest",
+            "odds": 8.0645,
+            "scoreRequired": 3720
+        },
+        "Enchanted Book (Ultimate Wise I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 16.129,
+            "scoreRequired": 1860
+        },
+        "Enchanted Book (Rejuvenate I)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate I§a)",
+            "appearsChest": "Wood Chest",
+            "odds": 16.129,
+            "scoreRequired": 1860
+        }
+    },
+    "M3": {
+        "Adaptive Chestplate": {
+            "formattedName": "§5Adaptive Chestplate",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.2658,
+            "scoreRequired": 23700
+        },
+        "Adaptive Leggings": {
+            "formattedName": "§5Adaptive Leggings",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.2658,
+            "scoreRequired": 23700
+        },
+        "Enchanted Book (Ultimate Jerry II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.2658,
+            "scoreRequired": 23700
+        },
+        "First Master Star": {
+            "formattedName": "§5First Master Star",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.5316,
+            "scoreRequired": 11850
+        },
+        "Adaptive Helmet": {
+            "formattedName": "§5Adaptive Helmet",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.5316,
+            "scoreRequired": 11850
+        },
+        "Adaptive Boots": {
+            "formattedName": "§5Adaptive Boots",
+            "appearsChest": "Gold Chest",
+            "odds": 2.5316,
+            "scoreRequired": 11850
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.7975,
+            "scoreRequired": 7900
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 5.0633,
+            "scoreRequired": 5925
+        },
+        "Master Skull - Tier 3": {
+            "formattedName": "§aMaster Skull - Tier 3",
+            "appearsChest": "Obsidian Chest",
+            "odds": 5.0633,
+            "scoreRequired": 5925
+        },
+        "Necromancer's Brooch": {
+            "formattedName": "§9Necromancer's Brooch",
+            "appearsChest": "Wood Chest",
+            "odds": 5.0633,
+            "scoreRequired": 5925
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 6.3291,
+            "scoreRequired": 4740
+        },
+        "Suspicious Vial": {
+            "formattedName": "§9Suspicious Vial",
+            "appearsChest": "Diamond Chest",
+            "odds": 6.3291,
+            "scoreRequired": 4740
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 6.3291,
+            "scoreRequired": 4740
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 6.3291,
+            "scoreRequired": 4740
+        },
+        "Enchanted Book (Ultimate Wise I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 7.5949,
+            "scoreRequired": 3950
+        },
+        "Enchanted Book (Bank II)": {
+            "formattedName": "§aEnchanted Book (§d§lBank II§a)",
+            "appearsChest": "Obsidian Chest",
+            "odds": 7.5949,
+            "scoreRequired": 3950
+        },
+        "Enchanted Book (Wisdom I)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 7.5949,
+            "scoreRequired": 3950
+        },
+        "Enchanted Book (Last Stand I)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand I§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 10.1266,
+            "scoreRequired": 2962
+        },
+        "Enchanted Book (Rejuvenate II)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 10.1266,
+            "scoreRequired": 2962
+        }
+    },
+    "M4": {
+        "Spirit Sword": {
+            "formattedName": "§5Spirit Sword",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.3699,
+            "scoreRequired": 21900
+        },
+        "Spirit Shortbow": {
+            "formattedName": "§6Spirit Shortbow",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.3699,
+            "scoreRequired": 21900
+        },
+        "Spirit Boots": {
+            "formattedName": "§5Spirit Boots",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.3699,
+            "scoreRequired": 21900
+        },
+        "[Lvl 1] Spirit": {
+            "formattedName": "§7[Lvl 1] §6Spirit",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.3699,
+            "scoreRequired": 21900
+        },
+        "Enchanted Book (Ultimate Jerry II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.3699,
+            "scoreRequired": 21900
+        },
+        "Second Master Star": {
+            "formattedName": "§5Second Master Star",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.7397,
+            "scoreRequired": 10950
+        },
+        "Spirit Wing": {
+            "formattedName": "§5Spirit Wing",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.7397,
+            "scoreRequired": 10950
+        },
+        "Spirit Bone": {
+            "formattedName": "§5Spirit Bone",
+            "appearsChest": "Emerald Chest",
+            "odds": 2.7397,
+            "scoreRequired": 10950
+        },
+        "Spirit Stone": {
+            "formattedName": "§9Spirit Stone",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.7397,
+            "scoreRequired": 10950
+        },
+        "Enchanted Book (Rend II)": {
+            "formattedName": "§aEnchanted Book (§d§lRend II§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 2.7397,
+            "scoreRequired": 10950
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.1096,
+            "scoreRequired": 7300
+        },
+        "Master Skull - Tier 3": {
+            "formattedName": "§aMaster Skull - Tier 3",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.1096,
+            "scoreRequired": 7300
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 4.1096,
+            "scoreRequired": 7300
+        },
+        "Enchanted Book (No Pain No Gain I)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 5.4795,
+            "scoreRequired": 5475
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 6.8493,
+            "scoreRequired": 4380
+        },
+        "Enchanted Book (Combo I)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 6.8493,
+            "scoreRequired": 4380
+        },
+        "Enchanted Book (Ultimate Wise I)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 8.2192,
+            "scoreRequired": 3650
+        },
+        "Enchanted Book (Bank II)": {
+            "formattedName": "§aEnchanted Book (§d§lBank II§a)",
+            "appearsChest": "Obsidian Chest",
+            "odds": 8.2192,
+            "scoreRequired": 3650
+        },
+        "Enchanted Book (Wisdom I)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 8.2192,
+            "scoreRequired": 3650
+        },
+        "Enchanted Book (Last Stand I)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand I§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 10.9589,
+            "scoreRequired": 2737
+        },
+        "Enchanted Book (Rejuvenate II)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate II§a)",
+            "appearsChest": "Emerald Chest",
+            "odds": 10.9589,
+            "scoreRequired": 2737
+        }
+    },
+    "M5": {
+        "Shadow Fury": {
+            "formattedName": "§6Shadow Fury",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.3077,
+            "scoreRequired": 97500
+        },
+        "Last Breath": {
+            "formattedName": "§6Last Breath",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.3077,
+            "scoreRequired": 97500
+        },
+        "Shadow Assassin Chestplate": {
+            "formattedName": "§5Shadow Assassin Chestplate",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.6154,
+            "scoreRequired": 48750
+        },
+        "Third Master Star": {
+            "formattedName": "§5Third Master Star",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.6154,
+            "scoreRequired": 48750
+        },
+        "Warped Stone": {
+            "formattedName": "§9Warped Stone",
+            "appearsChest": "Emerald Chest",
+            "odds": 0.6154,
+            "scoreRequired": 48750
+        },
+        "Livid Dagger": {
+            "formattedName": "§6Livid Dagger",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.2308,
+            "scoreRequired": 24375
+        },
+        "Enchanted Book (Ultimate Jerry III)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 1.2308,
+            "scoreRequired": 24375
+        },
+        "Shadow Assassin Leggings": {
+            "formattedName": "§5Shadow Assassin Leggings",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.5385,
+            "scoreRequired": 19500
+        },
+        "Shadow Assassin Cloak": {
+            "formattedName": "§5Shadow Assassin Cloak",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.5385,
+            "scoreRequired": 19500
+        },
+        "Master Skull - Tier 4": {
+            "formattedName": "§aMaster Skull - Tier 4",
+            "appearsChest": "Bedrock Chest",
+            "odds": 1.5385,
+            "scoreRequired": 19500
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.8462,
+            "scoreRequired": 16250
+        },
+        "Shadow Assassin Helmet": {
+            "formattedName": "§5Shadow Assassin Helmet",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.0769,
+            "scoreRequired": 9750
+        },
+        "Enchanted Book (Bank III)": {
+            "formattedName": "§aEnchanted Book (§d§lBank III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 3.0769,
+            "scoreRequired": 9750
+        },
+        "Enchanted Book (Wisdom II)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 3.6923,
+            "scoreRequired": 8125
+        },
+        "Shadow Assassin Boots": {
+            "formattedName": "§5Shadow Assassin Boots",
+            "appearsChest": "Diamond Chest",
+            "odds": 4.6154,
+            "scoreRequired": 6499
+        },
+        "Enchanted Book (Combo II)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 4.6154,
+            "scoreRequired": 6499
+        },
+        "Enchanted Book (No Pain No Gain II)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 4.6154,
+            "scoreRequired": 6499
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Emerald Chest",
+            "odds": 6.1538,
+            "scoreRequired": 4875
+        },
+        "Enchanted Book (Overload I)": {
+            "formattedName": "§aEnchanted Book (Overload I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 6.1538,
+            "scoreRequired": 4875
+        },
+        "Enchanted Book (Legion I)": {
+            "formattedName": "§aEnchanted Book (§d§lLegion I§a)",
+            "appearsChest": "Diamond Chest",
+            "odds": 6.1538,
+            "scoreRequired": 4875
+        },
+        "Enchanted Book (Lethality VI)": {
+            "formattedName": "§aEnchanted Book (Lethality VI§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 6.1538,
+            "scoreRequired": 4875
+        },
+        "Dark Orb": {
+            "formattedName": "§9Dark Orb",
+            "appearsChest": "Gold Chest",
+            "odds": 9.2308,
+            "scoreRequired": 3249
+        },
+        "Enchanted Book (Ultimate Wise II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 9.2308,
+            "scoreRequired": 3249
+        },
+        "Enchanted Book (Rejuvenate III)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 10.7692,
+            "scoreRequired": 2785
+        },
+        "Enchanted Book (Last Stand II)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 10.7692,
+            "scoreRequired": 2785
+        }
+    },
+    "M6": {
+        "Precursor Eye": {
+            "formattedName": "§6Precursor Eye",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1108,
+            "scoreRequired": 270800
+        },
+        "Giant's Sword": {
+            "formattedName": "§6Giant's Sword",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.2216,
+            "scoreRequired": 135400
+        },
+        "Necromancer Lord Chestplate": {
+            "formattedName": "§6Necromancer Lord Chestplate",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.2954,
+            "scoreRequired": 101550
+        },
+        "Fourth Master Star": {
+            "formattedName": "§5Fourth Master Star",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.3693,
+            "scoreRequired": 81240
+        },
+        "Summoning Ring": {
+            "formattedName": "§9Summoning Ring",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.3693,
+            "scoreRequired": 81240
+        },
+        "Master Skull - Tier 4": {
+            "formattedName": "§aMaster Skull - Tier 4",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.3693,
+            "scoreRequired": 81240
+        },
+        "Fel Skull": {
+            "formattedName": "§6Fel Skull",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.5539,
+            "scoreRequired": 54160
+        },
+        "Necromancer Sword": {
+            "formattedName": "§6Necromancer Sword",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.7386,
+            "scoreRequired": 40620
+        },
+        "Necromancer Lord Leggings": {
+            "formattedName": "§6Necromancer Lord Leggings",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.1078,
+            "scoreRequired": 27080
+        },
+        "Soulweaver Gloves": {
+            "formattedName": "§5Soulweaver Gloves",
+            "appearsChest": "Obsidian Chest",
+            "odds": 1.1078,
+            "scoreRequired": 27080
+        },
+        "Necromancer Lord Helmet": {
+            "formattedName": "§6Necromancer Lord Helmet",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.4771,
+            "scoreRequired": 20310
+        },
+        "Sadan's Brooch": {
+            "formattedName": "§5Sadan's Brooch",
+            "appearsChest": "Emerald Chest",
+            "odds": 1.4771,
+            "scoreRequired": 20310
+        },
+        "Enchanted Book (Ultimate Jerry III)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 1.4771,
+            "scoreRequired": 20310
+        },
+        "Giant Tooth": {
+            "formattedName": "§5Giant Tooth",
+            "appearsChest": "Gold Chest",
+            "odds": 1.8464,
+            "scoreRequired": 16247
+        },
+        "Necromancer Lord Boots": {
+            "formattedName": "§6Necromancer Lord Boots",
+            "appearsChest": "Diamond Chest",
+            "odds": 2.2157,
+            "scoreRequired": 13540
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 4.4313,
+            "scoreRequired": 6770
+        },
+        "Enchanted Book (Swarm I)": {
+            "formattedName": "§aEnchanted Book (§d§lSwarm I§a)",
+            "appearsChest": "Gold Chest",
+            "odds": 5.5391,
+            "scoreRequired": 5415
+        },
+        "Enchanted Book (No Pain No Gain II)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 6.4623,
+            "scoreRequired": 4642
+        },
+        "Enchanted Book (Bank III)": {
+            "formattedName": "§aEnchanted Book (§d§lBank III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 6.4623,
+            "scoreRequired": 4642
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Obsidian Chest",
+            "odds": 7.3855,
+            "scoreRequired": 4061
+        },
+        "Enchanted Book (Combo II)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.3855,
+            "scoreRequired": 4061
+        },
+        "Enchanted Book (Wisdom II)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 8.3087,
+            "scoreRequired": 3610
+        },
+        "Enchanted Book (Ultimate Wise II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 12.1861,
+            "scoreRequired": 2461
+        },
+        "Enchanted Book (Rejuvenate III)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 14.0325,
+            "scoreRequired": 2137
+        },
+        "Enchanted Book (Last Stand II)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 14.0325,
+            "scoreRequired": 2137
+        }
+    },
+    "M7": {
+        "Necron Dye": {
+            "formattedName": "§6Necron Dye",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.0216,
+            "scoreRequired": 1389600
+        },
+        "Storm the Fish": {
+            "formattedName": "§cStorm the Fish",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.036,
+            "scoreRequired": 833760
+        },
+        "Maxor the Fish": {
+            "formattedName": "§cMaxor the Fish",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.036,
+            "scoreRequired": 833760
+        },
+        "Goldor the Fish": {
+            "formattedName": "§cGoldor the Fish",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.036,
+            "scoreRequired": 833760
+        },
+        "Dark Claymore": {
+            "formattedName": "§6Dark Claymore",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.072,
+            "scoreRequired": 416880
+        },
+        "Necron's Handle": {
+            "formattedName": "§5Necron's Handle",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1295,
+            "scoreRequired": 231599
+        },
+        "Enchanted Book (Thunderlord VII)": {
+            "formattedName": "§aEnchanted Book (Thunderlord VII§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1439,
+            "scoreRequired": 208440
+        },
+        "Master Skull - Tier 5": {
+            "formattedName": "§9Master Skull - Tier 5",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1727,
+            "scoreRequired": 173700
+        },
+        "Shadow Warp": {
+            "formattedName": "§5Shadow Warp",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1799,
+            "scoreRequired": 166752
+        },
+        "Wither Shield": {
+            "formattedName": "§5Wither Shield",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1799,
+            "scoreRequired": 166752
+        },
+        "Implosion": {
+            "formattedName": "§5Implosion",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.1799,
+            "scoreRequired": 166752
+        },
+        "Fifth Master Star": {
+            "formattedName": "§5Fifth Master Star",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.2159,
+            "scoreRequired": 138960
+        },
+        "Auto Recombobulator": {
+            "formattedName": "§6Auto Recombobulator",
+            "appearsChest": "Bedrock Chest",
+            "odds": 0.5757,
+            "scoreRequired": 52110
+        },
+        "Wither Chestplate": {
+            "formattedName": "§6Wither Chestplate",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.5757,
+            "scoreRequired": 52110
+        },
+        "Enchanted Book (One For All I)": {
+            "formattedName": "§aEnchanted Book (§d§lOne For All I§a)",
+            "appearsChest": "Obsidian Chest",
+            "odds": 0.5757,
+            "scoreRequired": 52110
+        },
+        "Wither Leggings": {
+            "formattedName": "§6Wither Leggings",
+            "appearsChest": "Emerald Chest",
+            "odds": 2.3028,
+            "scoreRequired": 13027
+        },
+        "Enchanted Book (Feather Falling VII)": {
+            "formattedName": "§aEnchanted Book (Feather Falling VII§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 2.3028,
+            "scoreRequired": 13027
+        },
+        "Fuming Potato Book": {
+            "formattedName": "§5Fuming Potato Book",
+            "appearsChest": "Obsidian Chest",
+            "odds": 2.8785,
+            "scoreRequired": 10422
+        },
+        "Wither Catalyst": {
+            "formattedName": "§9Wither Catalyst",
+            "appearsChest": "Gold Chest",
+            "odds": 2.8785,
+            "scoreRequired": 10422
+        },
+        "Enchanted Book (No Pain No Gain II)": {
+            "formattedName": "§aEnchanted Book (§d§lNo Pain No Gain II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 2.8785,
+            "scoreRequired": 10422
+        },
+        "Wither Cloak Sword": {
+            "formattedName": "§5Wither Cloak Sword",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.4542,
+            "scoreRequired": 8685
+        },
+        "Wither Helmet": {
+            "formattedName": "§6Wither Helmet",
+            "appearsChest": "Diamond Chest",
+            "odds": 3.4542,
+            "scoreRequired": 8685
+        },
+        "Wither Blood": {
+            "formattedName": "§5Wither Blood",
+            "appearsChest": "Emerald Chest",
+            "odds": 3.4542,
+            "scoreRequired": 8685
+        },
+        "Wither Boots": {
+            "formattedName": "§6Wither Boots",
+            "appearsChest": "Gold Chest",
+            "odds": 3.4542,
+            "scoreRequired": 8685
+        },
+        "Recombobulator 3000": {
+            "formattedName": "§6Recombobulator 3000",
+            "appearsChest": "Obsidian Chest",
+            "odds": 3.5982,
+            "scoreRequired": 8337
+        },
+        "Enchanted Book (Bank III)": {
+            "formattedName": "§aEnchanted Book (§d§lBank III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 3.5982,
+            "scoreRequired": 8337
+        },
+        "Enchanted Book (Wisdom II)": {
+            "formattedName": "§aEnchanted Book (§d§lWisdom II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 3.5982,
+            "scoreRequired": 8337
+        },
+        "Enchanted Book (Ultimate Jerry III)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Jerry III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 4.3178,
+            "scoreRequired": 6948
+        },
+        "Enchanted Book (Soul Eater I)": {
+            "formattedName": "§aEnchanted Book (§d§lSoul Eater I§a)",
+            "appearsChest": "Diamond Chest",
+            "odds": 5.7571,
+            "scoreRequired": 5211
+        },
+        "Hot Potato Book": {
+            "formattedName": "§5Hot Potato Book",
+            "appearsChest": "Gold Chest",
+            "odds": 5.7571,
+            "scoreRequired": 5211
+        },
+        "Enchanted Book (Ultimate Wise II)": {
+            "formattedName": "§aEnchanted Book (§d§lUltimate Wise II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 5.7571,
+            "scoreRequired": 5211
+        },
+        "Enchanted Book (Combo II)": {
+            "formattedName": "§aEnchanted Book (§d§lCombo II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.1963,
+            "scoreRequired": 4168
+        },
+        "Enchanted Book (Rejuvenate III)": {
+            "formattedName": "§aEnchanted Book (Rejuvenate III§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.1963,
+            "scoreRequired": 4168
+        },
+        "Enchanted Book (Last Stand II)": {
+            "formattedName": "§aEnchanted Book (§d§lLast Stand II§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.1963,
+            "scoreRequired": 4168
+        },
+        "Enchanted Book (Infinite Quiver VII)": {
+            "formattedName": "§aEnchanted Book (Infinite Quiver VII§a)",
+            "appearsChest": "Bedrock Chest",
+            "odds": 7.1963,
+            "scoreRequired": 4168
+        },
+        "Precursor Gear": {
+            "formattedName": "§5Precursor Gear",
+            "appearsChest": "Gold Chest",
+            "odds": 8.6356,
+            "scoreRequired": 3474
+        }
+    }
+}
