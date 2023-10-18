@@ -32,6 +32,7 @@ class Settings {
         this.addDependency("Ghost Tracker Location", "Ghost Tracker")
         this.addDependency("Trophy Fishing Tracker Location", "Trophy Fishing Tracker")
         this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
+        this.addDependency("RngMeter Location", "RngMeter")
     }
     // General
     @ButtonProperty({
@@ -338,6 +339,26 @@ class Settings {
     })
     action() {
         ChatLib.command("ragnarokAxeDisplay", true)
+
+    }
+
+    @SwitchProperty({
+        name: "RngMeter",
+        description: "Displays your current RNG Meter dungeons or slayers automatically detecting them",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    RngMeter = false;
+
+    @ButtonProperty({
+        name: "RngMeter Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changerngMeterDisplay() {
+        ChatLib.command("rngMeterDisplay", true)
 
     }
 }

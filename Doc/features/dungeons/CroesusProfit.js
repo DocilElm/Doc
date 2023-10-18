@@ -1,12 +1,12 @@
 import { addEvent } from "../../FeatureBase"
 import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
-import { getCroesusProfit, getJsonDataFromFile, mathTrunc } from "../../utils/Utils"
+import { getCroesusProfit, getJsonDataFromUrl, mathTrunc } from "../../utils/Utils"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/dungeonChestProfit/DungeonChestProfit.js
 
 const editGui = new ScalableGui("croesusProfit").setCommand("croesusProfitDisplay")
-const defaultData = getJsonDataFromFile("data/DefaultCroesusData.json")
+const defaultData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DefaultCroesusData.json")
 
 let chestItems = {}
 
@@ -49,6 +49,8 @@ editGui.onRender(() => {
     Object.keys(defaultData).forEach(chestName => {
         const chestProfit = defaultData[chestName].profit <= 0 ? `&c${mathTrunc(defaultData[chestName].profit)}` : `&a${mathTrunc(defaultData[chestName].profit)}`
         const items = defaultData[chestName].items
+
+        if(config.croesusProfitMode === 1) return defStr += `\n&b- ${chestName}\n&b - Profit&f: ${chestProfit}\n`
         
         defStr += `\n&b- ${chestName}\n${items.join("\n")}\n&b - Profit&f: ${chestProfit}\n`
     })

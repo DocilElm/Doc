@@ -1,5 +1,5 @@
 import { ChestMenu } from "../../../ChestMenu/index"
-import { PREFIX, chat, getJsonDataFromFile } from "../../utils/Utils"
+import { PREFIX, chat, getJsonDataFromFile, saveToFile } from "../../utils/Utils"
 
 const inventoryLogs = getJsonDataFromFile("data/InventoryLogs.json", [])
 
@@ -49,7 +49,7 @@ register("command", (type, ...args) => {
 
         inventoryLogs.splice(index, 1)
 
-        FileLib.write("Doc", "data/InventoryLogs.json", JSON.stringify(inventoryLogs, null, 4))
+        saveToFile("data/InventoryLogs.json", inventoryLogs)
         chat(`${PREFIX} &aSuccessfully removed &c${args.join(" ")} &afrom inventory logs`)
         return
     }
@@ -61,7 +61,7 @@ register("command", (type, ...args) => {
         inventory: makeInvObj()
     })
     else logsObj.inventory = makeInvObj()
-
-    FileLib.write("Doc", "data/InventoryLogs.json", JSON.stringify(inventoryLogs, null, 4))
+    
+    saveToFile("data/InventoryLogs.json", inventoryLogs)
     chat(`${PREFIX} &aSuccessfully added &6${args.join(" ")} &ato inventory logs`)
 }).setName("invlogs")

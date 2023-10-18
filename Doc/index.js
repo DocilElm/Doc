@@ -12,7 +12,6 @@ import "./features/dungeons/CroesusClicks"
 import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
 import "./features/dungeons/BossSplits"
-import "./features/dungeons/M7DragSplits"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
@@ -31,7 +30,9 @@ import "./features/trackers/GhostsTracker"
 import "./features/trackers/TrophyFishingTracker"
 import "./features/trackers/PowderTracker"
 //Misc
-import "./features/misc/RagAxeTimer.js"
+import "./features/misc/RagAxeTimer"
+import "./features/misc/RngMeter"
+import "./features/misc/RngMeterScanner"
 
 register("command", () => config.openGUI()).setName("doc")
 

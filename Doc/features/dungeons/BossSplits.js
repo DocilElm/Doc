@@ -1,12 +1,12 @@
 import { addEvent } from "../../FeatureBase"
 import { onChatPacket } from "../../classes/Events"
 import ScalableGui from "../../classes/ScalableGui"
-import { entryMessages, getJsonDataFromFile, getScoreboard, getSeconds, isInTab } from "../../utils/Utils"
+import { entryMessages, getJsonDataFromUrl, getScoreboard, getSeconds, isInTab } from "../../utils/Utils"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/RunSplits.js
 
 const editGui = new ScalableGui("bossSplits").setCommand("bossSplitsDisplay")
-const bossSplits = getJsonDataFromFile("data/BossSplits.json")
+const bossSplits = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BossSplits.json")
 const f7BossNames = new Set(["Maxor", "Storm", "Goldor", "Necron"])
 
 let currentFloor = null

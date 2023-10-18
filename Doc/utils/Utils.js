@@ -19,6 +19,7 @@ export const data = new PogObject("Doc", {
     ghostTracker: {x: 10, y: 10, scale: 1},
     trophyFishingTracker: {x: 10, y: 10, scale: 1},
     powderTracker: {x: 10, y: 10, scale: 1},
+    rngMeter: {x: 10, y: 10, scale: 1, dungeonsData: {}, slayersData: {}},
     apiCheckTime: null,
     firstTime: true
 }, "data/.data.json")
@@ -29,6 +30,7 @@ export const BossStatus = Java.type("net.minecraft.entity.boss.BossStatus")
 
 export const C08PacketPlayerBlockPlacement = Java.type("net.minecraft.network.play.client.C08PacketPlayerBlockPlacement")
 export const C0EPacketClickWindow = Java.type("net.minecraft.network.play.client.C0EPacketClickWindow")
+export const C0DPacketCloseWindow = Java.type("net.minecraft.network.play.client.C0DPacketCloseWindow")
 
 export const S02PacketChat = Java.type("net.minecraft.network.play.server.S02PacketChat")
 export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
@@ -122,6 +124,10 @@ export const trophyFishColors = {
     "Karate Fish": "&5",
     "Golden Fish": "&6"
 }
+
+export const romanNumerals = {M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1}
+
+export const slayerGuiNames = new Set(["Slayer", "Revenant Horror", "Tarantula Broodfather", "Sven Packmaster", "Voidgloom Seraph", "Inferno Demonlord", "Riftstalker Bloodfiend"])
 
 export const chat = (msg) => ChatLib.chat(msg)
 export const chatid = (msg, id) => new Message(msg).setChatLineId(id).chat()
@@ -221,6 +227,76 @@ export const bossRoomId = new Set([
 ])
 export const isInBoss = () => getScoreboard().some(line => bossRoomId.has(line.match(/^[\d\/]+ [\w\d]+ ([-\d\w,]+)$/)?.[1]))
 export const isDoublePowderEvent = () => /^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/.test(BossStatus?.field_82827_c?.removeFormatting()) && BossStatus?.field_82827_c?.removeFormatting()?.match(/^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/)?.[2] >= 1
+export const convertToRoman = (num) => {
+    let result = ""
+  
+    for (let key in romanNumerals) {
+      while (num >= romanNumerals[key]) {
+        result += key;
+        num -= romanNumerals[key];
+      }
+    }
+  
+    return result
+}
+
+export const createDungeonsMeter = (floorName, score, itemName) => {
+    if(!floorName) return
+
+    data.rngMeter.dungeonsData[floorName] = {
+        selectedDrop: itemName,
+        score: score ?? 0
+    }
+    data.save()
+}
+
+/**
+ * 
+ * @param {string} floorName The floor name which you want to save the data to
+ * @param {string} itemName The item name that you want to save
+ * @param {number} score The score that you want to save
+ * @param {string} type The type of data to save. opts: "item", "score"
+ * @returns 
+ */
+export const setDungeonsMeter = (floorName, itemName, score, type = "item") => {
+    if(!data.rngMeter.dungeonsData[floorName]) return createDungeonsData(floorName, score, itemName)
+    if(type === "item" && !itemName) return data.rngMeter.dungeonsData[floorName].selectedDrop = null, data.save()
+    if(type === "score" && !score) return data.rngMeter.dungeonsData[floorName].score = null, data.save()
+
+    if(type === "item") return data.rngMeter.dungeonsData[floorName].selectedDrop = itemName, data.save()
+
+    data.rngMeter.dungeonsData[floorName].score = score
+    data.save()
+}
+
+export const createSlayersMeter = (slayerName, score, itemName) => {
+    if(!slayerName) return
+
+    data.rngMeter.slayersData[slayerName] = {
+        selectedDrop: itemName,
+        score: score ?? 0
+    }
+    data.save()
+}
+
+/**
+ * 
+ * @param {string} slayerName The slayer name which you want to save the data to
+ * @param {string} itemName The item name that you want to save
+ * @param {number} score The score that you want to save
+ * @param {string} type The type of data to save. opts: "item", "score"
+ * @returns 
+ */
+export const setSlayersMeter = (slayerName, itemName, score, type = "item") => {
+    if(!data.rngMeter.slayersData[slayerName]) return createSlayersMeter(slayerName, score, itemName)
+    if(type === "item" && !itemName) return data.rngMeter.slayersData[slayerName].selectedDrop = null, data.save()
+    if(type === "score" && !score) return data.rngMeter.slayersData[slayerName].score = null, data.save()
+
+    if(type === "item") return data.rngMeter.slayersData[slayerName].selectedDrop = itemName, data.save()
+
+    data.rngMeter.slayersData[slayerName].score = score
+    data.save()
+}
 
 // api stuff
 
@@ -234,11 +310,25 @@ export const printError = (error) => hover(`${PREFIX} &cError Getting Data`, JSO
  * @param {object} dataToSave The object to be saved as json format
  * @param {boolean} recursive Whether to create folders to the file location if they don't exist
  */
-const saveToFile = (fileName, dataToSave = {}, recursive = true) => {
+export const saveToFile = (fileName, dataToSave = {}, recursive = true) => {
     FileLib.write("Doc", fileName, JSON.stringify(dataToSave), recursive)
 }
 
+/**
+ * 
+ * @param {string} fileName The file name to fetch for
+ * @param {*} type The type to return if the file is not found e.g [] or {}
+ * @returns 
+ */
 export const getJsonDataFromFile = (fileName, type = {}) => JSON.parse(FileLib.read("Doc", fileName)) ?? type
+
+/**
+ * 
+ * @param {string} url The url to fetch for
+ * @param {*} type The type to return if the file is not found e.g [] or {}
+ * @returns 
+ */
+export const getJsonDataFromUrl = (url, type = {}) => JSON.parse(FileLib.getUrlContent(url)) ?? type
 
 const refreshLbApi = () => {
     if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
