@@ -1,10 +1,10 @@
 {
     "Riftstalker Bloodfiend": {
-        "Enchanted Book Bundle": {
-            "formattedName": "§6Enchanted Book Bundle",
-            "minimumTier": 5,
-            "odds": 1.7964,
-            "scoreRequired": 12525
+        "Quantum Bundle": {
+            "formattedName": "§aEnchanted Book Bundle",
+            "minimumTier": 2,
+            "odds": 13.3333,
+            "scoreRequired": 1687
         },
         "◆ Soultwist Rune I": {
             "formattedName": "§5◆ Soultwist Rune I",
@@ -41,6 +41,12 @@
             "minimumTier": 4,
             "odds": 1.2195,
             "scoreRequired": 18450
+        },
+        "The One Bundle": {
+            "formattedName": "§6Enchanted Book Bundle",
+            "minimumTier": 5,
+            "odds": 1.7964,
+            "scoreRequired": 12525
         }
     },
     "Revenant Horror": {
