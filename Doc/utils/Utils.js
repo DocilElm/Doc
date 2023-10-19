@@ -240,7 +240,7 @@ export const convertToRoman = (num) => {
     return result
 }
 
-export const createDungeonsMeter = (floorName, score, itemName) => {
+export const createDungeonsMeter = (floorName, score = null, itemName = null) => {
     if(!floorName) return
 
     data.rngMeter.dungeonsData[floorName] = {
@@ -259,7 +259,7 @@ export const createDungeonsMeter = (floorName, score, itemName) => {
  * @returns 
  */
 export const setDungeonsMeter = (floorName, itemName, score, type = "item") => {
-    if(!data.rngMeter.dungeonsData[floorName]) return createDungeonsData(floorName, score, itemName)
+    if(!data.rngMeter.dungeonsData[floorName]) return createDungeonsMeter(floorName, score, itemName)
     if(type === "item" && !itemName) return data.rngMeter.dungeonsData[floorName].selectedDrop = null, data.save()
     if(type === "score" && !score) return data.rngMeter.dungeonsData[floorName].score = null, data.save()
 
@@ -269,7 +269,7 @@ export const setDungeonsMeter = (floorName, itemName, score, type = "item") => {
     data.save()
 }
 
-export const createSlayersMeter = (slayerName, score, itemName) => {
+export const createSlayersMeter = (slayerName, score = null, itemName = null) => {
     if(!slayerName) return
 
     data.rngMeter.slayersData[slayerName] = {

@@ -1,7 +1,7 @@
 import { addEvent } from "../../FeatureBase"
 import { onChatPacket } from "../../classes/Events"
 import ScalableGui from "../../classes/ScalableGui"
-import { data, getJsonDataFromUrl, getScoreboard, isInTab, mathTrunc, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
+import { PREFIX, createDungeonsMeter, createSlayersMeter, data, getJsonDataFromUrl, getScoreboard, isInTab, mathTrunc, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
 
 const DungeonsMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DungeonsMeterData.json")
 const SlayersMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/SlayersMeterData.json")
@@ -44,17 +44,42 @@ addEvent("RngMeter", "Misc", register("renderOverlay", () => {
 }), null, [
     onChatPacket((amount) => {
         setSlayersMeter(currValue, null, parseFloat(amount.replace(/,/g, "")), "score")
+
+        const selectedDrop = data.rngMeter.slayersData[currValue]?.selectedDrop
+        if(data.rngMeter.slayersData[currValue]?.score <= SlayersMeterData[currValue]?.[selectedDrop]?.scoreRequired) return
+
+        Client.showTitle("&cRNG Meter Max!", PREFIX, 10, 40, 10)
+        World.playSound("random.successful_hit", 1, 1)
     }).setCriteria(/^   RNG Meter \- ([\d,]+) Stored XP$/),
     
     onChatPacket((score, rank) => {
         if(!addScore || !["S", "S+"].includes(rank)) return
     
         const actualScore = rank === "S" ? Math.floor(parseInt(score)*0.7) : parseInt(score)
-        const savedScore = data.rngMeter.dungeonsData[currValue].score
+        const savedScore = data.rngMeter.dungeonsData[currValue]?.score
     
         setDungeonsMeter(currValue, null, savedScore+actualScore, "score")
         addScore = false
-    }).setCriteria(/^ *Team Score: (\d+) \(([\w\+]{1,2})\)$/)
+    }).setCriteria(/^ *Team Score: (\d+) \(([\w\+]{1,2})\)$/),
+
+    onChatPacket((m, itemName) => {
+        if(!currValue || data.rngMeter.dungeonsData[currValue]?.selectedDrop !== itemName) return
+    
+        createDungeonsMeter(currValue)
+    }).setCriteria(/^    (RARE REWARD\! )?(.+)$/),
+    onChatPacket((drop) => {
+        if(!drop.includes(data.rngMeter.slayersData[currValue]?.selectedDrop)) return
+
+        createSlayersMeter(currValue)
+    }).setCriteria(/^[\w ]+ DROP\! \(([\w\d\(\)'◆ ]+)\)(?: \(\+(\d+)% ✯ Magic Find\))?$/),
+
+    onChatPacket(() => {
+        const selectedDrop = data.rngMeter.dungeonsData[currValue]?.selectedDrop
+        if(data.rngMeter.dungeonsData[currValue]?.score <= DungeonsMeterData[currValue]?.[selectedDrop]?.scoreRequired) return
+
+        Client.showTitle("&cRNG Meter Max!", PREFIX, 10, 40, 10)
+        World.playSound("random.successful_hit", 1, 1)
+    }).setCriteria(/^Starting in [\d] seconds\.$/)
 ])
 
 editGui.onRender(() => editGui.renderString(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`))

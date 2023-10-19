@@ -18,7 +18,9 @@ onChatPacket((slayerName) => {
 }).setCriteria(/^You reset your selected drop for your ([\w ]+) RNG Meter!$/)
 
 onChatPacket((slayerName, selectedDrop, event, formatted) => {
-    if(selectedDrop === "Enchanted Book Bundle") print(formatted)
+    // split() yep
+    if(selectedDrop === "Enchanted Book Bundle" && formatted.split("to drop ")?.[1]?.startsWith("§r§6")) selectedDrop = "The One Bundle"
+    else if(selectedDrop === "Enchanted Book Bundle" && formatted.split("to drop ")?.[1]?.startsWith("§r§a")) selectedDrop = "Quantum Bundle"
 
     setSlayersMeter(slayerName, selectedDrop)
 }).setCriteria(/^You set your ([\w ]+) RNG Meter to drop ([\w\d\(\)'◆ ]+)\!$/)
