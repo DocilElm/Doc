@@ -6,9 +6,7 @@ import PogObject from "PogData"
 export const PREFIX = "&0[&4Doc&0]&r"
 
 export const data = new PogObject("Doc", {
-    settings: {
-        keybinds: {}
-    },
+    settings: {keybinds: {}},
     ragaxecd: {x: 10, y: 10, scale: 1},
     miningProfit: {x: 10, y: 10, scale: 1},
     visitorProfit: {x: 10, y: 10, scale: 1},
@@ -20,6 +18,7 @@ export const data = new PogObject("Doc", {
     trophyFishingTracker: {x: 10, y: 10, scale: 1},
     powderTracker: {x: 10, y: 10, scale: 1},
     rngMeter: {x: 10, y: 10, scale: 1, dungeonsData: {}, slayersData: {}},
+    fatalTempo: {x: 10, y: 10, scale: 1},
     apiCheckTime: null,
     firstTime: true
 }, "data/.data.json")
@@ -37,7 +36,7 @@ export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.
 export const S3EPacketTeams = Java.type("net.minecraft.network.play.server.S3EPacketTeams")
 export const S38PacketPlayerListItem = Java.type("net.minecraft.network.play.server.S38PacketPlayerListItem")
 export const S47PacketPlayerListHeaderFooter = Java.type("net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter")
-
+export const S30PacketWindowItems = Java.type("net.minecraft.network.play.server.S30PacketWindowItems")
 
 export const rareGardenItems = {
     "Flowering Bouquet": "FLOWERING_BOUQUET",
@@ -142,6 +141,7 @@ export const getScoreboard = (descending = false) => Scoreboard.getLines(descend
 
 export const getSkyblockId = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.id
 export const getChampion = (item) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.champion_combat_xp
+export const getExtraAttribute = (item, attribute) => item?.getNBT()?.toObject()?.tag?.ExtraAttributes?.enchantments?.[attribute]
 export const isInScoreboard = (str) => getScoreboard().some(a => a.includes(str))
 export const isInTab = (str) => TabList.getNames()?.find(names => names.removeFormatting()?.match(/^Area|Dungeon: ([\w\d ]+)$/))?.includes(str)
 export const getSubArea = (currentWorld) => currentWorld?.includes("The Rift") ? Scoreboard.getLines()?.find(f => f?.getName()?.removeFormatting()?.match(/ ф (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "") : Scoreboard.getLines()?.find(f => f?.getName()?.removeFormatting()?.match(/ ⏣ (.+)/))?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "")

@@ -75,7 +75,7 @@ addEvent("RngMeter", "Misc", register("renderOverlay", () => {
 
     onChatPacket(() => {
         const selectedDrop = data.rngMeter.dungeonsData[currValue]?.selectedDrop
-        if(data.rngMeter.dungeonsData[currValue]?.score <= DungeonsMeterData[currValue]?.[selectedDrop]?.scoreRequired) return
+        if(data.rngMeter.dungeonsData[currValue]?.score <= DungeonsMeterData[currValue]?.[selectedDrop]?.scoreRequired || !isInTab("Catacombs")) return
 
         Client.showTitle("&cRNG Meter Max!", PREFIX, 10, 40, 10)
         World.playSound("random.successful_hit", 1, 1)

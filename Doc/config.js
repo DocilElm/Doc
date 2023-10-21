@@ -10,7 +10,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer", "Tracker" , "Misc"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer", "Tracker", "Kuudra", "Misc"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -33,6 +33,7 @@ class Settings {
         this.addDependency("Trophy Fishing Tracker Location", "Trophy Fishing Tracker")
         this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
         this.addDependency("RngMeter Location", "RngMeter")
+        this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
     }
     // General
     @ButtonProperty({
@@ -319,6 +320,26 @@ class Settings {
     })
     changepowderDisplayLocation() {
         ChatLib.command("powderDisplayLocation", true);
+    }
+
+    // Kuudra
+    @SwitchProperty({
+        name: "Fatal Tempo Display",
+        description: "Displays your current fatal tempo time, hits and percent",
+        category: "Kuudra",
+        subcategory: "Kuudra"
+    })
+    ftDisplay = false;
+
+    @ButtonProperty({
+        name: "Fatal Tempo Display Location",
+        description: "Changes The Display Location",
+        category: "Kuudra",
+        subcategory: "Kuudra",
+        placeholder: "Change"
+    })
+    changefatalTempoDisplay() {
+        ChatLib.command("fatalTempoDisplay", true);
     }
 
     //Misc
