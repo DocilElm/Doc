@@ -26,7 +26,16 @@ addEvent("ftDisplay", "Kuudra", register("soundPlay", (pos, name, vol, pitch, ca
         const ftPercent = getFtPercent() >= 200 ? 200 : getFtPercent()
     
         editGui.renderString(`&cFatal Tempo&f: &6${ftTime}s &7(Hits: ${mathTrunc(hitsAmount)} ${ftPercent}%)`)
-    })
+    }),
+
+    register("soundPlay", (pos, name, vol, pitch, category, event) => {
+        const heldItem = Player.getHeldItem()
+        if(!heldItem || getSkyblockId(heldItem) !== "TERMINATOR" || !getExtraAttribute(heldItem, "ultimate_fatal_tempo")) return
+
+        ftLvl = getExtraAttribute(heldItem, "ultimate_fatal_tempo")
+        hitsAmount++
+        lastHit = Date.now()
+    }).setCriteria("tile.piston.out")
 ], "Kuudra")
 
 editGui.onRender(() => {

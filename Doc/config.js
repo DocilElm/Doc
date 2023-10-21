@@ -325,7 +325,7 @@ class Settings {
     // Kuudra
     @SwitchProperty({
         name: "Fatal Tempo Display",
-        description: "Displays your current fatal tempo time, hits and percent",
+        description: "Displays your current fatal tempo time, hits and percent §4Might not be 100% accurate especially in last phase of kuudra t5 since it uses the terror stack's sounds",
         category: "Kuudra",
         subcategory: "Kuudra"
     })
