@@ -31,6 +31,7 @@ import "./features/trackers/TrophyFishingTracker"
 import "./features/trackers/PowderTracker"
 // Kuudra
 import "./features/kuudra/FatalTempoDisplay"
+import "./features/kuudra/CratesWaypoints"
 //Misc
 import "./features/misc/RagAxeTimer"
 import "./features/misc/RngMeter"

@@ -342,6 +342,14 @@ class Settings {
         ChatLib.command("fatalTempoDisplay", true);
     }
 
+    @SwitchProperty({
+        name: "Crates Waypoints",
+        description: "Draws a beacon beam like waypoint for every kuudra crate",
+        category: "Kuudra",
+        subcategory: "Kuudra"
+    })
+    cratesWaypoints = false;
+
     //Misc
     @SwitchProperty({
         name: "Ragnarok Axe Cooldown Timer",
