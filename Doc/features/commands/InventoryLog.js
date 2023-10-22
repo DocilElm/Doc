@@ -1,12 +1,12 @@
 import { ChestMenu } from "../../../ChestMenu/index";
 import { PREFIX, getJsonDataFromFile, saveToFile } from "../../utils/Utils";
 
-const inventoryLogs = getJsonDataFromFile("data/InventoryLogs.json", {});
+let inventoryLogs = getJsonDataFromFile("data/InventoryLogs.json");
 
 function logCurrentInventory() {
     const inventory = {};
 
-    Player.getInventory()?.getItems()?.forEach((item, slot) => {
+    Player.getInventory()?.getItems()?.splice(0, 36)?.forEach((item, slot) => {
         if (!item?.getNBT()) return;
 
         inventory[slot] = NBT.toObject(item.getNBT());
@@ -18,6 +18,14 @@ function logCurrentInventory() {
 register("command", (command, ...name) => {
     // Format the command to be lower case incase of a misstype
     command = command?.toLowerCase();
+
+    // Delete the old json data so it dosen't break the code
+    if(!!inventoryLogs?.[0] && inventoryLogs?.[0]?.name) {
+        FileLib.delete("Doc", "data/InventoryLogs.json")
+        ChatLib.chat(`\n${PREFIX} §cDetected old config files\n§7Deleting §cInventoryLogs §7please re-type the command`)
+        inventoryLogs = getJsonDataFromFile("data/InventoryLogs.json")
+        return
+    }
 
     if (!command) return ChatLib.chat(`
 ${PREFIX} §cIncorrect command, try one of the following:
