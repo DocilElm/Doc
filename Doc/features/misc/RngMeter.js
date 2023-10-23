@@ -1,32 +1,58 @@
 import { addEvent } from "../../FeatureBase"
 import { onChatPacket } from "../../classes/Events"
 import ScalableGui from "../../classes/ScalableGui"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
 import { PREFIX, createDungeonsMeter, createSlayersMeter, data, getJsonDataFromUrl, getScoreboard, isInTab, mathTrunc, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
 
+// Constant variables
 const DungeonsMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DungeonsMeterData.json")
 const SlayersMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/SlayersMeterData.json")
 const editGui = new ScalableGui("rngMeter").setCommand("rngMeterDisplay")
+const feature = new Feature("RngMeter", "Misc", "")
 
+// Changeable variabels
 let strToDraw = ""
 let currValue = null
 let addScore = true
 
+// Logic
 const makeStrToDraw = (jsonData, dataType, currentValue) => {
     if(!currentValue) return
     currValue = currentValue
 
-    const selectedDrop = data.rngMeter[dataType][currentValue].selectedDrop
+    const selectedDrop = data.rngMeter?.[dataType]?.[currentValue]?.selectedDrop
     if(!selectedDrop) return strToDraw = `&cNo Rng selected for &6${currentValue}`
 
-    const score = data.rngMeter[dataType][currentValue].score
-    const requiredScore = jsonData[currentValue][selectedDrop].scoreRequired
-    const formatName = jsonData[currentValue][selectedDrop].formattedName
+    const score = data.rngMeter[dataType]?.[currentValue]?.score
+    const requiredScore = jsonData[currentValue]?.[selectedDrop]?.scoreRequired
+    const formatName = jsonData[currentValue]?.[selectedDrop]?.formattedName
     const formatColor = score >= requiredScore ? "&6" : "&7"
     const progress = ((score/requiredScore)*100).toFixed(2)
 
     strToDraw = `${formatName}&f: ${formatColor}${mathTrunc(score)}&b/&6${mathTrunc(requiredScore)} ${formatColor}(${progress >= 100 ? 100 : progress}%)`
 }
 
+const renderHandler = () => {
+    if(isInTab("Catacombs")) getScoreboard().forEach(a => {
+        if(!/^  The Catacombs \(([\w\d].{1,2})\)$/.test(a)) return
+        makeStrToDraw(DungeonsMeterData, "dungeonsData", a.match(/^  The Catacombs \(([\w\d].{1,2})\)$/)[1])
+    })
+    else getScoreboard().forEach(line => {
+        if(!/([\w ]+) [IV]+$/.test(line)) return
+
+        makeStrToDraw(SlayersMeterData, "slayersData", line.match(/([\w ]+) [IV]+$/)[1])
+    })
+
+    editGui.renderString(strToDraw)
+}
+
+// Events
+new Event(feature, "renderOverlay", renderHandler, () => World.isLoaded())
+
+feature.start()
+
+/*
 addEvent("RngMeter", "Misc", register("renderOverlay", () => {
     if(!World.isLoaded()) return
 
@@ -84,4 +110,4 @@ addEvent("RngMeter", "Misc", register("renderOverlay", () => {
 
 editGui.onRender(() => editGui.renderString(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`))
 
-register("worldUnload", () => addScore = true)
+register("worldUnload", () => addScore = true)*/

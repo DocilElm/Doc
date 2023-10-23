@@ -33,8 +33,8 @@ import "./features/kuudra/CratesWaypoints"
 //Misc
 import "./features/misc/CreeperAlert"
 // import "./features/misc/RagAxeTimer"
-// import "./features/misc/RngMeter"
-// import "./features/misc/RngMeterScanner"
+import "./features/misc/RngMeter"
+import "./features/misc/RngMeterScanner"
 
 register("command", () => config.openGUI()).setName("doc")
 
