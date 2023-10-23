@@ -1,36 +1,47 @@
 import renderBeaconBeam from "../../../BeaconBeam"
-import { addEvent } from "../../FeatureBase"
 import { onChatPacket } from "../../classes/Events"
-import { EntityGiantZombie } from "../../utils/Utils"
+import { Feature } from "../../core/Feature";
+import { WorldManager } from "../../utils/World";
 
-let crates = []
-let toggle = true
+// Constant variables
+const feature = new Feature("Crates Waypoints", "Kuudra", "");
+const entityType = net.minecraft.entity.monster.EntityGiantZombie;
+const chatCriteria = /^\[NPC\] Elle\: OMG\! Great work collecting my supplies\!$/;
+const world = "Kuudra";
 
-addEvent("cratesWaypoints", "Kuudra", register("step", () => {
-    if(!World.isLoaded() || !toggle) return
+// Changeable variabels
+let crates = [];
+let toggle = true;
 
-    crates = World.getAllEntitiesOfType(EntityGiantZombie).filter(a => a.getY() < 67).map(entity => {
-        const entityYaw = entity.getYaw()
-        const x = entity.getX() + 5 * Math.cos((entityYaw + 130) * (Math.PI / 180))
-        const z = entity.getZ() + 5 * Math.sin((entityYaw + 130) * (Math.PI / 180))
+// Checks
+const checkWorldAndToggle = () => WorldManager.getCurrentWorld() === world && World.isLoaded() && toggle;
+const checkToggleAndCrates = () => toggle && crates && World.isLoaded();
 
-        return [x, z]
-    })
-}).setFps(5), null, [
-    onChatPacket(() => {
-        toggle = false
-    }).setCriteria(/^\[NPC\] Elle\: OMG\! Great work collecting my supplies\!$/),
+// Logic
+function getCrates() {
+    crates = World.getAllEntitiesOfType(entityType)
+        .filter(entity => entity.getY() < 67)
+        .map(entity => [
+            // Get the X and Y position of the crates
+            entity.getX() + 5 * Math.cos((entity.getYaw() + 130) * (Math.PI / 180)), 
+            entity.getZ() + 5 * Math.sin((entity.getYaw() + 130) * (Math.PI / 180))
+        ]);
+}
 
-    register("renderWorld", () => {
-        if(!World.isLoaded() || !crates || !toggle) return
-    
-        crates.forEach(entity => {
-            renderBeaconBeam(entity[0], 75, entity[1], 255/255, 0/255, 255/255, 1, true)
-        })
-    })
-], "Kuudra")
+function renderCrates() {
+    crates.forEach(entity => renderBeaconBeam(entity[0], 75, entity[1], 255/255, 0/255, 255/255, 1, true));
+}
 
-register("worldUnload", () => {
-    crates = []
-    toggle = true
-})
+function resetVariabels() {
+    crates = [];
+    toggle = true;
+}
+
+// Events
+new Event(feature, "step", getCrates, checkWorldAndToggle, [5]);
+new Event(feature, "renderWorld", renderCrates, checkToggleAndCrates);
+new Event(feature, "worldUnload", resetVariabels);
+
+onChatPacket(() => toggle = false).setCriteria(chatCriteria);
+
+feature.start();
