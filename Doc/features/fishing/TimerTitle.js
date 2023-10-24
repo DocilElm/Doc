@@ -1,11 +1,19 @@
-import { addEvent } from "../../FeatureBase"
 import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
 import { EntityArmorStand } from "../../utils/Utils"
 
 // Credits: https://github.com/EragonTheGuy/NetherFishingUtils/blob/testing/NetherFishingUtils/index.js
 
-addEvent("timerTitleFishing", "Fishing", register("step", () => {
-    if(!World.isLoaded() || !Player.getPlayer().field_71104_cf) return
+// Constant variables
+const feature = new Feature("timerTitleFishing", "Fishing", "")
+
+// World checks
+const checkWorld = () => World.isLoaded()
+
+// Events
+new Event(feature, "step", () => {
+    if(!Player.getPlayer().field_71104_cf) return
 
     World.getAllEntitiesOfType(EntityArmorStand).forEach(entity => {
         const entityName = entity.getName()?.removeFormatting()
@@ -16,4 +24,7 @@ addEvent("timerTitleFishing", "Fishing", register("step", () => {
 
         Client.showTitle("", entity.getName(), 1, 10, 1)
     })
-}).setFps(5), null, [])
+}, checkWorld, [5])
+
+// Starting events
+feature.start()

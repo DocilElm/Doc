@@ -1,12 +1,15 @@
-import { addEvent } from "../../FeatureBase"
-import { S02PacketChat, isInTab } from "../../utils/Utils"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { WorldManager } from "../../utils/World"
 
-addEvent("showExtraStats", "Dungeon", register("packetReceived", (packet, event) => {
-    if(!isInTab("Catacombs")) return
+// Constant variables
+const feature = new Feature("showExtraStats", "Dungeons", "")
+const requiredWorld = "Catacombs"
 
-    const currentMessage = new Message(packet.func_148915_c()).getFormattedText().removeFormatting()
+// World checks
+const checkWorld = () => WorldManager.getCurrentWorld() === requiredWorld && World.isLoaded()
 
-    if(currentMessage !== "                             > EXTRA STATS <") return
-
+// Events
+new Event(feature, "onChatPacket", () => {
     ChatLib.command("showextrastats")
-}).setFilteredClass(S02PacketChat), null, [], "Catacombs")
+}, checkWorld, "                             > EXTRA STATS <")
