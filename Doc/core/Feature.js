@@ -16,7 +16,7 @@ export class Feature {
 
         this.events.forEach(event => {
             // Start creating events
-            const customRegister = FeatureManager.customTriggers.get(event.eventName)
+            const customRegister = FeatureManager.customTriggers.get(event.eventName.toLowerCase())
 
             // If the custom trigger doesn't exist, switch to vanilla triggers
             if (!customRegister) event._register = register(event.eventName, event.eventFunction).unregister()

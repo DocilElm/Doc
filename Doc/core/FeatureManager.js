@@ -19,7 +19,7 @@ export default new class FeatureManager {
     }
 
     createCustomEvent(eventName, invokeFn) {
-        this.customTriggers.set(eventName, this.invoke)
+        this.customTriggers.set(eventName.toLowerCase(), this.invoke)
         // This allows for chaining
         return this
     }
