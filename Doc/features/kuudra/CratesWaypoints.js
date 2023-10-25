@@ -2,7 +2,7 @@ import renderBeaconBeam from "../../../BeaconBeam"
 import { onChatPacket } from "../../classes/Events"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
-import { WorldManager } from "../../utils/World"
+import { WorldState } from "../../shared/World"
 
 // Constant variables
 const feature = new Feature("Crates Waypoints", "Kuudra", "")
@@ -15,7 +15,7 @@ let crates = []
 let toggle = true
 
 // Checks
-const checkWorldAndToggle = () => WorldManager.getCurrentWorld() === world && World.isLoaded() && toggle
+const checkWorldAndToggle = () => WorldState.getCurrentWorld() === world && World.isLoaded() && toggle
 const checkToggleAndCrates = () => toggle && crates && World.isLoaded()
 
 // Logic
@@ -41,4 +41,5 @@ new Event(feature, "worldUnload", resetVariabels)
 
 onChatPacket(() => toggle = false).setCriteria(chatCriteria)
 
+// Starting events
 feature.start()

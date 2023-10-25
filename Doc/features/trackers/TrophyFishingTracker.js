@@ -1,8 +1,8 @@
 import ScalableGui from "../../classes/ScalableGui"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { WorldState } from "../../shared/World"
 import { trophyFishColors, trophyTypeColors } from "../../utils/Utils"
-import { WorldManager } from "../../utils/World"
 
 // Constant variables
 const editGui = new ScalableGui("trophyFishingTracker").setCommand("trophyDisplayLocation")
@@ -13,7 +13,7 @@ const requiredWorld = "Crimson Isle"
 let fishesCaught = {}
 
 // World checks
-const checkWorld = () => WorldManager.getCurrentWorld() === requiredWorld && World.isLoaded()
+const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
 
 // Default display
 editGui.onRender(() => editGui.renderString(["&9Vanille&f: &80 &70 &60 &b0", "&5Karate Fish&f: &80 &70 &60 &b0"].join("\n")))

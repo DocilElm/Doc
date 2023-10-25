@@ -1,5 +1,3 @@
-import config from "../config"
-
 export default new class FeatureManager {
     constructor() {
         this.features = []
@@ -9,10 +7,13 @@ export default new class FeatureManager {
     }
 
     registerWhenStepFn() {
-        // This loops through the map gathering the [featureEventArray, featureName]
-        // which then it's used to register/unregister events and check for config
-        this.conditionalTriggers.forEach((featureEvents, featureName) => 
-            featureEvents.forEach(event => event.registerWhen() && config[featureName] ? event._register.register() : event._register.unregister())
+        // This loops over the conditional events which are stored in an array per feature
+        this.conditionalTriggers.forEach(
+            featureEvents => featureEvents.forEach(
+                // If the register when is true, register the event
+                // else unregister the event
+                event => event.registerWhen() ? event._register.register() : event._register.unregister()
+            )
         )
     }
 }

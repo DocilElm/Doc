@@ -1,8 +1,8 @@
 import RenderLib from "../../../RenderLib"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { WorldState } from "../../shared/World"
 import { EntityArmorStand } from "../../utils/Utils"
-import { WorldManager } from "../../utils/World"
 
 // Constant variables
 const feature = new Feature("mobESP", "Dungeons", "")
@@ -12,7 +12,7 @@ const requiredWorld = "Catacombs"
 let mobsArray = []
 
 // World checks
-const checkWorld = () => WorldManager.getCurrentWorld() === requiredWorld && World.isLoaded()
+const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
 
 // Events
 new Event(feature, "step", () => {

@@ -1,9 +1,8 @@
-import { addEvent } from "../../FeatureBase"
 import ScalableGui from "../../classes/ScalableGui"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { WorldState } from "../../shared/World"
 import { getExtraAttribute, getSkyblockId, mathTrunc } from "../../utils/Utils"
-import { WorldManager } from "../../utils/World"
 
 // Constant variables
 const editGui = new ScalableGui("fatalTempo").setCommand("fatalTempoDisplay")
@@ -16,7 +15,7 @@ let lastHit = null
 let ftLvl = 0
 
 // World checks
-const checkWorld = () => WorldManager.getCurrentWorld() === requiredWorld && World.isLoaded()
+const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
 
 // Default display
 editGui.onRender(() => editGui.renderString(`&cFatal Tempo&f: &63s &7(Hits: 0 0%)`))

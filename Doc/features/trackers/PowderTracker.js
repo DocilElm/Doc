@@ -1,8 +1,8 @@
 import ScalableGui from "../../classes/ScalableGui"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { WorldState } from "../../shared/World"
 import { getPerHrItems, getTime, isDoublePowderEvent, mathTrunc } from "../../utils/Utils"
-import { WorldManager } from "../../utils/World"
 
 // Constant variables
 const editGui = new ScalableGui("powderTracker").setCommand("powderDisplayLocation")
@@ -13,12 +13,14 @@ const requiredWorld = "Crystal Hollows"
 let currentSession = {
     "Gemstone": 0,
     "Mithril": 0,
+    "Gold": 0,
+    "Diamond": 0,
     "chestAmount": 0,
     "time": null
 }
 
 // World check
-const checkWorld = () => WorldManager.getCurrentWorld() === requiredWorld && World.isLoaded()
+const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
 
 // Default display
 editGui.onRender(() => editGui.renderString([
@@ -34,6 +36,10 @@ new Event(feature, "onChatPacket", (amount, powderType) => {
     currentSession[powderType] += powder
 }, checkWorld, /^You received \+([\d,]+) ([\w]+) Powder.$/)
 
+new Event(feature, "onChatPacket", (amount, essenceType) => {
+    currentSession[essenceType] += parseFloat(amount)
+}, checkWorld, /^You received \+([\d,]+) ([\w]+) Essence$/)
+
 new Event(feature, "onChatPacket", (amount, powderType) => {
     if(currentSession.chestAmount <= 0) currentSession.time = Date.now()
     
@@ -45,12 +51,16 @@ new Event(feature, "renderOverlay", () => {
     
     const gemstonePowder = currentSession.Gemstone
     const mithrilPowder = currentSession.Mithril
+    const goldEssence = currentSession.Gold
+    const diamondEssence = currentSession.Diamond
     const chestAmount = currentSession.chestAmount
     const sessionSeconds = Math.round((Date.now()-currentSession.time)/1000)
 
     editGui.renderString([
         `&dGemstone Powder&f: &6${mathTrunc(gemstonePowder)} &7(${getPerHrItems(gemstonePowder, sessionSeconds)}/hr)`,
         `&2Mithril Powder&f: &6${mathTrunc(mithrilPowder)} &7(${getPerHrItems(mithrilPowder, sessionSeconds)}/hr)`,
+        `&eGold Essence&f: &6${mathTrunc(goldEssence)} &7(${getPerHrItems(goldEssence, sessionSeconds)}/hr)`,
+        `&bDiamond Essence&f: &6${mathTrunc(diamondEssence)} &7(${getPerHrItems(diamondEssence, sessionSeconds)}/hr)`,
         `&bChest Amount&f: &6${mathTrunc(chestAmount)} &7(${getPerHrItems(chestAmount, sessionSeconds)}/hr)`,
         `&bSession Time&f: &6${getTime(currentSession.time)}`
     ].join("\n"))
@@ -60,6 +70,8 @@ new Command(feature, "rspowder", () => {
     currentSession = {
         "Gemstone": 0,
         "Mithril": 0,
+        "Gold": 0,
+        "Diamond": 0,
         "chestAmount": 0,
         "time": null
     }
