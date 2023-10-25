@@ -1,14 +1,14 @@
 export class WorldState {
     static getTablist() {
-        return TabList.getNames()?.map(names => names.removeFormatting())
+        return TabList.getNames().map(name => name.removeFormatting())
     }
 
     static getScoreboard(descending = false) {
-        return Scoreboard.getLines(descending)?.map(line => line?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
+        return Scoreboard.getLines(descending).map(line => line.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
     }
 
     static inTab(str) {
-        return this.getTablist()?.find(names => names.match(/^(Area|Dungeon): ([\w\d ]+)$/))?.includes(str)
+        return this.getTablist().find(name => name.match(/^(Area|Dungeon): ([\w\d ]+)$/))?.includes(str)
     }
 
     static inDungeons() {
@@ -16,34 +16,28 @@ export class WorldState {
     }
 
     static getCurrentWorld() {
-        if(!World.isLoaded()) return
+        if (!World.isLoaded()) return
 
-        let worldName = null
+        for (tabName of this.getTablist()) {
+            let worldName = tabName.match(/^(Area|Dungeon): ([\w\d ]+)$/)?.[2]
 
-        this.getTablist()?.forEach(names => {
-            if(!!worldName) return
-
-            worldName = names?.match(/^(Area|Dungeon): ([\w\d ]+)$/)?.[2]
-        })
-
-        return worldName
+            if (!worldName) continue
+            return worldName
+        }
     }
 
     static getCurrentArea() {
-        if(!World.isLoaded()) return
+        if (!World.isLoaded()) return
 
-        let areaName = null
+        for (score of this.getScoreboard()) {
+            let areaName = score.match(/^  (.+)$/)?.[1]
 
-        this.getScoreboard().forEach(names => {
-            if (!!areaName) return
-
-            areaName = names.match(/^  (.+)$/)?.[1]
-        })
-
-        return areaName
+            if (!areaName) continue
+            return areaName
+        }
     }
 
     static getCurrentFloor() {
-        if(!this.inDungeons()) return
+        if (!this.inDungeons()) return
     }
 }
