@@ -2,6 +2,7 @@ export default new class FeatureManager {
     constructor() {
         this.features = []
         this.conditionalTriggers = new Map()
+        this.customTriggers = new Map()
 
         this.registerWhenStep = register("step", this.registerWhenStepFn.bind(this)).setFps(1)
     }
@@ -15,5 +16,11 @@ export default new class FeatureManager {
                 event => event.registerWhen() ? event._register.register() : event._register.unregister()
             )
         )
+    }
+
+    createCustomEvent(eventName, invokeFn) {
+        this.customTriggers.set(eventName, this.invoke)
+        // This allows for chaining
+        return this
     }
 }

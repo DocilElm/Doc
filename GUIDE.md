@@ -27,8 +27,8 @@ Persistent, non-user facing config should be handled like events wihtin a featur
 Events are handled on a per feature base and work using an overarching class
 ```js
 class Event {
-    constructor(feature, eventName, eventFunction, onlyWhen, eventArguments) {
-        feature.events.push(this);
+    constructor(feature, eventName, eventFunction, registerWhen, eventArguments) {
+        feature.events.push(this)
     }
 }
 ```
@@ -48,7 +48,7 @@ Next are `EventWrappers`. These perfom some method of making things easier. For 
 ```js
 class Command extends Event {
     constructor(feature, commandName, eventFunction) {
-        super(feature, "command", eventFunction, commandName);
+        super(feature, "command", eventFunction, commandName)
     }
 }
 ```
@@ -57,46 +57,35 @@ This is a primitive example of what EventWrappers can achieve and they should NO
 
 ### Custom Events
 
-Custom events are events created to be used within the system. CustomEvents are created and triggered by certain things. 
+Custom events are events created to be used within the system. These events are created and triggered by certain things. 
 
 We track custom events in our feature manager so we can assign events to them if the event so wishes.
-It also contains a method that is meant to be overriden in each case.  
-```js
-class CustomEvent {
-    constructor(eventName) {
-        FeatureManager.addCustomEvent(this);
-    }
-
-    // Creates the underlying register
-    // This is meant to be overriden
-    generateRegister() {}
-}
-```
 Under the hood they are `registers` with conditions attached to them. We use these to both wrap `registers` for the `Event` class aswell as creating whole new events.
 
+Here is an example where it's being used to wrap `registers`
 ```js
 // Wrapper for registers
-const CommandEvent = new CustomEvent("command");
+FeatureManager.createCustomEvent("command", (fn, commandName) => {
+    return register("command", fn).setName(commandName).unregister()
+})
 
+// For the second constructor parameter, here are the types
 /**
  * @param fn The variable name used for "eventFunction"
  * @param commandName The variable name used for "eventArguments" 
  */
-CommandTrigger.generateRegister = (fn, commandName) => {
-    return register("command", fn).setName(commandName).unregister();
-}
 ```
-So with this examle we can get the gist of the system. We create a new `eventName` possibility, and when we do we want the event to actually work so we call `generateRegister` to create our conditioned register for the event.
+So with this examle we can get the gist of the system. We create a new `eventName` and for the event to actually work add a function to create our conditioned register for the event.
+> The second argument needs to be a function
 
+And this is an example of how to create a new "custom" event
 ```js
 // New custom event
-const SpecificEntityEvent = new CustomEvent("renderSpecificEntity");
-
-SpecificEntityEvent.generateRegister = (fn, entityType) => {
+FeatureManager.createCustomEvent("renderSpecificEntity", (fn, entityType) => {
     return register("renderEntity", (entity, position, partialTicks, event) => {
-        if (entity.entity instanceof entityType) fn(entity, position, partialTicks, event);
-    }).unregister(); 
-}
+        if (entity.entity instanceof entityType) fn(entity, position, partialTicks, event)
+    }).unregister()
+})
 ```
 Calling unregister is required.
 
@@ -105,8 +94,8 @@ Calling unregister is required.
 So to understand how this system would look like within a feature we will pull up a practical example
 ```js
 // We store our constant variables here so they can be modified swiftly if needed
-const feature = new Feature("Example Feature", "Example Category", "This is an example feature");
-const entityType = net.minecraft.entity.monster.EntityEnderman;
+const feature = new Feature("Example Feature", "Example Category", "This is an example feature")
+const entityType = net.minecraft.entity.monster.EntityEnderman
 
 // Right under constant variables we put the declartions of variables that change throughout runtime
 let toggle = false;
@@ -115,23 +104,23 @@ let toggle = false;
 // We only want the position so just discard the first parameter
 function onRenderOfEnderman(_, position) {
     // This is just basic chat triggers and reading their documentation
-    Tessellator.drawString("Enderman", position.x + Player.getX(), position.y + Player.getY(), position.z + Player.getZ());
+    Tessellator.drawString("Enderman", position.x + Player.getX(), position.y + Player.getY(), position.z + Player.getZ())
 }
 
 // Here is a little more logic to be used later
 function onCommandRun() {
-    toggle = !toggle;
-    ChatLib.chat("Enderman are now being marked, or not");
+    toggle = !toggle
+    ChatLib.chat("Enderman are now being marked, or not")
 }
 
 // What happens here is we register the event to a feature, we pass in a function to be called when conditions are met, we also pass along a special eventArgument which for this specifc event is an entity class so the event is only called when the entity is of entityType
 
 // We also add a check to see if the feature is "enabled" in a sense for config purposes. This could perfectly fine be a check to see if the config is enabled
 // The check is relatively simple this time so we can just put it directly into here
-new Event(feature, "renderSpecificEntity", onRenderOfEnderman, () => toggle, entityType);
+new Event(feature, "renderSpecificEntity", onRenderOfEnderman, () => toggle, entityType)
 
 // We also want something to turn on the previous event, so we use a Command here
-new Command(feature, "enderman", onCommandRun);
+new Command(feature, "enderman", onCommandRun)
 
 // Lastly we commence the feature for processing
 feature.start();

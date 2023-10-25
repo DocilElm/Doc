@@ -1,5 +1,4 @@
 import FeatureManager from "./FeatureManager"
-import { CustomEvents } from "./Events"
 
 export class Feature {
     constructor(name, category, description) {
@@ -17,16 +16,18 @@ export class Feature {
 
         this.events.forEach(event => {
             // Start creating events
-            const customRegister = CustomEvents[event.eventName]
+            const customRegister = FeatureManager.customTriggers.get(event.eventName)
 
             // If the custom trigger doesn't exist, switch to vanilla triggers
-            if(!customRegister) event._register = register(event.eventName, event.eventFunction).unregister()
+            if (!customRegister) event._register = register(event.eventName, event.eventFunction).unregister()
 
             // If the custom trigger does exist
-            else event._register = customRegister(event.eventFunction, event.eventArguments).unregister()
+            // Unregister is not required since that's part of the customRegister specifications
+            else event._register = customRegister(event.eventFunction, event.eventArguments)
 
-            // Starts registering events
-            if(!event.registerWhen) return event._register.register() // This is stupid Doc format
+            // Starts registering events if they are not conditional
+            // And return so they don't get added to the conditional events list
+            if (!event.registerWhen) return event._register.register()
 
             FeatureManager.conditionalTriggers.get(this.name).push(event)
         })
