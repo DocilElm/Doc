@@ -1,14 +1,15 @@
 export class WorldState {
     static getTablist() {
-        return TabList.getNames()?.map(name => name.removeFormatting())
+        // Add the default return at the end so we always get an array returned
+        return TabList.getNames()?.map(name => name.removeFormatting()) ?? []
     }
 
     static getScoreboard(descending = false) {
         return Scoreboard.getLines(descending).map(line => line.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
     }
 
-    static inTab(str) {
-        return this.getTablist()?.find(name => name.match(/^(Area|Dungeon): ([\w\d ]+)$/))?.includes(str)
+    static inTab(string) {
+        return this.getTablist().find(name => name.match(/^(Area|Dungeon): ([\w\d ]+)$/))?.includes(string)
     }
 
     static inDungeons() {

@@ -16,8 +16,7 @@ function onCreeperDraw(_, {x, y, z})  {
     Tessellator.drawString(warningText, x + Player.getX(), y + Player.getY(), z + Player.getZ());
 }
 
-
-new Event(feature, eventName, onCreeperDraw, (() => toggle), entityType);
+new Event(feature, eventName, onCreeperDraw, () => toggle, entityType);
 new Command(feature, commandName, () => toggle = !toggle);
 
 feature.start();

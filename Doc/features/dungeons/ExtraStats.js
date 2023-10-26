@@ -5,14 +5,14 @@ import { WorldState } from "../../shared/World"
 // Constant variables
 const feature = new Feature("showExtraStats", "Dungeons", "")
 const requiredWorld = "Catacombs"
+const criteria = "                             > EXTRA STATS <"
 
-// World checks
-const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
+// Logic
+const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld
+const sendCommand = () => ChatLib.command("showextrastats")
 
 // Events
-new Event(feature, "onChatPacket", () => {
-    ChatLib.command("showextrastats")
-}, checkWorld, "                             > EXTRA STATS <")
+new Event(feature, "onChatPacket", sendCommand, checkWorld, criteria)
 
 // Starting events
 feature.start()

@@ -1,7 +1,8 @@
 export default new class FeatureManager {
     constructor() {
         this.features = []
-        this.conditionalTriggers = new Map()
+        // Add the internal stack to conditional triggers by default
+        this.conditionalTriggers = new Map([["internal", []]])
         this.customTriggers = new Map()
 
         this.registerWhenStep = register("step", this.registerWhenStepFn.bind(this)).setFps(1)
