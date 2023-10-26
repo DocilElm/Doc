@@ -35,7 +35,7 @@ const resetVariabels = () => {
 }
 
 // Events
-new Event(feature, "step", getCrates, checkWorldAndToggle, [5])
+new Event(feature, "step", getCrates, checkWorldAndToggle, 5)
 new Event(feature, "renderWorld", renderCrates, checkToggleAndCrates)
 new Event(feature, "worldUnload", resetVariabels)
 

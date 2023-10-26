@@ -17,7 +17,7 @@ const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World
 // Events
 new Event(feature, "step", () => {
     mobsArray = World.getAllEntitiesOfType(EntityArmorStand).filter(entity => entity.getName().includes("✯ ") && !entity.getName().includes("Fels"))
-}, checkWorld, [3])
+}, checkWorld, 3)
 
 new Event(feature, "renderWorld", () => {
     mobsArray.forEach(entity => {

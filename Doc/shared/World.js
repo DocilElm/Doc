@@ -1,6 +1,6 @@
 export class WorldState {
     static getTablist() {
-        return TabList.getNames().map(name => name.removeFormatting())
+        return TabList.getNames()?.map(name => name.removeFormatting())
     }
 
     static getScoreboard(descending = false) {
@@ -8,7 +8,7 @@ export class WorldState {
     }
 
     static inTab(str) {
-        return this.getTablist().find(name => name.match(/^(Area|Dungeon): ([\w\d ]+)$/))?.includes(str)
+        return this.getTablist()?.find(name => name.match(/^(Area|Dungeon): ([\w\d ]+)$/))?.includes(str)
     }
 
     static inDungeons() {
@@ -35,9 +35,5 @@ export class WorldState {
             if (!areaName) continue
             return areaName
         }
-    }
-
-    static getCurrentFloor() {
-        if (!this.inDungeons()) return
     }
 }
