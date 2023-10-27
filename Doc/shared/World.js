@@ -1,7 +1,9 @@
 export class WorldState {
     static getTablist() {
-        // Add the default return at the end so we always get an array returned
-        return TabList.getNames()?.map(name => name.removeFormatting()) ?? []
+        // Add the default return so we always get an array returned
+        if(!World.isLoaded()) return []
+
+        return TabList.getNames().map(name => name.removeFormatting())
     }
 
     static getScoreboard(descending = false) {

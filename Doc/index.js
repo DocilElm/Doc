@@ -11,8 +11,8 @@ import "./features/dungeons/MobESP"
 import "./features/dungeons/ExtraStats"
 // // import "./features/dungeons/BossSplits"
 // Mining
-// // import "./features/mining/EmissaryWaypoints"
-// // import "./features/mining/GemstoneProfit"
+import "./features/mining/EmissaryWaypoints"
+import "./features/mining/GemstoneProfit"
 // Commands
 import "./features/commands/Ping"
 import "./features/commands/InventoryLog"
