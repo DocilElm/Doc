@@ -27,7 +27,7 @@ export default new class DungeonState {
         new Event(null, "onScoreboardPacket", (score, _) => {
             if (currentFloorRegex.test(score) && !this.currentFloor) return this.currentFloor = score.match(currentFloorRegex)[1]
             if (currentRommIDRegex.test(score)) return this.currentRoomID = score.match(currentRommIDRegex)?.[1]
-        }, checkDungeons).start()
+        }).start()
 
         new Event(null, "onTabUpdatePacket", (tabName, _) => {
             if (playerInformationRegex.test(tabName)) {

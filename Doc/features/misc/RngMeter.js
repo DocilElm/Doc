@@ -3,7 +3,7 @@ import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import DungeonsState from "../../shared/Dungeons"
 import { WorldState } from "../../shared/World"
-import { PREFIX, createDungeonsMeter, createSlayersMeter, data, getJsonDataFromUrl, getScoreboard, isInTab, mathTrunc, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
+import { PREFIX, createDungeonsMeter, createSlayersMeter, data, getJsonDataFromUrl, getScoreboard, mathTrunc, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
 
 // Constant variables
 const DungeonsMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DungeonsMeterData.json")
@@ -41,7 +41,8 @@ const makeStringToDraw = (jsonData, dataType, value) => {
 }
 
 const renderHandler = () => {
-    if(WorldState.inDungeons()) makeStringToDraw(DungeonsMeterData, "dungeonsData", DungeonsState.currentFloor())
+    if(WorldState.inDungeons()) makeStringToDraw(DungeonsMeterData, "dungeonsData", DungeonsState.getCurrentFloor())
+    
     else getScoreboard().forEach(line => {
         if(!/([\w ]+) [IV]+$/.test(line)) return
 
@@ -52,6 +53,7 @@ const renderHandler = () => {
 }
 
 const storeSlayerScore = (amount) => {
+    if(!currentValue) return
     // Stores the score [amount] to the json file
     setSlayersMeter(currentValue, null, parseFloat(amount.replace(/,/g, "")), "score")
 
@@ -94,9 +96,10 @@ const checkCurrentDrop = (drop) => {
 }
 
 const startingDungeonsAlert = () => {
+    if(!currentValue || !WorldState.inDungeons()) return
     // Checks if the selected drop's score is equal to the max score
-    const selectedDrop = data.rngMeter.dungeonsData[currentValue]?.selectedDrop
-    if(data.rngMeter.dungeonsData[currentValue]?.score <= DungeonsMeterData[currentValue]?.[selectedDrop]?.scoreRequired || !isInTab("Catacombs")) return
+    const selectedDrop = data.rngMeter.dungeonsData[currentValue].selectedDrop
+    if(data.rngMeter.dungeonsData[currentValue].score <= DungeonsMeterData[currentValue][selectedDrop].scoreRequired) return
 
     // Alerts the player if the meter is max
     Client.showTitle("&cRNG Meter Max!", PREFIX, 10, 40, 10)
