@@ -1,13 +1,6 @@
 import { Event } from "../core/Events"
-// might do something to host our own version of this
-import { decodeNumeral } from "../../BloomCore/utils/Utils"
 import { WorldState } from "./World"
-
-// Temporary function, to be moved to a Text manipulation class along wiht
-// decodeNumeral
-function getRegexMatch(regex, string) {
-    return (regex.test(string)) ? string.match(match) : null
-}
+import { TextHelper } from "./Text"
 
 const currentFloorRegex =      /^ +⏣ The Catacombs \(([\w\d].{1,2})\)$/
 const currentRommIDRegex =     /^\d[\d\/]+ [\w\d]+ ([-\d,]+)$/
@@ -44,13 +37,13 @@ export default new class DungeonState {
                 if (playerName !== Player.getName()) {
                     this.partyMembers[playerName] = {
                         class: className,
-                        classLevel: decodeNumeral(classLevel)
+                        classLevel: TextHelper.decodeNumeral(classLevel)
                     }
                     return
                 }
 
                 this.currentClass = className
-                this.currentClassLevel = decodeNumeral(classLevel)
+                this.currentClassLevel = TextHelper.decodeNumeral(classLevel)
 
                 // Saving the last class for specific features that might need
                 // these variables will and should not be reset after world change
@@ -59,20 +52,13 @@ export default new class DungeonState {
                 return
             }
 
-            this.secretsFound = getRegexMatch(secretsFoundRegex)?.[1] ?? this.secretsFound
-            this.currentMilestone = getRegexMatch(milestoneRegex)?.[1] ?? this.currentMilestone
-            this.completedRooms = getRegexMatch(completedRoomsRegex)?.[1] ?? this.completedRooms
-            this.teamDeaths = getRegexMatch(teamDeathRegex)?.[1] ?? this.teamDeaths
-            this.puzzles = getRegexMatch(puzzlesRegex)?.[1] ?? this.puzzles
-            this.crypts = getRegexMatch(cryptsRegex)?.[1] ?? this.crypts
-            
-            // if (secretsFoundRegex.test(tabName)) return this.secretsFound = parseFloat(tabName.match(secretsFoundRegex)?.[1])
-            // if (milestoneRegex.test(tabName)) return this.currentMilestone = tabName.match(milestoneRegex)?.[1]
-            // if (completedRoomsRegex.test(tabName)) return this.completedRooms = tabName.match(completedRoomsRegex)?.[1]
-            // if (teamDeathRegex.test(tabName)) return this.teamDeaths = parseInt(tabName.match(teamDeathRegex)?.[1])
-            // if (/^Puzzles: \(([\d]+)\)$/.test(tabName)) return this.puzzles = parseInt(tabName.match(/^Puzzles: \(([\d]+)\)$/)?.[1])
-            // if (/^ Crypts: ([\d]+)$/.test(tabName)) return this.crypts = parseInt(tabName.match(/^ Crypts: ([\d]+)$/)?.[1])
-        }, checkDungeons, null).start()
+            this.secretsFound = TextHelper.getRegexMatch(secretsFoundRegex)?.[1] ?? this.secretsFound
+            this.currentMilestone = TextHelper.getRegexMatch(milestoneRegex)?.[1] ?? this.currentMilestone
+            this.completedRooms = TextHelper.getRegexMatch(completedRoomsRegex)?.[1] ?? this.completedRooms
+            this.teamDeaths = TextHelper.getRegexMatch(teamDeathRegex)?.[1] ?? this.teamDeaths
+            this.puzzles = TextHelper.getRegexMatch(puzzlesRegex)?.[1] ?? this.puzzles
+            this.crypts = TextHelper.getRegexMatch(cryptsRegex)?.[1] ?? this.crypts
+        }, checkDungeons).start()
 
         new Event(null, "onBlessingsChange", (blessingsArray) => this.blessings = blessingsArray, checkDungeons, true).start()
 
@@ -145,7 +131,11 @@ export default new class DungeonState {
         return Object.values(this.partyMembers)?.reduce((classOccurance, player) => classOccurance + (player.class === className ? 1 : 0), 0) >= 1
     }
 
-    // Gets the reduction that mage provides to item cooldowns
+    /**
+     * Gets the reduction that mage provides to item cooldowns
+     * @param {Number} cooldown Base item cooldown
+     * @returns {Number} - The cooldown time
+     */
     getMageReduction(cooldown = 0){
         if (this.getCurrentClass() !== "Mage") return cooldown
 

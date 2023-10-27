@@ -13,30 +13,31 @@ let lastCast = null
 let cooldownTime = 20_000
 
 // World checks
-function checkWorld() { World.isLoaded() }
+const checkWorld = () => World.isLoaded()
 
 // Default display
 editGui.onRender(() => editGui.renderString("&aAxe Cooldown: Ready!"))
 
 // Logic
 function updateCooldownAndCastTime() {
-    if (!WorldState.inDungeons()) return
-    
     lastCast = Date.now()
-    cooldownTime = DungeonsState.getMageReduction(20000)
+
+    if(!WorldState.inDungeons()) return
+
+    cooldownTime = DungeonsState.getMageReduction(20_000)
 }
 
 function renderCooldownStatus() {
-    if (!lastCast || !WorldState.inDungeons()) return
+    if (!lastCast) return
 
     const timePast = cooldownTime - (Date.now() - lastCast)
     editGui.renderString(timePast <= 0 ? "§aAxe Cooldown: Ready!" : `§cAxe Cooldown: ${timePast / 1000}`)
 }
 
-// This is used to make it only show after the Ragnorok Axe has been used
-// in the current world
+// Reset variables to default so it can be used in different worlds
 function resetLastCast() {
     lastCast = null
+    cooldownTime = 20_000
 }
 
 // Events

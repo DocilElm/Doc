@@ -1,34 +1,9 @@
-import { decodeNumeral } from "../../BloomCore/utils/Utils"
 import FeatureManager from "../core/FeatureManager"
+import { TextHelper } from "./Text"
 
 // Constant used to get the packet's ENUMS
 // and also filter the class in packetRecieved event
 const S38PacketPlayerListItem = net.minecraft.network.play.server.S38PacketPlayerListItem
-
-// making this function since it's used more than once
-// to not be constantly repeating code but it's up for changes
-const criteriaHandler = (fn, criteria, [unformatted, event, formatted]) => {
-    // Check if the criteria is a regex or a string
-    // Regex is way more intensive so only use that if needed
-
-    // If it's empty give back the current message
-    if(!criteria) return fn(unformatted, event, formatted)
-    
-    else if (typeof(criteria) === "string") {
-        if (unformatted !== criteria) return
-
-        return fn(unformatted, event, formatted)
-    }
-    else if (criteria instanceof RegExp) {
-        const match = unformatted.match(criteria)
-        if (!match) return
-        
-        // Call the eventFunction with parameters being the
-        // matched groups as different params, ending with
-        // the packet even and formatted message
-        return fn(...match.slice(1), event, formatted)
-    }
-}
 
 FeatureManager
     .createCustomEvent("command", (fn, commandName) =>  
@@ -53,7 +28,7 @@ FeatureManager
         
             if (!unformatted) return
             
-            criteriaHandler(fn, criteria, [unformatted, event, formatted])
+            TextHelper.matchesCriteria(fn, criteria, unformatted, event, formatted)
         }).setFilteredClass(net.minecraft.network.play.server.S02PacketChat).unregister()
     )
     .createCustomEvent("onActionBarPacket", (fn, criteria) => 
@@ -67,7 +42,7 @@ FeatureManager
             
             if (!unformatted) return
             
-            criteriaHandler(fn, criteria, [unformatted, event, formatted])
+            TextHelper.matchesCriteria(fn, criteria, unformatted, event, formatted)
         }).setFilteredClass(net.minecraft.network.play.server.S02PacketChat).unregister()
     )
     .createCustomEvent("soundPlay", (fn, criteria) => 
@@ -87,7 +62,7 @@ FeatureManager
 
             if (!unformatted) return
             
-            criteriaHandler(fn, criteria, [unformatted, event, formatted])
+            TextHelper.matchesCriteria(fn, criteria, unformatted, event, formatted)
         }).setFilteredClass(net.minecraft.network.play.server.S3EPacketTeams).unregister()
     )
     .createCustomEvent("onTabUpdatePacket", (fn, criteria) => 
@@ -107,7 +82,7 @@ FeatureManager
             
                 if (action !== S38PacketPlayerListItem.Action.UPDATE_DISPLAY_NAME) return
 
-                criteriaHandler(fn, criteria, [unformatted, event, formatted])
+                TextHelper.matchesCriteria(fn, criteria, unformatted, event, formatted)
             })
         }).setFilteredClass(S38PacketPlayerListItem).unregister()
     )
@@ -128,7 +103,7 @@ FeatureManager
             
                 if (action !== S38PacketPlayerListItem.Action.ADD_PLAYER) return
 
-                criteriaHandler(fn, criteria, [unformatted, event, formatted])
+                TextHelper.matchesCriteria(fn, criteria, unformatted, event, formatted)
             })
         }).setFilteredClass(S38PacketPlayerListItem).unregister()
     )
@@ -143,7 +118,7 @@ FeatureManager
                 if(decodeNumb) {
                     const [ ar, blessingName, romanNumber ] = chatComponentText.match(/^Blessing of ([\w\d]+) ([IVXLCDM]+)$/)
 
-                    blessingsArray.push(chatComponentText.replace(romanNumber, decodeNumeral(romanNumber)))
+                    blessingsArray.push(chatComponentText.replace(romanNumber, TextHelper.decodeNumeral(romanNumber)))
                     return
                 }
                 blessingsArray.push(chatComponentText.match(/^Blessing of (.+)$/)?.[1])
