@@ -52,12 +52,12 @@ export default new class DungeonState {
                 return
             }
 
-            this.secretsFound = TextHelper.getRegexMatch(secretsFoundRegex)?.[1] ?? this.secretsFound
-            this.currentMilestone = TextHelper.getRegexMatch(milestoneRegex)?.[1] ?? this.currentMilestone
-            this.completedRooms = TextHelper.getRegexMatch(completedRoomsRegex)?.[1] ?? this.completedRooms
-            this.teamDeaths = TextHelper.getRegexMatch(teamDeathRegex)?.[1] ?? this.teamDeaths
-            this.puzzles = TextHelper.getRegexMatch(puzzlesRegex)?.[1] ?? this.puzzles
-            this.crypts = TextHelper.getRegexMatch(cryptsRegex)?.[1] ?? this.crypts
+            this.secretsFound = TextHelper.getRegexMatch(secretsFoundRegex, tabName)?.[1] ?? this.secretsFound
+            this.currentMilestone = TextHelper.getRegexMatch(milestoneRegex), tabName?.[1] ?? this.currentMilestone
+            this.completedRooms = TextHelper.getRegexMatch(completedRoomsRegex, tabName)?.[1] ?? this.completedRooms
+            this.teamDeaths = TextHelper.getRegexMatch(teamDeathRegex, tabName)?.[1] ?? this.teamDeaths
+            this.puzzles = TextHelper.getRegexMatch(puzzlesRegex, tabName)?.[1] ?? this.puzzles
+            this.crypts = TextHelper.getRegexMatch(cryptsRegex, tabName)?.[1] ?? this.crypts
         }, checkDungeons).start()
 
         new Event(null, "onBlessingsChange", (blessingsArray) => this.blessings = blessingsArray, checkDungeons, true).start()
