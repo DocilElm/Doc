@@ -10,20 +10,20 @@ import "./features/dungeons/MobESP"
 // // import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
 // // import "./features/dungeons/BossSplits"
-// // // Mining
+// Mining
 // // import "./features/mining/EmissaryWaypoints"
 // // import "./features/mining/GemstoneProfit"
-// // // Commands
+// Commands
 import "./features/commands/Ping"
 import "./features/commands/InventoryLog"
-// // // Fishing
+// Fishing
 // // import "./features/fishing/BossBar"
-// import "./features/fishing/TimerTitle"
-// // // Garden
+import "./features/fishing/TimerTitle"
+// Garden
 // // import "./features/garden/VisitorProfit"
-// // // Slayers
-// // import "./features/slayers/BossSlainTimer"
-// // // Trackers
+// Slayers
+import "./features/slayers/BossSlainTimer"
+// Trackers
 // // import "./features/trackers/GhostsTracker"
 import "./features/trackers/TrophyFishingTracker"
 import "./features/trackers/PowderTracker"

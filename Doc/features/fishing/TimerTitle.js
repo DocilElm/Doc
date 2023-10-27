@@ -11,8 +11,8 @@ const feature = new Feature("timerTitleFishing", "Fishing", "")
 // World checks
 const checkWorld = () => World.isLoaded()
 
-// Events
-new Event(feature, "step", () => {
+// Logic
+const showTitleEntity = () => {
     if(!Player.getPlayer().field_71104_cf) return
 
     World.getAllEntitiesOfType(EntityArmorStand).forEach(entity => {
@@ -24,7 +24,10 @@ new Event(feature, "step", () => {
 
         Client.showTitle("", entity.getName(), 1, 10, 1)
     })
-}, checkWorld, [5])
+}
+
+// Events
+new Event(feature, "step", showTitleEntity, checkWorld, 5)
 
 // Starting events
 feature.start()
