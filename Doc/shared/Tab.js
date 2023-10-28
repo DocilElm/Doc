@@ -79,7 +79,7 @@ export default new class TabListStats {
      * - Gets the current profile's name (e.g "Cucumber")
      * @returns {String}
      */
-    getProfiltName() {
+    getProfileName() {
         return this.profileName
     }
 
