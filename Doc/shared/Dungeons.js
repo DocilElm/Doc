@@ -2,15 +2,15 @@ import { Event } from "../core/Events"
 import { WorldState } from "./World"
 import { TextHelper } from "./Text"
 
-const currentFloorRegex =      /^ +⏣ The Catacombs \(([\w\d].{1,2})\)$/
-const currentRommIDRegex =     /^\d[\d\/]+ [\w\d]+ ([-\d,]+)$/
-const playerInformationRegex = /^\[[\d]+\] ([\w]+).+? \(([\w]+) ([IVXLCDM]+)\)$/
-const secretsFoundRegex =      /^ Secrets Found: ([\d,.]+)\%$/
-const milestoneRegex =         /^ Your Milestone: ☠(.+)$/
-const completedRoomsRegex =    /^ Completed Rooms: ([\d]+)$/
-const teamDeathRegex =         /^ Team Deaths: ([\d]+)$/
-const puzzlesRegex =           /^Puzzles: \(([\d]+)\)$/
-const cryptsRegex =            /^ Crypts: ([\d]+)$/
+const currentFloorRegex =            /^ +⏣ The Catacombs \(([\w\d].{1,2})\)$/
+const currentRommIDRegex =           /^\d[\d\/]+ [\w\d]+ ([-\d,]+)$/
+const playerInformationRegex =       /^\[[\d]+\] ([\w]+).+? \(([\w]+) ([IVXLCDM]+)\)$/
+const secretsFoundRegex =            /^ Secrets Found: ([\d,.]+)\%$/
+const milestoneRegex =               /^ Your Milestone: ☠(.+)$/
+const completedRoomsRegex =          /^ Completed Rooms: ([\d]+)$/
+const teamDeathRegex =               /^ Team Deaths: ([\d]+)$/
+const puzzlesAmountRegex =           /^Puzzles: \(([\d]+)\)$/
+const cryptsAmountRegex =            /^ Crypts: ([\d]+)$/
 
 const checkDungeons = () => WorldState.inDungeons()
 
@@ -35,7 +35,7 @@ export default new class DungeonState {
                 
                 // If it isn't the player, it'll be their teammates
                 if (playerName !== Player.getName()) {
-                    this.partyMembers[playerName] = {
+                    this.teamMembers[playerName] = {
                         class: className,
                         classLevel: TextHelper.decodeNumeral(classLevel)
                     }
@@ -56,8 +56,8 @@ export default new class DungeonState {
             this.currentMilestone = TextHelper.getRegexMatch(milestoneRegex), tabName?.[1] ?? this.currentMilestone
             this.completedRooms = TextHelper.getRegexMatch(completedRoomsRegex, tabName)?.[1] ?? this.completedRooms
             this.teamDeaths = TextHelper.getRegexMatch(teamDeathRegex, tabName)?.[1] ?? this.teamDeaths
-            this.puzzles = TextHelper.getRegexMatch(puzzlesRegex, tabName)?.[1] ?? this.puzzles
-            this.crypts = TextHelper.getRegexMatch(cryptsRegex, tabName)?.[1] ?? this.crypts
+            this.puzzlesAmount = TextHelper.getRegexMatch(puzzlesAmountRegex, tabName)?.[1] ?? this.puzzlesAmount
+            this.cryptsAmount = TextHelper.getRegexMatch(cryptsAmountRegex, tabName)?.[1] ?? this.cryptsAmount
         }, checkDungeons).start()
 
         new Event(null, "onBlessingsChange", (blessingsArray) => this.blessings = blessingsArray, checkDungeons, true).start()
@@ -85,10 +85,10 @@ export default new class DungeonState {
         this.secretsFound = null
         this.completedRooms = 0
         this.teamDeaths = 0
-        this.puzzles = 0
-        this.crypts = 0
+        this.puzzlesAmount = 0
+        this.cryptsAmount = 0
         this.blessings = []
-        this.partyMembers = {}
+        this.teamMembers = {}
     }
 
     getCurrentFloor() {
@@ -103,40 +103,69 @@ export default new class DungeonState {
         return this.currentClassLevel ?? this.lastClassLevel
     }
 
-    getRoomID() {
+    getCurrentRoomID() {
         return this.currentRoomID
     }
 
-    getRoomName() {
+    getCurrentRoomName() {
         return this.currentRoomName
     }
 
-    getPuzzles() {
-        return this.puzzles
+    /**
+     * - Gets the current dungeon total puzzle amount
+     * @returns {Number}
+     */
+    getPuzzlesAmount() {
+        return this.puzzlesAmount
     }
 
-    getCrypts() {
-        return this.crypts
+    /**
+     * - Gets the current dungeon total crypts
+     * @returns {Number}
+     */
+    getCryptsAmount() {
+        return this.cryptsAmount
     }
 
+    /**
+     * - Gets the current dungeon team deaths
+     * @returns {Number}
+     */
+    getTeamDeaths() {
+        return this.teamDeaths
+    }
+
+    /**
+     * - Gets the current blessings of the dungeon
+     * @returns {Array} ["Blessing of Power 10"]
+     */
     getBlessings() {
         return this.blessings
     }
 
-    getPartyMembers() {
-        return this.partyMembers
-    }
-
-    isDupeClass(className) {
-        return Object.values(this.partyMembers)?.reduce((classOccurance, player) => classOccurance + (player.class === className ? 1 : 0), 0) >= 1
+    /**
+     * - Gets the current team members inside the dungeon
+     * @returns {Object} DocilElm = { class: "Archer", classLevel: 50 }
+     */
+    getTeamMembers() {
+        return this.teamMembers
     }
 
     /**
-     * Gets the reduction that mage provides to item cooldowns
+     * - Checks wheather there's another team member with the given class name
+     * @param {String} className The class name. e.g Mage
+     * @returns {Boolean}
+     */
+    isDupeClass(className) {
+        return Object.values(this.teamMembers)?.reduce((classOccurance, player) => classOccurance + (player.class === className ? 1 : 0), 0) >= 1
+    }
+
+    /**
+     * - Gets the reduction that mage provides to item cooldowns
      * @param {Number} cooldown Base item cooldown
      * @returns {Number} - The cooldown time
      */
-    getMageReduction(cooldown = 0){
+    getMageReduction(cooldown = 0) {
         if (this.getCurrentClass() !== "Mage") return cooldown
 
         const multiplier = this.isDupeClass("Mage") ? 1 : 2
