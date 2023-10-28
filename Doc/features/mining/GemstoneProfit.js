@@ -1,4 +1,5 @@
 import ScalableGui from "../../classes/ScalableGui"
+import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { WorldState } from "../../shared/World"
@@ -17,13 +18,12 @@ let profitMade = 0
 let gemstonesMined = {}
 let startedMining = null
 
-// World check
-const checkWorld = () => World.isLoaded() && WorldState.getCurrentWorld() === requiredWorld
-
 // Default display
 editGui.onRender(() => editGui.renderString(`&aSession Profit&r: &6some random number\n&aSession Time&r: &6some random time`))
 
 // Logic
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.gemstonesProfit
+
 const addGemstoneAmount = (gemstone, amount) => {
     if(!startedMining) startedMining = Date.now()
 
@@ -48,8 +48,8 @@ const renderGemstones = () => {
 }
 
 // Events
-new Event(feature, "onChatPacket", addGemstoneAmount, checkWorld, /^PRISTINE! You found .{1,2} Flawed ([\w]+) Gemstone x([\d]+)!$/)
-new Event(feature, "renderOverlay", renderGemstones, checkWorld)
+new Event(feature, "onChatPacket", addGemstoneAmount, registerWhen, /^PRISTINE! You found .{1,2} Flawed ([\w]+) Gemstone x([\d]+)!$/)
+new Event(feature, "renderOverlay", renderGemstones, registerWhen)
 new Command(feature, "rsmsession", () => {
     profitMade = 0
     gemstonesMined = {}

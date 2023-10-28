@@ -3,6 +3,7 @@ import { Feature } from "../../core/Feature"
 import { Event } from "../../core/Events"
 import DungeonsState from "../../shared/Dungeons"
 import { WorldState } from "../../shared/World"
+import config from "../../config"
 
 // Constant variables
 const editGui = new ScalableGui("ragaxecd").setCommand("ragnarokAxeDisplay")
@@ -12,13 +13,12 @@ const feature = new Feature("ragnarokAxeTimer", "Misc", "")
 let lastCast = null
 let cooldownTime = 20_000
 
-// World checks
-const checkWorld = () => World.isLoaded()
-
 // Default display
 editGui.onRender(() => editGui.renderString("&aAxe Cooldown: Ready!"))
 
 // Logic
+const registerWhen = () => World.isLoaded() && config.ragnarokAxeTimer
+
 function updateCooldownAndCastTime() {
     lastCast = Date.now()
 
@@ -41,8 +41,8 @@ function resetLastCast() {
 }
 
 // Events
-new Event(feature, "onActionBarPacket", updateCooldownAndCastTime, checkWorld, /^.+CASTING IN 3s(.+)?$/)
-new Event(feature, "renderOverlay", renderCooldownStatus, checkWorld)
+new Event(feature, "onActionBarPacket", updateCooldownAndCastTime, registerWhen, /^.+CASTING IN 3s(.+)?$/)
+new Event(feature, "renderOverlay", renderCooldownStatus, registerWhen)
 new Event(feature, "worldUnload", resetLastCast)
 
 // Starting events

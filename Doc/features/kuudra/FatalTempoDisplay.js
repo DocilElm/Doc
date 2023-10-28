@@ -1,4 +1,5 @@
 import ScalableGui from "../../classes/ScalableGui"
+import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { WorldState } from "../../shared/World"
@@ -14,13 +15,12 @@ let hitsAmount = 0
 let lastHit = null
 let ftLvl = 0
 
-// World checks
-const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
-
 // Default display
 editGui.onRender(() => editGui.renderString(`&cFatal Tempo&f: &63s &7(Hits: 0 0%)`))
 
 // Logic
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.ftDisplay
+
 const getFtPercent = () => (hitsAmount * ftLvl) * 10
 const soundHandler = () => {
     const heldItem = Player.getHeldItem()
@@ -32,8 +32,8 @@ const soundHandler = () => {
 }
 
 // Events
-new Event(feature, "soundPlay", soundHandler, checkWorld, "random.successful_hit")
-new Event(feature, "soundPlay", soundHandler, checkWorld, "tile.piston.out")
+new Event(feature, "soundPlay", soundHandler, registerWhen, "random.successful_hit")
+new Event(feature, "soundPlay", soundHandler, registerWhen, "tile.piston.out")
 
 new Event(feature, "renderOverlay", () => {
     if(!hitsAmount || !lastHit) return
@@ -43,7 +43,7 @@ new Event(feature, "renderOverlay", () => {
     const ftPercent = getFtPercent() >= 200 ? 200 : getFtPercent()
 
     editGui.renderString(`&cFatal Tempo&f: &6${ftTime}s &7(Hits: ${mathTrunc(hitsAmount)} ${ftPercent}%)`)
-}, checkWorld)
+}, registerWhen)
 
 new Event(feature, "worldUnload", () => {
     hitsAmount = 0

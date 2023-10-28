@@ -1,4 +1,5 @@
 import ScalableGui from "../../classes/ScalableGui"
+import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { WorldState } from "../../shared/World"
@@ -19,9 +20,6 @@ let currentSession = {
     "time": null
 }
 
-// World check
-const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
-
 // Default display
 editGui.onRender(() => editGui.renderString([
     `&dGemstone Powder&f: &61 &7(1/hr)`,
@@ -30,21 +28,24 @@ editGui.onRender(() => editGui.renderString([
     `&bSession Time&f: &60:0:1`
 ].join("\n")))
 
+// Logic
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.powderMiningTracker
+
 // Events
 new Event(feature, "onChatPacket", (amount, powderType) => {
     const powder = isDoublePowderEvent() ? parseFloat(amount.replace(/,/g, "")*2) : parseFloat(amount.replace(/,/g, ""))
     currentSession[powderType] += powder
-}, checkWorld, /^You received \+([\d,]+) ([\w]+) Powder.$/)
+}, registerWhen, /^You received \+([\d,]+) ([\w]+) Powder.$/)
 
 new Event(feature, "onChatPacket", (amount, essenceType) => {
     currentSession[essenceType] += parseFloat(amount)
-}, checkWorld, /^You received \+([\d,]+) ([\w]+) Essence$/)
+}, registerWhen, /^You received \+([\d,]+) ([\w]+) Essence$/)
 
 new Event(feature, "onChatPacket", (amount, powderType) => {
     if(currentSession.chestAmount <= 0) currentSession.time = Date.now()
     
     currentSession.chestAmount++
-}, checkWorld, /^You uncovered a treasure chest\!$/)
+}, registerWhen, /^You uncovered a treasure chest\!$/)
 
 new Event(feature, "renderOverlay", () => {
     if(!currentSession.chestAmount) return
@@ -64,7 +65,7 @@ new Event(feature, "renderOverlay", () => {
         `&bChest Amount&f: &6${mathTrunc(chestAmount)} &7(${getPerHrItems(chestAmount, sessionSeconds)}/hr)`,
         `&bSession Time&f: &6${getTime(currentSession.time)}`
     ].join("\n"))
-}, checkWorld)
+}, registerWhen)
 
 new Command(feature, "rspowder", () => {
     currentSession = {

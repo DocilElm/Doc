@@ -8,10 +8,9 @@ import { EntityArmorStand } from "../../utils/Utils"
 // Constant variables
 const feature = new Feature("timerTitleFishing", "Fishing", "")
 
-// World checks
-const checkWorld = () => World.isLoaded()
-
 // Logic
+const registerWhen = () => World.isLoaded() && config.timerTitleFishing
+
 const showTitleEntity = () => {
     if(!Player.getPlayer().field_71104_cf) return
 
@@ -27,7 +26,7 @@ const showTitleEntity = () => {
 }
 
 // Events
-new Event(feature, "step", showTitleEntity, checkWorld, 5)
+new Event(feature, "step", showTitleEntity, registerWhen, 5)
 
 // Starting events
 feature.start()

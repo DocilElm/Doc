@@ -1,4 +1,5 @@
 import ScalableGui from "../../classes/ScalableGui"
+import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { WorldState } from "../../shared/World"
@@ -12,18 +13,18 @@ const requiredWorld = "Crimson Isle"
 // Changeable variables
 let fishesCaught = {}
 
-// World checks
-const checkWorld = () => WorldState.getCurrentWorld() === requiredWorld && World.isLoaded()
-
 // Default display
 editGui.onRender(() => editGui.renderString(["&9Vanille&f: &80 &70 &60 &b0", "&5Karate Fish&f: &80 &70 &60 &b0"].join("\n")))
+
+// Logic
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.trophyFishingTracker
 
 // Events
 new Event(feature, "onChatPacket", (fishName, fishType, event, formatted) => {
     if(!fishesCaught[fishName]) fishesCaught[fishName] = { BRONZE: 0, SILVER: 0, GOLD: 0, DIAMOND: 0 }
 
     fishesCaught[fishName][fishType]++
-}, checkWorld, /^TROPHY FISH\! You caught an? ([\w\d ]+) ([\w]+)\.$/)
+}, registerWhen, /^TROPHY FISH\! You caught an? ([\w\d ]+) ([\w]+)\.$/)
 
 new Event(feature, "renderOverlay", () => {
     const strToDraw = []
@@ -37,7 +38,7 @@ new Event(feature, "renderOverlay", () => {
     })
 
     editGui.renderString(strToDraw.join("\n"))
-}, checkWorld)
+}, registerWhen)
 
 new Command(feature, "rstrophy", () => {
     fishesCaught = {}

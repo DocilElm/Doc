@@ -1,4 +1,5 @@
 import ScalableGui from "../../classes/ScalableGui"
+import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import DungeonsState from "../../shared/Dungeons"
@@ -24,6 +25,8 @@ let currentValue = null
 let addScore = true
 
 // Logic
+const registerWhen = () => World.isLoaded() && config.RngMeter
+
 const makeStringToDraw = (jsonData, dataType, value) => {
     if(!value) return
     currentValue = value
@@ -110,12 +113,12 @@ const startingDungeonsAlert = () => {
 editGui.onRender(() => editGui.renderString(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`))
 
 // Events
-new Event(feature, "renderOverlay", renderHandler, () => World.isLoaded())
-new Event(feature, "onChatPacket", storeSlayerScore, null, storedSlayerXPRegex)
-new Event(feature, "onChatPacket", storeTeamScore, null, currentTeamScoreRegex)
-new Event(feature, "onChatPacket", checkCurrentReward, null, currentRewardRegex)
-new Event(feature, "onChatPacket", checkCurrentDrop, null, currentDroppedItemRegex)
-new Event(feature, "onChatPacket", startingDungeonsAlert, null, startingDungeonsRegex)
+new Event(feature, "renderOverlay", renderHandler, registerWhen)
+new Event(feature, "onChatPacket", storeSlayerScore, registerWhen, storedSlayerXPRegex)
+new Event(feature, "onChatPacket", storeTeamScore, registerWhen, currentTeamScoreRegex)
+new Event(feature, "onChatPacket", checkCurrentReward, registerWhen, currentRewardRegex)
+new Event(feature, "onChatPacket", checkCurrentDrop, registerWhen, currentDroppedItemRegex)
+new Event(feature, "onChatPacket", startingDungeonsAlert, registerWhen, startingDungeonsRegex)
 new Event(feature, "worldUnload", () => addScore = true)
 
 // Start the events

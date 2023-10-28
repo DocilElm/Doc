@@ -1,3 +1,4 @@
+import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { PREFIX } from "../../utils/Utils"
@@ -10,6 +11,8 @@ let bossSpawned = null
 let bossSlainPacket = null
 
 // Logic
+const registerWhen = () => config.bossSlainTimer
+
 const startBossTime = (message, event) => {
     if(message === "Slay the boss!") return bossSpawned = Date.now()
     if(message !== "Boss slain!" || !bossSpawned) return
@@ -29,8 +32,8 @@ const getBossTime = (message, event) => {
 }
 
 // Events
-new Event(feature, "onScoreboardPacket", startBossTime)
-new Event(feature, "onChatPacket", getBossTime, null, "  SLAYER QUEST COMPLETE!")
+new Event(feature, "onScoreboardPacket", startBossTime, registerWhen)
+new Event(feature, "onChatPacket", getBossTime, registerWhen, "  SLAYER QUEST COMPLETE!")
 new Event(feature, "worldUnload", () => {
     bossSpawned = null
     bossSlainPacket = null

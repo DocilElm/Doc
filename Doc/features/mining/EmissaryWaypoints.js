@@ -2,6 +2,7 @@ import renderBeaconBeam from "../../../BeaconBeam"
 import { Feature } from "../../core/Feature"
 import { WorldState } from "../../shared/World"
 import { Event } from "../../core/Events"
+import config from "../../config"
 
 // Constant variables
 const emissaryCoords = {
@@ -16,10 +17,9 @@ const emissaryCoords = {
 const feature = new Feature("emissaryWaypoints", "Mining", "")
 const requiredWorld = "Dwarven Mines"
 
-// World check
-const checkWorld = () => World.isLoaded() && WorldState.getCurrentWorld() === requiredWorld
-
 // Logic
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.emissaryWaypoints
+
 const renderWaypoints = () => {
     Object.keys(emissaryCoords).forEach(name => {
         const [ x, y, z ] = emissaryCoords[name]
@@ -29,7 +29,7 @@ const renderWaypoints = () => {
 }
 
 // Events
-new Event(feature, "renderWorld", renderWaypoints, checkWorld)
+new Event(feature, "renderWorld", renderWaypoints, registerWhen)
 
 // Starting events
 feature.start()
