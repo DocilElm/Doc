@@ -1,13 +1,14 @@
 import { ChestMenu } from "../../../ChestMenu/index";
 import { Command } from "../../core/Events";
 import { Feature } from "../../core/Feature";
-import { PREFIX, getJsonDataFromFile, saveToFile } from "../../utils/Utils";
+import { TextHelper } from "../../shared/Text";
 
 // Constant variables
 const feature = new Feature("Inventory Logs", "Commands", "A way to log your current inventory")
+const PREFIX = TextHelper.PREFIX
 
 // Changeable variables
-let inventoryLogs = getJsonDataFromFile("data/InventoryLogs.json");
+let inventoryLogs = feature.getConfig()
 
 // Logic
 function verifyInventoryName(inventoryName = []) {
@@ -43,7 +44,7 @@ new Command(feature, "invlogs", (command, ...inventoryName) => {
                 if (item?.getNBT()) inventoryLogs[inventoryName][slot] = NBT.toObject(item.getNBT())
             })
             
-            saveToFile("data/InventoryLogs.json", inventoryLogs)
+            feature.save()
             ChatLib.chat(`${PREFIX} §aSuccessfully added §6${inventoryName} §ato inventory logs`)
             return
         case "open":
@@ -84,7 +85,7 @@ new Command(feature, "invlogs", (command, ...inventoryName) => {
             // This straight up deletes the reference in memory so we save some memory here
             delete inventoryLogs[inventoryName]
             // Save the deletion
-            saveToFile("data/InventoryLogs.json", inventoryLogs)
+            feature.save()
             ChatLib.chat(`${PREFIX} §aSuccessfully removed §6${inventoryName} §afrom inventory logs`)
             return
         default:

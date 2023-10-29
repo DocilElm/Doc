@@ -2,19 +2,19 @@ import { Event } from "../core/Events"
 import { TextHelper } from "./Text"
 
 // Regex
-const profileNameRegex =   /^Profile\: ([\w ]+)$/
-const bankRegex =          /^ Bank\: ([\w\,.\/]+)/
-const skillsRegex =        /^Skills\: ([\w\d ]+)\: ([\w\d,. ]+)\%/
-const statsRegex =         /^ ([\w ]+)\: (❁|☣|☠|⚔|✦|☘)([\d,]+)$/
+const profileNameRegex =        /^Profile\: ([\w ]+)$/
+const bankRegex =               /^ Bank\: ([\w\,.\/]+)/
+const skillsRegex =             /^Skills\: ([\w\d ]+)\: ([\w\d,. ]+)\%/
+const statsRegex =              /^ ([\w ]+)\: (❁|☣|☠|⚔|✦|☘)([\d,]+)$/
 // Garden regex
-const cropMilestoneRegex = /^ Milestone\: ([\w\d ]+)\: ([\d,.]+)%$/
-const jacobContestRegex =  /^Starts in\: ([\d]+) ([\w\d ]+)$/
-const nextVisitorRegex =   /^ Next Visitor\: ([\w\d,. ]+)$/
-const organicMatterRegex = /^ Organic Matter\: ([\w\d,.]+)$/
-const fuelRegex =          /^ Fuel\: ([\w\d,.]+)$/
-const timeLeftRegex =      /^ Time Left\: ([\w\d ]+)$/
-const storedCompostRegex = /^ Stored Compost\: ([\w\d,. ]+)$/
-const visitorAmountRegex = /^Visitors\: \(([\d]+)\)$/
+const cropMilestoneRegex =      /^ Milestone\: ([\w\d ]+)\: ([\d,.]+)%$/
+const jacobContestRegex =       /^Starts in\: ([\d]+) ([\w\d ]+)$/
+const nextVisitorRegex =        /^ Next Visitor\: ([\w\d,. ]+)$/
+const organicMatterRegex =      /^ Organic Matter\: ([\w\d,.]+)$/
+const fuelRegex =               /^ Fuel\: ([\w\d,.]+)$/
+const timeLeftRegex =           /^ Time Left\: ([\w\d ]+)$/
+const storedCompostRegex =      /^ Stored Compost\: ([\w\d,. ]+)$/
+const visitorAmountRegex =      /^Visitors\: \(([\d]+)\)$/
 
 export default new class TabListStats {
     constructor(){

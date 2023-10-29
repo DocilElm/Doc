@@ -107,33 +107,32 @@ FeatureManager
             })
         }).setFilteredClass(S38PacketPlayerListItem).unregister()
     )
-    .createCustomEvent("onBlessingsChange", (fn, decodeNumb = false) => 
-        register("packetReceived", (packet, event) => {
+    .createCustomEvent("onBlessingsChange", (fn, decodeRomanNumeral = false) => 
+        register("packetReceived", (packet, _) => {
             let blessingsArray = []
 
             packet.func_179701_b()?.func_150253_a()?.forEach(chatComponent => {
                 const chatComponentText = chatComponent.func_150254_d()?.removeFormatting()
 
-                if(!/^Blessing of (.+)$/.test(chatComponentText)) return
-                if(decodeNumb) {
-                    const [ ar, blessingName, romanNumber ] = chatComponentText.match(/^Blessing of ([\w\d]+) ([IVXLCDM]+)$/)
+                if (!/^Blessing of (.+)$/.test(chatComponentText)) return
+                if (!decodeRomanNumeral)  blessingsArray.push(chatComponentText.match(/^Blessing of (.+)$/)?.[1])
+                
+                
+                const romanNumeral = chatComponentText.match(/^Blessing of [\w\d]+ ([IVXLCDM]+)$/)?.[1]
 
-                    blessingsArray.push(chatComponentText.replace(romanNumber, TextHelper.decodeNumeral(romanNumber)))
-                    return
-                }
-                blessingsArray.push(chatComponentText.match(/^Blessing of (.+)$/)?.[1])
+                blessingsArray.push(chatComponentText.replace(romanNumeral, TextHelper.decodeNumeral(romanNumeral)))
             })
 
             fn(blessingsArray)
         }).setFilteredClass(net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter).unregister()
     )
     .createCustomEvent("onWindowItemsPacket", (fn) => 
-        register("packetReceived", (packet, event) => {
+        register("packetReceived", (packet, _) => {
             fn(packet.func_148910_d())
         }).setFilteredClass(net.minecraft.network.play.server.S30PacketWindowItems).unregister()
     )
     .createCustomEvent("onOpenWindowPacket", (fn) => 
-        register("packetReceived", (packet, event) => {
+        register("packetReceived", (packet, _) => {
             const windowTitle = packet.func_179840_c().func_150254_d().removeFormatting()
             const windowID = packet.func_148901_c()
             const hasSlots = packet.func_148900_g()
