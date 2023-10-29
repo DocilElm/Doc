@@ -25,6 +25,9 @@ export class Event {
 
     // Internal function to start the event
     start(featureName = "internal") {
+        // Check if the feature has already been started once
+        if (this._register) return this // Allows method chaining and variable assigning
+
         // Start creating events
         const customRegister = FeatureManager.customTriggers.get(this.eventName.toLowerCase())
 
@@ -59,8 +62,8 @@ export class Event {
 
         // We create a new register when we start so we can just delete it
         // First unregister since this could cause a memory leak
-        this.event._register.unregister()
-        delete this.event._register
+        this._register.unregister()
+        delete this._register
 
         // Allows method chaining and variable assigning
         return this

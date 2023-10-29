@@ -1,6 +1,7 @@
 import { Event } from "../../core/Events"
 import { TextHelper } from "../../shared/Text"
 import { createDungeonsMeter, createSlayersMeter, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
+import { feature } from "./RngMeter"
 
 // Consistant variables
 const validTitles = new Set(["Slayer", "Revenant Horror", "Tarantula Broodfather", "Sven Packmaster", "Voidgloom Seraph", "Inferno Demonlord", "Riftstalker Bloodfiend"])
@@ -27,12 +28,12 @@ const addItems = (currentScore = null, selectedDrop = null, currentName) => {
     createDungeonsMeter(currentName, currentScore, selectedDrop)
 }
 
-const checkWindowName = (windowTitle, windowID, hasSlots, slotCount, guiID, entityID) => shouldCheck = (validTitles.has(windowTitle) || /RNG Meter$/.test(windowTitle))
+const checkWindowName = windowTitle => shouldCheck = (validTitles.has(windowTitle) || /RNG Meter$/.test(windowTitle))
 
 const handleItemsPacket = (itemStacks) => {
     if(!shouldCheck) return
 
-    itemStacks.forEach((itemStack, itemSlot) => {
+    itemStacks.forEach(itemStack => {
         if(!itemStack) return
 
         const item = new Item(itemStack)
@@ -59,13 +60,16 @@ const handleItemsPacket = (itemStacks) => {
     shouldCheck = false
 }
 
-new Event(null, "onOpenWindowPacket", checkWindowName).start()
-new Event(null, "onWindowItemsPacket", handleItemsPacket).start()
+new Event(feature, "onOpenWindowPacket", checkWindowName)
+new Event(feature, "onWindowItemsPacket", handleItemsPacket)
 
-new Event(null, "onChatPacket", (floorName) => {
+new Event(feature, "onChatPacket", (floorName) => {
     setDungeonsMeter(floorName, null)
-}, null, resetDungeonsMeterRegex).start()
+}, null, resetDungeonsMeterRegex)
 
-new Event(null, "onChatPacket", (slayerName) => {
+new Event(feature, "onChatPacket", (slayerName) => {
     setSlayersMeter(slayerName, null)
-}, null, resetSlayerMeterRegex).start()
+}, null, resetSlayerMeterRegex)
+
+// Start the feature
+feature.start()
