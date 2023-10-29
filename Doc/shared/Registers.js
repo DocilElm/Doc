@@ -127,3 +127,20 @@ FeatureManager
             fn(blessingsArray)
         }).setFilteredClass(net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter).unregister()
     )
+    .createCustomEvent("onWindowItemsPacket", (fn) => 
+        register("packetReceived", (packet, event) => {
+            fn(packet.func_148910_d())
+        }).setFilteredClass(net.minecraft.network.play.server.S30PacketWindowItems).unregister()
+    )
+    .createCustomEvent("onOpenWindowPacket", (fn) => 
+        register("packetReceived", (packet, event) => {
+            const windowTitle = packet.func_179840_c().func_150254_d().removeFormatting()
+            const windowID = packet.func_148901_c()
+            const hasSlots = packet.func_148900_g()
+            const slotCount = packet.func_148898_f()
+            const guiID = packet.func_148902_e()
+            const entityID = packet.func_148897_h()
+        
+            fn(windowTitle, windowID, hasSlots, slotCount, guiID, entityID)
+        }).setFilteredClass(net.minecraft.network.play.server.S2DPacketOpenWindow).unregister()
+    )

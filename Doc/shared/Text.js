@@ -1,12 +1,5 @@
-const numeralValues = {
-    "I": 1,
-    "V": 5,
-    "X": 10,
-    "L": 50,
-    "C": 100,
-    "D": 500,
-    "M": 1000
-}
+const romanNumerals = {M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1}
+const numeralValues = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
 
 export class TextHelper {
     /**
@@ -55,7 +48,7 @@ export class TextHelper {
     * @returns returns the callback fn with the given matches or the current msg if the criteria is null
     */
    static matchesCriteria = (fn, criteria, unformatted, event, formatted) => {
-        if(!criteria) return fn(unformatted, event, formatted)
+        if (!criteria) return fn(unformatted, event, formatted)
         
         else if (typeof(criteria) === "string") {
             if (unformatted !== criteria) return
@@ -69,5 +62,31 @@ export class TextHelper {
 
             return fn(...match.slice(1), event, formatted)
         }
+    }
+
+    static convertToRoman(number) {
+        if (!number) return number
+
+        let result = ""
+  
+        for (let key in romanNumerals) {
+          while (number >= romanNumerals[key]) {
+            result += key;
+            number -= romanNumerals[key];
+          }
+        }
+  
+        return result
+    }
+
+    static dropToRoman(selectedDrop, formattedDrop) {
+        if (!/(Rune|Enchanted Book)/.test(selectedDrop)) return selectedDrop
+
+        if(selectedDrop === "Enchanted Book Bundle") return selectedDrop = formattedDrop === "§5§o§6Enchanted Book Bundle" ? "The One Bundle" : "Quantum Bundle"
+
+        const number = selectedDrop.match(/([\d]+)/)?.[1]
+        if (!number) return selectedDrop
+
+        return selectedDrop.replace(number, this.convertToRoman(number))
     }
 }
