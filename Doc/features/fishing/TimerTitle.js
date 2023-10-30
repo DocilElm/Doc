@@ -17,7 +17,7 @@ const showTitleEntity = () => {
     World.getAllEntitiesOfType(EntityArmorStand).forEach(entity => {
         const entityName = entity.getName()?.removeFormatting()
 
-        if(!/^[\d\!]+/g.test(entityName)) return
+        if(!/^(\!\!\!|\d+\.\d+)/.test(entityName)) return
 
         if(config.rgbTitleFishing) entity.getEntity().func_96094_a(`§Z${entityName}`)
 

@@ -390,6 +390,14 @@ class Settings {
         ChatLib.command("rngMeterDisplay", true)
 
     }
+
+    @SwitchProperty({
+        name: "Block Overlay",
+        description: "Draws a block overlay at the block you're currently looking at",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    blockOverlay = false;
 }
 
 export default new Settings()

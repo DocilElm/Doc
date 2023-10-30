@@ -17,6 +17,9 @@ FeatureManager
     .createCustomEvent("step", (fn, stepAmount) => 
         register("step", fn).setFps(stepAmount).unregister()
     )
+    .createCustomEvent("chat", (fn, criteria) => 
+        register("chat", fn).setCriteria(criteria)
+    )
     .createCustomEvent("onChatPacket", (fn, criteria) => 
         register("packetReceived", (packet, event) => {
             // Check if the packet is for the actionbar

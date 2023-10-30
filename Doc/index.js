@@ -35,6 +35,7 @@ import "./features/misc/CreeperAlert"
 import "./features/misc/RagAxeTimer"
 import "./features/misc/RngMeter"
 import "./features/misc/RngMeterScanner"
+import "./features/misc/BlockOverlay"
 
 register("command", () => config.openGUI()).setName("doc")
 

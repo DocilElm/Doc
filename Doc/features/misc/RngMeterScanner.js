@@ -1,10 +1,12 @@
+import config from "../../config"
 import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
 import { TextHelper } from "../../shared/Text"
 import { createDungeonsMeter, createSlayersMeter, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
-import { feature } from "./RngMeter"
 
 // Consistant variables
 const validTitles = new Set(["Slayer", "Revenant Horror", "Tarantula Broodfather", "Sven Packmaster", "Voidgloom Seraph", "Inferno Demonlord", "Riftstalker Bloodfiend"])
+const feature = new Feature("RngMeterScanner", "Misc", "")
 
 // Regex
 const resetDungeonsMeterRegex =  /^You reset your selected drop for your Catacombs \(([\w\d]{1,2})\) RNG Meter\!$/
@@ -14,6 +16,8 @@ const resetSlayerMeterRegex =    /^You reset your selected drop for your ([\w ]+
 let shouldCheck = false
 
 // Logic
+const registerWhen = () => config.RngMeter
+
 // Make sure we add the items to the correct json file
 const addItems = (currentScore = null, selectedDrop = null, currentName) => {
     if (!currentName) return
@@ -60,16 +64,16 @@ const handleItemsPacket = (itemStacks) => {
     shouldCheck = false
 }
 
-new Event(feature, "onOpenWindowPacket", checkWindowName)
-new Event(feature, "onWindowItemsPacket", handleItemsPacket)
+new Event(feature, "onOpenWindowPacket", checkWindowName, registerWhen)
+new Event(feature, "onWindowItemsPacket", handleItemsPacket, registerWhen)
 
 new Event(feature, "onChatPacket", (floorName) => {
     setDungeonsMeter(floorName, null)
-}, null, resetDungeonsMeterRegex)
+}, registerWhen, resetDungeonsMeterRegex)
 
 new Event(feature, "onChatPacket", (slayerName) => {
     setSlayersMeter(slayerName, null)
-}, null, resetSlayerMeterRegex)
+}, registerWhen, resetSlayerMeterRegex)
 
 // Start the feature
 feature.start()

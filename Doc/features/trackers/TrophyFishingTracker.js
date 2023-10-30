@@ -20,7 +20,7 @@ editGui.onRender(() => editGui.renderString(["&9Vanille&f: &80 &70 &60 &b0", "&5
 const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.trophyFishingTracker
 
 // Events
-new Event(feature, "onChatPacket", (fishName, fishType, event, formatted) => {
+new Event(feature, "chat", (fishName, fishType, event, formatted) => {
     if(!fishesCaught[fishName]) fishesCaught[fishName] = { BRONZE: 0, SILVER: 0, GOLD: 0, DIAMOND: 0 }
 
     fishesCaught[fishName][fishType]++

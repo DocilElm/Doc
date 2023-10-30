@@ -10,7 +10,7 @@ import { PREFIX, createDungeonsMeter, createSlayersMeter, data, getJsonDataFromU
 const DungeonsMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DungeonsMeterData.json")
 const SlayersMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/SlayersMeterData.json")
 const editGui = new ScalableGui("rngMeter").setCommand("rngMeterDisplay")
-export const feature = new Feature("RngMeter", "Misc", "")
+const feature = new Feature("RngMeter", "Misc", "")
 
 // Regex
 const storedSlayerXPRegex =     /^   RNG Meter \- ([\d,]+) Stored XP$/
