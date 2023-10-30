@@ -146,3 +146,14 @@ FeatureManager
             fn(windowTitle, windowID, hasSlots, slotCount, guiID, entityID)
         }).setFilteredClass(net.minecraft.network.play.server.S2DPacketOpenWindow).unregister()
     )
+    .createCustomEvent("onPlayerBlockPlacement", (fn) => 
+        register("packetSent", (packet, _) => {
+            const position = packet.func_179724_a()
+            const blockPosition = new BlockPos(position)
+        
+            const [ x, y, z ] = [blockPosition.x, blockPosition.y, blockPosition.z]
+            const ctBlock = World.getBlockAt(x, y, z)
+
+            fn(ctBlock, [x, y, z], blockPosition)
+        }).setFilteredClass(net.minecraft.network.play.client.C08PacketPlayerBlockPlacement)
+    )

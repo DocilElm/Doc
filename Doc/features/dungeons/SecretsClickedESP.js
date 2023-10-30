@@ -1,57 +1,59 @@
 import { renderBlockHitbox } from "../../../BloomCore/RenderUtils"
-import { addEvent } from "../../FeatureBase"
 import config from "../../config"
-import { C08PacketPlayerBlockPlacement } from "../../utils/Utils"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { WorldState } from "../../shared/World"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/ShowSecretClicks.js
 
-const allowedIDs = [
-    "26bb1a8d-7c66-31c6-82d5-a9c04c94fb02", // wither essence
-    "edb0155f-379c-395a-9c7d-1b6005987ac8" // redstone key
-]
-const secretBlocks = [
-    "minecraft:chest",
-    "minecraft:lever",
-    "minecraft:skull",
-    "minecraft:trapped_chest"
-]
+// Constant variables
+// Wither skull / Redstone skull
+const allowedIDs = new Set(["26bb1a8d-7c66-31c6-82d5-a9c04c94fb02", "edb0155f-379c-395a-9c7d-1b6005987ac8"])
+const secretBlocks = new Set(["minecraft:chest", "minecraft:lever", "minecraft:skull", "minecraft:trapped_chest"])
+const feature = new Feature("secretsClicked", "Dungeons", "")
 
-const blocksClicked = new Map()
+// Changeable variables
+let ctBlockToHighlight = null
+let isLocked = false
 
-const highlightHandler = (block) => {
-    if(blocksClicked.has(block.toString())) return
+// Logic
+const registerWhen = () => WorldState.inDungeons() && config.showSecretsClicked
 
-    blocksClicked.set(block.toString(), block)
+const checkSkullTexture = (blockPos) => {
+    const textureID = World.getWorld().func_175625_s(blockPos.toMCBlock())?.func_152108_a().id?.toString()
+    if (!textureID) return
 
-    Client.scheduleTask(20, () => blocksClicked.delete(block.toString()))
+    return allowedIDs.has(textureID)
 }
 
-addEvent("showSecretsClicked", "", register("packetSent", (packet, event) => {
-    if(!World.isLoaded()) return
+const checkCtBlock = (ctBlock, _, blockPos) => {
+    const blockName = ctBlock.type.getRegistryName()
 
-    const pos = packet.func_179724_a()
-    const bpos = new BlockPos(pos)
+    if (!secretBlocks.has(blockName) || blockName === "minecraft:skull" && !checkSkullTexture(blockPos)) return
 
-    const [ x, y, z ] = [bpos.x, bpos.y, bpos.z]
-    const block = World.getBlockAt(x, y, z)
-    const blockName = block.type.getRegistryName()
+    ctBlockToHighlight = ctBlock
 
-    if(!secretBlocks.some(arrBlocks => blockName === arrBlocks)) return
-    if(blockName.includes("skull") && !allowedIDs.some(id => World.getWorld().func_175625_s(bpos.toMCBlock()).func_152108_a().id?.toString().includes(id))) return
-
-    highlightHandler(block)
-
-}).setFilteredClass(C08PacketPlayerBlockPlacement), null, [
-    register("renderWorld", () => {
-        const r = config.showSecretsClickedColor.getRed() / 255
-        const g = config.showSecretsClickedColor.getGreen() / 255
-        const b = config.showSecretsClickedColor.getBlue() / 255
-    
-        for (let ctBlock of blocksClicked.values()) {
-            renderBlockHitbox(ctBlock, r, g, b, 1, true, 2, false)
-            renderBlockHitbox(ctBlock, r, g, b, 0.2, true, 2, true)
-        }
+    Client.scheduleTask(20, () => {
+        ctBlockToHighlight = null
+        isLocked = false
     })
-], "Catacombs", null)
+}
 
-register("worldUnload", () => blocksClicked.clear())
+const renderHighlight = () => {
+    if (!ctBlockToHighlight) return
+
+    const r = isLocked ? 1 : config.showSecretsClickedColor.getRed() / 255
+    const g = isLocked ? 0 : config.showSecretsClickedColor.getGreen() / 255
+    const b = isLocked ? 0 : config.showSecretsClickedColor.getBlue() / 255
+
+    renderBlockHitbox(ctBlockToHighlight, r, g, b, 1, true, 2, false)
+    renderBlockHitbox(ctBlockToHighlight, r, g, b, 0.2, true, 2, true)
+}
+
+// Events
+new Event(feature, "onPlayerBlockPlacement", checkCtBlock, registerWhen)
+new Event(feature, "renderWorld", renderHighlight, registerWhen)
+new Event(feature, "onChatPacket", () => isLocked = true, registerWhen, /^That chest is locked!$/)
+
+// Starting events
+feature.start()
