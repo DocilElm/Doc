@@ -6,6 +6,15 @@ export default new class FeatureManager {
         this.customTriggers = new Map()
 
         this.registerWhenStep = register("step", this.registerWhenStepFn.bind(this)).setFps(1)
+        
+        register("gameUnload", () => {
+            // Loop through every conditional trigger and unregister its events
+            // then delete the name [featureName] from the map
+            this.conditionalTriggers.forEach((featureEvents, featureName) => {
+                featureEvents.forEach(event => event.unregister())
+                this.conditionalTriggers.delete(featureName)
+            })
+        })
     }
 
     registerWhenStepFn() {

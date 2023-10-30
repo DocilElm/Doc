@@ -12,14 +12,20 @@ const feature = new Feature("ragnarokAxeTimer", "Misc", "")
 // Changeable variables
 let lastCast = null
 let cooldownTime = 20_000
+let stringToDraw = null
 
 // Default display
-editGui.onRender(() => editGui.renderString("&aAxe Cooldown: Ready!"))
+editGui.onRender(() => {
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow("&aAxe Cooldown: Ready!", 0, 0)
+    Renderer.finishDraw()
+})
 
 // Logic
 const registerWhen = () => World.isLoaded() && config.ragnarokAxeTimer
 
-function updateCooldownAndCastTime() {
+const updateCooldownAndCastTime = () => {
     lastCast = Date.now()
 
     if(!WorldState.inDungeons()) return
@@ -27,23 +33,30 @@ function updateCooldownAndCastTime() {
     cooldownTime = DungeonsState.getMageReduction(20_000)
 }
 
-function renderCooldownStatus() {
-    if (!lastCast) return
+const makeStringToDraw = () => {
+    if (!lastCast) return stringToDraw = null
 
     const timePast = cooldownTime - (Date.now() - lastCast)
-    editGui.renderString(timePast <= 0 ? "§aAxe Cooldown: Ready!" : `§cAxe Cooldown: ${timePast / 1000}`)
+    stringToDraw = timePast <= 0 ? "§aAxe Cooldown: Ready!" : `§cAxe Cooldown: ${timePast / 1000}`
 }
 
-// Reset variables to default so it can be used in different worlds
-function resetLastCast() {
-    lastCast = null
-    cooldownTime = 20_000
+const renderCooldownStatus = () => {
+    if (!stringToDraw) return
+    
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(stringToDraw, 0, 0)
+    Renderer.finishDraw()
 }
 
 // Events
+new Event(feature, "tick", makeStringToDraw, registerWhen)
 new Event(feature, "onActionBarPacket", updateCooldownAndCastTime, registerWhen, /^.+CASTING IN 3s(.+)?$/)
-new Event(feature, "renderOverlay", renderCooldownStatus, registerWhen)
-new Event(feature, "worldUnload", resetLastCast)
+new Event(feature, "renderOverlay", renderCooldownStatus, () => World.isLoaded() && config.ragnarokAxeTimer && stringToDraw)
+new Event(feature, "worldUnload", () => {
+    lastCast = null
+    cooldownTime = 20_000
+})
 
 // Starting events
 feature.start()

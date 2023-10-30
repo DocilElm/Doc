@@ -34,6 +34,7 @@ class Settings {
         this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
         this.addDependency("RngMeter Location", "RngMeter")
         this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
+        this.addDependency("Block Overlay Color", "Block Overlay")
     }
     // General
     @ButtonProperty({
@@ -398,6 +399,14 @@ class Settings {
         subcategory: "Misc"
     })
     blockOverlay = false;
+
+    @ColorProperty({
+        name: "Block Overlay Color",
+        description: "Changes the highlight color of the block overlay",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    blockOverlayColor = Color.GREEN;
 }
 
 export default new Settings()

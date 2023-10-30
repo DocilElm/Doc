@@ -20,7 +20,7 @@ const currentDroppedItemRegex = /^[\w ]+ DROP\! \(([\w\d\(\)'◆ ]+)\)(?: \(\+(\
 const startingDungeonsRegex =   /^Starting in [\d] seconds\.$/
 
 // Changeable variables
-let stringToDraw = ""
+let stringToDraw = null
 let currentValue = null
 let addScore = true
 
@@ -28,7 +28,7 @@ let addScore = true
 const registerWhen = () => World.isLoaded() && config.RngMeter
 
 const makeStringToDraw = (jsonData, dataType, value) => {
-    if(!value) return
+    if(!value) return stringToDraw = null
     currentValue = value
 
     const selectedDrop = data.rngMeter?.[dataType]?.[value]?.selectedDrop
@@ -43,16 +43,23 @@ const makeStringToDraw = (jsonData, dataType, value) => {
     stringToDraw = `${formatName}&f: ${formatColor}${mathTrunc(score)}&b/&6${mathTrunc(requiredScore)} ${formatColor}(${progress >= 100 ? 100 : progress}%)`
 }
 
-const renderHandler = () => {
-    if(WorldState.inDungeons()) makeStringToDraw(DungeonsMeterData, "dungeonsData", DungeonsState.getCurrentFloor())
+const tickChecks = () => {
+    if(WorldState.inDungeons()) return makeStringToDraw(DungeonsMeterData, "dungeonsData", DungeonsState.getCurrentFloor())
     
-    else getScoreboard().forEach(line => {
+    getScoreboard().forEach(line => {
         if(!/([\w ]+) [IV]+$/.test(line)) return
 
         makeStringToDraw(SlayersMeterData, "slayersData", line.match(/([\w ]+) [IV]+$/)[1])
     })
+}
 
-    editGui.renderString(stringToDraw)
+const renderHandler = () => {
+    if (!stringToDraw) return
+    
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(stringToDraw, 0, 0)
+    Renderer.finishDraw()
 }
 
 const storeSlayerScore = (amount) => {
@@ -110,10 +117,16 @@ const startingDungeonsAlert = () => {
 }
 
 // Default display
-editGui.onRender(() => editGui.renderString(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`))
+editGui.onRender(() => {
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`, 0, 0)
+    Renderer.finishDraw()
+})
 
 // Events
-new Event(feature, "renderOverlay", renderHandler, registerWhen)
+new Event(feature, "tick", tickChecks, registerWhen)
+new Event(feature, "renderOverlay", renderHandler, () => World.isLoaded() && config.RngMeter && stringToDraw)
 new Event(feature, "onChatPacket", storeSlayerScore, registerWhen, storedSlayerXPRegex)
 new Event(feature, "onChatPacket", storeTeamScore, registerWhen, currentTeamScoreRegex)
 new Event(feature, "onChatPacket", checkCurrentReward, registerWhen, currentRewardRegex)

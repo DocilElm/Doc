@@ -40,7 +40,7 @@ export class Event {
 
         // Starts registering events if they are not conditional
         // And return so they don't get added to the conditional events list
-        if (!this.registerWhen) return this._register.register()
+        if (this.registerWhen === null) return this._register.register()
 
         FeatureManager.conditionalTriggers.get(featureName).push(this)
 
