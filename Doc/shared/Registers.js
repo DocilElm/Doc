@@ -157,3 +157,9 @@ FeatureManager
             fn(ctBlock, [x, y, z], blockPosition)
         }).setFilteredClass(net.minecraft.network.play.client.C08PacketPlayerBlockPlacement)
     )
+    .createCustomEvent("onClickWindowPacket", (fn) => 
+        register("packetSent", (packet, _) => {
+            // Container name, Slot clicked
+            fn(Player.getContainer().getName(), packet.func_149544_d())
+        }).setFilteredClass(net.minecraft.network.play.client.C0EPacketClickWindow)
+    )
