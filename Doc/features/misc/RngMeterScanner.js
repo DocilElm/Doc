@@ -37,13 +37,13 @@ const checkWindowName = windowTitle => shouldCheck = (validTitles.has(windowTitl
 const handleItemsPacket = (itemStacks) => {
     if(!shouldCheck) return
 
-    itemStacks.forEach(itemStack => {
-        if(!itemStack) return
+    itemStacks.forEach(valueStack => {
+        if(!valueStack) return
 
-        const item = new Item(itemStack)
-        if(item.getID() === 160 || item.getID() === 166 || item.getName()?.removeFormatting() !== "RNG Meter") return
+        const ctItem = new Item(valueStack)
+        if(ctItem.getID() === 160 || ctItem.getID() === 166 || ctItem.getName()?.removeFormatting() !== "RNG Meter") return
 
-        const itemLore = item.getLore()
+        const itemLore = ctItem.getLore()
         const currentName = itemLore?.[1]?.removeFormatting()?.match(/^Catacombs \(([\w\d]+)\)$/)?.[1] ?? itemLore?.[1]?.removeFormatting()
 
         // If no item selected create new dungeons data with null values

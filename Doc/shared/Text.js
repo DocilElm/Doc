@@ -105,4 +105,12 @@ export class TextHelper {
 
         return selectedDrop.replace(number, this.convertToRoman(number))
     }
+
+    static addCommas(number) {
+        return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? number
+    }
+
+    static addCommasTrunc(number) {
+        return this.addCommas(Math.trunc((Math.round(number * 100) / 100)))
+    }
 }

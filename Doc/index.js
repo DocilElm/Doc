@@ -20,7 +20,7 @@ import "./features/commands/InventoryLog"
 // // import "./features/fishing/BossBar"
 import "./features/fishing/TimerTitle"
 // Garden
-// // import "./features/garden/VisitorProfit"
+import "./features/garden/VisitorProfit"
 // Slayers
 import "./features/slayers/BossSlainTimer"
 // Trackers
