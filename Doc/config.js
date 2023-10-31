@@ -239,7 +239,7 @@ class Settings {
     // Garden
     @SwitchProperty({
         name: "Visitor Profit Display",
-        description: "Displays most of the visitor's lore data and also the profit with copper and special item",
+        description: "Displays most of the visitor's lore data and also the profit with copper and rare item. Neu visitor features breaks this feature",
         category: "Garden",
         subcategory: "Garden"
     })

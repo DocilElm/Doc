@@ -5,7 +5,7 @@ import config from "./config"
 import "./features/dungeons/MobESP"
 import "./features/dungeons/SecretsClickedESP"
 // // import "./features/dungeons/RunSplits"
-// // import "./features/dungeons/ChestProfit"
+import "./features/dungeons/ChestProfit"
 import "./features/dungeons/CroesusClicks"
 // // import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
@@ -39,7 +39,7 @@ import "./features/misc/BlockOverlay"
 
 register("command", () => config.openGUI()).setName("doc")
 
-if(data.firstTime){
+if (data.firstTime){
     chat(`${PREFIX} &aUse /doc for config menu`)
     data.firstTime = false
     data.save()
