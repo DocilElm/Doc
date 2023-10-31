@@ -14,6 +14,9 @@ export default new class PriceHelper {
         // Updating the api data
         this.update()
 
+        // Loading api data
+        this.loadApiData()
+
         new Event(null, "step", () => {
             // Wait every 20mins to update the api data
             if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
@@ -44,6 +47,9 @@ export default new class PriceHelper {
      * - Updates all of the api data and saves it to their files
      */
     update() {
+        // Wait every 20mins to update the api data
+        if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
+        
         Promise.all([
             request({url: "https://api.hypixel.net/skyblock/bazaar", headers: { 'User-Agent': ' Mozilla/5.0', 'Content-Type': 'application/json' }, json: true}),
             request({url: "https://moulberry.codes/lowestbin.json", headers: { 'User-Agent': ' Mozilla/5.0', 'Content-Type': 'application/json' }, json: true})
@@ -88,9 +94,13 @@ export default new class PriceHelper {
     /**
      * - Gets the bazaar sell price or lowest bin for the given Skyblock ID item
      * @param {String} skyblockID 
+     * @param {String} ultimateName The ultimate enchant's name
      * @returns {Number | null}
      */
-    getSellPrice(skyblockID) {
+    getSellPrice(skyblockID, ultimateName) {
+        if (skyblockID.startsWith("ENCHANTMENT_") && !this.bazaarSellApi.has(skyblockID))
+            return this.bazaarSellApi.get(`ENCHANTMENT_ULTIMATE_${ultimateName}`)
+
         if (this.bazaarSellApi.has(skyblockID)) return this.bazaarSellApi.get(skyblockID)
 
         if (!this.lowestBinApi.has(skyblockID)) return

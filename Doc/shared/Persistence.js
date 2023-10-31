@@ -10,7 +10,8 @@ export class Persistence {
         ["Cultivating I", "ENCHANTMENT_CULTIVATING_1"],
         ["Cultivating 1", "ENCHANTMENT_CULTIVATING_1"],
         ["Replenish I", "ENCHANTMENT_REPLENISH_1"],
-        ["Replenish 1", "ENCHANTMENT_REPLENISH_1"]
+        ["Replenish 1", "ENCHANTMENT_REPLENISH_1"],
+        ["Jungle Key", "JUNGLE_KEY"]
     ])
 
     static sbNameToGardenID = {

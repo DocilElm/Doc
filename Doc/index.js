@@ -7,7 +7,7 @@ import "./features/dungeons/SecretsClickedESP"
 // // import "./features/dungeons/RunSplits"
 import "./features/dungeons/ChestProfit"
 import "./features/dungeons/CroesusClicks"
-// // import "./features/dungeons/CroesusProfit"
+import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
 // // import "./features/dungeons/BossSplits"
 // Mining

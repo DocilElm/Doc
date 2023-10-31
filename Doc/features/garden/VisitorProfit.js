@@ -146,7 +146,7 @@ const makeStringToDraw = () => {
         const items = value.requiredItems.toString()
         const copper = value.copperAmount
         const profit = value.profit
-        const profitFormat = profit <= 0 ? "&c" : "&6"
+        const profitFormat = profit <= 0 ? "&c" : "&a"
         const rareItem = value.rareItem
 
         tempString += `\n&aNPC&f: ${name}\n&aRequired Items&f: ${items}\n&cTotal Copper&f: &6${copper}\n&9Rare Item&f: &b${rareItem ?? "&cNone"}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`
