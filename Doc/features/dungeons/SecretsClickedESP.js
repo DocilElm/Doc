@@ -1,7 +1,7 @@
-import { renderBlockHitbox } from "../../../BloomCore/RenderUtils"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { RenderHelper } from "../../shared/Render"
 import { WorldState } from "../../shared/World"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/ShowSecretClicks.js
@@ -46,8 +46,8 @@ const renderHighlight = () => {
     const g = isLocked ? 0 : config.showSecretsClickedColor.getGreen() / 255
     const b = isLocked ? 0 : config.showSecretsClickedColor.getBlue() / 255
 
-    renderBlockHitbox(ctBlockToHighlight, r, g, b, 1, true, 2, false)
-    renderBlockHitbox(ctBlockToHighlight, r, g, b, 0.2, true, 2, true)
+    RenderHelper.outlineBlock(ctBlockToHighlight, r, g, b, 1, true, 2, false)
+    RenderHelper.filledBlock(ctBlockToHighlight, r, g, b, 0.2, true)
 }
 
 // Events

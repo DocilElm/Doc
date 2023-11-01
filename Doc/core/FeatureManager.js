@@ -11,7 +11,7 @@ export default new class FeatureManager {
             // Loop through every conditional trigger and unregister its events
             // then delete the name [featureName] from the map
             this.conditionalTriggers.forEach((featureEvents, featureName) => {
-                featureEvents.forEach(event => event.unregister())
+                featureEvents.forEach(event => event._register.unregister())
                 this.conditionalTriggers.delete(featureName)
             })
         })

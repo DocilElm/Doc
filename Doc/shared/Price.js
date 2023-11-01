@@ -98,6 +98,8 @@ export default new class PriceHelper {
      * @returns {Number | null}
      */
     getSellPrice(skyblockID, ultimateName) {
+        if (!skyblockID) return
+
         if (skyblockID.startsWith("ENCHANTMENT_") && !this.bazaarSellApi.has(skyblockID))
             return this.bazaarSellApi.get(`ENCHANTMENT_ULTIMATE_${ultimateName}`)
 
