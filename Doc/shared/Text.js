@@ -83,7 +83,7 @@ export class TextHelper {
         let result = ""
   
         // Loop over the romanNumerals
-        for ([roman, value] of romanNumerals) {
+        for ([roman, value] in romanNumerals) {
             // If the number is greater than the value of the current roman numeral
             // it means that part of it can be replaced by the current roman numeral
             while (number >= value) {

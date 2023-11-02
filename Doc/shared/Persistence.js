@@ -1,3 +1,5 @@
+import PogObject from "../../PogData"
+
 export class Persistence {
     static rareGardenItemsList = new Map([
         ["Flowering Bouquet", "FLOWERING_BOUQUET"],
@@ -45,6 +47,24 @@ export class Persistence {
         "COMPOST": "COMPOST"
     }
 
+    static data = new PogObject("Doc", {
+        settings: {keybinds: {}},
+        ragaxecd: {x: 10, y: 10, scale: 1},
+        miningProfit: {x: 10, y: 10, scale: 1},
+        visitorProfit: {x: 10, y: 10, scale: 1},
+        runSplits: {x: 10, y: 10, scale: 1},
+        dungeonProfit: {x: 10, y: 10, scale: 1},
+        croesusProfit: {x: 10, y: 10, scale: 1},
+        bossSplits: {x: 10, y: 10, scale: 1},
+        ghostTracker: {x: 10, y: 10, scale: 1},
+        trophyFishingTracker: {x: 10, y: 10, scale: 1},
+        powderTracker: {x: 10, y: 10, scale: 1},
+        rngMeter: {x: 10, y: 10, scale: 1, dungeonsData: {}, slayersData: {}},
+        fatalTempo: {x: 10, y: 10, scale: 1},
+        apiCheckTime: null,
+        firstTime: true
+    }, "data/.data.json")
+
     /**
      * A function to get data from an url instead of a local file
      * @param {string} url The url where the data is located
@@ -73,5 +93,44 @@ export class Persistence {
      */
     static saveDataToFile(filePath, data = {}, createFolderTree = true) {
         FileLib.write("Doc", `data/${filePath}`, JSON.stringify(data), createFolderTree)
+    }
+
+    /**
+     * - Creates an object to store as a data in the meter data
+     * @param {String} currentName The floor name or slayer name
+     * @param {Number | Null} score
+     * @param {String | Null} selectedDrop 
+     * @returns 
+     */
+    static createDataForMeter(currentName, score = null, selectedDrop = null) {
+        if (!currentName) return
+
+        // Check wheather the data to save is for Dungeons or for Slayers
+        const dataType = currentName.length > 2 ? "slayersData" : "dungeonsData"
+
+        // Check if score and selected drop are null
+        // if so we create the json data to save as an object
+        if (!score && !selectedDrop || score && selectedDrop) {
+            this.data.rngMeter[dataType][currentName] = {
+                selectedDrop: selectedDrop,
+                score: score ?? 0
+            }
+            this.data.save()
+            return
+        }
+
+        // Check if the score value exists and selectedDrop is null
+        // if so we add score to the data
+        if (score && !selectedDrop) {
+            this.data.rngMeter[dataType][currentName].score = score
+            this.data.save()
+            return
+        }
+
+        // At last we check if score
+        if (score) return
+
+        this.data.rngMeter[dataType][currentName].selectedDrop = selectedDrop
+        this.data.save()
     }
 }
