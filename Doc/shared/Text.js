@@ -150,4 +150,16 @@ export class TextHelper {
 
         return `ENCHANTMENT_${enchantment.toUpperCase()}_${level}`
     }
+
+    /**
+     * - Gets the seconds since starting date
+     * @param {Date} startingDate 
+     * @param {Date} endingDate 
+     * @returns string that contains the time in a fixed decimal value of 2
+     */
+    static getSecondsSince(startingDate, endingDate) {
+        if (!startingDate || !endingDate) return "0s"
+
+        return `${((startingDate-endingDate)/1000).toFixed(2)}s`
+    }
 }

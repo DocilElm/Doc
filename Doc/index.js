@@ -11,7 +11,7 @@ import "./features/dungeons/ChestProfit"
 import "./features/dungeons/CroesusClicks"
 import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
-// // import "./features/dungeons/BossSplits"
+import "./features/dungeons/BossSplits"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"

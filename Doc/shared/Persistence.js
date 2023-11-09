@@ -65,6 +65,16 @@ export class Persistence {
         firstTime: true
     }, "data/.data.json")
 
+    static dungeonBossEntryMessage = new Set([
+        "[BOSS] Bonzo: Gratz for making it this far, but I'm basically unbeatable.",
+        "[BOSS] Scarf: This is where the journey ends for you, Adventurers.",
+        "[BOSS] The Professor: I was burdened with terrible news recently...",
+        "[BOSS] Thorn: Welcome Adventurers! I am Thorn, the Spirit! And host of the Vegan Trials!",
+        "[BOSS] Livid: Welcome, you've arrived right on time. I am Livid, the Master of Shadows.",
+        "[BOSS] Sadan: So you made it all the way here... Now you wish to defy me? Sadan?!",
+        "[BOSS] Maxor: WELL! WELL! WELL! LOOK WHO'S HERE!"
+    ])
+
     /**
      * A function to get data from an url instead of a local file
      * @param {string} url The url where the data is located

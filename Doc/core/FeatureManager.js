@@ -14,6 +14,8 @@ export default new class FeatureManager {
                 featureEvents.forEach(event => event._register.unregister())
                 this.conditionalTriggers.delete(featureName)
             })
+
+            this.conditionalTriggers.clear()
         })
     }
 

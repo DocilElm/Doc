@@ -1,90 +1,54 @@
-import { addEvent } from "../../FeatureBase"
-import { onChatPacket } from "../../classes/Events"
 import ScalableGui from "../../classes/ScalableGui"
-import { entryMessages, getJsonDataFromUrl, getScoreboard, getSeconds, isInTab } from "../../utils/Utils"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { Persistence } from "../../shared/Persistence"
+import SplitsMaker from "../../shared/Splits"
+import { WorldState } from "../../shared/World"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/RunSplits.js
 
+// Constant variables
+const feature = new Feature("dungeonBossSplits", "Dungeons", "")
 const editGui = new ScalableGui("bossSplits").setCommand("bossSplitsDisplay")
-const bossSplits = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BossSplits.json")
-const f7BossNames = new Set(["Maxor", "Storm", "Goldor", "Necron"])
+const bossSplits = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BossSplits.json")
+const splits = new SplitsMaker(editGui, bossSplits, () => WorldState.inDungeons() && config.dungeonBossSplits)
 
-let currentFloor = null
-let splits = {}
-let currentSplits = []
-let currentBossName = null
-let bossEntry = null
+// Logic
+const checkBossMessage = (bossName, bossMessage, event) => {
+    // If the class hasn't been created we create it
+    if (Persistence.dungeonBossEntryMessage.has(`[BOSS] ${bossName}: ${bossMessage}`) && !splits.objectCreated) {
+        splits.setName(bossName).create()
+        splits.entryTime = Date.now()
+        
+        return
+    }
 
-const createObj = (bossNameV) => {
-    const bossName = f7BossNames.has(bossNameV) ? currentFloor : bossNameV
-    currentBossName = bossName
+    // Check if the current boss's msg is in the split object
+    // or if the split has already been created
+    if (!bossSplits[splits.tempName]?.[`[BOSS] ${bossName}: ${bossMessage}`] || splits.splits[bossSplits[splits.tempName]?.[`[BOSS] ${bossName}: ${bossMessage}`]]) return
     
-    Object.values(bossSplits[bossName]).forEach(value => {
-        splits[value] = null
-    })
+    // Add current time to the current splits basing it off of the chat msg
+    splits.splits[bossSplits[splits.tempName]?.[`[BOSS] ${bossName}: ${bossMessage}`]] = Date.now()
 }
 
-addEvent("dungeonBossSplits", "Dungeon", register("tick", () => {
-    if(!World.isLoaded() || !isInTab("Catacombs")) return
-
-    if(!currentFloor) getScoreboard().forEach(a => {
-        if(!/^  The Catacombs \(([\w\d].{1,2})\)$/.test(a)) return
-
-        currentFloor = a.match(/^  The Catacombs \(([\w\d].{1,2})\)$/)[1]
-    })
-
-    const stuff = []
-    const objKeys = Object.values(splits)
-
-    Object.keys(splits).forEach((key, index) => {
-        const splitTIme = !splits[key] ? Date.now() : splits[key]
-        const lastTime = index === 0 ? bossEntry : objKeys[index-1]
-
-        stuff.push(`${key}&f: &6${getSeconds(splitTIme, lastTime)}`)
-    })
-
-    currentSplits = [...stuff].join("\n")
-}), null, [
-    onChatPacket(() => {
-        if(!bossSplits[currentBossName]) return
-    
-        splits[bossSplits[currentBossName].Cleared] = Date.now()
-    }).setCriteria("                             > EXTRA STATS <"),
-    
-    onChatPacket(() => {
-        if(!bossSplits[currentBossName]) return
-    
-        splits[bossSplits[currentBossName].Terms] = Date.now()
-    }).setCriteria("The Core entrance is opening!"),
-    
-    onChatPacket((bossName, bossMessage, event) => {
-        if(entryMessages.has(`[BOSS] ${bossName}: ${bossMessage}`)) createObj(bossName), bossEntry = Date.now()
-    
-        if(!bossSplits?.[currentBossName]?.[`[BOSS] ${bossName}: ${bossMessage}`]) return
-    
-        splits[bossSplits?.[currentBossName]?.[`[BOSS] ${bossName}: ${bossMessage}`]] = Date.now()
-    }).setCriteria(/^\[BOSS\] ([\w ]+): (.+)$/),
-    
-    register("renderOverlay", () => {
-        if(!World.isLoaded() || !isInTab("Catacombs") || !currentSplits) return
-    
-        editGui.renderString(currentSplits)
-    })
-], "Catacombs")
-
+// Default display
 editGui.onRender(() => {
-    const str = [
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow([
         `&dTerracotta&f: &610s`,
         `&bGiants&f: &610s`,
         `&aSadan&f: &610s`,
-    ].join("\n")
-    editGui.renderString(str)
+    ].join("\n"), 0, 0)
+    Renderer.finishDraw()
 })
 
-register("worldUnload", () => {
-    splits = {}
-    currentSplits = []
-    currentBossName = null
-    bossEntry = null
-    currentFloor = null
-})
+// Events
+new Event(feature, "onChatPacket", checkBossMessage, null, /^\[BOSS\] ([\w ]+): (.+)$/)
+new Event(feature, "onChatPacket", () => splits.splits[bossSplits[splits.tempName].Cleared] = Date.now(), () => bossSplits[splits.tempName], /                             > EXTRA STATS </)
+new Event(feature, "onChatPacket", () => splits.splits[bossSplits[splits.tempName].Terms] = Date.now(), () => bossSplits[splits.tempName], "The Core entrance is opening!")
+new Event(feature, "worldUnload", () => splits.reset())
+
+// Starting events
+feature.start()
