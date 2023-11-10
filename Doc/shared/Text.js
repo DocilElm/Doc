@@ -158,8 +158,10 @@ export class TextHelper {
      * @returns string that contains the time in a fixed decimal value of 2
      */
     static getSecondsSince(startingDate, endingDate) {
-        if (!startingDate || !endingDate) return "0s"
+        if (!startingDate || !endingDate || (startingDate instanceof Array && !startingDate[1])) return "0s"
 
+        if (startingDate instanceof Array) return `${((startingDate[0]-startingDate[1])/1000).toFixed(2)}s`
+        
         return `${((startingDate-endingDate)/1000).toFixed(2)}s`
     }
 }

@@ -6,7 +6,7 @@ import config from "./config"
 // Dungeons
 import "./features/dungeons/MobESP"
 import "./features/dungeons/SecretsClickedESP"
-// // import "./features/dungeons/RunSplits"
+import "./features/dungeons/RunSplits"
 import "./features/dungeons/ChestProfit"
 import "./features/dungeons/CroesusClicks"
 import "./features/dungeons/CroesusProfit"

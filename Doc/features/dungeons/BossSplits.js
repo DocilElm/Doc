@@ -15,9 +15,11 @@ const bossSplits = Persistence.getDataFromURL("https://raw.githubusercontent.com
 const splits = new SplitsMaker(editGui, bossSplits, () => WorldState.inDungeons() && config.dungeonBossSplits)
 
 // Logic
-const checkBossMessage = (bossName, bossMessage, event) => {
+const checkBossMessage = (bossName, _, __, formatted) => {
+    const currentMessage = formatted.removeFormatting()
+
     // If the class hasn't been created we create it
-    if (Persistence.dungeonBossEntryMessage.has(`[BOSS] ${bossName}: ${bossMessage}`) && !splits.objectCreated) {
+    if (Persistence.dungeonBossEntryMessage.has(currentMessage) && !splits.objectCreated) {
         splits.setName(bossName).create()
         splits.entryTime = Date.now()
         
@@ -26,10 +28,10 @@ const checkBossMessage = (bossName, bossMessage, event) => {
 
     // Check if the current boss's msg is in the split object
     // or if the split has already been created
-    if (!bossSplits[splits.tempName]?.[`[BOSS] ${bossName}: ${bossMessage}`] || splits.splits[bossSplits[splits.tempName]?.[`[BOSS] ${bossName}: ${bossMessage}`]]) return
+    if (!bossSplits[splits.tempName]?.[currentMessage] || splits.splits[bossSplits[splits.tempName]?.[currentMessage]]) return
     
     // Add current time to the current splits basing it off of the chat msg
-    splits.splits[bossSplits[splits.tempName]?.[`[BOSS] ${bossName}: ${bossMessage}`]] = Date.now()
+    splits.splits[bossSplits[splits.tempName]?.[currentMessage]] = Date.now()
 }
 
 // Default display

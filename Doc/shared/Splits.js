@@ -9,7 +9,6 @@ const f7BossNames = new Set(["Maxor", "Storm", "Goldor", "Necron"])
  */
 export default class SplitsMaker {
     /**
-     * 
      * @param {ScalableGui} editGui 
      * @param {JSON} json 
      * @param {Function} registerWhen 
@@ -18,6 +17,7 @@ export default class SplitsMaker {
         this.editGui = editGui
         this.json = json
         this.registerWhen = registerWhen
+        this.messageSent = new Set()
 
         this.rendererRegister = register("renderOverlay", () => {
             if (!this.registerWhen() || !this.splits) return
@@ -53,6 +53,10 @@ export default class SplitsMaker {
                 
                 // Push the values for this split to the current split array
                 this.currentSplits.push(`${key}&f: &6${TextHelper.getSecondsSince(splitTime, lastTime)}`)
+
+                // Check if we've sent this msg or not
+                if (!this.messageSent.has(key))
+                    this.sendMessage(key, index, splitTime, lastTime) // If not we try to send it
             })
 
             this.rendererRegister.register()
@@ -74,10 +78,21 @@ export default class SplitsMaker {
 
     /**
      * - Creates default values object of the given split with its json data
-     * @returns this for method chaining
+     * @returns
      */
     create() {
         this.tickRegister.register()
+
+        // If name is null we use the base entries of the json
+        if (!this.name) {
+            Object.values(this.json).forEach(splitValue => {
+                this.splits[splitValue] = null
+            })
+
+            this.objectCreated = true
+
+            return
+        }
 
         // We check if the split name is f7 or not
         // if it is we assign the current floor value to it instead of the boss name
@@ -93,7 +108,28 @@ export default class SplitsMaker {
 
         this.objectCreated = true
         
-        return this
+        return
+    }
+
+    /**
+     * - Sends a chat message whenever the given split is done counting down
+     * @param {String} key 
+     * @param {Number} index 
+     * @param {Date} splitTime 
+     * @param {Date} lastTime 
+     * @returns 
+     */
+    sendMessage(key, index, splitTime, lastTime) {
+        const keysIndex = Object.keys(this.splits)
+
+        // Check the current split and the new one to see if the countdown has stopped
+        if (!this.splits[key] && !this.splits[keysIndex[index+1]]) return
+
+        // Send message if the countdown stopped
+        ChatLib.chat(`${TextHelper.PREFIX} ${key}&f: &6${TextHelper.getSecondsSince(splitTime, lastTime)}`)
+
+        // Save this key to the message list so we don't double send it
+        this.messageSent.add(key)
     }
 
     /**
@@ -108,6 +144,8 @@ export default class SplitsMaker {
 
         // Holds the actual splits with current values for this split
         this.currentSplits = []
+
+        this.messageSent.clear()
 
         this.rendererRegister.unregister()
         this.tickRegister.unregister()
