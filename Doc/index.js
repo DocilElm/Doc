@@ -26,7 +26,7 @@ import "./features/garden/VisitorProfit"
 // Slayers
 import "./features/slayers/BossSlainTimer"
 // Trackers
-// import "./features/trackers/GhostsTracker"
+import "./features/trackers/GhostsTracker"
 import "./features/trackers/TrophyFishingTracker"
 import "./features/trackers/PowderTracker"
 // Kuudra

@@ -19,7 +19,7 @@ export default new class PriceHelper {
 
         new Event(null, "step", () => {
             // Wait every 20mins to update the api data
-            if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
+            if(data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
 
             this.update()
         }, null, 1).start()
@@ -48,7 +48,7 @@ export default new class PriceHelper {
      */
     update() {
         // Wait every 20mins to update the api data
-        if(!!data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
+        if(data.apiCheckTime && Date.now()-data.apiCheckTime <= (1000*60)*20) return
         
         Promise.all([
             request({url: "https://api.hypixel.net/skyblock/bazaar", headers: { 'User-Agent': ' Mozilla/5.0', 'Content-Type': 'application/json' }, json: true}),
