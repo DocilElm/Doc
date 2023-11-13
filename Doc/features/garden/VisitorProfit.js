@@ -1,9 +1,9 @@
-import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
 import PriceHelper from "../../shared/Price"
+import ScalableGui from "../../shared/Scalable"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
@@ -43,7 +43,7 @@ const scanItems = (itemStacks) => {
         // Check if it's an actual visitor gui
         // since other npc's have the same gui names
         const visitorOffers = index === 13 ? ctItem.getLore()?.[4] : null
-        const hasOffers = !!visitorOffers ? /^Offers Accepted: [\d]+$/.test(visitorOffers.removeFormatting()) : null
+        const hasOffers = visitorOffers ? /^Offers Accepted: [\d]+$/.test(visitorOffers.removeFormatting()) : null
 
         // If it's an actual visitor re-assign these variables for saving data
         if (hasOffers) {
@@ -156,7 +156,7 @@ const makeStringToDraw = () => {
 }
 
 const renderVisitors = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

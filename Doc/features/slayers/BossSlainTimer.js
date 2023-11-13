@@ -1,7 +1,7 @@
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
-import { PREFIX } from "../../utils/Utils"
+import { TextHelper } from "../../shared/Text"
 
 // Constant variables
 const feature = new Feature("bossSlainTimer", "Slayer", "")
@@ -25,7 +25,7 @@ const getBossTime = (message, event) => {
 
     const timeFromKill = !bossSlainPacket ? Date.now() : bossSlainPacket
 
-    ChatLib.chat(`${PREFIX} &aBoss Slain: &6${((timeFromKill-bossSpawned)/1000).toFixed(2)}`)
+    ChatLib.chat(`${TextHelper.PREFIX} &aBoss Slain: &6${((timeFromKill-bossSpawned)/1000).toFixed(2)}`)
 
     bossSpawned = null
     bossSlainPacket = null

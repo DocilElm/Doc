@@ -56,7 +56,7 @@ const tickChecks = () => {
 }
 
 const renderHandler = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
     
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

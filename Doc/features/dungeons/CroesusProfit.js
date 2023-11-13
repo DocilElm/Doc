@@ -1,9 +1,9 @@
-import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import ItemHandler from "../../shared/Items"
 import { Persistence } from "../../shared/Persistence"
+import ScalableGui from "../../shared/Scalable"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
@@ -60,7 +60,7 @@ const makeStringToDraw = () => {
 }
 
 const renderChestData = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

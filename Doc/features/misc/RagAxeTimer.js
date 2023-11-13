@@ -1,9 +1,9 @@
-import ScalableGui from "../../classes/ScalableGui"
 import { Feature } from "../../core/Feature"
 import { Event } from "../../core/Events"
 import DungeonsState from "../../shared/Dungeons"
 import { WorldState } from "../../shared/World"
 import config from "../../config"
+import ScalableGui from "../../shared/Scalable"
 
 // Constant variables
 const editGui = new ScalableGui("ragaxecd").setCommand("ragnarokAxeDisplay")
@@ -41,7 +41,7 @@ const makeStringToDraw = () => {
 }
 
 const renderCooldownStatus = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
     
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

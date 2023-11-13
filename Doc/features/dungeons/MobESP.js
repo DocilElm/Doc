@@ -3,7 +3,6 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { WorldState } from "../../shared/World"
-import { EntityArmorStand } from "../../utils/Utils"
 
 // Constant variables
 const feature = new Feature("mobESP", "Dungeons", "")
@@ -17,7 +16,7 @@ const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && con
 
 // Events
 new Event(feature, "step", () => {
-    mobsArray = World.getAllEntitiesOfType(EntityArmorStand).filter(entity => entity.getName().includes("✯ ") && !entity.getName().includes("Fels"))
+    mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => entity.getName().includes("✯ ") && !entity.getName().includes("Fels"))
 }, registerWhen, 3)
 
 new Event(feature, "renderWorld", () => {

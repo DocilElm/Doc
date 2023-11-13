@@ -51,4 +51,8 @@ export default class ScalableGui {
     close(){
         this.gui.close()
     }
+
+    isOpen() {
+        return this.gui.isOpen()
+    }
 }

@@ -106,7 +106,7 @@ const makeStringToDraw = () => {
 }
 
 const renderOverlay = () => {
-    if (!registerWhen() || !stringToDraw) return
+    if (!registerWhen() || !stringToDraw || editGui.isOpen()) return
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

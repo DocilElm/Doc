@@ -1,4 +1,3 @@
-import ScalableGui from "../../classes/ScalableGui"
 import { Feature } from "../../core/Feature"
 import { WorldState } from "../../shared/World"
 import config from "../../config"
@@ -6,6 +5,7 @@ import { Event } from "../../core/Events"
 import PriceHelper from "../../shared/Price"
 import ItemHandler from "../../shared/Items"
 import { TextHelper } from "../../shared/Text"
+import ScalableGui from "../../shared/Scalable"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/dungeonChestProfit/DungeonChestProfit.js
 
@@ -28,7 +28,7 @@ const checkWindowTitle = windowTitle => {
 }
 
 const scanItems = (itemStacks) => {
-    if (!shouldScan) return
+    if (!shouldScan || !currentChest) return
 
     // If the map data has this chest return so it dosent add more of the same values
     if (chestData.has(currentChest)) return
@@ -93,7 +93,7 @@ const makeStringToDraw = () => {
 }
 
 const renderChestData = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
@@ -114,7 +114,10 @@ new Event(feature, "onOpenWindowPacket", checkWindowTitle, registerWhen)
 new Event(feature, "onWindowItemsPacket", scanItems, registerWhen)
 new Event(feature, "tick", makeStringToDraw, registerWhen)
 new Event(feature, "renderOverlay", renderChestData, () => WorldState.inDungeons() && config.dungeonProfitDisplay && stringToDraw)
-new Event(feature, "worldUnload", () => chestData.clear(), currentChest = null)
+new Event(feature, "worldUnload", () => {
+    chestData.clear()
+    currentChest = null
+})
 
 // Starting events
 feature.start()

@@ -1,8 +1,8 @@
-import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
+import ScalableGui from "../../shared/Scalable"
 import SplitsMaker from "../../shared/Splits"
 import { WorldState } from "../../shared/World"
 

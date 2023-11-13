@@ -20,7 +20,7 @@ export default class SplitsMaker {
         this.messageSent = new Set()
 
         this.rendererRegister = register("renderOverlay", () => {
-            if (!this.registerWhen() || !this.splits) return
+            if (!this.registerWhen() || !this.splits || this.editGui.isOpen()) return
 
             Renderer.translate(this.editGui.getX(), this.editGui.getY())
             Renderer.scale(this.editGui.getScale())

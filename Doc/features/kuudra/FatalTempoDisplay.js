@@ -1,9 +1,9 @@
-import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import ScalableGui from "../../shared/Scalable"
+import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
-import { getExtraAttribute, getSkyblockId, mathTrunc } from "../../utils/Utils"
 
 // Constant variables
 const editGui = new ScalableGui("fatalTempo").setCommand("fatalTempoDisplay")
@@ -30,9 +30,11 @@ const getFtPercent = () => (hitsAmount * ftLvl) * 10
 
 const soundHandler = () => {
     const heldItem = Player.getHeldItem()
-    if (!heldItem || getSkyblockId(heldItem) !== "TERMINATOR" || !getExtraAttribute(heldItem, "ultimate_fatal_tempo")) return
+    const skyblockID = TextHelper.getExtraAttribute(heldItem).id
 
-    ftLvl = getExtraAttribute(heldItem, "ultimate_fatal_tempo")
+    if (!heldItem || skyblockID !== "TERMINATOR" || !TextHelper.getExtraAttribute(heldItem).ultimate_fatal_tempo) return
+
+    ftLvl = TextHelper.getExtraAttribute(heldItem).ultimate_fatal_tempo
     hitsAmount++
     lastHit = Date.now()
 }
@@ -44,11 +46,11 @@ const makeStringToDraw = () => {
     const ftTime = ((3000-(Date.now()-lastHit))/1000).toFixed(2)
     const ftPercent = getFtPercent() >= 200 ? 200 : getFtPercent()
 
-    stringToDraw = `&cFatal Tempo&f: &6${ftTime}s &7(Hits: ${mathTrunc(hitsAmount)} ${ftPercent}%)`
+    stringToDraw = `&cFatal Tempo&f: &6${ftTime}s &7(Hits: ${TextHelper.addCommasTrunc(hitsAmount)} ${ftPercent}%)`
 }
 
 const renderFatalTempo = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

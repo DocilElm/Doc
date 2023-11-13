@@ -176,4 +176,27 @@ export class TextHelper {
 
         return parseFloat(number) * numberFormat[format]
     }
+
+    /**
+     * - Gets the time since old date from current date
+     * @param {Date} oldDate 
+     * @returns {String} hrs:mins:secs
+     */
+    static getTime(oldDate) {
+        const seconds = Math.round((Date.now() - oldDate) / 1000 % 60)
+        const mins = Math.floor((Date.now() - oldDate) / 1000 / 60 % 60)
+        const hours = Math.floor((Date.now() - oldDate) / 1000 / 60 / 60 % 24)
+    
+        return `${hours}:${mins}:${seconds}`
+    }
+
+    /**
+     * - Gets the items/hr with the given time and items
+     * @param {Item} item 
+     * @param {Date} time 
+     * @returns {String}
+     */
+    static getHourPerItems(item, time) {
+        return this.addCommasTrunc(Math.round(((item ?? 0)/(time ?? 1)) * 3600))
+    }
 }

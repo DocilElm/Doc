@@ -1,13 +1,14 @@
-import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import ScalableGui from "../../shared/Scalable"
+import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
-import { getPerHrItems, getTime, isDoublePowderEvent, mathTrunc } from "../../utils/Utils"
 
 // Constant variables
 const editGui = new ScalableGui("powderTracker").setCommand("powderDisplayLocation")
 const feature = new Feature("powderMiningTracker", "Trackers", "")
+const BossStatus = net.minecraft.entity.boss.BossStatus
 const requiredWorld = "Crystal Hollows"
 
 // Regex
@@ -43,6 +44,8 @@ editGui.onRender(() => {
 // Logic
 const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.powderMiningTracker
 
+const isDoublePowderEvent = () => /^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/.test(BossStatus?.field_82827_c?.removeFormatting()) && BossStatus?.field_82827_c?.removeFormatting()?.match(/^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/)?.[2] >= 1
+
 const makeStringToDraw = () => {
     if(!currentSession.chestAmount) return stringToDraw = null
     
@@ -54,12 +57,12 @@ const makeStringToDraw = () => {
     const sessionSeconds = Math.round((Date.now()-currentSession.time)/1000)
 
     stringToDraw = [
-        `&dGemstone Powder&f: &6${mathTrunc(gemstonePowder)} &7(${getPerHrItems(gemstonePowder, sessionSeconds)}/hr)`,
-        `&2Mithril Powder&f: &6${mathTrunc(mithrilPowder)} &7(${getPerHrItems(mithrilPowder, sessionSeconds)}/hr)`,
-        `&eGold Essence&f: &6${mathTrunc(goldEssence)} &7(${getPerHrItems(goldEssence, sessionSeconds)}/hr)`,
-        `&bDiamond Essence&f: &6${mathTrunc(diamondEssence)} &7(${getPerHrItems(diamondEssence, sessionSeconds)}/hr)`,
-        `&bChest Amount&f: &6${mathTrunc(chestAmount)} &7(${getPerHrItems(chestAmount, sessionSeconds)}/hr)`,
-        `&bSession Time&f: &6${getTime(currentSession.time)}`
+        `&dGemstone Powder&f: &6${TextHelper.addCommasTrunc(gemstonePowder)} &7(${TextHelper.getHourPerItems(gemstonePowder, sessionSeconds)}/hr)`,
+        `&2Mithril Powder&f: &6${TextHelper.addCommasTrunc(mithrilPowder)} &7(${TextHelper.getHourPerItems(mithrilPowder, sessionSeconds)}/hr)`,
+        `&eGold Essence&f: &6${TextHelper.addCommasTrunc(goldEssence)} &7(${TextHelper.getHourPerItems(goldEssence, sessionSeconds)}/hr)`,
+        `&bDiamond Essence&f: &6${TextHelper.addCommasTrunc(diamondEssence)} &7(${TextHelper.getHourPerItems(diamondEssence, sessionSeconds)}/hr)`,
+        `&bChest Amount&f: &6${TextHelper.addCommasTrunc(chestAmount)} &7(${TextHelper.getHourPerItems(chestAmount, sessionSeconds)}/hr)`,
+        `&bSession Time&f: &6${TextHelper.getTime(currentSession.time)}`
     ].join("\n")
 }
 
@@ -79,7 +82,7 @@ const addChest = (_, __) => {
 }
 
 const renderPowder = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
     
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

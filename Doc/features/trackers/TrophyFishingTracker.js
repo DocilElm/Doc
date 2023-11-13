@@ -1,13 +1,19 @@
-import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { Persistence } from "../../shared/Persistence"
+import ScalableGui from "../../shared/Scalable"
 import { WorldState } from "../../shared/World"
-import { trophyFishColors, trophyTypeColors } from "../../utils/Utils"
 
 // Constant variables
 const editGui = new ScalableGui("trophyFishingTracker").setCommand("trophyDisplayLocation")
 const feature = new Feature("trophyFishingTracker", "Trackers", "")
+const trophyTypeColors = {
+    BRONZE: "&8",
+    SILVER: "&7",
+    GOLD: "&6",
+    DIAMOND: "&b"
+}
 const requiredWorld = "Crimson Isle"
 
 // Changeable variables
@@ -35,7 +41,7 @@ const makeStringToDraw = () => {
     const tempArray = []
     
     Object.keys(fishesCaught).forEach(fish => {
-        let tempString = `${trophyFishColors[fish]}${fish}&f: `
+        let tempString = `${Persistence.trophyFishColors[fish]}${fish}&f: `
         Object.keys(fishesCaught[fish]).forEach(types => {
             tempString += `${trophyTypeColors[types]}${fishesCaught[fish][types]} `
         })
@@ -46,7 +52,7 @@ const makeStringToDraw = () => {
 }
 
 const renderTrophy = () => {
-    if (!stringToDraw) return
+    if (!stringToDraw || editGui.isOpen()) return
     
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

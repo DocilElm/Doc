@@ -1,10 +1,10 @@
-import ScalableGui from "../../classes/ScalableGui"
 import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import PriceHelper from "../../shared/Price"
+import ScalableGui from "../../shared/Scalable"
+import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
-import { getTime, mathTrunc } from "../../utils/Utils"
 
 // Constant variables
 const editGui = new ScalableGui("miningProfit").setCommand("miningProfitDisplay")
@@ -29,17 +29,18 @@ editGui.onRender(() => {
 const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.gemstonesProfit
 
 const addGemstoneAmount = (gemstone, amount) => {
-    if(!startedMining) startedMining = Date.now()
+    if (!startedMining) startedMining = Date.now()
 
     profitMade += PriceHelper.getSellPrice(`FLAWED_${gemstone.toUpperCase()}_GEM`)*parseInt(amount)
-    if(!gemstonesMined[gemstone]) gemstonesMined[gemstone] = 0
+
+    if (!gemstonesMined[gemstone]) gemstonesMined[gemstone] = 0
 
     gemstonesMined[gemstone] += parseInt(amount)
 }
 
 const makeStringToDraw = () => {
     let tempString = ""
-    tempString += `&aSession Profit&r: &6${mathTrunc(profitMade)}\n&aSession Time&r: &6${getTime(startedMining)}\n`
+    tempString += `&aSession Profit&r: &6${TextHelper.addCommasTrunc(profitMade)}\n&aSession Time&r: &6${TextHelper.getTime(startedMining)}\n`
 
     for (let key in gemstonesMined) {
         tempString += `&b${key}&r: &6${gemstonesMined[key]}\n`
@@ -49,7 +50,7 @@ const makeStringToDraw = () => {
 }
 
 const renderGemstones = () => {
-    if (!startedMining || !stringToDraw) return
+    if (!startedMining || !stringToDraw || editGui.isOpen()) return
     
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

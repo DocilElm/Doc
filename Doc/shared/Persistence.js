@@ -44,7 +44,8 @@ export class Persistence {
         "ENCHANTED_MUTTON": "ENCHANTED_MUTTON",
         "ENCHANTED_COOKED_MUTTON": "ENCHANTED_COOKED_MUTTON",
         "ENCHANTED_NETHER_WART": "ENCHANTED_NETHER_STALK",
-        "COMPOST": "COMPOST"
+        "COMPOST": "COMPOST",
+        "ENCHANTED_RAW_RABBIT": "ENCHANTED_RABBIT"
     }
 
     static data = new PogObject("Doc", {
@@ -74,6 +75,27 @@ export class Persistence {
         "[BOSS] Sadan: So you made it all the way here... Now you wish to defy me? Sadan?!",
         "[BOSS] Maxor: WELL! WELL! WELL! LOOK WHO'S HERE!"
     ])
+
+    static trophyFishColors = {
+        "Sulphur Skitter": "&f",
+        "Obfuscated 1": "&f",
+        "Steaming-Hot Flounder": "&f",
+        "Gusher": "&f",
+        "Blobfish": "&f",
+        "Obfuscated 2": "&a",
+        "Slugfish": "&a",
+        "Flyfish": "&a",
+        "Obfuscated 3": "&9",
+        "Lavahorse": "&9",
+        "Mana Ray": "&9",
+        "Volcanic Stonefish": "&9",
+        "Vanille": "&9",
+        "Skeleton Fish": "&5",
+        "Moldfin": "&5",
+        "Soul Fish": "&5",
+        "Karate Fish": "&5",
+        "Golden Fish": "&6"
+    }
 
     /**
      * A function to get data from an url instead of a local file
