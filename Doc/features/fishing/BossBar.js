@@ -1,8 +1,12 @@
-import { addEvent } from "../../FeatureBase"
-import { EntityArmorStand } from "../../utils/Utils"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { TextHelper } from "../../shared/Text"
 
 // Credits: https://github.com/EragonTheGuy/NetherFishingUtils/blob/testing/NetherFishingUtils/index.js
 
+// Constant variables
+const feature = new Feature("bossBarFishing", "Fishing", "")
 const bossBarEntities = [
     "Carrot King",
     "Thunder",
@@ -13,63 +17,94 @@ const bossBarEntities = [
     "Grim Reaper",
     "Sea Emperor"
 ]
+const seaCreaturesRegex = /^\[Lv[\d]+\] ([\w ]+) ([\d\w.,]+)\/([\d\w.,]+)❤$/
 
-let renderBossBar = false
-let currentEntityHp = 0
-let currentEntityMaxHp = 0
-let currentEntityName = null
+// Changeable variables
+let renderEntities = []
 
-addEvent("bossBarFishing", "Fishing", register("step", () => {
-    if(!World.isLoaded()) return
-    renderBossBar = false
+// Logic
+const registerWhen = () => World.isLoaded() && config.bossBarFishing
 
-    World.getAllEntitiesOfType(EntityArmorStand).forEach(entity => {
-        const entityName = entity.getName()?.removeFormatting()
+const checkEntities = () => {
+    // Filter out the entities that dont match the regex
+    const entities = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => {
+        if (
+            !seaCreaturesRegex.test(entity.getName()?.removeFormatting()) ||
+            !bossBarEntities.some(name => entity.getName().removeFormatting().includes(name))
+        ) return false
 
-        if(!/^\[Lv[\d]+\] ([\w ]+) ([\d\w.]+)\/([\d\w.]+)❤$/.test(entityName) || !bossBarEntities.some(listName => entityName?.includes(listName))) return
-
-        // https://regex101.com/r/DLqaZC/1
-
-        const [ match, scName, scHp, scMaxHp ] = entityName?.match(/^\[Lv[\d]+\] ([\w ]+) ([\d\w.]+)\/([\d\w.]+)❤$/)
-        if(!match) return
-
-        // If Hp/maxHp includes k * 1000
-        // else nest ternary and check for M inside of Hp/maxHp
-        // if this is not the case just parseFloat the current hp
-        currentEntityHp = scHp.includes("k") ? parseFloat(scHp) * 1000 : scHp.includes("M") ? parseFloat(scHp) * 1000000 : parseFloat(scHp)
-        currentEntityMaxHp = scMaxHp.includes("k") ? parseFloat(scMaxHp) * 1000 : scMaxHp.includes("M") ? parseFloat(scMaxHp) * 1000000 : parseFloat(scMaxHp)
-        currentEntityName = scName
-        // If boss in range we render it
-        renderBossBar = true
+        return true
     })
-}).setFps(3), null, [
-    register('renderOverlay', () => {
-	    if(!World.isLoaded() || !renderBossBar || !currentEntityName) return
-        
-	    let widthpre = Renderer.screen.getWidth()
-	    let width = widthpre / 4
-	    let y = 35
-        
-	    Renderer.drawLine(Renderer.BLACK, width * 1.5, y, width * 2.5, y, 10)
-	    Renderer.drawLine(Renderer.GRAY, width * 1.5 + 1, y, width * 2.5 - 1, y, 10 - 2)
-        
-	    Renderer.drawStringWithShadow(currentEntityName, widthpre / 2 - Renderer.getStringWidth(currentEntityName) / 2 - 5, y - 14)
-        
-        
-	    rightx = width * 1.5 + (width - 1) * currentEntityHp / currentEntityMaxHp
-        
-	    if (rightx > width * 1.5) Renderer.drawLine(Renderer.GREEN, width * 1.5 + 1, y, rightx, y, 10 - 2)
-        
-	    const displaylifestring = `&0${currentEntityHp}/${currentEntityMaxHp}`
-        
-	    Renderer.finishDraw()
-	    Renderer.scale(0.85)
-	    Renderer.drawString(`${displaylifestring}`, (widthpre / 2 - Renderer.getStringWidth(displaylifestring) / 2) / 0.85, y + 3)
-    })
-])
 
-register("worldUnload", () => {
-    currentEntityHp = 0
-    currentEntityMaxHp = 0
-    renderBossBar = false
-})
+    // Scan for entities and return an array with their values
+    renderEntities = entities.map(entity => {
+        const [ _, __, scHp, scMaxHp ] = entity.getName().removeFormatting().match(seaCreaturesRegex)
+
+        return [ entity.getName(), TextHelper.convertToNumber(scHp), TextHelper.convertToNumber(scMaxHp) ]
+    })
+}
+
+const renderBossBar = () => {
+    if (!registerWhen() || !renderEntities) return
+
+    const screenWidth = Renderer.screen.getWidth()
+    const boxWidth = screenWidth / 4
+    const baseYPos = 35
+
+    renderEntities.forEach((entity, index) => {
+        if (!entity) return
+
+        const name = entity[0]
+        const hp = entity[1]
+        const maxHp = entity[2]
+
+        const width = boxWidth * 1.5 + boxWidth * 2.5
+        const height = baseYPos + (30 * index)
+
+        // Make a base boss bar line
+        Renderer.drawLine(
+            Renderer.color(0, 0, 0, 80),
+            boxWidth * 1.5,
+            height,
+            boxWidth * 2.5,
+            height,
+            10
+        )
+
+        // Add the current mob's name on top of it
+        Renderer.drawStringWithShadow(
+            name,
+            (width / 2) - (Renderer.getStringWidth(name) / 2),
+            height - 15
+            )
+
+        // Make a green bar with [current hp / max hp values]
+        Renderer.drawLine(
+            Renderer.color(0, 190, 0, 150),
+            boxWidth * 1.5 + 1,
+            height,
+            boxWidth * 1.5 + (boxWidth - 1) * (hp / maxHp),
+            height,
+            8
+        )
+
+        // Make the [hp/maxhp] string to dispaly
+        const hpString = `&f${hp}/${maxHp}`
+
+        // Rendering the string in the center of the bar
+        Renderer.drawStringWithShadow(
+            hpString,
+            (width / 2) - (Renderer.getStringWidth(hpString) / 2),
+            height - 4
+        )
+
+        Renderer.finishDraw()
+    })
+}
+
+// Events
+new Event(feature, "step", checkEntities, registerWhen, 3)
+new Event(feature, "renderOverlay", renderBossBar, () => registerWhen() && renderEntities)
+
+// Starting events
+feature.start()

@@ -19,14 +19,14 @@ import "./features/mining/GemstoneProfit"
 import "./features/commands/Ping"
 import "./features/commands/InventoryLog"
 // Fishing
-// // import "./features/fishing/BossBar"
+import "./features/fishing/BossBar"
 import "./features/fishing/TimerTitle"
 // Garden
 import "./features/garden/VisitorProfit"
 // Slayers
 import "./features/slayers/BossSlainTimer"
 // Trackers
-// // import "./features/trackers/GhostsTracker"
+// import "./features/trackers/GhostsTracker"
 import "./features/trackers/TrophyFishingTracker"
 import "./features/trackers/PowderTracker"
 // Kuudra

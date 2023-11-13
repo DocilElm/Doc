@@ -1,6 +1,5 @@
 const romanNumerals = {"M": 1000, "CM": 900, "D": 500, "CD": 400, "C": 100, "XC": 90, "L": 50, "XL": 40, "X": 10, "IX": 9, "V": 5, "IV": 4, "I": 1}
-
-const MCItemStack = net.minecraft.item.ItemStack
+const numberFormat = {"k": 1000, "M": 1000000, "B": 1000000000}
 
 export class TextHelper {
     static PREFIX = "&0[&4Doc&0]&r"
@@ -131,7 +130,7 @@ export class TextHelper {
      * @param {Item | MCItemStack} item 
      */
     static getSkyblockItemID(item) {
-        if (item instanceof MCItemStack) item = new Item(item)
+        if (item instanceof net.minecraft.item.ItemStack) item = new Item(item)
         if (!(item instanceof Item)) return
 
         const extraAttributes = item.getNBT()?.getCompoundTag("tag")?.getCompoundTag("ExtraAttributes")
@@ -163,5 +162,18 @@ export class TextHelper {
         if (startingDate instanceof Array) return `${((startingDate[0]-startingDate[1])/1000).toFixed(2)}s`
         
         return `${((startingDate-endingDate)/1000).toFixed(2)}s`
+    }
+
+    /**
+     * - Converts a string into it's value in number e.g 1.2k to 1200
+     * @param {String} string 
+     * @returns {Number}
+     */
+    static convertToNumber(string) {
+        if (!/^([\d.,]+)([A-z]+)$/.test(string)) return parseFloat(string.replace(/,/g, ""))
+
+        const [ _, number, format ] = string.match(/^([\d.,]+)([A-z]+)$/)
+
+        return parseFloat(number) * numberFormat[format]
     }
 }
