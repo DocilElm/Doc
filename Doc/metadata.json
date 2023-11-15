@@ -7,7 +7,6 @@
   "changelog": "",
   "requires": [
     "RenderLib",
-    "BloomCore",
     "BeaconBeam",
     "requestV2",
     "PromiseV2",

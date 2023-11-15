@@ -19,8 +19,12 @@ export default new class FeatureManager {
                 this.conditionalTriggers.delete(featureName)
             })
 
+            // Clearing up from memory
             this.conditionalTriggers.clear()
             this.featuresRegistered.clear()
+            this.customTriggers.clear()
+            this.features = null
+            this.registerWhenStep = null
         })
     }
 

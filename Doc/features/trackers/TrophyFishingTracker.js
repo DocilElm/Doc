@@ -38,7 +38,7 @@ const handleChat = (fishName, fishType, event, formatted) => {
 }
 
 const makeStringToDraw = () => {
-    const tempArray = []
+    let tempArray = []
     
     Object.keys(fishesCaught).forEach(fish => {
         let tempString = `${Persistence.trophyFishColors[fish]}${fish}&f: `
@@ -49,6 +49,7 @@ const makeStringToDraw = () => {
     })
 
     stringToDraw = tempArray.join("\n")
+    tempArray = null
 }
 
 const renderTrophy = () => {

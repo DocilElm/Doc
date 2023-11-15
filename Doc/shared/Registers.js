@@ -118,7 +118,7 @@ FeatureManager
                 const chatComponentText = chatComponent.func_150254_d()?.removeFormatting()
 
                 if (!/^Blessing of (.+)$/.test(chatComponentText)) return
-                if (!decodeRomanNumeral)  blessingsArray.push(chatComponentText.match(/^Blessing of (.+)$/)?.[1])
+                if (!decodeRomanNumeral) blessingsArray.push(chatComponentText.match(/^Blessing of (.+)$/)?.[1])
                 
                 
                 const romanNumeral = chatComponentText.match(/^Blessing of [\w\d]+ ([IVXLCDM]+)$/)?.[1]
@@ -127,6 +127,7 @@ FeatureManager
             })
 
             fn(blessingsArray)
+            blessingsArray = null
         }).setFilteredClass(net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter).unregister()
     )
     .createCustomEvent("onWindowItemsPacket", (fn) => 

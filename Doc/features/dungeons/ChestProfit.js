@@ -30,11 +30,8 @@ const checkWindowTitle = windowTitle => {
 const scanItems = (itemStacks) => {
     if (!shouldScan || !currentChest) return
 
-    // If the map data has this chest return so it dosent add more of the same values
-    if (chestData.has(currentChest)) return
-
-    // Create chest data if it dosent exist
-    if (!chestData.has(currentChest)) chestData.set(currentChest, {
+    // Create the default chest data regardless if it exists or not
+    chestData.set(currentChest, {
         items: [],
         chestPrice: 0,
         profit: 0
@@ -79,17 +76,18 @@ const scanItems = (itemStacks) => {
 const makeStringToDraw = () => {
     if (!chestData.size) return stringToDraw = null
 
-    let tempString = ""
+    let tempArray = []
 
     chestData.forEach((value, key) => {
         const items = value.items.toString()
         const profit = value.profit
         const profitFormat = profit <= 0 ? "&c" : "&a"
 
-        tempString += `\n&a${key}${items}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`
+        tempArray.push(`\n&a${key}${items}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
     })
 
-    stringToDraw = tempString
+    stringToDraw = tempArray.join("")
+    tempArray = null
 }
 
 const renderChestData = () => {

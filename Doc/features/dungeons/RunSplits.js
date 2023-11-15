@@ -21,7 +21,7 @@ const defaultSplits = [
 ].join("\n")
 
 // Changeable variables
-let splits = []
+let splits = null
 let runStarted = null
 let bloodOpened = null
 let bloodDone = null
@@ -86,7 +86,7 @@ const renderString = () => {
 
 // Resets the variables to their default value
 const reset = () => {
-    splits = []
+    splits = null
     runStarted = null
     bloodOpened = null
     bloodDone = null

@@ -14,14 +14,14 @@ let bossSlainPacket = null
 const registerWhen = () => config.bossSlainTimer
 
 const startBossTime = (message, event) => {
-    if(message === "Slay the boss!") return bossSpawned = Date.now()
-    if(message !== "Boss slain!" || !bossSpawned) return
+    if (message === "Slay the boss!") return bossSpawned = Date.now()
+    if (message !== "Boss slain!" || !bossSpawned) return
 
     bossSlainPacket = Date.now()
 }
 
 const getBossTime = (message, event) => {
-    if(!bossSpawned) return
+    if (!bossSpawned) return
 
     const timeFromKill = !bossSlainPacket ? Date.now() : bossSlainPacket
 

@@ -16,6 +16,7 @@ const highlightBlock = ({x, y, z}, event) => {
 
     // If third person disable phase
     const phase = !(Client.settings.getSettings().field_74320_O === 1)
+    
     const r = config.blockOverlayColor.getRed() / 255
     const g = config.blockOverlayColor.getGreen() / 255
     const b = config.blockOverlayColor.getBlue() / 255

@@ -44,19 +44,20 @@ const scanItems = (itemStacks) => {
 const makeStringToDraw = () => {
     if (!chestData.size) return stringToDraw = null
 
-    let tempString = ""
+    let tempArray = []
 
     chestData.forEach((value, key) => {
         const items = value.items.toString()
         const profit = value.profit
         const profitFormat = profit <= 0 ? "&c" : "&a"
 
-        if (config.croesusProfitMode === 1) return tempString += `\n&a${key}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`
+        if (config.croesusProfitMode === 1) return tempArray.push(`\n&a${key}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
 
-        tempString += `\n&a${key}${items}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`
+        tempArray.push(`\n&a${key}${items}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
     })
 
-    stringToDraw = tempString
+    stringToDraw = tempArray.join("")
+    tempArray = null
 }
 
 const renderChestData = () => {
@@ -71,21 +72,22 @@ const renderChestData = () => {
 // Default display
 editGui.onRender(() => {
     // im too lazy to change the defaults to new ones
-    let defStr = ""
+    let defaultArray = []
 
     Object.keys(defaultData).forEach(chestName => {
         const chestProfit = defaultData[chestName].profit <= 0 ? `&c${TextHelper.addCommasTrunc(defaultData[chestName].profit)}` : `&a${TextHelper.addCommasTrunc(defaultData[chestName].profit)}`
         const items = defaultData[chestName].items
 
-        if (config.croesusProfitMode === 1) return defStr += `\n&b- ${chestName}\n&b - Profit&f: ${chestProfit}\n`
+        if (config.croesusProfitMode === 1) return defaultArray.push(`\n&b- ${chestName}\n&b - Profit&f: ${chestProfit}\n`)
         
-        defStr += `\n&b- ${chestName}\n${items.join("\n")}\n&b - Profit&f: ${chestProfit}\n`
+        defaultArray.push(`\n&b- ${chestName}\n${items.join("\n")}\n&b - Profit&f: ${chestProfit}\n`)
     })
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(defStr, 0, 0)
+    Renderer.drawStringWithShadow(defaultArray.join(""), 0, 0)
     Renderer.finishDraw()
+    defaultArray = null
 })
 
 // Events

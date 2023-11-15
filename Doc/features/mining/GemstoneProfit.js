@@ -39,14 +39,16 @@ const addGemstoneAmount = (gemstone, amount) => {
 }
 
 const makeStringToDraw = () => {
-    let tempString = ""
-    tempString += `&aSession Profit&r: &6${TextHelper.addCommasTrunc(profitMade)}\n&aSession Time&r: &6${TextHelper.getTime(startedMining)}\n`
+    let tempArray = []
 
-    for (let key in gemstonesMined) {
-        tempString += `&b${key}&r: &6${gemstonesMined[key]}\n`
-    }
+    tempArray.push(`&aSession Profit&r: &6${TextHelper.addCommasTrunc(profitMade)}\n&aSession Time&r: &6${TextHelper.getTime(startedMining)}\n`)
 
-    stringToDraw = tempString
+    Object.keys(gemstonesMined).forEach(key => {
+        tempArray.push(`&b${key}&r: &6${gemstonesMined[key]}\n`)
+    })
+
+    stringToDraw = tempArray.join("")
+    tempArray = null
 }
 
 const renderGemstones = () => {

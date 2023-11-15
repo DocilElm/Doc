@@ -20,7 +20,7 @@ let isLocked = false
 const registerWhen = () => WorldState.inDungeons() && config.showSecretsClicked
 
 const checkSkullTexture = (blockPos) => {
-    const textureID = World.getWorld().func_175625_s(blockPos.toMCBlock())?.func_152108_a().id?.toString()
+    const textureID = World.getWorld().func_175625_s(blockPos.toMCBlock())?.func_152108_a()?.id?.toString()
     if (!textureID) return
 
     return allowedIDs.has(textureID)
