@@ -35,6 +35,8 @@ class Settings {
         this.addDependency("RngMeter Location", "RngMeter")
         this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
         this.addDependency("Block Overlay Color", "Block Overlay")
+        this.addDependency("Bonzo Mask Invincibility Timer Location", "Bonzo Mask Invincibility Timer")
+        this.addDependency("Phoenix Pet Invincibility Timer Location", "Phoenix Pet Invincibility Timer")
     }
     // General
     @ButtonProperty({
@@ -407,6 +409,46 @@ class Settings {
         subcategory: "Misc"
     })
     blockOverlayColor = Color.GREEN;
+
+    @SwitchProperty({
+        name: "Bonzo Mask Invincibility Timer",
+        description: "Displays a timer with the current invincibility for the bonzo mask",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    bonzoMaskInvincibilityTimer = false;
+
+    @ButtonProperty({
+        name: "Bonzo Mask Invincibility Timer Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changebonzoMaskInvisDisplay() {
+        ChatLib.command("bonzoMaskInvisDisplay", true)
+
+    }
+
+    @SwitchProperty({
+        name: "Phoenix Pet Invincibility Timer",
+        description: "Displays a timer with the current invincibility for the phoenix pet",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    phoenixInvincibilityTimer = false;
+
+    @ButtonProperty({
+        name: "Phoenix Pet Invincibility Timer Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changephoenixInvisDisplay() {
+        ChatLib.command("phoenixInvisDisplay", true)
+
+    }
 }
 
 export default new Settings()

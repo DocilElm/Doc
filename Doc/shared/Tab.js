@@ -27,7 +27,7 @@ export default new class TabListStats {
             this.skillsPercent = TextHelper.getRegexMatch(skillsRegex, tabName)?.[2] ?? this.skillsPercent
 
             // If it's part of a player stat we assign it's values in an object
-            if(statsRegex.test(tabName)) {
+            if (statsRegex.test(tabName)) {
                 const statMatch = TextHelper.getRegexMatch(statsRegex, tabName)
                 const statAmount = statMatch[3]
 

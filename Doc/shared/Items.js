@@ -10,7 +10,7 @@ const chestPriceRegex =    /^([\d,]+) Coins$/
 
 export default class ItemHandler {
     static getCroesusProfit(lore) {
-        if(!lore) return
+        if (!lore) return
     
         let result = {
             profit: 0,
@@ -22,7 +22,7 @@ export default class ItemHandler {
         let totalEssence = 0
 
         lore.forEach((itemLore, index) => {
-            if (!itemLore || (!!costLoreIndex && index >= costLoreIndex)) return
+            if (!itemLore || (costLoreIndex && index >= costLoreIndex)) return
 
             const unformattedLore = itemLore.removeFormatting()?.replace(/'s/g, "")
 
@@ -67,7 +67,7 @@ export default class ItemHandler {
 
         })
 
-        if (!!costLoreIndex) {
+        if (costLoreIndex) {
             chestPrice = parseInt(lore[costLoreIndex+1]?.removeFormatting()?.match(chestPriceRegex)?.[1]?.replace(/,/g, ""))
 
             // Add dungeon chest key price to the chest price in case this is required

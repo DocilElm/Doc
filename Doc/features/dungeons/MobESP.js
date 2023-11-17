@@ -21,9 +21,7 @@ new Event(feature, "step", () => {
 
 new Event(feature, "renderWorld", () => {
     mobsArray.forEach(entity => {
-        const [ x, y, z ] = [entity.getRenderX(), entity.getRenderY(), entity.getRenderZ()]
-
-        RenderLib.drawEspBox(x, y-2, z, 0.6, 2, 0, 35, 243, 255, false)
+        RenderLib.drawEspBox(entity.getRenderX(), entity.getRenderY() - 2, entity.getRenderZ(), 0.6, 2, 0, 35, 243, 255, false)
     })
 }, registerWhen)
 

@@ -38,6 +38,8 @@ import "./features/misc/RagAxeTimer"
 import "./features/misc/RngMeter"
 import "./features/misc/RngMeterScanner"
 import "./features/misc/BlockOverlay"
+import "./features/misc/BonzoMaskInvincibility"
+import "./features/misc/PhoenixInvincibility"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

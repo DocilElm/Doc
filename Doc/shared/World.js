@@ -1,7 +1,7 @@
 export class WorldState {
     static getTablist() {
         // Add the default return so we always get an array returned
-        if(!World.isLoaded()) return []
+        if (!World.isLoaded()) return []
 
         return TabList.getNames().map(name => name.removeFormatting())
     }

@@ -28,7 +28,7 @@ const registerWhen = () => World.isLoaded() && config.ragnarokAxeTimer
 const updateCooldownAndCastTime = () => {
     lastCast = Date.now()
 
-    if(!WorldState.inDungeons()) return
+    if (!WorldState.inDungeons()) return
 
     cooldownTime = DungeonsState.getMageReduction(20_000)
 }

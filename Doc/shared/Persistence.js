@@ -62,6 +62,8 @@ export class Persistence {
         powderTracker: {x: 10, y: 10, scale: 1},
         rngMeter: {x: 10, y: 10, scale: 1, dungeonsData: {}, slayersData: {}},
         fatalTempo: {x: 10, y: 10, scale: 1},
+        bonzoMaskInvincibilityTimer: {x: 10, y: 10, scale: 1},
+        phoenixInvincibilityTimer: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")
