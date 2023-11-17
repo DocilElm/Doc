@@ -23,6 +23,7 @@ import "./features/fishing/BossBar"
 import "./features/fishing/TimerTitle"
 // Garden
 import "./features/garden/VisitorProfit"
+import "./features/garden/GardenDisplay"
 // Slayers
 import "./features/slayers/BossSlainTimer"
 // Trackers

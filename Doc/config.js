@@ -37,6 +37,7 @@ class Settings {
         this.addDependency("Block Overlay Color", "Block Overlay")
         this.addDependency("Bonzo Mask Invincibility Timer Location", "Bonzo Mask Invincibility Timer")
         this.addDependency("Phoenix Pet Invincibility Timer Location", "Phoenix Pet Invincibility Timer")
+        this.addDependency("Garden Display Location", "Garden Display")
     }
     // General
     @ButtonProperty({
@@ -256,6 +257,25 @@ class Settings {
     })
     changeVisitorProfitDisplay() {
         ChatLib.command("visitorProfitDisplay", true);
+    }
+
+    @SwitchProperty({
+        name: "Garden Display",
+        description: "Displays most of the player's tab stuff for the garden",
+        category: "Garden",
+        subcategory: "Garden"
+    })
+    gardenDisplay = false;
+
+    @ButtonProperty({
+        name: "Garden Display Location",
+        description: "Changes The Display Location",
+        category: "Garden",
+        subcategory: "Garden",
+        placeholder: "Change"
+    })
+    changegardenDisplayLocation() {
+        ChatLib.command("gardenDisplayLocation", true);
     }
 
     // Slayer

@@ -8,13 +8,12 @@ const skillsRegex =             /^Skills\: ([\w\d ]+)\: ([\w\d,. ]+)\%/
 const statsRegex =              /^ ([\w ]+)\: (❁|☣|☠|⚔|✦|☘)([\d,]+)$/
 // Garden regex
 const cropMilestoneRegex =      /^ Milestone\: ([\w\d ]+)\: ([\d,.]+)%$/
-const jacobContestRegex =       /^Starts in\: ([\d]+) ([\w\d ]+)$/
-const nextVisitorRegex =        /^ Next Visitor\: ([\w\d,. ]+)$/
+const jacobContestRegex =       /^ Starts In\: ([\w\d ]+)$/
+const nextVisitorRegex =        /^Visitors\: \((.+)\)$/
 const organicMatterRegex =      /^ Organic Matter\: ([\w\d,.]+)$/
 const fuelRegex =               /^ Fuel\: ([\w\d,.]+)$/
 const timeLeftRegex =           /^ Time Left\: ([\w\d ]+)$/
 const storedCompostRegex =      /^ Stored Compost\: ([\w\d,. ]+)$/
-const visitorAmountRegex =      /^Visitors\: \(([\d]+)\)$/
 
 export default new class TabListStats {
     constructor(){
@@ -48,7 +47,6 @@ export default new class TabListStats {
             this.fuel = TextHelper.getRegexMatch(fuelRegex, tabName)?.[1] ?? this.fuel
             this.timeLeft = TextHelper.getRegexMatch(timeLeftRegex, tabName)?.[1] ?? this.timeLeft
             this.storedCompost = TextHelper.getRegexMatch(storedCompostRegex, tabName)?.[1] ?? this.storedCompost
-            this.visitorAmount = TextHelper.getRegexMatch(visitorAmountRegex, tabName)?.[1] ?? this.visitorAmount
 
         }).start()
 
@@ -72,7 +70,6 @@ export default new class TabListStats {
         this.fuel = null
         this.timeLeft = null
         this.storedCompost = null
-        this.visitorAmount = null
     }
 
     /**
@@ -179,13 +176,5 @@ export default new class TabListStats {
      */
     getStoredCompost(){
         return this.storedCompost
-    }
-
-    /**
-     * - Gets the current amount of visitors
-     * @returns {Number}
-     */
-    getVisitorAmount(){
-        return parseInt(this.visitorAmount)
     }
 }
