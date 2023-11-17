@@ -38,6 +38,7 @@ class Settings {
         this.addDependency("Bonzo Mask Invincibility Timer Location", "Bonzo Mask Invincibility Timer")
         this.addDependency("Phoenix Pet Invincibility Timer Location", "Phoenix Pet Invincibility Timer")
         this.addDependency("Garden Display Location", "Garden Display")
+        this.addDependency("Blessings Display Location", "Blessings Display")
     }
     // General
     @ButtonProperty({
@@ -184,6 +185,25 @@ class Settings {
     })
     changebossSplitsDisplay() {
         ChatLib.command("bossSplitsDisplay", true);
+    }
+
+    @SwitchProperty({
+        name: "Blessings Display",
+        description: "Displays your current dungeon blessings",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    blessingsDisplay = false;
+
+    @ButtonProperty({
+        name: "Blessings Display Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changeblessingsDisplayLocation() {
+        ChatLib.command("blessingsDisplayLocation", true);
     }
 
     // Mining

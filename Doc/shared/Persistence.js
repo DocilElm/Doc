@@ -65,6 +65,7 @@ export class Persistence {
         bonzoMaskInvincibilityTimer: {x: 10, y: 10, scale: 1},
         phoenixInvincibilityTimer: {x: 10, y: 10, scale: 1},
         gardenDisplay: {x: 10, y: 10, scale: 1},
+        blessingDisplay: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")
