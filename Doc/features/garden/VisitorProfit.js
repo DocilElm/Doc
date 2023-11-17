@@ -1,109 +1,185 @@
-import { addEvent } from "../../FeatureBase"
-import ScalableGui from "../../classes/ScalableGui"
-import { PREFIX, chat, copperToCoinsItem, getJsonDataFromFile, mathTrunc, rareGardenItems, sbNameToIdGarden } from "../../utils/Utils"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { Persistence } from "../../shared/Persistence"
+import PriceHelper from "../../shared/Price"
+import ScalableGui from "../../shared/Scalable"
+import { TextHelper } from "../../shared/Text"
+import { WorldState } from "../../shared/World"
 
 const editGui = new ScalableGui("visitorProfit").setCommand("visitorProfitDisplay")
 
-let bazaarApi = getJsonDataFromFile("data/Bazaar.json")
-let lowestBinApi = getJsonDataFromFile("data/LowestBin.json")
-let itemsRequired = {}
+// Constant variables
+const feature = new Feature("visitorProfitDisplay", "Garden", "")
+const GardenVisitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/GardenVisitors.json")
+const requiredWorld = "Garden"
+const visitorsData = new Map()
 
-// i gave up mid way doing this code
+// Regex
+const requiredItemsRegex = /^ ([a-zA-z ]+)(?: x)?([\d,]+)?/
+const currentCopperRegex = /^ \+([\d,]+) Copper$/
+const rareItemRegex =      /^ ([a-zA-z ]+)/
+const visitorDialogRegex = /^\[NPC\] ([\w\. ]+): (.+)$/
 
-addEvent("visitorProfitDisplay", "Garden", register("step", () => {
-    if(!World.isLoaded() || !Player.getContainer()?.getName()) return
+// Changeable variables
+let shouldScan = false
+let stringToDraw = null
 
-    const container = Player.getContainer()
-    const containerName = container.getName()
-    const visitorHead = container.getItems()?.[13]?.getLore()?.[4]
+// Logic
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.visitorProfitDisplay
 
-    if(!visitorHead || !/^Offers Accepted: [\d]+$/.test(visitorHead.removeFormatting())) return
+const checkWindowName = windowTitle => shouldScan = Object.keys(GardenVisitors).some(name => name === windowTitle)
 
-    const acceptVisitorBtn = container.getItems()?.[29]
-    if(!acceptVisitorBtn || acceptVisitorBtn.getName().removeFormatting() !== "Accept Offer") return
+const scanItems = (itemStacks) => {
+    if (!shouldScan) return
 
-    if(!!itemsRequired[containerName]) return
+    let hasVisitorHead = false
+    let currentVisitor = null
 
-    acceptVisitorBtn.getLore()?.forEach(lore => {
-        const unformattedLore = lore.removeFormatting()
+    itemStacks.forEach((valueStack, index) => {
+        if (!valueStack || (index > 13 && !hasVisitorHead)) return
 
-        if(/^ ([\w ]+) x([\d,]+)$/.test(unformattedLore)) {
-            const [ ar, item, amount ] = unformattedLore.match(/^ ([\w ]+) x([\d,]+)$/)
-            const itemPrice = bazaarApi?.products?.[sbNameToIdGarden[item.toUpperCase().replace(/ /g, "_")]]?.quick_status?.sellPrice
-            const price = itemPrice * amount.replace(/,/g, "")
+        const ctItem = new Item(valueStack)
+        // Check if it's an actual visitor gui
+        // since other npc's have the same gui names
+        const visitorOffers = index === 13 ? ctItem.getLore()?.[4] : null
+        const hasOffers = visitorOffers ? /^Offers Accepted: [\d]+$/.test(visitorOffers.removeFormatting()) : null
 
-            if(itemsRequired[containerName]) return itemsRequired[containerName].item.push([`\n${lore}`]), itemsRequired[containerName].totalPrice += price
-
-            itemsRequired[containerName] = {
-                item: [`\n${lore}`],
-                copper: 0,
-                specialItem: null,
-                totalPrice: price,
-                profit: 0
-            }
+        // If it's an actual visitor re-assign these variables for saving data
+        if (hasOffers) {
+            currentVisitor = ctItem.getName()?.removeFormatting()
+            hasVisitorHead = hasOffers
         }
 
-        if(!itemsRequired[containerName]) return
+        // Checking for accept visitor button
+        if (index !== 29) return
 
-        if(/^ \+([\d,]+) Copper$/.test(unformattedLore)){
-            const [ ar, copper ] = unformattedLore.match(/^ \+([\d,]+) Copper$/)
-
-            itemsRequired[containerName].copper += parseInt(copper)
-        }
-
-        if(Object.keys(rareGardenItems).some(rItems => unformattedLore.includes(rItems))) {
-            itemsRequired[containerName].specialItem = rareGardenItems[unformattedLore.replace(/^ /, "")]
-        }
-    })
-
-    if(!itemsRequired[containerName]) return chat(`${PREFIX} &cFailed to create visitor's profit display`)
-
-    const itemPrice = itemsRequired[containerName].totalPrice
-    const copperProfit = (bazaarApi?.products?.[copperToCoinsItem]?.quick_status?.sellPrice / 1500) * itemsRequired[containerName].copper
-    itemsRequired[containerName].profit = (copperProfit-itemPrice)
-
-    const specialItemObj = itemsRequired[containerName].specialItem
-
-    if(!specialItemObj) return
-
-    const specialItemProfit = !bazaarApi?.products?.[specialItemObj]
-        ? lowestBinApi[specialItemObj]
-        : bazaarApi?.products?.[specialItemObj]?.quick_status?.sellPrice
-
-    itemsRequired[containerName].profit = (specialItemProfit - (itemsRequired[containerName].profit <= 0 ? -itemsRequired[containerName].profit : +itemsRequired[containerName].profit))
-}).setFps(1), null, [
-    register("renderOverlay", () => {
-        if(!World.isLoaded() || Object.keys(itemsRequired).length <= 0) return
-
-        let strToDraw = ""
-    
-        Object.keys(itemsRequired).forEach((visitor, index) => {
-            const visitorItem = `${itemsRequired[visitor].item.toString()}`
-            const visitorCopper = itemsRequired[visitor].copper
-            const visitorProfit = mathTrunc(itemsRequired[visitor].profit)
-            const visitorSpecialItem = itemsRequired[visitor].specialItem
-
-            strToDraw += `&aNPC&f: &b${visitor}\n&aItems Required&f: &b${visitorItem}\n&cCopper&f: &6${visitorCopper}\n&9Special Item&f: &6${visitorSpecialItem ?? "None"}\n&aTotal Profit&f: &6${visitorProfit}\n`
+        // Create object to save
+        visitorsData.set(currentVisitor, {
+            requiredItems: [],
+            copperAmount: 0,
+            totalPrice: 0,
+            profit: 0,
+            rareItem: null
         })
 
-        editGui.renderString(strToDraw)
-    }),
-    
-    // me when lazy
-    // ^\[NPC\] ([\w ]+): ([\w\d ]+)$
-    register("chat", (npcName, npcMsg) => {
-        if(!itemsRequired[npcName]) return
-    
-        delete itemsRequired[npcName]
-    }).setCriteria(/^\[NPC\] ([\w ]+): (.+)$/)
-], "Garden")
+        // Get the map data to assign data into it
+        const currentData = visitorsData.get(currentVisitor)
 
+        // If [ctItem] item is the accept button we check for lore stuff
+        ctItem.getLore()?.forEach((itemLore, loreIndex) => {
+            const lore = itemLore.removeFormatting()
+
+            // Get required items and amount even if the amount is equals to 0
+            // Check lore index in case it finds a rare item so we dont add it to the required items
+            if (loreIndex <= 5 && requiredItemsRegex.test(lore)) {
+                const [ _, requiredItem, requiredAmount ] = lore.match(requiredItemsRegex)
+                const requiredItemPrice = PriceHelper.getSellPrice(Persistence.sbNameToGardenID[requiredItem.toUpperCase().replace(/ X/, "").replace(/ /g, "_")])
+                const totalPrice = requiredItemPrice * (requiredAmount?.replace(/,/g, "") ?? 1)
+
+                // Add values to the map
+                currentData.requiredItems.push(`\n${itemLore}`)
+                currentData.totalPrice += totalPrice
+                
+                return
+            }
+
+            // Get total copper
+            if (currentCopperRegex.test(lore)) {
+                const [ _, copperAmount ] = lore.match(currentCopperRegex)
+
+                // Add copper to the map
+                currentData.copperAmount += parseInt(copperAmount)
+
+                return
+            }
+
+            // Get rare items in case they exist
+            if (rareItemRegex.test(lore) && loreIndex >= 5) {
+                const [ _, rareItem ] = lore.match(rareItemRegex)
+
+                if (!Persistence.rareGardenItemsList.has(rareItem)) return
+
+                currentData.rareItem = Persistence.rareGardenItemsList.get(rareItem)
+
+                return
+            }
+        })
+
+        // Check if the visitor was created or not
+        if (!visitorsData.has(currentVisitor)) return ChatLib.chat(`${TextHelper.PREFIX} &cFailed to create visitor's profit display`)
+
+        // Calculate profit
+        const totalItemPrice = currentData.totalPrice
+        const totalCopperPrice = (PriceHelper.getSellPrice("ENCHANTMENT_GREEN_THUMB_1") / 1500) * currentData.copperAmount
+
+        currentData.profit = (totalCopperPrice - totalItemPrice)
+
+        // If no rare item detected return
+        if (!currentData.rareItem) return
+
+        const rareItemPrice = PriceHelper.getSellPrice(currentData.rareItem)
+
+        // Calculate rare item profit with current profit
+        const currentProfit = currentData.profit <= 0 ? -currentData.profit : +currentData.profit
+
+        currentData.profit = (rareItemPrice - currentProfit)
+
+    })
+
+    shouldScan = false
+}
+
+const removeVisitor = (visitorName, _) => {
+    if (!visitorsData.has(visitorName)) return
+
+    visitorsData.delete(visitorName)
+}
+
+const makeStringToDraw = () => {
+    if (!visitorsData.size) return stringToDraw = null
+  
+    let tempArray = []
+  
+    visitorsData.forEach((value, key) => {
+      const name = GardenVisitors[key].formattedName
+      const items = value.requiredItems.toString()
+      const copper = value.copperAmount
+      const profit = value.profit
+      const profitFormat = profit <= 0 ? "&c" : "&a"
+      const rareItem = value.rareItem
+  
+      tempArray.push(`\n&aNPC&f: ${name}\n&aRequired Items&f: ${items}\n&cTotal Copper&f: &6${copper}\n&9Rare Item&f: &b${rareItem ?? "&cNone"}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
+    })
+  
+    stringToDraw = tempArray.join("")
+    tempArray = null
+}
+
+const renderVisitors = () => {
+    if (!stringToDraw || editGui.isOpen()) return
+
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(stringToDraw, 0, 0)
+    Renderer.finishDraw()
+}
+
+// Default display
 editGui.onRender(() => {
-    editGui.renderString(`&aNPC&f: &bDocilElm\n&aItems Required&f: \n&aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`)
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(`&aNPC&f: &b${Player.getName()}\n&aItems Required&f: \n &aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`, 0, 0)
+    Renderer.finishDraw()
 })
 
-register("worldUnload", () => {
-    itemsRequired = {}
-    bazaarApi = getJsonDataFromFile("data/Bazaar.json")
-    lowestBinApi = getJsonDataFromFile("data/LowestBin.json")
-})
+// Events
+new Event(feature, "onOpenWindowPacket", checkWindowName, registerWhen)
+new Event(feature, "onWindowItemsPacket", scanItems, registerWhen)
+new Event(feature, "tick", makeStringToDraw, registerWhen)
+new Event(feature, "renderOverlay", renderVisitors, () => WorldState.getCurrentWorld() === requiredWorld && config.visitorProfitDisplay && stringToDraw)
+new Event(feature, "onChatPacket", removeVisitor, registerWhen, visitorDialogRegex)
+new Event(feature, "worldUnload", () => visitorsData.clear())
+
+// Starting events
+feature.start()

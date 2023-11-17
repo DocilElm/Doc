@@ -1,4 +1,5 @@
-import { PREFIX, S02PacketChat } from "../../utils/Utils"
+import { Command, Event } from "../../core/Events"
+import { TextHelper } from "../../shared/Text"
 
 // https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/commands/PingCommand.js
 
@@ -6,25 +7,29 @@ let time = null
 let commandSent = null
 let lastPingMsg = null
 
-register("command", () => {
-    if(lastPingMsg !== null && Date.now()-lastPingMsg <= 1000) return ChatLib.chat(`${PREFIX} &cYou're currently on cooldown`)
+// Constant variables
+const pingRegex = /^Unknown command\. Type "\/help" for help\. \('docisthebest'\)$/
+
+// Events
+new Command(null, "ping", () => {
+    if (lastPingMsg && Date.now()-lastPingMsg <= 1000)
+        return ChatLib.chat(`${TextHelper.PREFIX} &cYou're currently on cooldown`)
 
     time = Date.now()
     commandSent = true
 
     ChatLib.command("docisthebest")
-}).setName("ping")
+}).start()
 
-register("chat", (event) => cancel(event)).setCriteria(/^Unknown command\. Type "\/help" for help\. \('docisthebest'\)$/)
-
-register("packetReceived", (packet, event) => {
-    if(!commandSent || !new Message(packet.func_148915_c()).getUnformattedText().includes(`Unknown command. Type "/help" for help. ('docisthebest')`)) return
+new Event(null, "chat", (event) => cancel(event), null, pingRegex).start()
+new Event(null, "onChatPacket", () => {
+    if (!commandSent) return
 
     const ping = Date.now()-time
 
-    ChatLib.chat(`${PREFIX} &aPing: ${(ping <= 100 ? "&a" : ping <= 200 ? "&e" : "&c") + ping}ms`)
+    ChatLib.chat(`${TextHelper.PREFIX} &aPing: ${(ping <= 100 ? "&a" : ping <= 200 ? "&e" : "&c") + ping}ms`)
 
     time = null
     commandSent = false
     lastPingMsg = Date.now()
-}).setFilteredClass(S02PacketChat)
+}, null, pingRegex).start()

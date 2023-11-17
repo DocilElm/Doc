@@ -34,6 +34,7 @@ class Settings {
         this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
         this.addDependency("RngMeter Location", "RngMeter")
         this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
+        this.addDependency("Block Overlay Color", "Block Overlay")
     }
     // General
     @ButtonProperty({
@@ -238,7 +239,7 @@ class Settings {
     // Garden
     @SwitchProperty({
         name: "Visitor Profit Display",
-        description: "Displays most of the visitor's lore data and also the profit with copper and special item",
+        description: "Displays most of the visitor's lore data and also the profit with copper and rare item. Neu visitor features breaks this feature",
         category: "Garden",
         subcategory: "Garden"
     })
@@ -390,6 +391,22 @@ class Settings {
         ChatLib.command("rngMeterDisplay", true)
 
     }
+
+    @SwitchProperty({
+        name: "Block Overlay",
+        description: "Draws a block overlay at the block you're currently looking at",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    blockOverlay = false;
+
+    @ColorProperty({
+        name: "Block Overlay Color",
+        description: "Changes the highlight color of the block overlay",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    blockOverlayColor = Color.GREEN;
 }
 
 export default new Settings()

@@ -1,11 +1,17 @@
-import { addEvent } from "../../FeatureBase"
-import { onChatPacket } from "../../classes/Events"
-import ScalableGui from "../../classes/ScalableGui"
-import { PREFIX, entryMessages, getSeconds, isInTab, chat } from "../../utils/Utils"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { Persistence } from "../../shared/Persistence"
+import ScalableGui from "../../shared/Scalable"
+import { TextHelper } from "../../shared/Text"
+import { WorldState } from "../../shared/World"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/RunOverview.js
+// i will make an actual recode later on
 
+// Constant variables
 const editGui = new ScalableGui("runSplits").setCommand("runSplitsDisplay")
+const feature = new Feature("dungeonRunSplits", "Dungeons", "")
 const defaultSplits = [
     `&a&lRun Splits`,
     `&cBlood Opened&f: &a0s`,
@@ -14,6 +20,7 @@ const defaultSplits = [
     `&bBoss Entry&f: &a0s`,
 ].join("\n")
 
+// Changeable variables
 let splits = null
 let runStarted = null
 let bloodOpened = null
@@ -28,50 +35,57 @@ let firstSpawnChat = false
 let portalEntryChat = false
 let bossEntryChat = false
 
-addEvent("dungeonRunSplits", "Dungeons", onChatPacket((bossType, bossName, bossMessage, event) => {
-    const currentMessage = `[${bossType}] ${bossName}: ${bossMessage}`
+// Logic
+const registerWhen = () => WorldState.inDungeons() && config.dungeonRunSplits
 
-    if(currentMessage === "[NPC] Mort: Here, I found this map when I first entered the dungeon.") return runStarted = Date.now()
-    if(currentMessage.startsWith("[BOSS] The Watcher:") && !bloodOpened) return bloodOpened = Date.now()
-    if(currentMessage === "[BOSS] The Watcher: You have proven yourself. You may pass.") return bloodDone = Date.now()
-    if(currentMessage === "[BOSS] The Watcher: Let's see how you can handle this.") return firstSpawn = Date.now()
-    if(entryMessages.has(currentMessage)) return bossEntry = Date.now()
-}).setCriteria(/^\[(BOSS|NPC)\] ([\w ]+): (.+)$/), null, [
-    register("tick", () => {
-        if(!World.isLoaded() || !isInTab("Catacombs")) return
+const handleChatPacket = (_, __, ___, ____, formatted) => {
+    const currentMessage = formatted.removeFormatting()
 
-        const bloodOpenedStr = !bloodOpened && runStarted ? getSeconds(Date.now(), runStarted) : getSeconds(bloodOpened, runStarted)
-        const bloodDoneStr = !bloodDone && bloodOpened ? getSeconds(Date.now(), bloodOpened) : getSeconds(bloodDone, bloodOpened)
-        const portalEntryStr = !bossEntry && bloodDone ? getSeconds(Date.now(), bloodDone) : getSeconds(bossEntry, bloodDone)
-        const bossEntryStr = !bossEntry && bloodDone ? getSeconds(Date.now(), runStarted) : getSeconds(bossEntry, runStarted)
-        const firstSpawnStr = !firstSpawn && bloodOpened ? getSeconds(Date.now(), bloodOpened) : getSeconds(firstSpawn, bloodOpened)
+    if (currentMessage === "[NPC] Mort: Here, I found this map when I first entered the dungeon.") return runStarted = Date.now()
+    if (currentMessage.startsWith("[BOSS] The Watcher:") && !bloodOpened) return bloodOpened = Date.now()
+    if (currentMessage === "[BOSS] The Watcher: You have proven yourself. You may pass.") return bloodDone = Date.now()
+    if (currentMessage === "[BOSS] The Watcher: Let's see how you can handle this.") return firstSpawn = Date.now()
+    if (!Persistence.dungeonBossEntryMessage.has(currentMessage)) return
 
-        splits = [
-            `&a&lRun Splits`,
-            `&cBlood Opened&f: &a${bloodOpenedStr}`,
-            `&cBlood Done&f: &a${bloodDoneStr} &7(&cFirst Spawn&f: &a${firstSpawnStr}&7)`,
-            `&5Portal Entry&f: &a${portalEntryStr}`,
-            `&bBoss Entry&f: &a${bossEntryStr}`,
-        ].join("\n")
+    return bossEntry = Date.now()
+}
 
-        if(!bloodOpenChat && bloodOpened && runStarted) chat(`${PREFIX} &aBlood Opened&f: &6${getSeconds(bloodOpened, runStarted)}`), bloodOpenChat = true
-        if(!bloodDoneChat && bloodDone && bloodOpened) chat(`${PREFIX} &aBlood Done&f: &6${getSeconds(bloodDone, bloodOpened)}`), bloodDoneChat = true
-        if(!firstSpawnChat && firstSpawn && bloodOpened) chat(`${PREFIX} &aFirst group of mobs spawned at&f: &6${getSeconds(firstSpawn, bloodOpened)}`), firstSpawnChat = true
-        if(!portalEntryChat && bossEntry && bloodDone) chat(`${PREFIX} &aPortal Entry&f: &6${getSeconds(bossEntry, bloodDone)}`), portalEntryChat = true
-        if(!bossEntryChat && bossEntry && bloodDone) chat(`${PREFIX} &aBoss Entry&f: &6${getSeconds(bossEntry, runStarted)}`), bossEntryChat = true
-    }),
-    register("renderOverlay", () => {
-        if(!World.isLoaded() || !isInTab("Catacombs") || !splits) return
-    
-        editGui.renderString(splits)
-    })
-], "Catacombs")
+const makeStringToDraw = () => {
+    // Reset splits to an empty array
+    splits = []
 
-editGui.onRender(() => {
-    editGui.renderString(defaultSplits)
-})
+    const bloodOpenedStr = !bloodOpened && runStarted ? TextHelper.getSecondsSince(Date.now(), runStarted) : TextHelper.getSecondsSince(bloodOpened, runStarted)
+    const bloodDoneStr = !bloodDone && bloodOpened ? TextHelper.getSecondsSince(Date.now(), bloodOpened) : TextHelper.getSecondsSince(bloodDone, bloodOpened)
+    const portalEntryStr = !bossEntry && bloodDone ? TextHelper.getSecondsSince(Date.now(), bloodDone) : TextHelper.getSecondsSince(bossEntry, bloodDone)
+    const bossEntryStr = !bossEntry && bloodDone ? TextHelper.getSecondsSince(Date.now(), runStarted) : TextHelper.getSecondsSince(bossEntry, runStarted)
+    const firstSpawnStr = !firstSpawn && bloodOpened ? TextHelper.getSecondsSince(Date.now(), bloodOpened) : TextHelper.getSecondsSince(firstSpawn, bloodOpened)
 
-register("worldUnload", () => {
+    splits = [
+        `&a&lRun Splits`,
+        `&cBlood Opened&f: &a${bloodOpenedStr}`,
+        `&cBlood Done&f: &a${bloodDoneStr} &7(&cFirst Spawn&f: &a${firstSpawnStr}&7)`,
+        `&5Portal Entry&f: &a${portalEntryStr}`,
+        `&bBoss Entry&f: &a${bossEntryStr}`,
+    ].join("\n")
+
+    if (!bloodOpenChat && bloodOpened && runStarted) ChatLib.chat(`${TextHelper.PREFIX} &aBlood Opened&f: &6${TextHelper.getSecondsSince(bloodOpened, runStarted)}`), bloodOpenChat = true
+    if (!bloodDoneChat && bloodDone && bloodOpened) ChatLib.chat(`${TextHelper.PREFIX} &aBlood Done&f: &6${TextHelper.getSecondsSince(bloodDone, bloodOpened)}`), bloodDoneChat = true
+    if (!firstSpawnChat && firstSpawn && bloodOpened) ChatLib.chat(`${TextHelper.PREFIX} &aFirst group of mobs spawned at&f: &6${TextHelper.getSecondsSince(firstSpawn, bloodOpened)}`), firstSpawnChat = true
+    if (!portalEntryChat && bossEntry && bloodDone) ChatLib.chat(`${TextHelper.PREFIX} &aPortal Entry&f: &6${TextHelper.getSecondsSince(bossEntry, bloodDone)}`), portalEntryChat = true
+    if (!bossEntryChat && bossEntry && bloodDone) ChatLib.chat(`${TextHelper.PREFIX} &aBoss Entry&f: &6${TextHelper.getSecondsSince(bossEntry, runStarted)}`), bossEntryChat = true
+}
+
+const renderString = () => {
+    if (!registerWhen() || !splits || editGui.isOpen()) return
+
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(splits, 0, 0)
+    Renderer.finishDraw()
+}
+
+// Resets the variables to their default value
+const reset = () => {
     splits = null
     runStarted = null
     bloodOpened = null
@@ -84,4 +98,21 @@ register("worldUnload", () => {
     firstSpawnChat = false
     portalEntryChat = false
     bossEntryChat = false
+}
+
+// Default display
+editGui.onRender(() => {
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(defaultSplits, 0, 0)
+    Renderer.finishDraw()
 })
+
+// Events
+new Event(feature, "onChatPacket", handleChatPacket, registerWhen, /^\[(BOSS|NPC)\] ([\w ]+): (.+)$/)
+new Event(feature, "tick", makeStringToDraw, registerWhen)
+new Event(feature, "renderOverlay", renderString, () => registerWhen() && splits)
+new Event(feature, "worldUnload", reset)
+
+// Starting events
+feature.start()

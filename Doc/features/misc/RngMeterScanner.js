@@ -1,89 +1,65 @@
-import { onChatPacket } from "../../classes/Events"
-import { C0DPacketCloseWindow, convertToRoman, createDungeonsMeter, createSlayersMeter, setDungeonsMeter, setSlayersMeter, slayerGuiNames } from "../../utils/Utils"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { Persistence } from "../../shared/Persistence"
+import { TextHelper } from "../../shared/Text"
 
-// some day im coming back and recoding this horrible thing
+// Consistant variables
+const validTitles = new Set(["Slayer", "Revenant Horror", "Tarantula Broodfather", "Sven Packmaster", "Voidgloom Seraph", "Inferno Demonlord", "Riftstalker Bloodfiend"])
+const feature = new Feature("RngMeterScanner", "Misc", "")
 
-const guiScanned = new Set()
+// Regex
+const resetDungeonsMeterRegex =  /^You reset your selected drop for your Catacombs \(([\w\d]{1,2})\) RNG Meter\!$/
+const resetSlayerMeterRegex =    /^You reset your selected drop for your ([\w ]+) RNG Meter!$/
 
-onChatPacket((floorName) => {
-    setDungeonsMeter(floorName, null)
-}).setCriteria(/^You reset your selected drop for your Catacombs \(([\w\d]{1,2})\) RNG Meter\!$/)
+// Changeable variables
+let shouldCheck = false
 
-onChatPacket((floorName, selectedDrop) => {
-    setDungeonsMeter(floorName, selectedDrop)
-}).setCriteria(/^You set your Catacombs \(([\w\d]{1,2})\) RNG Meter to drop ([\w\d\(\)' ]+)\!$/)
+// Logic
+const registerWhen = () => config.RngMeter
 
-onChatPacket((slayerName) => {
-    setSlayersMeter(slayerName, null)
-}).setCriteria(/^You reset your selected drop for your ([\w ]+) RNG Meter!$/)
+const checkWindowName = windowTitle => shouldCheck = (validTitles.has(windowTitle) || /RNG Meter$/.test(windowTitle))
 
-onChatPacket((slayerName, selectedDrop, event, formatted) => {
-    // split() yep
-    if(selectedDrop === "Enchanted Book Bundle" && formatted.split("to drop ")?.[1]?.startsWith("§r§6")) selectedDrop = "The One Bundle"
-    else if(selectedDrop === "Enchanted Book Bundle" && formatted.split("to drop ")?.[1]?.startsWith("§r§a")) selectedDrop = "Quantum Bundle"
+const handleItemsPacket = (itemStacks) => {
+    if (!shouldCheck) return
 
-    setSlayersMeter(slayerName, selectedDrop)
-}).setCriteria(/^You set your ([\w ]+) RNG Meter to drop ([\w\d\(\)'◆ ]+)\!$/)
+    itemStacks.forEach(valueStack => {
+        if (!valueStack) return
 
-register("step", () => {
-    if(!World.isLoaded()) return
+        const ctItem = new Item(valueStack)
+        if (ctItem.getID() === 160 || ctItem.getID() === 166 || ctItem.getName()?.removeFormatting() !== "RNG Meter") return
 
-    const container = Player.getContainer()
+        const itemLore = ctItem.getLore()
+        const currentName = itemLore?.[1]?.removeFormatting()?.match(/^Catacombs \(([\w\d]+)\)$/)?.[1] ?? itemLore?.[1]?.removeFormatting()
 
-    const slayer = slayerGuiNames.has(container.getName())
-    const itemIndex = slayer ? 14 : 17
-    const scoreIndex = slayer ? 17 : 20
+        // If no item selected create new dungeons data with null values
+        if (!/Selected Drop/gm.test(itemLore)) return Persistence.createDataForMeter(currentName)
 
-    if(slayer && !guiScanned.has(container.getName())){
-        const item = container.getItems()?.[35]?.getName()?.removeFormatting() !== "RNG Meter" && container.getItems()?.[34]?.getName()?.removeFormatting() === "RNG Meter"
-            ? container.getItems()?.[34]
-            : container.getItems()?.[35]
+        // Lore index 20 = dungeons, index 17 = slayers
+        const scoreIndex = /[\d]+/.test(itemLore[20]?.removeFormatting()) ? 20 : 17
+        // Lore index 17 = dungeons, index 14 = slayers
+        const dropIndex = itemLore[17]?.removeFormatting()?.includes("/") ? 14 : 17
 
-        if(!item || item.getID() === 160) return
+        const currentScore = parseFloat(itemLore[scoreIndex]?.removeFormatting()?.match(/^ +([\d,]+)\/([\d,]+)/)?.[1]?.replace(/,/g, ""))
+        const selectedDrop = TextHelper.dropToRoman(itemLore[dropIndex]?.removeFormatting(), itemLore[dropIndex])
 
-        const slayerName = item.getLore()?.[1]?.removeFormatting()
-        if(!item.getLore().join(",").removeFormatting().includes("Selected Drop")) return createSlayersMeter(slayerName, null, null)
+        Persistence.createDataForMeter(currentName, currentScore, selectedDrop)
 
-        const score = parseFloat(item.getLore()?.[scoreIndex]?.removeFormatting()?.match(/^ +([\d,]+)\/([\d,]+)/)?.[1]?.replace(/,/g, ""))
-        let selectedDrop = item.getLore()?.[itemIndex]?.removeFormatting()
-
-        if(selectedDrop.includes("Enchanted Book") || selectedDrop.includes(" Rune ")){
-            const num = selectedDrop.match(/([\d]+)/)?.[1]
-            selectedDrop = selectedDrop.replace(num, convertToRoman(num))
-        }
-
-        if(selectedDrop === "Enchanted Book Bundle" && item.getLore()?.[itemIndex] === "§5§o§6Enchanted Book Bundle" ) selectedDrop = "The One Bundle"
-        else if(selectedDrop === "Enchanted Book Bundle" && item.getLore()?.[itemIndex] === "§5§o§aEnchanted Book Bundle" ) selectedDrop = "Quantum Bundle"
-
-        createSlayersMeter(slayerName, score, selectedDrop)
-        guiScanned.add(container.getName())
-        return
-    }
-
-    if(container.getName() !== "Catacombs RNG Meter" || guiScanned.has(container.getName())) return
-    
-    const guiItems = container.getItems()?.splice(8, 36)
-
-    guiItems.forEach(item => {
-        if(!item || item.getID() === 160 || item.getName().removeFormatting() !== "RNG Meter") return
-
-        const floorName = item.getLore()?.[1]?.removeFormatting()?.match(/^Catacombs \(([\w\d]+)\)$/)?.[1]
-        if(!item.getLore().join(",").removeFormatting().includes("Selected Drop")) return createDungeonsMeter(floorName, null, null)
-
-        const score = parseFloat(item.getLore()?.[scoreIndex]?.removeFormatting()?.match(/^ +([\d,]+)\/([\d,]+)/)?.[1]?.replace(/,/g, ""))
-        let selectedDrop = item.getLore()?.[itemIndex]?.removeFormatting()
-
-        if(selectedDrop.includes("Enchanted Book")){
-            const num = selectedDrop.match(/([\d]+)/)?.[1]
-            selectedDrop = selectedDrop.replace(num, convertToRoman(num))
-        }
-
-        createDungeonsMeter(floorName, score, selectedDrop)
     })
 
-    guiScanned.add(container.getName())
-}).setFps(1)
+    shouldCheck = false
+}
 
-register("packetSent", (packet, event) => {
-    guiScanned.clear()
-}).setFilteredClass(C0DPacketCloseWindow)
+new Event(feature, "onOpenWindowPacket", checkWindowName, registerWhen)
+new Event(feature, "onWindowItemsPacket", handleItemsPacket, registerWhen)
+
+new Event(feature, "onChatPacket", (floorName) => {
+    Persistence.createDataForMeter(floorName)
+}, registerWhen, resetDungeonsMeterRegex)
+
+new Event(feature, "onChatPacket", (slayerName) => {
+    Persistence.createDataForMeter(slayerName)
+}, registerWhen, resetSlayerMeterRegex)
+
+// Start the feature
+feature.start()

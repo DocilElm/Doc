@@ -1,6 +1,6 @@
-/// <reference types="../CTAutocomplete" />
-/// <reference lib="es2015" />
-import { PREFIX, chat, data } from "./utils/Utils"
+import { Persistence } from "./shared/Persistence"
+import { TextHelper } from "./shared/Text"
+import { Command } from "./core/Events"
 import config from "./config"
 
 // Dungeons
@@ -33,14 +33,16 @@ import "./features/trackers/PowderTracker"
 import "./features/kuudra/FatalTempoDisplay"
 import "./features/kuudra/CratesWaypoints"
 //Misc
+import "./features/misc/CreeperAlert"
 import "./features/misc/RagAxeTimer"
 import "./features/misc/RngMeter"
 import "./features/misc/RngMeterScanner"
+import "./features/misc/BlockOverlay"
 
-register("command", () => config.openGUI()).setName("doc")
+new Command(null, "doc", () => config.openGUI()).start()
 
-if(data.firstTime){
-    chat(`${PREFIX} &aUse /doc for config menu`)
-    data.firstTime = false
-    data.save()
+if (Persistence.data.firstTime){
+    ChatLib.chat(`${TextHelper.PREFIX} &aUse /doc for config menu`)
+    Persistence.data.firstTime = false
+    Persistence.data.save()
 }

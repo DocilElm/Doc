@@ -1,57 +1,121 @@
-import ItemHandler from "../../classes/Items"
-import { getSkyblockItemID } from "../../../BloomCore/utils/Utils"
-import { mathTrunc, chestNames } from "../../utils/Utils"
-import { addEvent } from "../../FeatureBase"
-import ScalableGui from "../../classes/ScalableGui"
+import { Feature } from "../../core/Feature"
+import { WorldState } from "../../shared/World"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import PriceHelper from "../../shared/Price"
+import ItemHandler from "../../shared/Items"
+import { TextHelper } from "../../shared/Text"
+import ScalableGui from "../../shared/Scalable"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/dungeonChestProfit/DungeonChestProfit.js
 
+// Constant variables
 const editGui = new ScalableGui("dungeonProfit").setCommand("dungeonProfitDisplay")
-const defaultProfit = [
-    `&b- &aExample Item`,
-    `&b- &aExample Item &8x25`,
-    `&bProfit&f: &a250,000`,
-].join("\n")
+const feature = new Feature("chestProfit", "Dungeons", "")
+const chestNames = new Set(["Wood Chest", "Gold Chest", "Diamond Chest", "Emerald Chest", "Obsidian Chest", "Bedrock Chest"])
+const chestData = new Map()
 
-let openedChests = []
-let drawText = null
-let profit = 0
+// Changeable variables
+let stringToDraw = null
+let shouldScan = false
+let currentChest = null
 
-addEvent("dungeonProfitDisplay", "Dungeons", register("step", () => {
-    if(!World.isLoaded()) return
+// Logic
+const registerWhen = () => WorldState.inDungeons() && config.dungeonProfitDisplay
+const checkWindowTitle = windowTitle => {
+    shouldScan = chestNames.has(windowTitle)
+    currentChest = windowTitle
+}
 
-    const container = Player.getContainer()
-    const containerName = container.getName()
+const scanItems = (itemStacks) => {
+    if (!shouldScan || !currentChest) return
 
-    if(!chestNames.has(container.getName()) || !container.getItems()?.[31]) return drawText = null
-
-    const chestPrice = parseInt(container.getItems()?.[31]?.getLore()?.[7]?.removeFormatting()?.match(/^([\d,]+) Coins$/)?.[1]?.replace(/,/g, ""))
-    const items = container.getItems().slice(9, 18).filter(a => a && a?.getID() !== 160)
-
-    const value = items.reduce((a, b) => a + new ItemHandler(b).getValue(), 0)
-    const eq = value-chestPrice
-
-    profit = eq <= 0 ? `&c${mathTrunc(eq)}` : `&a${mathTrunc(eq)}`
-    drawText = items.map(a => getSkyblockItemID(a).startsWith("ENCHANTMENT") ? `&b- ${a.getLore()?.[1]}` : `&b- ${a.getName()}`).join("\n")
-
-    const existingInd = openedChests.findIndex(a => a === containerName)
-    if (existingInd !== -1) openedChests.splice(existingInd, 1)
-
-    openedChests.push(containerName)
-}).setFps(5), null, [
-    register("renderOverlay", () => {
-        if(!World.isLoaded() || !drawText) return
-    
-        editGui.renderString(`${drawText}\n&bProfit&f: ${profit}`)
+    // Create the default chest data regardless if it exists or not
+    chestData.set(currentChest, {
+        items: [],
+        chestPrice: 0,
+        profit: 0
     })
-], "Catacombs")
 
+    // Get the chest data so we can add values to it
+    const currentData = chestData.get(currentChest)
+
+    itemStacks.forEach((valueStack, index) => {
+        if (!valueStack || index >= 32) return
+
+        const ctItem = new Item(valueStack)
+        if (ctItem.getID() === 160) return
+
+        // Check for chest price name
+        if (ctItem.getName().removeFormatting() === "Open Reward Chest" && index === 31) {
+            currentData.chestPrice = parseInt(ctItem.getLore()?.[7]?.removeFormatting()?.match(/^([\d,]+) Coins$/)?.[1]?.replace(/,/g, ""))
+
+            // Add dungeon chest key price to the chest price in case this is required
+            const chestkey = ctItem.getLore()?.[8]?.removeFormatting() === "Dungeon Chest Key" ? PriceHelper.getSellPrice("DUNGEON_CHEST_KEY") : 0
+            currentData.chestPrice += chestkey
+
+            return
+        }
+
+        // Check if the list is still checking for chest loot and not overall items
+        if (index >= 19) return
+
+        const itemName = ctItem.getName().removeFormatting() === "Enchanted Book" ? ctItem.getLore()[1] : ctItem.getName()
+
+        // Push item name with format to the array
+        currentData.items.push(`\n${itemName}`)
+        // Push item price as profit for later calculation
+        currentData.profit += new ItemHandler(ctItem).getValue()
+    })
+    // Calculate profit by subtracting chest price from profit
+    currentData.profit = currentData.profit - currentData.chestPrice
+
+    shouldScan = false
+}
+
+const makeStringToDraw = () => {
+    if (!chestData.size) return stringToDraw = null
+
+    let tempArray = []
+
+    chestData.forEach((value, key) => {
+        const items = value.items.toString()
+        const profit = value.profit
+        const profitFormat = profit <= 0 ? "&c" : "&a"
+
+        tempArray.push(`\n&a${key}${items}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
+    })
+
+    stringToDraw = tempArray.join("")
+    tempArray = null
+}
+
+const renderChestData = () => {
+    if (!stringToDraw || editGui.isOpen()) return
+
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(stringToDraw, 0, 0)
+    Renderer.finishDraw()
+}
+
+// Default display
 editGui.onRender(() => {
-    editGui.renderString(defaultProfit)
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(`\n&aFree Chest\n&aExample Item &8x25\n&aTotal Profit&f: &a1,000`, 0, 0)
+    Renderer.finishDraw()
 })
 
-register("worldUnload", () => {
-    openedChests = []
-    drawText = null
-    profit = 0
+// Events
+new Event(feature, "onOpenWindowPacket", checkWindowTitle, registerWhen)
+new Event(feature, "onWindowItemsPacket", scanItems, registerWhen)
+new Event(feature, "tick", makeStringToDraw, registerWhen)
+new Event(feature, "renderOverlay", renderChestData, () => WorldState.inDungeons() && config.dungeonProfitDisplay && stringToDraw)
+new Event(feature, "worldUnload", () => {
+    chestData.clear()
+    currentChest = null
 })
+
+// Starting events
+feature.start()

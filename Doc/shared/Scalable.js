@@ -1,4 +1,4 @@
-import { data } from "../utils/Utils"
+import { Persistence } from "./Persistence"
 
 // big thank bloom
 
@@ -8,15 +8,15 @@ export default class ScalableGui {
         this.gui = new Gui()
 
         this.gui.registerScrolled((mx, my, dir) => {
-            if (dir == 1) data[this.featureName].scale += 0.02
-            else data[this.featureName].scale -= 0.02
-            data.save()
+            if (dir == 1) Persistence.data[this.featureName].scale += 0.02
+            else Persistence.data[this.featureName].scale -= 0.02
+            Persistence.data.save()
         })
 
         this.gui.registerMouseDragged((mx, my, btn, lastClick) => {
-            data[this.featureName].x = mx
-            data[this.featureName].y = my
-            data.save()
+            Persistence.data[this.featureName].x = mx
+            Persistence.data[this.featureName].y = my
+            Persistence.data.save()
         })
     }
 
@@ -28,27 +28,20 @@ export default class ScalableGui {
         return this
     }
 
-    renderString(str){
-        Renderer.translate(this.getX(), this.getY())
-        Renderer.scale(this.getScale())
-        Renderer.drawStringWithShadow(str, 0, 0)
-        Renderer.finishDraw()
-    }
-
     onRender(func){
         this.gui.registerDraw(func)
     }
 
     getX(){
-        return data[this.featureName].x ?? 0
+        return Persistence.data[this.featureName].x ?? 0
     }
 
     getY(){
-        return data[this.featureName].y ?? 0
+        return Persistence.data[this.featureName].y ?? 0
     }
 
     getScale(){
-        return data[this.featureName].scale ?? 1
+        return Persistence.data[this.featureName].scale ?? 1
     }
 
     open(){
@@ -57,5 +50,9 @@ export default class ScalableGui {
 
     close(){
         this.gui.close()
+    }
+
+    isOpen() {
+        return this.gui.isOpen()
     }
 }

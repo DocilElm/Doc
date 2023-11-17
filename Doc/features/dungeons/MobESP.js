@@ -1,21 +1,31 @@
 import RenderLib from "../../../RenderLib"
-import { addEvent } from "../../FeatureBase"
-import { EntityArmorStand } from "../../utils/Utils"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import { WorldState } from "../../shared/World"
 
+// Constant variables
+const feature = new Feature("mobESP", "Dungeons", "")
+const requiredWorld = "Catacombs"
+
+// Changeable variables
 let mobsArray = []
 
-addEvent("mobESP", "dungeons", register("step", () => {
-    if(!World.isLoaded()) return
+// Logic
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.mobESP
 
-    mobsArray = World.getAllEntitiesOfType(EntityArmorStand).filter(entity => entity.getName().includes("✯ ") && !entity.getName().includes("Fels"))
-}).setFps(3), null, [
-    register("renderWorld", () => {
-        if(!World.isLoaded()) return
+// Events
+new Event(feature, "step", () => {
+    mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => entity.getName().includes("✯ ") && !entity.getName().includes("Fels"))
+}, registerWhen, 3)
 
-        mobsArray.forEach(entity => {
-            const [ x, y, z ] = [entity.getRenderX(), entity.getRenderY(), entity.getRenderZ()]
+new Event(feature, "renderWorld", () => {
+    mobsArray.forEach(entity => {
+        const [ x, y, z ] = [entity.getRenderX(), entity.getRenderY(), entity.getRenderZ()]
 
-            RenderLib.drawEspBox(x, y-2, z, 0.6, 2, 0, 35, 243, 255, false)
-        })
+        RenderLib.drawEspBox(x, y-2, z, 0.6, 2, 0, 35, 243, 255, false)
     })
-], "Catacombs", null)
+}, registerWhen)
+
+// Starting events
+feature.start()

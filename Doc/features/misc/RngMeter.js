@@ -1,87 +1,140 @@
-import { addEvent } from "../../FeatureBase"
-import { onChatPacket } from "../../classes/Events"
-import ScalableGui from "../../classes/ScalableGui"
-import { PREFIX, createDungeonsMeter, createSlayersMeter, data, getJsonDataFromUrl, getScoreboard, isInTab, mathTrunc, setDungeonsMeter, setSlayersMeter } from "../../utils/Utils"
+import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
+import DungeonsState from "../../shared/Dungeons"
+import { Persistence } from "../../shared/Persistence"
+import ScalableGui from "../../shared/Scalable"
+import { TextHelper } from "../../shared/Text"
+import { WorldState } from "../../shared/World"
 
-const DungeonsMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DungeonsMeterData.json")
-const SlayersMeterData = getJsonDataFromUrl("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/SlayersMeterData.json")
+// Constant variables
+const DungeonsMeterData = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DungeonsMeterData.json")
+const SlayersMeterData = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/SlayersMeterData.json")
 const editGui = new ScalableGui("rngMeter").setCommand("rngMeterDisplay")
+const feature = new Feature("RngMeter", "Misc", "")
 
-let strToDraw = ""
-let currValue = null
+// Regex
+const storedSlayerXPRegex =     /^   RNG Meter \- ([\d,]+) Stored XP$/
+const currentTeamScoreRegex =   /^ *Team Score: (\d+) \(([\w\+]{1,2})\)$/
+const currentRewardRegex =      /^    (RARE REWARD\! )?(.+)$/
+const currentDroppedItemRegex = /^[\w ]+ DROP\! \(([\w\d\(\)'◆ ]+)\)(?: \(\+(\d+)% ✯ Magic Find\))?$/
+const startingDungeonsRegex =   /^Starting in [\d] seconds\.$/
+
+// Changeable variables
+let stringToDraw = null
+let currentValue = null
 let addScore = true
 
-const makeStrToDraw = (jsonData, dataType, currentValue) => {
-    if(!currentValue) return
-    currValue = currentValue
+// Logic
+const registerWhen = () => World.isLoaded() && config.RngMeter
 
-    const selectedDrop = data.rngMeter[dataType][currentValue].selectedDrop
-    if(!selectedDrop) return strToDraw = `&cNo Rng selected for &6${currentValue}`
+const makeStringToDraw = (jsonData, dataType, value) => {
+    if (!value) return stringToDraw = null
 
-    const score = data.rngMeter[dataType][currentValue].score
-    const requiredScore = jsonData[currentValue][selectedDrop].scoreRequired
-    const formatName = jsonData[currentValue][selectedDrop].formattedName
+    currentValue = value
+
+    const selectedDrop = Persistence.data.rngMeter?.[dataType]?.[value]?.selectedDrop
+    if (!selectedDrop) return stringToDraw = `&cNo Rng selected for &6${value}`
+
+    const score = Persistence.data.rngMeter[dataType]?.[value]?.score
+    const requiredScore = jsonData[value]?.[selectedDrop]?.scoreRequired
+    const formatName = jsonData[value]?.[selectedDrop]?.formattedName
     const formatColor = score >= requiredScore ? "&6" : "&7"
     const progress = ((score/requiredScore)*100).toFixed(2)
 
-    strToDraw = `${formatName}&f: ${formatColor}${mathTrunc(score)}&b/&6${mathTrunc(requiredScore)} ${formatColor}(${progress >= 100 ? 100 : progress}%)`
+    stringToDraw = `${formatName}&f: ${formatColor}${TextHelper.addCommasTrunc(score)}&b/&6${TextHelper.addCommasTrunc(requiredScore)} ${formatColor}(${progress >= 100 ? 100 : progress}%)`
 }
 
-addEvent("RngMeter", "Misc", register("renderOverlay", () => {
-    if(!World.isLoaded()) return
-
-    if(isInTab("Catacombs")) getScoreboard().forEach(a => {
-        if(!/^  The Catacombs \(([\w\d].{1,2})\)$/.test(a)) return
-        makeStrToDraw(DungeonsMeterData, "dungeonsData", a.match(/^  The Catacombs \(([\w\d].{1,2})\)$/)[1])
-    })
-    else getScoreboard().forEach(line => {
+const tickChecks = () => {
+    if (WorldState.inDungeons()) return makeStringToDraw(DungeonsMeterData, "dungeonsData", DungeonsState.getCurrentFloor())
+    
+    WorldState.getScoreboard().forEach(line => {
         if(!/([\w ]+) [IV]+$/.test(line)) return
 
-        makeStrToDraw(SlayersMeterData, "slayersData", line.match(/([\w ]+) [IV]+$/)[1])
+        makeStringToDraw(SlayersMeterData, "slayersData", line.match(/([\w ]+) [IV]+$/)[1])
     })
+}
 
-    editGui.renderString(strToDraw)
-}), null, [
-    onChatPacket((amount) => {
-        setSlayersMeter(currValue, null, parseFloat(amount.replace(/,/g, "")), "score")
-
-        const selectedDrop = data.rngMeter.slayersData[currValue]?.selectedDrop
-        if(data.rngMeter.slayersData[currValue]?.score <= SlayersMeterData[currValue]?.[selectedDrop]?.scoreRequired) return
-
-        Client.showTitle("&cRNG Meter Max!", PREFIX, 10, 40, 10)
-        World.playSound("random.successful_hit", 1, 1)
-    }).setCriteria(/^   RNG Meter \- ([\d,]+) Stored XP$/),
+const renderHandler = () => {
+    if (!stringToDraw || editGui.isOpen()) return
     
-    onChatPacket((score, rank) => {
-        if(!addScore || !["S", "S+"].includes(rank)) return
-    
-        const actualScore = rank === "S" ? Math.floor(parseInt(score)*0.7) : parseInt(score)
-        const savedScore = data.rngMeter.dungeonsData[currValue]?.score
-    
-        setDungeonsMeter(currValue, null, savedScore+actualScore, "score")
-        addScore = false
-    }).setCriteria(/^ *Team Score: (\d+) \(([\w\+]{1,2})\)$/),
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(stringToDraw, 0, 0)
+    Renderer.finishDraw()
+}
 
-    onChatPacket((m, itemName) => {
-        if(!currValue || data.rngMeter.dungeonsData[currValue]?.selectedDrop !== itemName) return
-    
-        createDungeonsMeter(currValue)
-    }).setCriteria(/^    (RARE REWARD\! )?(.+)$/),
-    onChatPacket((drop) => {
-        if(!drop.includes(data.rngMeter.slayersData[currValue]?.selectedDrop)) return
+const storeSlayerScore = (amount) => {
+    if (!currentValue) return
+    // Stores the score [amount] to the json file
+    Persistence.createDataForMeter(currentValue, parseFloat(amount.replace(/,/g, "")))
 
-        createSlayersMeter(currValue)
-    }).setCriteria(/^[\w ]+ DROP\! \(([\w\d\(\)'◆ ]+)\)(?: \(\+(\d+)% ✯ Magic Find\))?$/),
+    // This is used for the alert whenever the meter is full
+    const selectedDrop = Persistence.data.rngMeter.slayersData[currentValue]?.selectedDrop
 
-    onChatPacket(() => {
-        const selectedDrop = data.rngMeter.dungeonsData[currValue]?.selectedDrop
-        if(data.rngMeter.dungeonsData[currValue]?.score <= DungeonsMeterData[currValue]?.[selectedDrop]?.scoreRequired || !isInTab("Catacombs")) return
+    if (Persistence.data.rngMeter.slayersData[currentValue]?.score <= SlayersMeterData[currentValue]?.[selectedDrop]?.scoreRequired) return
 
-        Client.showTitle("&cRNG Meter Max!", PREFIX, 10, 40, 10)
-        World.playSound("random.successful_hit", 1, 1)
-    }).setCriteria(/^Starting in [\d] seconds\.$/)
-])
+    Client.showTitle("&cRNG Meter Max!", TextHelper.PREFIX, 10, 40, 10)
+    World.playSound("random.successful_hit", 1, 1)
+}
 
-editGui.onRender(() => editGui.renderString(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`))
+const storeTeamScore = (score, rank) => {
+    // Check wheather we can add the score or if the rank is [S, S+]
+    if (!addScore || !["S", "S+"].includes(rank)) return
 
-register("worldUnload", () => addScore = true)
+    // Checks if it's S or S+ to store the correct score amount per rank
+    const actualScore = rank === "S" ? Math.floor(parseInt(score)*0.7) : parseInt(score)
+    const savedScore = Persistence.data.rngMeter.dungeonsData[currentValue]?.score
+
+    // Saves the score [score] to json file
+    Persistence.createDataForMeter(currentValue, savedScore+actualScore)
+    addScore = false
+}
+
+const checkCurrentReward = (m, itemName) => {
+    // Checks wheather the current value exists or the [itemName] equals to the selected drop
+    if (!currentValue || Persistence.data.rngMeter.dungeonsData[currentValue]?.selectedDrop !== itemName) return
+
+    // Removes all of the data in the json file since the meter gets reset
+    Persistence.createDataForMeter(currentValue)
+}
+
+const checkCurrentDrop = (drop) => {
+    // Checks if the [drop] value is equal to the json selected drop
+    if (!drop.includes(Persistence.data.rngMeter.slayersData[currentValue]?.selectedDrop)) return
+
+    // Removes all of the data in the json file since the meter gets reset
+    Persistence.createDataForMeter(currentValue)
+}
+
+const startingDungeonsAlert = () => {
+    if (!currentValue || !WorldState.inDungeons()) return
+    // Checks if the selected drop's score is equal to the max score
+    const selectedDrop = Persistence.data.rngMeter.dungeonsData[currentValue].selectedDrop
+    if (Persistence.data.rngMeter.dungeonsData[currentValue].score <= DungeonsMeterData[currentValue][selectedDrop].scoreRequired) return
+
+    // Alerts the player if the meter is max
+    Client.showTitle("&cRNG Meter Max!", TextHelper.PREFIX, 10, 40, 10)
+    World.playSound("random.successful_hit", 1, 1)
+}
+
+// Default display
+editGui.onRender(() => {
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    Renderer.drawStringWithShadow(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`, 0, 0)
+    Renderer.finishDraw()
+})
+
+// Events
+new Event(feature, "tick", tickChecks, registerWhen)
+new Event(feature, "renderOverlay", renderHandler, () => World.isLoaded() && config.RngMeter && stringToDraw)
+new Event(feature, "onChatPacket", storeSlayerScore, registerWhen, storedSlayerXPRegex)
+new Event(feature, "onChatPacket", storeTeamScore, registerWhen, currentTeamScoreRegex)
+new Event(feature, "onChatPacket", checkCurrentReward, registerWhen, currentRewardRegex)
+new Event(feature, "onChatPacket", checkCurrentDrop, registerWhen, currentDroppedItemRegex)
+new Event(feature, "onChatPacket", startingDungeonsAlert, registerWhen, startingDungeonsRegex)
+new Event(feature, "worldUnload", () => addScore = true)
+
+// Start the events
+feature.start()
