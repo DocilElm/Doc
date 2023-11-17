@@ -50,7 +50,7 @@ export default new class TabListStats {
 
         }).start()
 
-        new Event(null, "worldUnload", () => this.reset.bind(this)).start()
+        new Event(null, "worldUnload", () => this.reset()).start()
     }
 
     reset() {

@@ -39,6 +39,7 @@ class Settings {
         this.addDependency("Phoenix Pet Invincibility Timer Location", "Phoenix Pet Invincibility Timer")
         this.addDependency("Garden Display Location", "Garden Display")
         this.addDependency("Blessings Display Location", "Blessings Display")
+        this.addDependency("Stats Display Location", "Stats Display")
     }
     // General
     @ButtonProperty({
@@ -487,6 +488,26 @@ class Settings {
     })
     changephoenixInvisDisplay() {
         ChatLib.command("phoenixInvisDisplay", true)
+
+    }
+
+    @SwitchProperty({
+        name: "Stats Display",
+        description: "Displays your current stats that are in tab",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    statsDisplay = false;
+
+    @ButtonProperty({
+        name: "Stats Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changestatsDisplayLocation() {
+        ChatLib.command("statsDisplayLocation", true)
 
     }
 }

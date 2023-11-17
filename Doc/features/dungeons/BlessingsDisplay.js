@@ -30,7 +30,7 @@ editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow(
-        `Blessing of Power 1\nBlessing of Life 1\nBlessing of Time 1`,
+        `&bBlessing of Power 1\n&bBlessing of Life 1\n&bBlessing of Time 1`,
         0,
         0
         )
