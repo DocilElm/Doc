@@ -207,6 +207,14 @@ class Settings {
         ChatLib.command("blessingsDisplayLocation", true);
     }
 
+    @SwitchProperty({
+        name: "Secrets Sound",
+        description: "Plays a sound whenever you get a dungeon secret (might not be 100% accurate on the pick up items)",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    secretsSound = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",

@@ -13,6 +13,7 @@ import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ExtraStats"
 import "./features/dungeons/BossSplits"
 import "./features/dungeons/BlessingsDisplay"
+import "./features/dungeons/SecretsSound"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
