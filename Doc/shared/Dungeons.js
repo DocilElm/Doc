@@ -63,7 +63,7 @@ export default new class DungeonState {
         new Event(null, "onBlessingsChange", (blessingsArray) => this.blessings = blessingsArray, checkDungeons, true).start()
 
         // Bind this to ensure it can still access internal class properties
-        new Event(null, "worldUnload", this.reset.bind(this)).start()
+        new Event(null, "worldUnload", this.reset()).start()
 
     }
 

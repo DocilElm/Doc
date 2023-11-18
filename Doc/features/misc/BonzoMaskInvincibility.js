@@ -17,17 +17,16 @@ const addMaskCd = () => bonzoProc = Date.now()
 
 const renderString = () => {
     if (!registerWhen() || !bonzoProc || editGui.isOpen()) return
+    if ((Date.now() - bonzoProc) >= 3000) return bonzoProc = null
 
     const timeRemaining = 3000 - (Date.now() - bonzoProc)
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow(
-        timeRemaining <= 0
-            ? `&9Bonzo's Mask&f: &cOver!`
-            : `&9Bonzo's Mask&f: &a${timeRemaining/1000}s`,
-            0,
-            0
+        `&9Bonzo's Mask&f: &a${timeRemaining/1000}s`,
+        0,
+        0
         )
     Renderer.finishDraw()
 }
@@ -43,7 +42,6 @@ editGui.onRender(() => {
 // Events
 new Event(feature, "onChatPacket", addMaskCd, registerWhen, /^Your( ⚚)? Bonzo\'s Mask saved your life\!$/)
 new Event(feature, "renderOverlay", renderString, () => registerWhen() && bonzoProc)
-new Event(feature, "worldUnload", () => bonzoProc = null)
 
 // Starting events
 feature.start()

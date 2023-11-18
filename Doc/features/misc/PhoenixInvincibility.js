@@ -17,17 +17,16 @@ const addMaskCd = () => phoenixProc = Date.now()
 
 const renderString = () => {
     if (!registerWhen() || !phoenixProc || editGui.isOpen()) return
+    if ((Date.now() - phoenixProc) >= 4000) return phoenixProc = null
 
     const timeRemaining = 4000 - (Date.now() - phoenixProc)
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow(
-        timeRemaining <= 0
-            ? `&cPhoenix Pet&f: &cOver!`
-            : `&cPhoenix Pet&f: &a${timeRemaining/1000}s`,
-            0,
-            0
+        `&cPhoenix Pet&f: &a${timeRemaining/1000}s`,
+        0,
+        0
         )
     Renderer.finishDraw()
 }
@@ -43,7 +42,6 @@ editGui.onRender(() => {
 // Events
 new Event(feature, "onChatPacket", addMaskCd, registerWhen, /^Your Phoenix Pet saved you from certain death\!$/)
 new Event(feature, "renderOverlay", renderString, () => registerWhen() && phoenixProc)
-new Event(feature, "worldUnload", () => phoenixProc = null)
 
 // Starting events
 feature.start()
