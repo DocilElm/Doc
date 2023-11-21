@@ -199,4 +199,14 @@ export class TextHelper {
     static getHourPerItems(item, time) {
         return this.addCommasTrunc(Math.round(((item ?? 0)/(time ?? 1)) * 3600))
     }
+
+    /**
+     * - Checks wheather the [x, y] array1 is in the bounding box of [x1, y1, x2, y2] array2
+     * @param {Array} array1 
+     * @param {Array} array2 
+     * @returns {Boolean}
+     */
+    static checkBoundingBox([x, y], [x1, y1, x2, y2]) {
+        return (x >= x1 && x <= x2) && (y >= y1 && y <= y2)
+    }
 }

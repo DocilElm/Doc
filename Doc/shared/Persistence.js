@@ -67,6 +67,7 @@ export class Persistence {
         gardenDisplay: {x: 10, y: 10, scale: 1},
         blessingDisplay: {x: 10, y: 10, scale: 1},
         statsDisplay: {x: 10, y: 10, scale: 1},
+        searchBar: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

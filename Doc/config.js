@@ -40,6 +40,7 @@ class Settings {
         this.addDependency("Garden Display Location", "Garden Display")
         this.addDependency("Blessings Display Location", "Blessings Display")
         this.addDependency("Stats Display Location", "Stats Display")
+        this.addDependency("Search Bar Location", "Search Bar")
     }
     // General
     @ButtonProperty({
@@ -516,6 +517,26 @@ class Settings {
     })
     changestatsDisplayLocation() {
         ChatLib.command("statsDisplayLocation", true)
+
+    }
+
+    @SwitchProperty({
+        name: "Search Bar",
+        description: "Displays a search bar that can let you well... search! item lore or item name",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    searchBar = false;
+
+    @ButtonProperty({
+        name: "Search Bar Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changesearchBarLocation() {
+        ChatLib.command("searchBarLocation", true)
 
     }
 }

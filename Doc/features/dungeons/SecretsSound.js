@@ -44,12 +44,15 @@ const checkEntities = () => {
 
 const checkSkullTexture = (blockPos) => {
     const textureID = World.getWorld().func_175625_s(blockPos.toMCBlock())?.func_152108_a()?.id?.toString()
+
     if (!textureID) return
 
     return allowedIDs.has(textureID)
 }
 
 const checkClicked = (ctBlock, _, blockPos) => {
+    if (!registerWhen()) return
+
     const blockName = ctBlock.type.getRegistryName()
 
     if (!secretBlocks.has(blockName) || blockName === "minecraft:skull" && !checkSkullTexture(blockPos)) return

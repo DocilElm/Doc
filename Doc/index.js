@@ -44,6 +44,7 @@ import "./features/misc/BlockOverlay"
 import "./features/misc/BonzoMaskInvincibility"
 import "./features/misc/PhoenixInvincibility"
 import "./features/misc/StatsDisplay"
+import "./features/misc/SearchBar"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

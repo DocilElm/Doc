@@ -1,4 +1,12 @@
 // From BloomCore
+
+const GuiContainer = Java.type("net.minecraft.client.gui.inventory.GuiContainer")
+
+const guiContainerLeftField = GuiContainer.class.getDeclaredField("field_147003_i")
+const guiContainerTopField = GuiContainer.class.getDeclaredField("field_147009_r")
+guiContainerLeftField.setAccessible(true)
+guiContainerTopField.setAccessible(true)
+
 /**
  * 
  * @param {Block} ctBlock 
@@ -134,5 +142,20 @@ export class RenderHelper {
         Tessellator.disableBlend()
         Tessellator.depthMask(true)
         Tessellator.popMatrix()
+    }
+    
+    /**
+     * 
+     * @param {Number} slotNumber 
+     * @param {GuiContainer} mcGuiContainer
+     * @returns {[Number, Number]}
+     */
+    static getSlotRenderPosition(slotNumber, mcGuiContainer) {
+        const guiLeft = guiContainerLeftField.get(mcGuiContainer)
+        const guiTop = guiContainerTopField.get(mcGuiContainer)
+
+        const slot = mcGuiContainer.field_147002_h.func_75139_a(slotNumber)
+
+        return [guiLeft + slot.field_75223_e, guiTop + slot.field_75221_f]
     }
 }
