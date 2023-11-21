@@ -8,7 +8,7 @@ import { TextHelper } from "../../shared/Text"
 // Constant variables
 const feature = new Feature("searchBar", "Misc", "")
 const editGui = new ScalableGui("searchBar").setCommand("searchBarLocation")
-const [ w, h ] = [ 100, 15 ]
+const [ width, height ] = [ 100, 15 ]
 const highlightSlots = new Set()
 const cachedSlots = new Map()
 const avoidKeys = new Set([
@@ -40,8 +40,8 @@ const barHandler = () => {
         Renderer.color(255, 255, 255, 80),
         editGui.getX(),
         editGui.getY(),
-        w,
-        h
+        width,
+        height
     )
 
     // If the string is falsey we make it render placeholder
@@ -50,8 +50,8 @@ const barHandler = () => {
     // Draw the text in the center of the background box
     Renderer.drawStringWithShadow(
         text,
-        (editGui.getX() + w / 2) - (Renderer.getStringWidth(text) / 2),
-        editGui.getY() + h / 4
+        (editGui.getX() + width / 2) - (Renderer.getStringWidth(text) / 2),
+        editGui.getY() + height / 4
     )
 
     // Draw a small box in the background box if the component is focused
@@ -62,7 +62,7 @@ const barHandler = () => {
         editGui.getX(),
         editGui.getY(),
         3,
-        h
+        height
     )
 }
 
@@ -75,9 +75,6 @@ const renderSlots = () => {
 
         // Add to cache values if it dosent exist
         if (!cachedSlots.has(values[0])) cachedSlots.set(values[0], [x, y])
-
-        // If the values no longer match the string we delete them
-        if (!values[1].includes(findString)) highlightSlots.delete(values)
     
         Renderer.retainTransforms(true)
         Renderer.translate(x, y, 100)
@@ -101,8 +98,40 @@ const keyHandler = (char, keycode, gui, event) => {
     cancel(event)
 }
 
+const checkString = (name, lore, index, string) => {
+    if (name.includes(string.toLowerCase())) return highlightSlots.add([index, name, Renderer.DARK_GREEN])
+
+    if (!lore.includes(string.toLowerCase())) return
+
+    highlightSlots.add([index, lore, Renderer.DARK_AQUA])
+}
+
 const checkItems = () => {
     if (!shouldRender || !findString) return highlightSlots.clear()
+
+    // Check whether the slot still matches the given [name|lore]
+    highlightSlots.forEach(values => {
+        const matchedValues = values[1]
+
+        // Check whether the string can be made into an array or not
+        if (findString.includes(",")) {
+            // Make the string into an array
+            let tempArr = findString.split(",")
+
+            // Check whether the array matches this item's [name|lore]
+            let hasMatch = tempArr.map(str => matchedValues.includes(str.toLowerCase())).includes(false)
+
+            // If match we return so it dosent remove the item from the list
+            if (!hasMatch) return
+
+            return highlightSlots.delete(values)
+        }
+
+        // If the string still matches the [name|lore] return
+        if (matchedValues.includes(findString.toLowerCase())) return
+
+        highlightSlots.delete(values)
+    })
 
     Player.getContainer().getItems()?.forEach((item, index) => {
         if (!item) return
@@ -110,15 +139,31 @@ const checkItems = () => {
         const name = item.getName()?.removeFormatting()?.toLowerCase()
         const lore = item.getLore()?.join("")?.removeFormatting()?.toLowerCase()
 
-        if (name.includes(findString.toLowerCase())) return highlightSlots.add([index, name, Renderer.GREEN])
+        // Check whether the string can be made into an array or not
+        if (findString.includes(",")) {
+            // Make the string into an array
+            let tempArr = findString.split(",")
 
-        if (!lore.includes(findString.toLowerCase())) return
+            // Check whether the array matches this item's [name|lore]
+            let hasMatch = tempArr.map(str => name.includes(str.toLowerCase()) || lore.includes(str.toLowerCase())).includes(false)
 
-        highlightSlots.add([index, lore, Renderer.BLUE])
+            // If no match we return so it dosent add the item to the list
+            if (hasMatch) return
+
+            // Check lore and name to see what does the string matches
+            // and adds it to the highlight list
+            tempArr.forEach(a => {
+                checkString(name, lore, index, a)
+            })
+
+            return
+        }
+
+        checkString(name, lore, index, findString)
     })
 }
 
-const changeFocusState = (mx, my) => isGuiFocused = TextHelper.checkBoundingBox([mx, my], [editGui.getX(), editGui.getY(), editGui.getX() + w, editGui.getY() + h])
+const changeFocusState = (mx, my) => isGuiFocused = TextHelper.checkBoundingBox([mx, my], [editGui.getX(), editGui.getY(), editGui.getX() + width, editGui.getY() + height])
 const changeShouldRender = (_, __, gui) => shouldRender = gui instanceof net.minecraft.client.gui.inventory.GuiChest
 
 const reset = () => {
