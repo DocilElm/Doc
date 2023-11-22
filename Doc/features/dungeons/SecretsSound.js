@@ -9,12 +9,31 @@ const item = new Item("minecraft:skull")
 const secretItems = new Set(["Health Potion VIII Splash Potion","Healing Potion 8 Splash Potion","Healing Potion VIII Splash Potion","Decoy","Inflatable Jerry","Spirit Leap","Trap","Training Weights","Defuse Kit","Dungeon Chest Key","Treasure Talisman","Revive Stone"])
 const allowedIDs = new Set(["26bb1a8d-7c66-31c6-82d5-a9c04c94fb02", "edb0155f-379c-395a-9c7d-1b6005987ac8"])
 const secretBlocks = new Set(["minecraft:chest", "minecraft:lever", "minecraft:skull", "minecraft:trapped_chest"])
+// [SoundType, Pitch]
+const soundsList = [
+    ["mob.blaze.hit", 2],
+    ["fire.ignite", 1],
+    ["random.orb", 1],
+    ["random.break", 2],
+    ["mob.guardian.land.hit", 2]
+]
 
 // Changeable variables
 let entityScanned = null
+let currentBlockClicked = null
 
 // Logic
 const registerWhen = () => WorldState.inDungeons() && config.secretsSound
+
+const playeSound = () => {
+    if (!registerWhen()) return
+
+    World.playSound(
+        soundsList[config.secretsSoundType][0], // Sound
+        1,
+        soundsList[config.secretsSoundType][1] // Pitch
+        )
+}
 
 const checkEntities = () => {
     if (!registerWhen()) return
@@ -38,7 +57,7 @@ const checkEntities = () => {
     if (!entityScanned || !entityScanned.isDead()) return
 
     // Play sound and reset variables to default
-    World.playSound("mob.blaze.hit", 1, 2)
+    playeSound()
     entityScanned = null
 }
 
@@ -55,23 +74,28 @@ const checkClicked = (ctBlock, _, blockPos) => {
 
     const blockName = ctBlock.type.getRegistryName()
 
-    if (!secretBlocks.has(blockName) || blockName === "minecraft:skull" && !checkSkullTexture(blockPos)) return
+    if (
+        !secretBlocks.has(blockName) ||
+        blockName === "minecraft:skull" && !checkSkullTexture(blockPos) ||
+        ctBlock.toString() === currentBlockClicked
+        ) return
 
-    World.playSound("mob.blaze.hit", 1, 2)
-}
+    playeSound()
+    currentBlockClicked = ctBlock.toString()
 
-const checkBat = () => {
-    if (!registerWhen()) return
-
-    World.playSound("mob.blaze.hit", 1, 2)
+    // Reset the last block clicked after 20 ticks
+    Client.scheduleTask(20, () => currentBlockClicked = null)
 }
 
 // Events
 new Event(feature, "step", checkEntities, registerWhen, 5)
 new Event(feature, "onPlayerBlockPlacement", checkClicked, registerWhen)
-new Event(feature, "soundPlay", checkBat, registerWhen, "mob.bat.hurt")
-new Event(feature, "soundPlay", checkBat, registerWhen, "mob.bat.death")
-new Event(feature, "worldUnload", () => entityScanned = null)
+new Event(feature, "soundPlay", playeSound, registerWhen, "mob.bat.hurt")
+new Event(feature, "soundPlay", playeSound, registerWhen, "mob.bat.death")
+new Event(feature, "worldUnload", () => {
+    entityScanned = null
+    currentBlockClicked = null
+})
 
 // Starting events
 feature.start()

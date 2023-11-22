@@ -41,6 +41,7 @@ class Settings {
         this.addDependency("Blessings Display Location", "Blessings Display")
         this.addDependency("Stats Display Location", "Stats Display")
         this.addDependency("Search Bar Location", "Search Bar")
+        this.addDependency("Secrets Sound Type", "Secrets Sound")
     }
     // General
     @ButtonProperty({
@@ -215,6 +216,15 @@ class Settings {
         subcategory: "Dungeons"
     })
     secretsSound = false;
+
+    @SelectorProperty({
+        name: "Secrets Sound Type",
+        description: "The type of sound to play whenever you get a secret",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        options: ["mob.blaze.hit", "fire.ignite", "random.orb", "random.break", "mob.guardian.land.hit"]
+    })
+    secretsSoundType = 0;
 
     // Mining
     @SwitchProperty({
