@@ -209,4 +209,51 @@ export class TextHelper {
     static checkBoundingBox([x, y], [x1, y1, x2, y2]) {
         return (x >= x1 && x <= x2) && (y >= y1 && y <= y2)
     }
+
+    // From BloomCore
+    /**
+     * Maps real world coords to 0-5 depending on where they are in the dungeon.
+     * @param {Number} realX 
+     * @param {Number} realZ 
+     * @returns {Number[]}
+     */
+    static getRoomComponent(realX=null, realZ=null) {
+        if (realX == null && realZ == null) {
+            realX = Player.getX()
+            realZ = Player.getZ()
+        }
+
+        return [
+            Math.floor((realX + 200 + 0.5) / 32),
+            Math.floor((realZ + 200 + 0.5) / 32)
+        ]
+    }
+
+    // From BloomCore
+    /**
+     * Gets the corner of the room component at the given real-world coordinates.
+     * @param {Number} x 
+     * @param {Number} z 
+     * @returns {Number[]}
+     */
+    static getRoomCorner(x=null, z=null) {
+        if (!x || !z) {
+            x = Player.getX()
+            z = Player.getZ()
+        }
+        let [cx, cz] = this.getRoomComponent(x, z)
+        return [-200 + cx*32, -200 + cz*32]
+    }
+
+    // From BloomCore
+    /**
+     * Gets the [x, z] coordinate of the center of the room at a certain x, z position.
+     * @param {Number | null} x 
+     * @param {Number | null} z 
+     * @returns 
+     */
+    static getRoomCenter(x=null, z=null) {
+        const [x2, z2] = this.getRoomCorner(x, z)
+        return [x2+15, z2+15]
+    }
 }

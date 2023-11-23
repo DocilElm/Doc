@@ -226,6 +226,22 @@ class Settings {
     })
     secretsSoundType = 0;
 
+    @SwitchProperty({
+        name: "Blaze Solver",
+        description: "Draws a box at the correct blaze",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    blazeSolver = false;
+
+    @SwitchProperty({
+        name: "Blaze Solver Line",
+        description: "Draws a line at the next blaze to kill (this is independent from blaze solver)",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    blazeSolverLine = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",

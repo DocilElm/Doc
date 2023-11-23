@@ -158,4 +158,43 @@ export class RenderHelper {
 
         return [guiLeft + slot.field_75223_e, guiTop + slot.field_75221_f]
     }
+
+    /**
+     * 
+     * @param {Number[][]} points - List of vertices as [[x, y, z], [x, y, z], ...]
+     * @param {Number} r 
+     * @param {Number} g 
+     * @param {Number} b 
+     * @param {Number} a 
+     * @param {Boolean} phase - Show the line through walls
+     * @param {Number} lineWidth - The width of the line
+     */
+    static drawLineThroughPoints = (points, r, g, b, a, phase=true, lineWidth=3) => {
+        Tessellator.pushMatrix()
+
+        GL11.glLineWidth(lineWidth)
+        Tessellator.begin(GL11.GL_LINE_STRIP)
+        GlStateManager.func_179129_p(); // disableCullFace
+        Tessellator.depthMask(false)
+        Tessellator.disableTexture2D()
+        Tessellator.enableBlend()
+
+        if (phase) Tessellator.disableDepth()
+
+        Tessellator.colorize(r, g, b, a)
+        points.forEach(([x, y, z]) => {
+            Tessellator.pos(x, y, z).tex(0, 0)
+        })
+
+        Tessellator.draw()
+
+        if (phase) Tessellator.enableDepth()
+
+        GlStateManager.func_179089_o(); // enableCull
+        Tessellator.enableTexture2D()
+        Tessellator.disableBlend()
+        Tessellator.depthMask(true)
+        Tessellator.popMatrix()
+
+    }
 }
