@@ -1,7 +1,7 @@
-import RenderLib from "../../../RenderLib"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { RenderHelper } from "../../shared/Render"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
@@ -21,7 +21,7 @@ new Event(feature, "step", () => {
 
 new Event(feature, "renderWorld", () => {
     mobsArray.forEach(entity => {
-        RenderLib.drawEspBox(entity.getRenderX(), entity.getRenderY() - 2, entity.getRenderZ(), 0.6, 2, 0, 35, 243, 255, false)
+        RenderHelper.drawEntityBox(entity.getRenderX(), entity.getRenderY() - 2, entity.getRenderZ(), 0.6, 2, 0, 35, 243, 255, 1.3)
     })
 }, registerWhen)
 

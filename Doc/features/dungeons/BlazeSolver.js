@@ -1,4 +1,3 @@
-import RenderLib from "../../../RenderLib"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
@@ -70,8 +69,9 @@ const renderEntities = () => {
         if (index <= 1) coords[index] = [x, y, z]
 
         if (!config.blazeSolver) return
-        // Render an inner box at the entity
-        RenderLib.drawInnerEspBox(x, y, z, 0.6, 1.8, r, g, b, 1, false)
+
+        // Render a box at the entity
+        RenderHelper.drawEntityBoxFilled(x, y, z, 0.6, 1.8, r, g, b, 1)
     })
 
     // Check if coord index 1 exists if not return
@@ -87,6 +87,12 @@ const renderEntities = () => {
     )
 }
 
+const cancelEntity = (_, __, ___, event) => {
+    if (!config.blazeSolver) return
+
+    cancel(event)
+}
+
 // Reset variables to their default state
 const reset = () => {
     correctBlazes = []
@@ -97,6 +103,7 @@ const reset = () => {
 // Events
 new Event(feature, "step", scanEntities, registerWhen, 5)
 new Event(feature, "renderWorld", renderEntities, () => registerWhen() && correctBlazes)
+new Event(feature, "renderEntity", cancelEntity, registerWhen, net.minecraft.entity.monster.EntityBlaze)
 new Event(feature, "worldUnload", reset)
 
 // Starting events

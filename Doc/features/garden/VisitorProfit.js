@@ -18,7 +18,7 @@ const visitorsData = new Map()
 // Regex
 const requiredItemsRegex = /^ ([a-zA-z ]+)(?: x)?([\d,]+)?/
 const currentCopperRegex = /^ \+([\d,]+) Copper$/
-const rareItemRegex =      /^ ([a-zA-z ]+)/
+const rareItemRegex =      /^ (?:◆)?([a-zA-z\d ]+)/
 const visitorDialogRegex = /^\[NPC\] ([\w\. ]+): (.+)$/
 
 // Changeable variables
@@ -96,7 +96,8 @@ const scanItems = (itemStacks) => {
 
             // Get rare items in case they exist
             if (rareItemRegex.test(lore) && loreIndex >= 5) {
-                const [ _, rareItem ] = lore.match(rareItemRegex)
+                let [ _, rareItem ] = lore.match(rareItemRegex)
+                rareItem = rareItem.replace(/^ /, "")
 
                 if (!Persistence.rareGardenItemsList.has(rareItem)) return
 
