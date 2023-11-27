@@ -5,7 +5,8 @@ import ScalableGui from "../../shared/Scalable"
 
 // Constant variables
 const feature = new Feature("phoenixInvincibilityTimer", "Misc", "")
-const editGui = new ScalableGui("phoenixInvincibilityTimer").setCommand("phoenixInvisDisplay")
+const defaultString = "&cPhoenix Pet&f: &cOver!"
+const editGui = new ScalableGui("phoenixInvincibilityTimer", defaultString).setCommand("phoenixInvisDisplay")
 
 // Changeable variables
 let phoenixProc = null
@@ -35,7 +36,7 @@ const renderString = () => {
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow("&cPhoenix Pet&f: &cOver!", 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

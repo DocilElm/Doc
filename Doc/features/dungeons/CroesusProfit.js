@@ -83,9 +83,12 @@ editGui.onRender(() => {
         defaultArray.push(`\n&b- ${chestName}\n${items.join("\n")}\n&b - Profit&f: ${chestProfit}\n`)
     })
 
+    let defaultString = defaultArray.join("")
+    editGui.setString(defaultString, true)
+
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(defaultArray.join(""), 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
     defaultArray = null
 })

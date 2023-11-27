@@ -7,9 +7,9 @@ import ScalableGui from "../../shared/Scalable"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
-const editGui = new ScalableGui("visitorProfit").setCommand("visitorProfitDisplay")
-
 // Constant variables
+const defaultString = `&aNPC&f: &b${Player.getName()}\n&aItems Required&f: \n &aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`
+const editGui = new ScalableGui("visitorProfit", defaultString).setCommand("visitorProfitDisplay")
 const feature = new Feature("visitorProfitDisplay", "Garden", "")
 const GardenVisitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/GardenVisitors.json")
 const requiredWorld = "Garden"
@@ -170,7 +170,7 @@ const renderVisitors = () => {
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(`&aNPC&f: &b${Player.getName()}\n&aItems Required&f: \n &aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`, 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

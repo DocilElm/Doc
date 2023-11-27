@@ -8,9 +8,10 @@ import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
+const defaultString = `§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`
 const DungeonsMeterData = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DungeonsMeterData.json")
 const SlayersMeterData = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/SlayersMeterData.json")
-const editGui = new ScalableGui("rngMeter").setCommand("rngMeterDisplay")
+const editGui = new ScalableGui("rngMeter", defaultString).setCommand("rngMeterDisplay")
 const feature = new Feature("RngMeter", "Misc", "")
 
 // Regex
@@ -122,7 +123,7 @@ const startingDungeonsAlert = () => {
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(`§9Bonzo's Staff&f: &70&b/&631,800 &7(0%)`, 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

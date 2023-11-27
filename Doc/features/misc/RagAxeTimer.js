@@ -6,7 +6,8 @@ import config from "../../config"
 import ScalableGui from "../../shared/Scalable"
 
 // Constant variables
-const editGui = new ScalableGui("ragaxecd").setCommand("ragnarokAxeDisplay")
+const defaultString = "&aAxe Cooldown: Ready!"
+const editGui = new ScalableGui("ragaxecd", defaultString).setCommand("ragnarokAxeDisplay")
 const feature = new Feature("ragnarokAxeTimer", "Misc", "")
 
 // Changeable variables
@@ -18,7 +19,7 @@ let stringToDraw = null
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow("&aAxe Cooldown: Ready!", 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

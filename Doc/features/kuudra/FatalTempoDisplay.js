@@ -6,7 +6,8 @@ import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
-const editGui = new ScalableGui("fatalTempo").setCommand("fatalTempoDisplay")
+const defaultString = `&cFatal Tempo&f: &63s &7(Hits: 0 0%)`
+const editGui = new ScalableGui("fatalTempo", defaultString).setCommand("fatalTempoDisplay")
 const feature = new Feature("ftDisplay", "Kuudra", "")
 const requiredWorld = "Kuudra"
 
@@ -20,7 +21,7 @@ let stringToDraw = null
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(`&cFatal Tempo&f: &63s &7(Hits: 0 0%)`, 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

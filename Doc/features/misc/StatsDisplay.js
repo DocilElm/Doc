@@ -6,7 +6,8 @@ import TabHelper from "../../shared/Tab"
 
 // Constant feature
 const feature = new Feature("statsDisplay", "Misc", "")
-const editGui = new ScalableGui("statsDisplay").setCommand("statsDisplayLocation")
+const defaultString = `&r&r&r Strength: &r&c❁1000&r\n&r Crit Damage: &r&9☠1000&r\n&r &eAttack Speed: &r&e⚔100&r&r&7`
+const editGui = new ScalableGui("statsDisplay", defaultString).setCommand("statsDisplayLocation")
 
 // Changeable variables
 let stringToDraw = null
@@ -46,7 +47,7 @@ editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow(
-        `&r&r&r Strength: &r&c❁1000&r\n&r Crit Damage: &r&9☠1000&r\n&r &eAttack Speed: &r&e⚔100&r&r&7`,
+        defaultString,
         0,
         0
         )

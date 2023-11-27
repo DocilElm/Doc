@@ -10,7 +10,12 @@ import { WorldState } from "../../shared/World"
 
 // Constant variables
 const feature = new Feature("dungeonBossSplits", "Dungeons", "")
-const editGui = new ScalableGui("bossSplits").setCommand("bossSplitsDisplay")
+const defaultString = [
+    `&dTerracotta&f: &610s`,
+    `&bGiants&f: &610s`,
+    `&aSadan&f: &610s`,
+].join("\n")
+const editGui = new ScalableGui("bossSplits", defaultString).setCommand("bossSplitsDisplay")
 const bossSplits = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BossSplits.json")
 const splits = new SplitsMaker(editGui, bossSplits, () => WorldState.inDungeons() && config.dungeonBossSplits)
 
@@ -38,11 +43,7 @@ const checkBossMessage = (bossName, _, __, formatted) => {
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow([
-        `&dTerracotta&f: &610s`,
-        `&bGiants&f: &610s`,
-        `&aSadan&f: &610s`,
-    ].join("\n"), 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

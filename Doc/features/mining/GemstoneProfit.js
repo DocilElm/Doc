@@ -7,7 +7,8 @@ import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
-const editGui = new ScalableGui("miningProfit").setCommand("miningProfitDisplay")
+const defaultString = "&aSession Profit&r: &6some random number\n&aSession Time&r: &6some random time"
+const editGui = new ScalableGui("miningProfit", defaultString).setCommand("miningProfitDisplay")
 const feature = new Feature("gemstonesProfit", "Mining", "")
 const requiredWorld = "Crystal Hollows"
 
@@ -21,7 +22,7 @@ let stringToDraw = null
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow("&aSession Profit&r: &6some random number\n&aSession Time&r: &6some random time", 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

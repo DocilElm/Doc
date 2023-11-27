@@ -7,7 +7,8 @@ import { WorldState } from "../../shared/World"
 
 // Constant variables
 const feature = new Feature("gardenDisplay", "Garden", "")
-const editGui = new ScalableGui("gardenDisplay").setCommand("gardenDisplayLocation")
+const defaultString = `&a&lGarden Display\n&aVisitor in&f: &b1m 10s\n&aJacob's contest in&f: &69m\n&eOrganic matter&f: &6100k\n&9Fuel&f: &6100k\n&aTime Left&f: &b1m 10s\n&aStored Compost&f: &6100`
+const editGui = new ScalableGui("gardenDisplay", defaultString).setCommand("gardenDisplayLocation")
 const requiredWorld = "Garden"
 
 // Logic
@@ -31,7 +32,7 @@ editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow(
-        `&a&lGarden Display\n&aVisitor in&f: &b1m 10s\n&aJacob's contest in&f: &69m\n&eOrganic matter&f: &6100k\n&9Fuel&f: &6100k\n&aTime Left&f: &b1m 10s\n&aStored Compost&f: &6100`,
+        defaultString,
         0,
         0
         )

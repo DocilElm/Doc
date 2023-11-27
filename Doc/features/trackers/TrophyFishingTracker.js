@@ -6,7 +6,8 @@ import ScalableGui from "../../shared/Scalable"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
-const editGui = new ScalableGui("trophyFishingTracker").setCommand("trophyDisplayLocation")
+const defaultString = "&9Vanille&f: &80 &70 &60 &b0\n&5Karate Fish&f: &80 &70 &60 &b0"
+const editGui = new ScalableGui("trophyFishingTracker", defaultString).setCommand("trophyDisplayLocation")
 const feature = new Feature("trophyFishingTracker", "Trackers", "")
 const trophyTypeColors = {
     BRONZE: "&8",
@@ -24,7 +25,7 @@ let stringToDraw = null
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(["&9Vanille&f: &80 &70 &60 &b0", "&5Karate Fish&f: &80 &70 &60 &b0"].join("\n"), 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

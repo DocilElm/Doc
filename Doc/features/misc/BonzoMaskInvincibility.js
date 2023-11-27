@@ -5,7 +5,8 @@ import ScalableGui from "../../shared/Scalable"
 
 // Constant variables
 const feature = new Feature("bonzoMaskInvincibilityTimer", "Misc", "")
-const editGui = new ScalableGui("bonzoMaskInvincibilityTimer").setCommand("bonzoMaskInvisDisplay")
+const defaultString = "&9Bonzo's Mask&f: &cOver!"
+const editGui = new ScalableGui("bonzoMaskInvincibilityTimer", defaultString).setCommand("bonzoMaskInvisDisplay")
 
 // Changeable variables
 let bonzoProc = null
@@ -35,7 +36,7 @@ const renderString = () => {
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow("&9Bonzo's Mask&f: &cOver!", 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

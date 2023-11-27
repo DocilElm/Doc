@@ -7,7 +7,12 @@ import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
-const editGui = new ScalableGui("ghostTracker").setCommand("ghostDisplayLocation")
+const defaultString = [
+    `&7Ghost Kills&f: &610`,
+    `&bMagic Find&f: &b10`,
+    `&eScavenger Profit&f: &610`,
+].join("\n")
+const editGui = new ScalableGui("ghostTracker", defaultString).setCommand("ghostDisplayLocation")
 const feature = new Feature("ghostTracker", "Tracker", "")
 const requiredWorld = "Dwarven Mines"
 const requiredArea = "The Mist"
@@ -129,11 +134,7 @@ const reset = () => {
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow([
-        `&7Ghost Kills&f: &610`,
-        `&bMagic Find&f: &b10`,
-        `&eScavenger Profit&f: &610`,
-    ].join("\n"), 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

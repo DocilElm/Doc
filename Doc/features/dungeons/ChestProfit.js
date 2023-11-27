@@ -10,7 +10,8 @@ import ScalableGui from "../../shared/Scalable"
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/dungeonChestProfit/DungeonChestProfit.js
 
 // Constant variables
-const editGui = new ScalableGui("dungeonProfit").setCommand("dungeonProfitDisplay")
+const defaultString = `\n&aFree Chest\n&aExample Item &8x25\n&aTotal Profit&f: &a1,000`
+const editGui = new ScalableGui("dungeonProfit", defaultString).setCommand("dungeonProfitDisplay")
 const feature = new Feature("chestProfit", "Dungeons", "")
 const chestNames = new Set(["Wood Chest", "Gold Chest", "Diamond Chest", "Emerald Chest", "Obsidian Chest", "Bedrock Chest"])
 const chestData = new Map()
@@ -103,7 +104,7 @@ const renderChestData = () => {
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(`\n&aFree Chest\n&aExample Item &8x25\n&aTotal Profit&f: &a1,000`, 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 })
 

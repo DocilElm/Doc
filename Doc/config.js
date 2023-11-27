@@ -54,6 +54,17 @@ class Settings {
     MyDiscord() {
         java.awt.Desktop.getDesktop().browse(new java.net.URI("https://discord.gg/SK9UDzquEN"))
     }
+
+    @ButtonProperty({
+        name: "Edit Guis",
+        description: "Changes the display location for all the guis",
+        category: "General",
+        subcategory: "General",
+        placeholder: "Change"
+    })
+    mainEditGui() {
+        ChatLib.command("docguis", true);
+    }
     
     // Dungeons
     @SwitchProperty({

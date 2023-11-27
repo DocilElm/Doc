@@ -7,7 +7,8 @@ import { WorldState } from "../../shared/World"
 
 // Constant variables
 const feature = new Feature("blessingsDisplay", "Dungeons", "")
-const editGui = new ScalableGui("blessingDisplay").setCommand("blessingsDisplayLocation")
+const defaultString = `&bBlessing of Power 1\n&bBlessing of Life 1\n&bBlessing of Time 1`
+const editGui = new ScalableGui("blessingDisplay", defaultString).setCommand("blessingsDisplayLocation")
 
 // Logic
 const registerWhen = () => WorldState.inDungeons() && config.blessingsDisplay
@@ -30,7 +31,7 @@ editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow(
-        `&bBlessing of Power 1\n&bBlessing of Life 1\n&bBlessing of Time 1`,
+        defaultString,
         0,
         0
         )

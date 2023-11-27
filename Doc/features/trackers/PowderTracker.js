@@ -6,7 +6,13 @@ import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
-const editGui = new ScalableGui("powderTracker").setCommand("powderDisplayLocation")
+const defaultString = [
+    `&dGemstone Powder&f: &61 &7(1/hr)`,
+    `&2Mithril Powder&f: &61 &7(1/hr)`,
+    `&bChest Amount&f: &61 &7(1/hr)`,
+    `&bSession Time&f: &60:0:1`
+].join("\n")
+const editGui = new ScalableGui("powderTracker", defaultString).setCommand("powderDisplayLocation")
 const feature = new Feature("powderMiningTracker", "Trackers", "")
 const BossStatus = net.minecraft.entity.boss.BossStatus
 const requiredWorld = "Crystal Hollows"
@@ -31,12 +37,7 @@ let stringToDraw = null
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow([
-        `&dGemstone Powder&f: &61 &7(1/hr)`,
-        `&2Mithril Powder&f: &61 &7(1/hr)`,
-        `&bChest Amount&f: &61 &7(1/hr)`,
-        `&bSession Time&f: &60:0:1`
-    ].join("\n"), 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.finishDraw()
 
 })

@@ -155,18 +155,50 @@ export class RenderHelper {
     }
     
     /**
-     * 
+     * - Gets the gui's X and Y values
+     * @param {GuiContainer} mcGuiContainer The GuiContainer. if null it'll try to assign the current GuiContainer
+     * @returns {[Number, Number] | null}
+     */
+    static getGuiRenderPositions(mcGuiContainer) {
+        // Assign the current gui incase this is null
+        if (!mcGuiContainer) mcGuiContainer = Client.currentGui.get()
+
+        return [
+            guiContainerLeftField.get(mcGuiContainer),
+            guiContainerTopField.get(mcGuiContainer)
+        ]
+    }
+    /**
+     * - Gets the given slotNumber's render position [x, y]
      * @param {Number} slotNumber 
-     * @param {GuiContainer} mcGuiContainer
+     * @param {GuiContainer | null} mcGuiContainer
      * @returns {[Number, Number]}
      */
     static getSlotRenderPosition(slotNumber, mcGuiContainer) {
-        const guiLeft = guiContainerLeftField.get(mcGuiContainer)
-        const guiTop = guiContainerTopField.get(mcGuiContainer)
+        const [ x, y ] = this.getGuiRenderPositions(mcGuiContainer)
 
         const slot = mcGuiContainer.field_147002_h.func_75139_a(slotNumber)
 
-        return [guiLeft + slot.field_75223_e, guiTop + slot.field_75221_f]
+        return [x + slot.field_75223_e, y + slot.field_75221_f]
+    }
+
+    /**
+     * - Gets the GuiContainer [x1, y1, x2, y2] bounds using the last slot [44]
+     * @param {GuiContainer} mcGuiContainer 
+     * @returns {[Number, Number, Number, Number]}
+     */
+    static getGuiRenderBoundings(mcGuiContainer) {
+        if (!mcGuiContainer) mcGuiContainer = Client.currentGui.get()
+
+        const [ x, y ] = [ guiContainerLeftField.get(mcGuiContainer), guiContainerTopField.get(mcGuiContainer) ]
+        const [ slotX, slotY ] = this.getSlotRenderPosition(44, mcGuiContainer)
+
+        return [
+            x,
+            y,
+            slotX,
+            slotY
+        ]
     }
 
     /**

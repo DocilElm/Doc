@@ -175,6 +175,7 @@ const reset = () => {
 
 // Default display
 editGui.onRender(() => barHandler())
+editGui.setSize(width, height)
 
 // Events
 new Event(feature, "guiKey", keyHandler, registerWhen)
