@@ -4,7 +4,7 @@ import { TextHelper } from "./Text"
 
 const currentFloorRegex =            /^ +⏣ The Catacombs \(([\w\d].{1,2})\)$/
 const currentRommIDRegex =           /^\d[\d\/]+ [\w\d]+ ([-\d,]+)$/
-const playerInformationRegex =       /^\[[\d]+\] ([\w]+).+? \(([\w]+) ([IVXLCDM]+)\)$/
+const playerInformationRegex =       /^\[[\d]+\] ([A-z]+)(?:.+?)? \(([\w]+) ([IVXLCDM]+)\)$/
 const secretsFoundRegex =            /^ Secrets Found: ([\d,.]+)\%$/
 const milestoneRegex =               /^ Your Milestone: ☠(.+)$/
 const completedRoomsRegex =          /^ Completed Rooms: ([\d]+)$/
