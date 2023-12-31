@@ -3,6 +3,9 @@ import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import ScalableGui from "../../shared/Scalable"
 
+// if i ever need it here's the sound and pitch of phoenix proc
+// random.fizz, 1.4920635223388672
+
 // Constant variables
 const feature = new Feature("phoenixInvincibilityTimer", "Misc", "")
 const defaultString = "&cPhoenix Pet&f: &cOver!"
@@ -14,13 +17,13 @@ let phoenixProc = null
 // Logic
 const registerWhen = () => config.phoenixInvincibilityTimer
 
-const addMaskCd = () => phoenixProc = Date.now()
+const addCD = () => phoenixProc = Date.now()
 
 const renderString = () => {
     if (!registerWhen() || !phoenixProc || editGui.isOpen()) return
-    if ((Date.now() - phoenixProc) >= 4000) return phoenixProc = null
+    if ((Date.now() - phoenixProc) >= (config.phoenixPetTime === 1 ? 3000 : 4000)) return phoenixProc = null
 
-    const timeRemaining = 4000 - (Date.now() - phoenixProc)
+    const timeRemaining = (config.phoenixPetTime === 1 ? 3000 : 4000) - (Date.now() - phoenixProc)
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
@@ -41,7 +44,7 @@ editGui.onRender(() => {
 })
 
 // Events
-new Event(feature, "onChatPacket", addMaskCd, registerWhen, /^Your Phoenix Pet saved you from certain death\!$/)
+new Event(feature, "chat", addCD, registerWhen, /^Your Phoenix Pet saved you from certain death\!$/)
 new Event(feature, "renderOverlay", renderString, () => registerWhen() && phoenixProc)
 
 // Starting events

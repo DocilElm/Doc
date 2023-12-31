@@ -537,6 +537,15 @@ class Settings {
 
     }
 
+    @SelectorProperty({
+        name: "Phoenix Pet Time",
+        description: "The amount of time to use as invincibility timer (this is here because for some reason it's 3s sometimes and others it's 4s)",
+        category: "Misc",
+        subcategory: "Misc",
+        options: ["4 seconds", "3 seconds"]
+    })
+    phoenixPetTime = 0;
+
     @SwitchProperty({
         name: "Stats Display",
         description: "Displays your current stats that are in tab",

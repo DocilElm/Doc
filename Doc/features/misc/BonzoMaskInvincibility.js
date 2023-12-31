@@ -41,7 +41,7 @@ editGui.onRender(() => {
 })
 
 // Events
-new Event(feature, "onChatPacket", addMaskCd, registerWhen, /^Your( ⚚)? Bonzo\'s Mask saved your life\!$/)
+new Event(feature, "chat", addMaskCd, registerWhen, /^Your( ⚚)? Bonzo\'s Mask saved your life\!$/)
 new Event(feature, "renderOverlay", renderString, () => registerWhen() && bonzoProc)
 
 // Starting events
