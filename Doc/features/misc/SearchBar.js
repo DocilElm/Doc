@@ -85,7 +85,7 @@ const renderSlots = () => {
 }
 
 const keyHandler = (char, keycode, gui, event) => {
-    if (!isGuiFocused) return
+    if (!isGuiFocused || !shouldRender) return
 
     // Esc [1]
     if (keycode === 1) return isGuiFocused = false, cancel(event)
