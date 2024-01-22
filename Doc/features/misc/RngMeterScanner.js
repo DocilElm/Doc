@@ -35,10 +35,10 @@ const handleItemsPacket = (itemStacks) => {
         // If no item selected create new dungeons data with null values
         if (!/Selected Drop/gm.test(itemLore)) return Persistence.createDataForMeter(currentName)
 
-        // Lore index 20 = dungeons, index 17 = slayers
-        const scoreIndex = /[\d]+/.test(itemLore[20]?.removeFormatting()) ? 20 : 17
-        // Lore index 17 = dungeons, index 14 = slayers
-        const dropIndex = itemLore[17]?.removeFormatting()?.includes("/") ? 14 : 17
+        // Lore index 18 = dungeons, index 16 = slayers
+        const scoreIndex = itemLore[20]?.removeFormatting() ? 18 : 16
+        // Lore index 15 = dungeons, index 13 = slayers
+        const dropIndex = itemLore[18]?.removeFormatting()?.includes("/") ? 15 : 13
 
         const currentScore = parseFloat(itemLore[scoreIndex]?.removeFormatting()?.match(/^ +([\d,]+)\/([\d,]+)/)?.[1]?.replace(/,/g, ""))
         const selectedDrop = TextHelper.dropToRoman(itemLore[dropIndex]?.removeFormatting(), itemLore[dropIndex])
