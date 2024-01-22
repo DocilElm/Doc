@@ -27,7 +27,7 @@ const getSlotCenter = (slot) => {
 const getCurrentPage = () => Player.getContainer()?.getItems()?.[53]?.getID() === 160 ? "Page1" : Player.getContainer()?.getItems()?.[53]?.getLore()?.[1]?.removeFormatting()?.replace(/ /g, "")
 
 const getClickedSlots = (containerName, slotClicked) => {
-    if (containerName !== "Croesus") return
+    if (containerName !== "Croesus" || slotClicked >= 44) return
 
     const currentPage = getCurrentPage()
 

@@ -6,7 +6,7 @@ import { WorldState } from "../../shared/World"
 // Constant variables
 const feature = new Feature("secretsSound", "Dungeons", "")
 const item = new Item("minecraft:skull")
-const secretItems = new Set(["Health Potion VIII Splash Potion","Healing Potion 8 Splash Potion","Healing Potion VIII Splash Potion","Decoy","Inflatable Jerry","Spirit Leap","Trap","Training Weights","Defuse Kit","Dungeon Chest Key","Treasure Talisman","Revive Stone"])
+const secretItems = new Set(["Healing VIII Splash Potion", "Healing Potion 8 Splash Potion", "Decoy", "Inflatable Jerry", "Spirit Leap", "Trap", "Training Weights", "Defuse Kit", "Dungeon Chest Key", "Treasure Talisman", "Revive Stone"])
 const allowedIDs = new Set(["26bb1a8d-7c66-31c6-82d5-a9c04c94fb02", "edb0155f-379c-395a-9c7d-1b6005987ac8"])
 const secretBlocks = new Set(["minecraft:chest", "minecraft:lever", "minecraft:skull", "minecraft:trapped_chest"])
 // [SoundType, Pitch]
@@ -46,8 +46,9 @@ const checkEntities = () => {
         const itemName = item.getName()?.removeFormatting()
 
         // Check if the item name is in the list
-        // or if the item distance is out of range
-        if (!secretItems.has(itemName) || entity.distanceTo(Player.asPlayerMP()) >= 6) return
+        if (!secretItems.has(itemName)) return
+        // If the entity is out of range reset the values
+        if (entity.distanceTo(Player.asPlayerMP()) >= 20) return entityScanned = null
 
         // Set the [entityScanned] variable to [entity] if the item fits the criteria
         entityScanned = entity
