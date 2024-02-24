@@ -15,7 +15,7 @@ const highlightBlock = ({x, y, z}, event) => {
     if (ctBlock.type.mcBlock instanceof net.minecraft.block.BlockAir) return
 
     // If third person disable phase
-    const phase = !(Client.settings.getSettings().field_74320_O === 1)
+    const phase = !(Client.settings.getSettings()?.field_74320_O === 1)
     
     const r = config.blockOverlayColor.getRed() / 255
     const g = config.blockOverlayColor.getGreen() / 255
