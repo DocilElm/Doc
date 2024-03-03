@@ -15,6 +15,7 @@ import "./features/dungeons/BossSplits"
 import "./features/dungeons/BlessingsDisplay"
 import "./features/dungeons/SecretsSound"
 import "./features/dungeons/BlazeSolver"
+import "./features/dungeons/WaterBoardSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"

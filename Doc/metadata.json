@@ -2,7 +2,7 @@
   "name": "Doc",
   "creator": "DocilElm",
   "description": "doc is the best.",
-  "version": "2.2.4",
+  "version": "2.24.4",
   "entry": "index.js",
   "changelog": "",
   "requires": [
@@ -12,6 +12,7 @@
     "PromiseV2",
     "Vigilance",
     "ChestMenu",
-    "PogData"
+    "PogData",
+    "Atomx"
   ]
 }

@@ -42,6 +42,8 @@ class Settings {
         this.addDependency("Stats Display Location", "Stats Display")
         this.addDependency("Search Bar Location", "Search Bar")
         this.addDependency("Secrets Sound Type", "Secrets Sound")
+        this.addDependency("Water Board Solver Display", "Water Board Solver")
+        this.addDependency("Water Board Solver Display Location", "Water Board Solver Display")
     }
     // General
     @ButtonProperty({
@@ -252,6 +254,33 @@ class Settings {
         subcategory: "Dungeons"
     })
     blazeSolverLine = false;
+
+    @SwitchProperty({
+        name: "Water Board Solver",
+        description: "One flow water board solver &4The scanner might break sometimes",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    waterBoardSolver = false;
+
+    @SwitchProperty({
+        name: "Water Board Solver Display",
+        description: "Displays the wool that the scanner sees opened (e.g Red, Blue, Purple)",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    waterBoardSolverDisplay = false;
+
+    @ButtonProperty({
+        name: "Water Board Solver Display Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changewaterboardsolverdisplay() {
+        ChatLib.command("waterboardsolverdisplay", true);
+    }
 
     // Mining
     @SwitchProperty({

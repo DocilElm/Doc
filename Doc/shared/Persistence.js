@@ -69,6 +69,7 @@ export class Persistence {
         blessingDisplay: {x: 10, y: 10, scale: 1},
         statsDisplay: {x: 10, y: 10, scale: 1},
         searchBar: {x: 10, y: 10, scale: 1},
+        waterBoardDisplay: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")
@@ -122,6 +123,26 @@ export class Persistence {
      */
     static getDataFromFile(filePath, defaultValue = {}) {
         return JSON.parse(FileLib.read("Doc", `data/${filePath}`)) ?? defaultValue
+    }
+
+    /**
+     * - Gets the data from a saved file, if the file does not exist it'll get the data from the url and create the file with said data
+     * @param {string} filePath The relative path of where it is located in Doc/data
+     * @param {string} url The url to fallback where the data is located
+     * @param {*} defaultValue The default value to return if the data is not found (e.g [] or {})
+     * @returns {*}
+     */
+    static getDataFromFileOrLink(filePath, url, defaultValue = {}) {
+        const thefile = FileLib.read("Doc", `data/${filePath}`)
+
+        if (!thefile) {
+            const obj = this.getDataFromURL(url, defaultValue)
+            this.saveDataToFile(filePath, obj)
+
+            return obj
+        }
+
+        return JSON.parse(thefile)
     }
 
     /**
