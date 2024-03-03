@@ -44,6 +44,7 @@ class Settings {
         this.addDependency("Secrets Sound Type", "Secrets Sound")
         this.addDependency("Water Board Solver Display", "Water Board Solver")
         this.addDependency("Water Board Solver Display Location", "Water Board Solver Display")
+        this.addDependency("Champion Xp Display Location", "Champion Xp Display")
     }
     // General
     @ButtonProperty({
@@ -612,6 +613,26 @@ class Settings {
     })
     changesearchBarLocation() {
         ChatLib.command("searchBarLocation", true)
+
+    }
+    
+    @SwitchProperty({
+        name: "Champion Xp Display",
+        description: "Displays your currently held item champion's xp and level",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    championxpDisplay = false;
+
+    @ButtonProperty({
+        name: "Champion Xp Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changechampiondisplay() {
+        ChatLib.command("editchampiondisplay", true)
 
     }
 }

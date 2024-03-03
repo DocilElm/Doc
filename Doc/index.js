@@ -47,6 +47,7 @@ import "./features/misc/BonzoMaskInvincibility"
 import "./features/misc/PhoenixInvincibility"
 import "./features/misc/StatsDisplay"
 import "./features/misc/SearchBar"
+import "./features/misc/ChampionDisplay"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

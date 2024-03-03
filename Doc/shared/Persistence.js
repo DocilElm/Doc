@@ -70,6 +70,7 @@ export class Persistence {
         statsDisplay: {x: 10, y: 10, scale: 1},
         searchBar: {x: 10, y: 10, scale: 1},
         waterBoardDisplay: {x: 10, y: 10, scale: 1},
+        championDisplay: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")
