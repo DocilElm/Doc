@@ -103,7 +103,7 @@ const reset = () => {
 // Events
 new Event(feature, "step", scanEntities, registerWhen, 5)
 new Event(feature, "renderWorld", renderEntities, () => registerWhen() && correctBlazes)
-new Event(feature, "renderEntity", cancelEntity, registerWhen, net.minecraft.entity.monster.EntityBlaze)
+new Event(feature, "renderSpecificEntity", cancelEntity, registerWhen, net.minecraft.entity.monster.EntityBlaze)
 new Event(feature, "worldUnload", reset)
 
 // Starting events

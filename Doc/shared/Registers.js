@@ -164,6 +164,3 @@ FeatureManager
             fn(Player.getContainer().getName(), packet.func_149544_d())
         }).setFilteredClass(net.minecraft.network.play.client.C0EPacketClickWindow)
     )
-    .createCustomEvent("renderEntity", (fn, filteredClass) => 
-        register("renderEntity", fn).setFilteredClass(filteredClass).unregister()
-    )

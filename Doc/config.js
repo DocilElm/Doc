@@ -264,6 +264,18 @@ class Settings {
     })
     waterBoardSolver = false;
 
+    @ButtonProperty({
+        name: "Water Board Recording Tutorial",
+        description: "Sends the tutorial for recording your own solutions to your chat &c(you can also just /recordingtutorial)",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changewaterboardtutorial() {
+        ChatLib.command("recordingtutorial", true);
+        Client.currentGui.close();
+    }
+
     @SwitchProperty({
         name: "Water Board Solver Display",
         description: "Displays the wool that the scanner sees opened (e.g Red, Blue, Purple)",
