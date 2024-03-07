@@ -295,6 +295,14 @@ class Settings {
         ChatLib.command("waterboardsolverdisplay", true);
     }
 
+    @SwitchProperty({
+        name: "Boulder Solver",
+        description: "Boulder solver with optimized solutions &4The scanner might break sometimes",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    boulderSolver = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",

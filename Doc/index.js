@@ -16,6 +16,7 @@ import "./features/dungeons/BlessingsDisplay"
 import "./features/dungeons/SecretsSound"
 import "./features/dungeons/BlazeSolver"
 import "./features/dungeons/WaterBoardSolver"
+import "./features/dungeons/BoulderSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
