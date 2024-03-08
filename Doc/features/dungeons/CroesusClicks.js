@@ -66,7 +66,7 @@ const guiRender = () => {
         const [ x, y ] = getSlotCenter(slotClicked)
     
         Renderer.retainTransforms(true)
-        Renderer.translate(x-6, y-1, 300)
+        Renderer.translate(x-6, y-1, 100)
         Renderer.scale(0.9)
         Renderer.drawRect(Renderer.color(0, 255, 0, 40), -1, -1, 16, 16)
         Renderer.retainTransforms(false)

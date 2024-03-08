@@ -256,4 +256,83 @@ export class TextHelper {
         const [x2, z2] = this.getRoomCorner(x, z)
         return [x2+15, z2+15]
     }
+
+    /**
+     * - Rotates the coords by the given angle and returns a new array with rotated coords
+     * @param {[]} param0 
+     * @param {Number} degree 
+     * @returns {[]}
+     */
+    static rotateCoords(array, degree) {
+        if (degree < 0) degree = degree + 360
+    
+        if (degree == 0) return array
+        if (degree == 90) return [array[2], array[1], -array[0]]
+        if (degree == 180) return [-array[0], array[1], -array[2]]
+        if (degree == 270) return [-array[2], array[1], array[0]]
+        return array
+    }
+    
+    static offsetsToCheck = [
+        [0, 16],
+        [-16, 0],
+        [0, -16],
+        [16, 0]
+    ]
+    
+    /**
+     * - Gets the relative coords for the current room with the given [ x, y, z ]
+     * @param {[]} param0 
+     * @returns {[]}
+     */
+    static getRelativeCoord(array) {
+        const [ cx, cz ] = this.getRoomCenter()
+    
+        return [ array[0] - cx, array[1], array[2] - cz ]
+    }
+    
+    /**
+     * - Gets the real coord from the given relative coords and room rotation
+     * @param {[]} param0 
+     * @param {Number} rotation 
+     * @returns {[]}
+     */
+    static getRealCoord(array, rotation) {
+        const [ cx, cz ] = this.getRoomCenter()
+        const [ dx, dy, dz ] = this.rotateCoords(array, 360 - rotation)
+    
+        return [ cx + dx, dy, cz + dz ]
+    }
+
+    /**
+     * - Gets the rotation of the current puzzle room
+     * - only puzzles work for this since it scans to see how many doors it has
+     * @returns {Number}
+     */
+    static getPuzzleRotation() {
+        const xIndex = Math.floor((Player.getX() + 200) / 32)
+        const zIndex = Math.floor((Player.getZ() + 200) / 32)   
+        const centerX = xIndex * 32 - 200 + 15
+        const centerZ = zIndex * 32 - 200 + 15
+
+        let rotation = null
+
+        for (let i = 0; i < this.offsetsToCheck.length; i++) {
+            let [ dx, dz ] = this.offsetsToCheck[i]
+            let block = World.getBlockAt(centerX + dx, 68, centerZ + dz)
+
+            if (block.type.getID() === 0) continue
+        
+            // If the rotation has already been set, there is more than one door
+            if (rotation !== null) return
+        
+            rotation = i*90
+        }
+
+        return rotation
+    }
+
+    static distanceBetweeen(block1, block2) {
+        return Math.hypot(block1.getX() - block2.getX(), block1.getY() - block2.getY(), block1.getZ() - block2.getZ())
+    }
 }
