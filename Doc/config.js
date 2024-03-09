@@ -303,6 +303,14 @@ class Settings {
     })
     boulderSolver = false;
 
+    @SwitchProperty({
+        name: "Tic Tac Toe Solver",
+        description: "Tic Tac Toe solver &4The scanner might break sometimes",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    tictactoeSolver = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",
