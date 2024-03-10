@@ -60,6 +60,7 @@ const createString = () => {
     if (!World.isLoaded() || !Player?.getHeldItem()) return
 
     const extraattributes = TextHelper.getExtraAttribute(Player.getHeldItem())
+    if (!extraattributes) return stringToDraw = ""
     if (!extraattributes?.champion_combat_xp) return stringToDraw = ""
 
     stringToDraw = `&bChampion &6${getChampionLevel(extraattributes.champion_combat_xp)}&f: &6${TextHelper.addCommasTrunc(extraattributes?.champion_combat_xp ?? 0)}`
