@@ -190,13 +190,13 @@ const scanTicTacToe = () => {
 }
 
 const renderSolution = () => {
-    renderBlocks?.forEach(block => RenderHelper.outlineBlock(
+    renderBlocks?.forEach(block => RenderHelper.filledBlock(
         block,
         1,
         215 / 255,
         0,
-        255,
-        true
+        80 / 255,
+        false
     ))
 }
 

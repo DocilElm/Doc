@@ -18,6 +18,8 @@ import "./features/dungeons/BlazeSolver"
 import "./features/dungeons/WaterBoardSolver"
 import "./features/dungeons/BoulderSolver"
 import "./features/dungeons/TicTacToeSolver"
+import "./features/dungeons/CreeperBeamsSolver"
+import "./features/dungeons/IcePathSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"

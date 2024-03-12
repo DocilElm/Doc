@@ -25,7 +25,7 @@ const alphaBetaAlgorithm = (board, isMaximizingPlayer = false, depth, alpha, bet
                 bestMove = idx
             }
 
-            if (alpha >= beta) break
+            if (alpha > beta) break
         }
 
         return bestMove
@@ -45,7 +45,7 @@ const alphaBetaAlgorithm = (board, isMaximizingPlayer = false, depth, alpha, bet
             bestMove = idx
         }
 
-        if (alpha >= beta) break
+        if (alpha > beta) break
     }
 
     return bestMove

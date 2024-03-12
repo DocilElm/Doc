@@ -13,7 +13,7 @@ guiContainerTopField.setAccessible(true)
  * @param {Block} ctBlock 
  * @returns {Number[]} - A 6-long array of numbers with the [x0, y0, z0, x1, y1, z1] corners of the block's bounding box.
  */
-export const getBlockBoundingBox = (ctBlock) => {
+export const getBlockBoundingBox = (ctBlock, filled = false) => {
     const mcBlock = ctBlock.type.mcBlock
 
     if (ctBlock.type.getName().includes("Stair")) return [
@@ -26,12 +26,12 @@ export const getBlockBoundingBox = (ctBlock) => {
     ]
 
     return [
-        ctBlock.getX() + mcBlock.func_149704_x(),
-        ctBlock.getY() + mcBlock.func_149665_z(),
-        ctBlock.getZ() + mcBlock.func_149706_B(),
-        ctBlock.getX() + mcBlock.func_149753_y(),
-        ctBlock.getY() + mcBlock.func_149669_A(),
-        ctBlock.getZ() + mcBlock.func_149693_C()
+        ctBlock.getX() + mcBlock.func_149704_x() - (filled ? .01 : 0),
+        ctBlock.getY() + mcBlock.func_149665_z() - (filled ? .01 : 0),
+        ctBlock.getZ() + mcBlock.func_149706_B() - (filled ? .01 : 0),
+        ctBlock.getX() + mcBlock.func_149753_y() + (filled ? .01 : 0),
+        ctBlock.getY() + mcBlock.func_149669_A() + (filled ? .01 : 0),
+        ctBlock.getZ() + mcBlock.func_149693_C() + (filled ? .01 : 0)
     ]
 }
 
@@ -93,7 +93,7 @@ export class RenderHelper {
     }
 
     static filledBlock(ctBlock, r, g, b, a, phase = true) {
-        const [ x0, y0, z0, x1, y1, z1 ] = getBlockBoundingBox(ctBlock)
+        const [ x0, y0, z0, x1, y1, z1 ] = getBlockBoundingBox(ctBlock, true)
 
         Tessellator.pushMatrix()
 

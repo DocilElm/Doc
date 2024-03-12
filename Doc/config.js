@@ -45,6 +45,7 @@ class Settings {
         this.addDependency("Water Board Solver Display", "Water Board Solver")
         this.addDependency("Water Board Solver Display Location", "Water Board Solver Display")
         this.addDependency("Champion Xp Display Location", "Champion Xp Display")
+        this.addDependency("Creeper Beams Solver Line", "Creeper Beams Solver")
     }
     // General
     @ButtonProperty({
@@ -310,6 +311,30 @@ class Settings {
         subcategory: "Dungeons"
     })
     tictactoeSolver = false;
+
+    @SwitchProperty({
+        name: "Creeper Beams Solver",
+        description: "Creeper Beams solver &4The scanner might break sometimes",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    creeperBeamsSolver = false;
+
+    @SwitchProperty({
+        name: "Creeper Beams Solver Line",
+        description: "Adds lines to the blocks the solver tells you to hit",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    creeperBeamsSolverLine = false;
+
+    @SwitchProperty({
+        name: "Ice Path Solver",
+        description: "Ice Path solver &eThis is just a simple static solver it does not try to find the best path so be aware &4The scanner might break sometimes",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    icePathSolver = false;
 
     // Mining
     @SwitchProperty({
