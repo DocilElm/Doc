@@ -20,6 +20,7 @@ import "./features/dungeons/BoulderSolver"
 import "./features/dungeons/TicTacToeSolver"
 import "./features/dungeons/CreeperBeamsSolver"
 import "./features/dungeons/IcePathSolver"
+import "./features/dungeons/TeleportMazeSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"

@@ -153,7 +153,7 @@ export class Persistence {
      * @param {boolean} createFolderTree Recursively create the needed folder tree
      */
     static saveDataToFile(filePath, data = {}, createFolderTree = true) {
-        FileLib.write("Doc", `data/${filePath}`, JSON.stringify(data), createFolderTree)
+        FileLib.write("Doc", `data/${filePath}`, JSON.stringify(data, null, 4), createFolderTree)
     }
 
     /**

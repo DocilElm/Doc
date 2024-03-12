@@ -195,12 +195,12 @@ const renderSolution = () => {
         1,
         215 / 255,
         0,
-        80 / 255,
+        100 / 255,
         false
     ))
 }
 
-const onChatMessage = (name, success = false) => {
+const onChatMessage = (name, _, success = false) => {
     if (name !== Player.getName()) return
 
     if (success) ChatLib.chat(`${TextHelper.PREFIX} &aTic Tac Toe took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)

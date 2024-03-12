@@ -336,6 +336,14 @@ class Settings {
     })
     icePathSolver = false;
 
+    @SwitchProperty({
+        name: "Teleport Maze Solver",
+        description: "Teleport Maze solver &bAdds &cRed &bcolor to the pads you have been through also highlights &aGreen &bthe right one &4The scanner might break sometimes",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    teleportPadSolver = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",

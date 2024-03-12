@@ -335,4 +335,13 @@ export class TextHelper {
     static distanceBetweeen(block1, block2) {
         return Math.hypot(block1.getX() - block2.getX(), block1.getY() - block2.getY(), block1.getZ() - block2.getZ())
     }
+    
+    // Big thank bloom
+    static getDungeonsPosIndex() {
+        const xIndex = Math.floor((Player.getX() + 200) / 32)
+        const zIndex = Math.floor((Player.getZ() + 200) / 32)
+        const posIndex = xIndex * 6 + zIndex
+
+        return posIndex
+    }
 }

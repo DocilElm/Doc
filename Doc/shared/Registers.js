@@ -164,3 +164,40 @@ FeatureManager
             fn(Player.getContainer().getName(), packet.func_149544_d())
         }).setFilteredClass(net.minecraft.network.play.client.C0EPacketClickWindow)
     )
+    .createCustomEvent("onPuzzleRotation", (fn) => {
+        let lastDungeonsIdx = null
+        let timesScanned = 0
+        let hasRotation = false
+
+        return register("tick", () => {
+            const currentIdx = TextHelper.getDungeonsPosIndex()
+
+            // Reset variables if the player leaves the room
+            if (lastDungeonsIdx && currentIdx !== lastDungeonsIdx) {
+                lastDungeonsIdx = null
+                timesScanned = 0
+                hasRotation = false
+
+                return
+            }
+
+            if (currentIdx === lastDungeonsIdx && timesScanned >= 30 || hasRotation) return
+
+            lastDungeonsIdx = currentIdx
+            timesScanned++
+
+            const rotation = TextHelper.getPuzzleRotation()
+            if (rotation == null) return
+
+            hasRotation = true
+            fn(rotation, currentIdx)
+        }).unregister()
+    })
+    .createCustomEvent("onPacketPlayerPosLook", (fn) =>
+        register("packetReceived", (packet) => {
+            const [ x, y, z ] = [ packet.func_148932_c(), packet.func_148928_d(), packet.func_148933_e() ]
+            const [ yaw, pitch ] = [ packet.func_148931_f(), packet.func_148930_g() ]
+
+            fn([x, y, z], yaw, pitch)
+        }).setFilteredClass(net.minecraft.network.play.server.S08PacketPlayerPosLook).unregister()
+    )

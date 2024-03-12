@@ -37,8 +37,10 @@ const reset = (resetIndex = true) => {
 // Checks to see whether any blocks from the solution have changed
 // this is to remove the rendering blocks and lines in case the user
 // has already clicked the desired blocks (solution)
-const checkBlocks = (posIndex) => {
+const checkBlocks = () => {
     if (!enteredRoom) return
+
+    const posIndex = TextHelper.getDungeonsPosIndex()
 
     const isCreeperAlive = World.getAllEntitiesOfType(net.minecraft.entity.monster.EntityCreeper).filter(a => a.distanceTo(Player.getPlayer()) < 35 && !a.isInvisible())?.[0]
 
@@ -74,20 +76,11 @@ const checkBlocks = (posIndex) => {
 }
 
 // Logic
-const scanCreeperBeams = () => {
-    const xIndex = Math.floor((Player.getX() + 200) / 32)
-    const zIndex = Math.floor((Player.getZ() + 200) / 32)
-    const posIndex = xIndex * 6 + zIndex
+const scanCreeperBeams = (rotation, posIdx) => {
+    if (enteredRoom) return
 
-    if (enteredRoom) checkBlocks(posIndex)
-
-    if (posIndex === lastDungIndex) return
-
-    lastDungIndex = posIndex
+    lastDungIndex = posIdx
     renderBlocks = []
-
-    const rotation = TextHelper.getPuzzleRotation()
-    if (rotation == null) return
     
     const stoneBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.stone, rotation))
     const lanternBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.lantern, rotation))
@@ -132,6 +125,8 @@ const scanCreeperBeams = () => {
 const renderSolutions = () => {
     Object.keys(renderBlocks)?.forEach(idx => {
         const obj = renderBlocks[idx]
+        if (!obj) return
+        
         const [ block, block1 ] = obj.blocks
         const [ r, g, b ] = obj.rgb
 
@@ -145,7 +140,8 @@ const renderSolutions = () => {
 }
 
 // Events
-new Event(feature, "tick", scanCreeperBeams, () => WorldState.inDungeons() && config.creeperBeamsSolver)
+new Event(feature, "tick", checkBlocks, () => WorldState.inDungeons() && config.creeperBeamsSolver)
+new Event(feature, "onPuzzleRotation", scanCreeperBeams, () => WorldState.inDungeons() && config.creeperBeamsSolver)
 new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config.creeperBeamsSolver)
 new Event(feature, "worldUnload", reset)
 Dungeons.onRoomIDEvent((name) => {
