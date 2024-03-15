@@ -21,6 +21,8 @@ import "./features/dungeons/TicTacToeSolver"
 import "./features/dungeons/CreeperBeamsSolver"
 import "./features/dungeons/IcePathSolver"
 import "./features/dungeons/TeleportMazeSolver"
+import "./features/dungeons/CryptsDisplay"
+import "./features/dungeons/MilestoneDisplay"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"

@@ -73,6 +73,8 @@ export class Persistence {
         championDisplay: {x: 10, y: 10, scale: 1},
         petDisplay: {x: 10, y: 10, scale: 1},
         sblevelDisplay: {x: 10, y: 10, scale: 1},
+        cryptsDisplay: {x: 10, y: 10, scale: 1},
+        milestoneDisplay: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

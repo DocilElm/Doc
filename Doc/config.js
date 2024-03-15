@@ -47,6 +47,8 @@ class Settings {
         this.addDependency("Champion Xp Display Location", "Champion Xp Display")
         this.addDependency("Creeper Beams Solver Line", "Creeper Beams Solver")
         this.addDependency("Pet Display Location", "Pet Display")
+        this.addDependency("Crypts Display Location", "Crypts Display")
+        this.addDependency("Milestone Display Location", "Milestone Display")
     }
     // General
     @ButtonProperty({
@@ -344,6 +346,44 @@ class Settings {
         subcategory: "Dungeons"
     })
     teleportPadSolver = false;
+
+    @SwitchProperty({
+        name: "Crypts Display",
+        description: "Display the total amount of crypts in the current dungeons",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    cryptsDisplay = false;
+
+    @ButtonProperty({
+        name: "Crypts Display Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changecryptsdisplay() {
+        ChatLib.command("changecryptsdisplay", true);
+    }
+
+    @SwitchProperty({
+        name: "Milestone Display",
+        description: "Display your current milestone in dungeons",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    milestoneDisplay = false;
+
+    @ButtonProperty({
+        name: "Milestone Display Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changemilestonedisplay() {
+        ChatLib.command("changemilestoneDisplay", true);
+    }
 
     // Mining
     @SwitchProperty({
