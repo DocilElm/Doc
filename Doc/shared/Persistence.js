@@ -71,6 +71,8 @@ export class Persistence {
         searchBar: {x: 10, y: 10, scale: 1},
         waterBoardDisplay: {x: 10, y: 10, scale: 1},
         championDisplay: {x: 10, y: 10, scale: 1},
+        petDisplay: {x: 10, y: 10, scale: 1},
+        sblevelDisplay: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

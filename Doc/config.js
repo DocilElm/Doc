@@ -46,6 +46,7 @@ class Settings {
         this.addDependency("Water Board Solver Display Location", "Water Board Solver Display")
         this.addDependency("Champion Xp Display Location", "Champion Xp Display")
         this.addDependency("Creeper Beams Solver Line", "Creeper Beams Solver")
+        this.addDependency("Pet Display Location", "Pet Display")
     }
     // General
     @ButtonProperty({
@@ -696,6 +697,54 @@ class Settings {
         ChatLib.command("editchampiondisplay", true)
 
     }
+    
+    @SwitchProperty({
+        name: "Pet Display",
+        description: "Displays your currently equipped pet",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    petDisplay = false;
+
+    @ButtonProperty({
+        name: "Pet Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changepetdisplay() {
+        ChatLib.command("changepetdisplaylocation", true)
+
+    }
+    
+    @SwitchProperty({
+        name: "Skyblock Level Display",
+        description: "Displays your skyblock level",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    skyblockLevelDisplay = false;
+
+    @ButtonProperty({
+        name: "Skyblock Level Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    changesbleveldisplay() {
+        ChatLib.command("changeskyblockleveldisplay", true)
+
+    }
+
+    @SwitchProperty({
+        name: "Copy Chat",
+        description: "Allows you to copy any chat message by &bRigh Clicking&r the text in chat &cIf you hold &bControl&r &cit'll copy the formatted message&r",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    copyChat = false;
 }
 
 export default new Settings()

@@ -2,8 +2,8 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import ScalableGui from "../../shared/Scalable"
-import TabHelper from "../../shared/Tab"
 import { WorldState } from "../../shared/World"
+import TabListData from "../../../Atomx/skyblock/TabListData"
 
 // Constant variables
 const feature = new Feature("gardenDisplay", "Garden", "")
@@ -20,7 +20,7 @@ const renderString = () => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow(
-        `&a&lGarden Display\n&aVisitor in&f: &b${TabHelper.getNextVisitor()}\n&aJacob's contest in&f: &6${TabHelper.getJacobContest()}\n&eOrganic matter&f: &6${TabHelper.getOrganicMatter()}\n&9Fuel&f: &6${TabHelper.getFuel()}\n&aTime Left&f: &b${TabHelper.getTimeLeft()}\n&aStored Compost&f: &6${TabHelper.getStoredCompost()}`,
+        `&a&lGarden Display\n&aVisitor in&f: &b${TabListData.getNextVisitor()} &f(&b${TabListData.getTotalVisitors()}&f)\n&aJacob's contest in&f: &6${TabListData.getJacobContest()}\n&eOrganic matter&f: &6${TabListData.getOrganicMatter()}\n&9Fuel&f: &6${TabListData.getFuel()}\n&aTime Left&f: &b${TabListData.getTimeLeft()}\n&aStored Compost&f: &6${TabListData.getStoredCompost()}`,
         0,
         0
         )

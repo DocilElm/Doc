@@ -53,6 +53,9 @@ import "./features/misc/PhoenixInvincibility"
 import "./features/misc/StatsDisplay"
 import "./features/misc/SearchBar"
 import "./features/misc/ChampionDisplay"
+import "./features/misc/PetDisplay"
+import "./features/misc/SkyblockLvlDisplay"
+import "./features/misc/CopyChat"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
