@@ -385,6 +385,14 @@ class Settings {
         ChatLib.command("changemilestoneDisplay", true);
     }
 
+    @SwitchProperty({
+        name: "Trivia Solver",
+        description: "Trivia solver changes the color of the answer to &aGreen&r and the incorrect answer to &cRed&r &4This will make it so you cannot click on the chat message",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    triviaQuizSolver = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",

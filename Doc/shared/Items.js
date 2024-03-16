@@ -8,6 +8,18 @@ const essenceRegex =       /(Undead|Wither) Essence x(\d+)/
 const enchantedBookRegex = /^Enchanted Book \(([\wd ]+)\)$/
 const chestPriceRegex =    /^([\d,]+) Coins$/
 
+const SpecialItemID = {
+    "ADAPTIVE_BLADE": "STONE_BLADE",
+    "SPIRIT_SHORTBOW": "ITEM_SPIRIT_BOW",
+    "SPIRIT_BOOTS": "THORNS_BOOTS",
+    "WITHER_CLOAK_SWORD": "WITHER_CLOAK",
+    "DUNGEON_DISC": "DUNGEON_DISC_1",
+    "OLD_DISC": "DUNGEON_DISC_4",
+    "NECRON_DISC": "DUNGEON_DISC_5",
+    "CLOWN_DISC": "DUNGEON_DISC_2",
+    "WATCHER_DISC": "DUNGEON_DISC_3"
+}
+
 export default class ItemHandler {
     static getCroesusProfit(lore) {
         if (!lore) return
@@ -42,9 +54,23 @@ export default class ItemHandler {
     
             // Check for enchant book or wither essence and create an ItemID based off of the name
             if (enchantedBookRegex.test(unformattedLore)) {
-                const enchantName = unformattedLore.match(enchantedBookRegex)[1].toUpperCase().replace(/ /g, "_")
-                itemID = `ENCHANTMENT_${enchantName}`
-                ultName = enchantName
+                const enchantName = unformattedLore.match(enchantedBookRegex)[1]
+                const tempName = enchantName.split(" ")
+                const match = tempName[tempName.length - 1].match(/([IVXLCDM]+)/)
+
+                // If the book contains roman numeral we decode them
+                // so the api knows what to do when getting the price of it
+                if (match) {
+                    const normalNumber = TextHelper.decodeNumeral(match[1])
+
+                    itemID = `ENCHANTMENT_${enchantName.replace(match[1], normalNumber).replace(/ /g, "_").toUpperCase()}`
+                    ultName = enchantName.replace(match[1], normalNumber).replace(/ /g, "_").toUpperCase()
+
+                }
+                else {
+                    itemID = `ENCHANTMENT_${enchantName.replace(/ /g, "_").toUpperCase()}`
+                    ultName = enchantName.replace(/ /g, "_").toUpperCase()
+                }
             }
     
             if (essenceRegex.test(unformattedLore)) {
@@ -55,7 +81,8 @@ export default class ItemHandler {
                 totalEssence++
             }
     
-            if (!itemID) itemID = unformattedLore.toUpperCase().replace(/ /g, "_")
+            if (!itemID) itemID = unformattedLore.toUpperCase().replace(/- /, "").replace(/ /g, "_")
+            if (itemID in SpecialItemID) itemID = SpecialItemID[itemID]
     
             // Push items lore into the array
             result.items.push(`\n${itemLore}`)
@@ -68,7 +95,7 @@ export default class ItemHandler {
         })
 
         if (costLoreIndex) {
-            chestPrice = parseInt(lore[costLoreIndex+1]?.removeFormatting()?.match(chestPriceRegex)?.[1]?.replace(/,/g, ""))
+            chestPrice = parseInt(lore[costLoreIndex+1]?.removeFormatting()?.match(chestPriceRegex)?.[1]?.replace(/,/g, "") ?? 0)
 
             // Add dungeon chest key price to the chest price in case this is required
             const chestKey = lore[costLoreIndex+2]?.removeFormatting() === "Dungeon Chest Key" ? PriceHelper.getSellPrice("DUNGEON_CHEST_KEY") : 0
@@ -81,7 +108,7 @@ export default class ItemHandler {
         return result
     }
 
-    constructor(item){
+    constructor(item) {
         this.item = item
         this.name = item.getName()
         this.itemID = TextHelper.getSkyblockItemID(item)
@@ -91,17 +118,17 @@ export default class ItemHandler {
         this.getSbID()
     }
 
-    getSbID(){
+    getSbID() {
         const itemName = this.name.removeFormatting()
 
-        if (essenceRegex.test(itemName)){
-            const [ ar, type, amount ] = itemName.match(essenceRegex)
+        if (essenceRegex.test(itemName)) {
+            const [ _, type, amount ] = itemName.match(essenceRegex)
 
             this.itemID = `ESSENCE_${type}`.toUpperCase()
             this.amount = parseInt(amount)
         }
 
-        if (this.itemID.startsWith("ENCHANTMENT")){
+        if (this.itemID.startsWith("ENCHANTMENT")) {
             if (this.itemLore.length < 2) return
             this.name = this.itemLore[1]
         }

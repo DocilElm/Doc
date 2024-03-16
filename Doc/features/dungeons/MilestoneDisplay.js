@@ -6,8 +6,6 @@ import { WorldState } from "../../shared/World"
 
 const defaultString = `&bMilestone&f: &69`
 const editGui = new ScalableGui("milestoneDisplay", defaultString).setCommand("changemilestoneDisplay")
-// From BloomCore
-const milestonesArray = ["⓿", "❶", "❷", "❸", "❹", "❺", "❻", "❼", "❽", "❾"]
 
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -17,7 +15,7 @@ editGui.onRender(() => {
 })
 
 const renderMilestone = () => {
-    const amount = milestonesArray.indexOf(Dungeons.currentMilestone ?? "⓿")
+    const amount = Dungeons.getCurrentMilestoneNum()
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

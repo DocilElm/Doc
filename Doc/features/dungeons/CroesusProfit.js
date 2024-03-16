@@ -51,12 +51,14 @@ const makeStringToDraw = () => {
         const profit = value.profit
         const profitFormat = profit <= 0 ? "&c" : "&a"
 
-        if (config.croesusProfitMode === 1) return tempArray.push(`\n&a${key}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
+        if (config.croesusProfitMode === 1) return tempArray.push([`\n&a${key}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`, profit])
 
-        tempArray.push(`\n&a${key}${items}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
+        tempArray.push([`\n&a${key}${items}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`, profit])
     })
 
-    stringToDraw = tempArray.join("")
+    tempArray.sort((a, b) => b[1] - a[1])
+
+    stringToDraw = tempArray.map(a => a[0]).join("")
     tempArray = null
 }
 

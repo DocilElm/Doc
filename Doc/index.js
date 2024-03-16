@@ -23,6 +23,7 @@ import "./features/dungeons/IcePathSolver"
 import "./features/dungeons/TeleportMazeSolver"
 import "./features/dungeons/CryptsDisplay"
 import "./features/dungeons/MilestoneDisplay"
+import "./features/dungeons/TriviaSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
@@ -35,6 +36,7 @@ import "./features/fishing/TimerTitle"
 // Garden
 import "./features/garden/VisitorProfit"
 import "./features/garden/GardenDisplay"
+import "./features/garden/PestsDisplay"
 // Slayers
 import "./features/slayers/BossSlainTimer"
 // Trackers
