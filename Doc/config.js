@@ -49,6 +49,7 @@ class Settings {
         this.addDependency("Pet Display Location", "Pet Display")
         this.addDependency("Crypts Display Location", "Crypts Display")
         this.addDependency("Milestone Display Location", "Milestone Display")
+        this.addDependency("Pests Display Location", "Pests Display")
     }
     // General
     @ButtonProperty({
@@ -483,6 +484,25 @@ class Settings {
     })
     changegardenDisplayLocation() {
         ChatLib.command("gardenDisplayLocation", true);
+    }
+
+    @SwitchProperty({
+        name: "Pests Display",
+        description: "Displays the player's tab stuff for pests",
+        category: "Garden",
+        subcategory: "Garden"
+    })
+    pestsDisplay = false;
+
+    @ButtonProperty({
+        name: "Pests Display Location",
+        description: "Changes The Display Location",
+        category: "Garden",
+        subcategory: "Garden",
+        placeholder: "Change"
+    })
+    changechangepestsdisplay() {
+        ChatLib.command("changepestsdisplay", true);
     }
 
     // Slayer

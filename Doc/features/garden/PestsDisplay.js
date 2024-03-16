@@ -10,7 +10,7 @@ const defaultString = `&4&lPests Display\n&cAlive&f: &c&l${Player.getName()}\n&c
 const editGui = new ScalableGui("pestsDisplay", defaultString).setCommand("changepestsdisplay")
 
 // Logic
-const registerWhen = () => config.gardenDisplay && WorldState.getCurrentWorld() === "Garden"
+const registerWhen = () => config.pestsDisplay && WorldState.getCurrentWorld() === "Garden"
 
 const renderString = () => {
     if (!registerWhen() || editGui.isOpen()) return
