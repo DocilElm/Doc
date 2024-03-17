@@ -1,6 +1,7 @@
 import FeatureHandler from "../../../Atomx/events/FeatureHandler"
 import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
+import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
@@ -19,46 +20,29 @@ Object.keys(stdata)?.forEach(key => {
 let enteredRoom = null
 let currentQuestion = null
 let currSolutions = []
+let currentBlock = null
+// Used to change the chat color and position of the messages
+let chat = []
+let answers = []
 
-class TriviaChat {
-    constructor() {
-        this.chat = []
-        this.answers = []
-    }
-
-    addChat(msg) {
-        this.chat.push(msg)
-
-        return this
-    }
-
-    addAnswer(msg) {
-        this.answers.push(msg)
-
-        return this
-    }
-
-    send() {
-        this.chat.forEach(msg => ChatLib.chat(msg))
-        ChatLib.chat(" ")
-        this.answers.forEach(msg => ChatLib.chat(`                               ${msg}`))
-        ChatLib.chat(" ")
-    }
-
-    reset() {
-        this.chat = []
-        this.answers = []
-    }
+const sendChat = () => {
+    chat.forEach(msg => ChatLib.chat(msg))
+    ChatLib.chat(" ")
+    answers.forEach(msg => ChatLib.chat(`                               ${msg}`))
+    ChatLib.chat(" ")
 }
 
-const TriviaChatClass = new TriviaChat()
+const resetChat = () => {
+    chat = []
+    answers = []
+    currentBlock = null
+}
 
 const reset = () => {
     enteredRoom = null
     currentQuestion = null
     currSolutions = []
-
-    TriviaChatClass.reset()
+    resetChat()
 }
 
 const quizDone = () => {
@@ -67,10 +51,10 @@ const quizDone = () => {
 }
 
 const inSolutions = (question, answer) => {
-    if (question.includes("What SkyBlock year is it?")) {
+    if (question === "What SkyBlock year is it?") {
         const year = Math.floor((Date.now() / 1000 - 1560276000) / 446400 + 1)
 
-        return question === `Year ${year}`
+        return answer === `Year ${year}`
     }
     
     return solutions.get(question)?.some(a => a === answer)
@@ -85,7 +69,7 @@ const handleQuestion = (question, event, formatted) => {
     cancel(event)
     currentQuestion = `${question}?`
 
-    TriviaChatClass.addChat(formatted.replace(/§6/, "§b"))
+    chat.push(formatted.replace(/§6/, "§b"))
 }
 
 const handleAnswer = (answer, event, formatted) => {
@@ -96,16 +80,16 @@ const handleAnswer = (answer, event, formatted) => {
 
     const msg = isSol ? formatted.replace(/§a/, "§a§l").replace(/^( +)/, "") : formatted.replace(/§a/, "§c").replace(/^( +)/, "")
 
-    TriviaChatClass.addAnswer(msg)
+    answers.push(msg)
 
-    if (formatted.includes("ⓒ")) Client.scheduleTask(2, () => TriviaChatClass.send())
+    if (formatted.includes("ⓒ")) Client.scheduleTask(2, () => sendChat())
 }
 
 const handleQuestionNumber = (_, event, formatted) => {
     cancel(event)
 
-    TriviaChatClass.reset()
-    TriviaChatClass.addChat(formatted.replace(/§6/, "§b"))
+    resetChat()
+    chat.push(formatted.replace(/§6/, "§b"))
 }
 
 const checkArmorStand = () => {
@@ -115,7 +99,14 @@ const checkArmorStand = () => {
             const match = a.getName().removeFormatting().match(/([ⓐⓑⓒ]) ([^.]+)[.+]?/)
             if (!match) return
             let [_, question, answer] = match
-            if (currSolutions.some(a => a == answer)) return a.getEntity().func_96094_a(`§6${question} §a§l${answer}`)
+            
+            if (currSolutions.some(a => a == answer)) {
+                currentBlock = World.getBlockAt(Math.floor(a.getX()), a.getY() + 1, Math.floor(a.getZ()))
+                a.getEntity().func_96094_a(`§6${question} §a§l${answer}`)
+
+                return
+            }
+
             a.getEntity().func_96094_a(`§6${question} §4${answer}`)
         })
 }
@@ -160,6 +151,16 @@ new FeatureHandler("TriviaSolver")
     .AddEvent("tick", checkArmorStand, {
         registerWhen() {
             return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver
+        }
+    })
+    .AddEvent("renderWorld", () => {
+        // Just in case to not spam console
+        if (!currentBlock) return
+
+        RenderHelper.filledBlock(currentBlock, 0, 1, 0, 80 / 255, false)
+    }, {
+        registerWhen() {
+            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver && currentBlock
         }
     })
     .AddEvent("worldunload", reset, {
