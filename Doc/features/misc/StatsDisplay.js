@@ -1,8 +1,8 @@
+import TabListData from "../../../Atomx/skyblock/TabListData"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import ScalableGui from "../../shared/Scalable"
-import TabHelper from "../../shared/Tab"
 
 // Constant feature
 const feature = new Feature("statsDisplay", "Misc", "")
@@ -16,7 +16,7 @@ let stringToDraw = null
 const registerWhen = () => config.statsDisplay
 
 const makeStringToDraw = () => {
-    const stats = TabHelper.getStats()
+    const stats = TabListData.getStats()
 
     let tempArray = []
 
