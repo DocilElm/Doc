@@ -2,6 +2,7 @@ import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -44,9 +45,9 @@ let orBoard = [
     null, null, null
 ]
 let renderBlocks = []
-let lastDungIndex = null
 let enteredRoom = null
 let currentRotation = null
+let puzzleDone = false
 
 // From BloomCore
 // Gets an array of 16,000 map colors from a map item
@@ -74,7 +75,6 @@ const reset = () => {
         null, null, null
     ]
     renderBlocks = []
-    lastDungIndex = null
     enteredRoom = null
     currentRotation = null
 }
@@ -93,7 +93,7 @@ const onAiMove = (board) => {
 }
 
 const scanItemFrames = () => {
-    if (!config.tictactoeSolver || currentRotation == null || !enteredRoom || !WorldState.inDungeons()) return
+    if (!config.tictactoeSolver || currentRotation == null || !enteredRoom || !WorldState.inDungeons() || puzzleDone) return
 
     const [ x, y, z ] = TextHelper.getRealCoord(relativeCoords.boardCorners[0], currentRotation)
     const [ x1, y1, z1 ] = TextHelper.getRealCoord(relativeCoords.boardCorners[1], currentRotation)
@@ -132,6 +132,7 @@ const scanItemFrames = () => {
     // the user might go inside of tictactoe while it has already been done so we return
     if (!currentBoard.filter(a => a).length) {
         enteredRoom = null
+        puzzleDone = true
         ChatLib.chat(`${TextHelper.PREFIX} &cTic Tac Toe already done detected!`)
 
         return
@@ -166,18 +167,10 @@ const scanItemFrames = () => {
     onAiMove(orBoard)
 }
 
-const scanTicTacToe = () => {
-    const xIndex = Math.floor((Player.getX() + 200) / 32)
-    const zIndex = Math.floor((Player.getZ() + 200) / 32)
-    const posIndex = xIndex * 6 + zIndex
+onPuzzleRotation((rotation, posIndex) => {
+    if (!WorldState.inDungeons() || !config.tictactoeSolver || enteredRoom || puzzleDone) return
 
-    if (posIndex === lastDungIndex) return
-
-    lastDungIndex = posIndex
     renderBlocks = []
-
-    const rotation = TextHelper.getPuzzleRotation()
-    if (rotation == null) return
 
     const bedrockBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bedrock, rotation))
     const hopperBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.hopper, rotation))
@@ -187,7 +180,7 @@ const scanTicTacToe = () => {
     ChatLib.chat(`${TextHelper.PREFIX} &aTic Tac Toe detected`)
     currentRotation = rotation
     enteredRoom = Date.now()
-}
+})
 
 const renderSolution = () => {
     renderBlocks?.forEach(block => RenderHelper.filledBlock(
@@ -206,6 +199,7 @@ const onChatMessage = (name, _, success = false) => {
     if (success) ChatLib.chat(`${TextHelper.PREFIX} &aTic Tac Toe took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
     renderBlocks = []
     enteredRoom = null
+    puzzleDone = true
 }
 
 const onBlockPlacement = (block, [ x, y, z ]) => {
@@ -220,13 +214,15 @@ const onBlockPlacement = (block, [ x, y, z ]) => {
     enteredRoom = null
 }
 
-new Event(feature, "tick", scanTicTacToe, () => WorldState.inDungeons() && config.tictactoeSolver)
 new Event(feature, "step", scanItemFrames, () => WorldState.inDungeons() && enteredRoom && config.tictactoeSolver, 1)
 new Event(feature, "renderWorld", renderSolution, () => WorldState.inDungeons() && config.tictactoeSolver)
-new Event(feature, "onChatPacket", (name) => onChatMessage(name, true), () => WorldState.inDungeons() && enteredRoom && config.tictactoeSolver, successCriteria)
+new Event(feature, "onChatPacket", (name) => onChatMessage(name, null, true), () => WorldState.inDungeons() && enteredRoom && config.tictactoeSolver, successCriteria)
 new Event(feature, "onChatPacket", onChatMessage, () => WorldState.inDungeons() && enteredRoom && config.tictactoeSolver, failedCriteria)
 new Event(feature, "onPlayerBlockPlacement", onBlockPlacement)
-new Event(feature, "worldUnload", reset)
+new Event(feature, "worldUnload", () => {
+    reset()
+    puzzleDone = false
+})
 Dungeons.onRoomIDEvent((name) => {
     if (name === "Tic Tac Toe") return
 

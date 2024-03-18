@@ -16,7 +16,7 @@ const alphaBetaAlgorithm = (board, isMaximizingPlayer = false, depth, alpha, bet
         for (let idx = 0; idx < board.length; idx++) {
             if (board[idx] !== null) continue
 
-            board[idx] = "X"
+            board[idx] = "O"
             let score = alphaBetaAlgorithm(board, false, depth + 1, alpha, beta)
             board[idx] = null
             
@@ -25,7 +25,7 @@ const alphaBetaAlgorithm = (board, isMaximizingPlayer = false, depth, alpha, bet
                 bestMove = idx
             }
 
-            if (alpha > beta) break
+            if (alpha >= beta) break
         }
 
         return bestMove
@@ -36,7 +36,7 @@ const alphaBetaAlgorithm = (board, isMaximizingPlayer = false, depth, alpha, bet
     for (let idx = 0; idx < board.length; idx++) {
         if (board[idx] !== null) continue
 
-        board[idx] = "O"
+        board[idx] = "X"
         let score = alphaBetaAlgorithm(board, true, depth + 1, alpha, beta)
         board[idx] = null
 
@@ -45,7 +45,7 @@ const alphaBetaAlgorithm = (board, isMaximizingPlayer = false, depth, alpha, bet
             bestMove = idx
         }
 
-        if (alpha > beta) break
+        if (alpha >= beta) break
     }
 
     return bestMove
