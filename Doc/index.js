@@ -26,6 +26,7 @@ import "./features/dungeons/MilestoneDisplay"
 import "./features/dungeons/PuzzlesDisplay"
 import "./features/dungeons/DeathsDisplay"
 import "./features/dungeons/TriviaSolver"
+import "./features/dungeons/ThreeWeirdosSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"

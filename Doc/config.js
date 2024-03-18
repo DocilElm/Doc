@@ -442,6 +442,14 @@ class Settings {
         ChatLib.command("changedeathsDisplay", true);
     }
 
+    @SwitchProperty({
+        name: "Three Weirdos Solver",
+        description: "Three Weirdos solver highlights the correct chest in &aGreen&r and also the correct answer in chat",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    threeWeirdosSolver = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",
