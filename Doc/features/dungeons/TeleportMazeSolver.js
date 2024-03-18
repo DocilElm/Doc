@@ -24,6 +24,7 @@ let solution = {}
 let renderBlocks = []
 let enteredRoom = null
 let chestBlock = null
+let puzzleDone = false
 
 // Functions required by the feature
 const reset = () => {
@@ -71,7 +72,7 @@ const calculateAnglePads = (x0, z0, yaw) => {
 
 // Logic
 onPuzzleRotation((rotation, posIdx) => {
-    if (enteredRoom || !config.teleportPadSolver) return
+    if (enteredRoom || !WorldState.inDungeons() || !config.teleportPadSolver || puzzleDone) return
 
     const endPortalBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.endPortal, rotation))
     const ironBarBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.ironBar, rotation))
@@ -121,9 +122,10 @@ const onBlockPlacement = (block, arr) => {
 
     // Check it like this because the chest block doesnt actually spawn
     // until the player is near it and the rotation is scanned before that
-    if (arr?.toString() !== chestBlock) return
+    if (arr?.toString() !== chestBlock || puzzleDone) return
 
     ChatLib.chat(`${TextHelper.PREFIX} &aTeleport Maze took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
+    puzzleDone = true
     reset()
 }
 
@@ -143,7 +145,10 @@ const renderSolutions = () => {
 new Event(feature, "onPacketPlayerPosLook", onPlayerPos, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
 new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
 new Event(feature, "onPlayerBlockPlacement", onBlockPlacement, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
-new Event(feature, "worldUnload", reset)
+new Event(feature, "worldUnload", () => {
+    reset()
+    puzzleDone = false
+})
 
 // Starting events
 feature.start()
