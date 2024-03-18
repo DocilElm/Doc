@@ -2,16 +2,17 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
-import PriceHelper from "../../shared/Price"
+import Price from "../../../Atomx/skyblock/Price"
 import ScalableGui from "../../shared/Scalable"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
+import AtomxApi from "../../../Atomx/AtomxApi"
 
 // Constant variables
 const defaultString = `&aNPC&f: &b${Player.getName()}\n&aItems Required&f: \n &aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`
 const editGui = new ScalableGui("visitorProfit", defaultString).setCommand("visitorProfitDisplay")
 const feature = new Feature("visitorProfitDisplay", "Garden", "")
-const GardenVisitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/GardenVisitors.json")
+const GardenVisitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Atomx/main/api/GardenVisitors.json")
 const requiredWorld = "Garden"
 const visitorsData = new Map()
 
@@ -74,7 +75,9 @@ const scanItems = (itemStacks) => {
             // Check lore index in case it finds a rare item so we dont add it to the required items
             if (loreIndex <= 5 && requiredItemsRegex.test(lore)) {
                 const [ _, requiredItem, requiredAmount ] = lore.match(requiredItemsRegex)
-                const requiredItemPrice = PriceHelper.getSellPrice(Persistence.sbNameToGardenID[requiredItem.toUpperCase().replace(/ X/, "").replace(/ /g, "_")])
+                const actualName = requiredItem.toUpperCase().replace(/ X/, "").replace(/ /g, "_")
+
+                const requiredItemPrice = Price.getSellPrice(AtomxApi.getGardenItemID()[actualName])
                 const totalPrice = requiredItemPrice * (requiredAmount?.replace(/,/g, "") ?? 1)
 
                 // Add values to the map
@@ -99,9 +102,9 @@ const scanItems = (itemStacks) => {
                 let [ _, rareItem ] = lore.match(rareItemRegex)
                 rareItem = rareItem.replace(/^ /, "")
 
-                if (!Persistence.rareGardenItemsList.has(rareItem)) return
+                if (!(rareItem in AtomxApi.getGardenRareItems())) return
 
-                currentData.rareItem = Persistence.rareGardenItemsList.get(rareItem)
+                currentData.rareItem = AtomxApi.getGardenRareItems()[rareItem]
 
                 return
             }
@@ -112,14 +115,14 @@ const scanItems = (itemStacks) => {
 
         // Calculate profit
         const totalItemPrice = currentData.totalPrice
-        const totalCopperPrice = (PriceHelper.getSellPrice("ENCHANTMENT_GREEN_THUMB_1") / 1500) * currentData.copperAmount
+        const totalCopperPrice = (Price.getSellPrice("ENCHANTMENT_GREEN_THUMB_1") / 1500) * currentData.copperAmount
 
         currentData.profit = (totalCopperPrice - totalItemPrice)
 
         // If no rare item detected return
         if (!currentData.rareItem) return
 
-        const rareItemPrice = PriceHelper.getSellPrice(currentData.rareItem)
+        const rareItemPrice = Price.getSellPrice(currentData.rareItem)
 
         // Calculate rare item profit with current profit
         const currentProfit = currentData.profit <= 0 ? -currentData.profit : +currentData.profit
