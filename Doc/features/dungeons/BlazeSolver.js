@@ -17,11 +17,15 @@ const requiredRoomID = new Set(["-60,-204", "-96,-204"])
 // Changeable variables
 let correctBlazes = []
 let coords = []
+let enteredRoom = null
+let blazeDone = null
 
 // Logic
 const registerWhen = () => (WorldState.inDungeons() && requiredRoomID.has(DungeonsState.getCurrentRoomID())) && (config.blazeSolverLine || config.blazeSolver)
 
 const scanEntities = () => {
+    if (blazeDone) return
+
     // Reset the [correctBlazes] array
     correctBlazes = []
     // Also reset the [coords] array
@@ -98,11 +102,35 @@ const cancelEntity = (_, __, ___, event) => {
 const reset = () => {
     correctBlazes = []
     coords = []
+    blazeDone = false
     healthValues.clear()
+    enteredRoom = null
+}
+
+const scanBlazes = () => {
+    if (!registerWhen()) return
+
+    const currentBlazes = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => blazeHealthRegex.test(entity?.getName()?.removeFormatting())).length
+
+    if (currentBlazes === 9) return enteredRoom = Date.now()
+
+    if (currentBlazes <= 0 && enteredRoom && !blazeDone) {
+        ChatLib.chat(`${TextHelper.PREFIX} &aBlaze took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
+        if (config.blazeSolverDone) ChatLib.command("pc Blaze Done")
+
+        enteredRoom = null
+        blazeDone = true
+        correctBlazes = []
+        coords = []
+        healthValues.clear()
+
+        return
+    }
 }
 
 // Events
 new Event(feature, "step", scanEntities, registerWhen, 5)
+new Event(feature, "tick", scanBlazes, registerWhen)
 new Event(feature, "renderWorld", renderEntities, () => registerWhen() && correctBlazes)
 new Event(feature, "renderSpecificEntity", cancelEntity, registerWhen, net.minecraft.entity.monster.EntityBlaze)
 new Event(feature, "worldUnload", reset)

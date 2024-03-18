@@ -254,6 +254,14 @@ class Settings {
     blazeSolver = false;
 
     @SwitchProperty({
+        name: "Blaze Done",
+        description: "Automatically says &bBlaze Done&r in party chat",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    blazeSolverDone = false;
+
+    @SwitchProperty({
         name: "Blaze Solver Line",
         description: "Draws a line at the next blaze to kill (this is independent from blaze solver)",
         category: "Dungeons",
