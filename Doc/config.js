@@ -50,6 +50,8 @@ class Settings {
         this.addDependency("Crypts Display Location", "Crypts Display")
         this.addDependency("Milestone Display Location", "Milestone Display")
         this.addDependency("Pests Display Location", "Pests Display")
+        this.addDependency("Puzzles Display Location", "Puzzles Display")
+        this.addDependency("Deaths Display Location", "Deaths Display")
     }
     // General
     @ButtonProperty({
@@ -401,6 +403,44 @@ class Settings {
         subcategory: "Dungeons"
     })
     triviaQuizSolver = false;
+
+    @SwitchProperty({
+        name: "Puzzles Display",
+        description: "Display the current amount of puzzles in the dungeon",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    puzzlesDisplay = false;
+
+    @ButtonProperty({
+        name: "Puzzles Display Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changepuzzleDisplay() {
+        ChatLib.command("changepuzzleDisplay", true);
+    }
+    
+    @SwitchProperty({
+        name: "Deaths Display",
+        description: "Display the current amount of deaths in the dungeon",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    deathsDisplay = false;
+
+    @ButtonProperty({
+        name: "Deaths Display Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    changedeathsDisplay() {
+        ChatLib.command("changedeathsDisplay", true);
+    }
 
     // Mining
     @SwitchProperty({

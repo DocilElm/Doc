@@ -76,6 +76,8 @@ export class Persistence {
         cryptsDisplay: {x: 10, y: 10, scale: 1},
         milestoneDisplay: {x: 10, y: 10, scale: 1},
         pestsDisplay: {x: 10, y: 10, scale: 1},
+        puzzlesDisplay: {x: 10, y: 10, scale: 1},
+        deathsDisplay: {x: 10, y: 10, scale: 1},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

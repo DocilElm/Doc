@@ -23,6 +23,8 @@ import "./features/dungeons/IcePathSolver"
 import "./features/dungeons/TeleportMazeSolver"
 import "./features/dungeons/CryptsDisplay"
 import "./features/dungeons/MilestoneDisplay"
+import "./features/dungeons/PuzzlesDisplay"
+import "./features/dungeons/DeathsDisplay"
 import "./features/dungeons/TriviaSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
