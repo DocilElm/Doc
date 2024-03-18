@@ -304,6 +304,7 @@ export class TextHelper {
         return [ cx + dx, dy, cz + dz ]
     }
 
+    // Big thank bloom
     /**
      * - Gets the rotation of the current puzzle room
      * - only puzzles work for this since it scans to see how many doors it has

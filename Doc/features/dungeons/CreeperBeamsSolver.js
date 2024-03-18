@@ -3,6 +3,7 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper, getBlockBoundingBox } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -76,8 +77,8 @@ const checkBlocks = () => {
 }
 
 // Logic
-const scanCreeperBeams = (rotation, posIdx) => {
-    if (enteredRoom) return
+onPuzzleRotation((rotation, posIdx) => {
+    if (enteredRoom || !WorldState.inDungeons() || !config.creeperBeamsSolver) return
 
     lastDungIndex = posIdx
     renderBlocks = []
@@ -120,7 +121,7 @@ const scanCreeperBeams = (rotation, posIdx) => {
     })
 
     enteredRoom = Date.now()
-}
+})
 
 const renderSolutions = () => {
     Object.keys(renderBlocks)?.forEach(idx => {
@@ -141,7 +142,6 @@ const renderSolutions = () => {
 
 // Events
 new Event(feature, "tick", checkBlocks, () => WorldState.inDungeons() && config.creeperBeamsSolver)
-new Event(feature, "onPuzzleRotation", scanCreeperBeams, () => WorldState.inDungeons() && config.creeperBeamsSolver)
 new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config.creeperBeamsSolver)
 new Event(feature, "worldUnload", reset)
 Dungeons.onRoomIDEvent((name) => {

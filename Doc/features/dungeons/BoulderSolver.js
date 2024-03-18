@@ -3,6 +3,7 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -21,9 +22,9 @@ const gridBlocks = new Set()
 
 // Changeable variables
 let renderBlocks = []
-let lastDungIndex = null
 let hasSolution = false
 let enteredRoomAt = null
+let puzzleDone = false
 
 // Functions required by the feature
 const getBoulderGrid = (rotation) => {
@@ -43,7 +44,7 @@ const getBoulderGrid = (rotation) => {
 }
 
 const reset = () => {
-    lastDungIndex = null
+    enteredRoomAt = null
     renderBlocks = []
     scanAgain = false
     gridBlocks.clear()
@@ -51,29 +52,11 @@ const reset = () => {
 
 // Logic
 // big thank unclaimedbloom6 for rotation scanner
-const scanBoulder = () => {
-    const xIndex = Math.floor((Player.getX() + 200) / 32)
-    const zIndex = Math.floor((Player.getZ() + 200) / 32)
-
-    // Save the position as a single number instead of [1, 3] for example
-    const posIndex = xIndex * 6 + zIndex
-
-    // Room hasn't changed
-    if (posIndex === lastDungIndex || hasSolution) return
-
-    lastDungIndex = posIndex
-    renderBlocks = []
-
-    // Entered new room
-    const rotation = TextHelper.getPuzzleRotation()
-
-    // Air on all sides, shouldn't happen
-    // double "=" because js wants to be funny
-    if (rotation == null) return
-
+onPuzzleRotation((rotation, posIndex) => {
+    if (!WorldState.inDungeons() || !config.boulderSolver || enteredRoomAt || puzzleDone) return
+    
     // Room detection from here
-    const ironbarCoords = TextHelper.getRealCoord(relativeCoords.ironbar, rotation)
-    const block = World.getBlockAt(...ironbarCoords)
+    const block = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.ironbar, rotation))
 
     if (block.type.mcBlock !== net.minecraft.init.Blocks.field_150411_aY) return
 
@@ -93,7 +76,7 @@ const scanBoulder = () => {
     })
 
     enteredRoomAt = Date.now()
-}
+})
 
 const renderSolutions = () => {
     if (!World.isLoaded() || !renderBlocks.length) return
@@ -114,10 +97,10 @@ const onBlockPlacement = (block) => {
 
     if (block.type.mcBlock === net.minecraft.init.Blocks.field_150486_ae) {
         if (enteredRoomAt) ChatLib.chat(`${TextHelper.PREFIX} &aBoulder took&f: &6${((Date.now() - enteredRoomAt) / 1000).toFixed(2)}s`)
+        puzzleDone = true
 
         reset()
 
-        enteredRoomAt = null
         return
     }
 
@@ -147,11 +130,11 @@ Dungeons.onRoomIDEvent((name) => {
 
     reset()
 })
-new Event(feature, "tick", scanBoulder, () => World.isLoaded() && WorldState.inDungeons() && config.boulderSolver && !enteredRoomAt)
 new Event(feature, "renderWorld", renderSolutions, () => World.isLoaded() && WorldState.inDungeons() && config.boulderSolver)
 new Event(feature, "worldUnload", () => {
     reset()
     hasSolution = false
+    puzzleDone = false
 })
 new Event(feature, "onPlayerBlockPlacement", onBlockPlacement)
 

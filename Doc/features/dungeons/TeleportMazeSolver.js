@@ -6,6 +6,7 @@ import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 import Vector3 from "../../../BloomCore/utils/Vector3"
 import config from "../../config"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/TeleportMazeSolver.js
 
@@ -69,7 +70,7 @@ const calculateAnglePads = (x0, z0, yaw) => {
 }
 
 // Logic
-const scanTeleportMaze = (rotation, posIdx) => {
+onPuzzleRotation((rotation, posIdx) => {
     if (enteredRoom || !config.teleportPadSolver) return
 
     const endPortalBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.endPortal, rotation))
@@ -99,7 +100,7 @@ const scanTeleportMaze = (rotation, posIdx) => {
 
     chestBlock = TextHelper.getRealCoord(relativeCoords.chest, rotation).toString()
     enteredRoom = Date.now()
-}
+})
 
 const onPlayerPos = ([x, y, z], yaw) => {
     if (x % 0.5 !== 0 || y !== 69.5 || z % 0.5 !== 0 || !config.teleportPadSolver) return
@@ -139,7 +140,6 @@ const renderSolutions = () => {
 }
 
 // Events
-new Event(feature, "onPuzzleRotation", scanTeleportMaze, () => WorldState.inDungeons() && config.teleportPadSolver)
 new Event(feature, "onPacketPlayerPosLook", onPlayerPos, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
 new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
 new Event(feature, "onPlayerBlockPlacement", onBlockPlacement, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)

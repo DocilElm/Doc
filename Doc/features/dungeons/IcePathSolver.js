@@ -2,6 +2,7 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -19,6 +20,7 @@ let lastDungIndex = null
 let renderLines = null
 let currentRotation = null
 let enteredRoom = null
+let previousSolution = null
 
 const reset = (resetIndex = true) => {
     if (resetIndex) lastDungIndex = null
@@ -29,26 +31,36 @@ const reset = (resetIndex = true) => {
 }
 
 const getSolutions = (entity, rotation) => {
-    let solution = null
+    if (previousSolution) {
+        const value = solutions[previousSolution]
+        const block1 = World.getBlockAt(...TextHelper.getRealCoord(value[1], rotation))
 
-    Object.keys(solutions).forEach((key, idx) => {
-        if (blacklistedSolutions.has(key) || idx >= 1 && !blacklistedSolutions.has((idx - 1).toString())) return
+        if (block1.pos.distance(entity.getPos()) > 3) return block1
 
-        const value = solutions[key]
-        const block = World.getBlockAt(...TextHelper.getRealCoord(value[0], rotation))
-        
-        if (block.pos.distance(entity.getPos()) >= 2) return
+        blacklistedSolutions.add(previousSolution)
+        previousSolution = null
+    }
 
-        solution = World.getBlockAt(...TextHelper.getRealCoord(value[1], rotation))
-        ChatLib.chat(`Adding: ${key}`)
-        blacklistedSolutions.add(key)
-    })
+    for (let key in solutions) {
+        if (blacklistedSolutions.has(key)) continue
 
-    return solution
+        let value = solutions[key]
+
+        let block = World.getBlockAt(...TextHelper.getRealCoord(value[0], rotation))
+        let block1 = World.getBlockAt(...TextHelper.getRealCoord(value[1], rotation))
+
+        if (previousSolution === key) return block1
+
+        if (block.pos.distance(entity.getPos()) >= 2) continue
+
+        previousSolution = key
+
+        return block1
+    }
 }
 
-const checkBlock = (posIndex) => {
-    if (posIndex !== lastDungIndex) return
+const checkBlock = () => {
+    if (!enteredRoom || TextHelper.getDungeonsPosIndex() !== lastDungIndex) return
 
     const iceBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.ice, currentRotation))
     const silverFish = World.getAllEntitiesOfType(net.minecraft.entity.monster.EntitySilverfish)[0]
@@ -66,8 +78,6 @@ const checkBlock = (posIndex) => {
             solution.getZ(),
         ]
 
-        ChatLib.chat(`trying to render ${solution}, ${[x, y, z]}`)
-
         renderLines = [ [x, y + .5, z], [x1 + .5, y1 + 1.5, z1 + .5] ]
     }
 
@@ -78,20 +88,8 @@ const checkBlock = (posIndex) => {
     reset(false)
 }
 
-
-const scanIcePath = () => {
-    const xIndex = Math.floor((Player.getX() + 200) / 32)
-    const zIndex = Math.floor((Player.getZ() + 200) / 32)
-    const posIndex = xIndex * 6 + zIndex
-
-    if (enteredRoom) checkBlock(posIndex)
-
-    if (posIndex === lastDungIndex) return
-
-    lastDungIndex = posIndex
-
-    const rotation = TextHelper.getPuzzleRotation()
-    if (rotation == null) return
+onPuzzleRotation((rotation, posIndex) => {
+    if (enteredRoom || !WorldState.inDungeons() || !config.icePathSolver) return
 
     const lanternBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.lanter, rotation))
     const hopperBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.hopper, rotation))
@@ -105,9 +103,10 @@ const scanIcePath = () => {
 
     ChatLib.chat(`${TextHelper.PREFIX} &aIce Path detected`)
 
+    lastDungIndex = posIndex
     currentRotation = rotation
     enteredRoom = Date.now()
-}
+})
 
 const renderSolutions = () => {
     if (!renderLines) return
@@ -115,7 +114,7 @@ const renderSolutions = () => {
     RenderHelper.drawLineThroughPoints(renderLines, 0, 1, 0, 1, false)
 }
 
-new Event(feature, "tick", scanIcePath, () => WorldState.inDungeons() && config.icePathSolver)
+new Event(feature, "tick", checkBlock, () => WorldState.inDungeons() && config.icePathSolver)
 new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config.icePathSolver)
 
 feature.start()
