@@ -82,7 +82,7 @@ const scanItems = (itemStacks) => {
 
                 // Add values to the map
                 currentData.requiredItems.push(`\n${itemLore}`)
-                currentData.totalPrice += totalPrice
+                currentData.totalPrice += isNaN(totalPrice) ? 0 : totalPrice
                 
                 return
             }

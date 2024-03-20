@@ -81,14 +81,12 @@ onPuzzleRotation((rotation, posIndex) => {
 const renderSolutions = () => {
     if (!World.isLoaded() || !renderBlocks.length) return
 
-    // phase enabled cuz you can literally see all the blocks from above
     renderBlocks?.forEach(block => RenderHelper.outlineBlock(
             block,
             0,
-            255,
+            1,
             0,
-            255,
-            true
+            1
             ))
 }
 
