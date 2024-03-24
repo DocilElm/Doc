@@ -160,6 +160,8 @@ export class RenderHelper {
      * @returns {[Number, Number] | null}
      */
     static getGuiRenderPositions(mcGuiContainer) {
+        if (!Client.isInGui()) return
+
         // Assign the current gui incase this is null
         if (!mcGuiContainer) mcGuiContainer = Client.currentGui.get()
 
@@ -175,6 +177,10 @@ export class RenderHelper {
      * @returns {[Number, Number]}
      */
     static getSlotRenderPosition(slotNumber, mcGuiContainer) {
+        if (!Client.isInGui()) return
+
+        if (!mcGuiContainer) mcGuiContainer = Client.currentGui.get()
+
         const [ x, y ] = this.getGuiRenderPositions(mcGuiContainer)
 
         const slot = mcGuiContainer.field_147002_h.func_75139_a(slotNumber)
@@ -188,6 +194,8 @@ export class RenderHelper {
      * @returns {[Number, Number, Number, Number]}
      */
     static getGuiRenderBoundings(mcGuiContainer) {
+        if (!Client.isInGui()) return
+        
         if (!mcGuiContainer) mcGuiContainer = Client.currentGui.get()
 
         const [ x, y ] = [ guiContainerLeftField.get(mcGuiContainer), guiContainerTopField.get(mcGuiContainer) ]

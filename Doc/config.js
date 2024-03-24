@@ -869,6 +869,14 @@ class Settings {
         subcategory: "Misc"
     })
     copyChat = false;
+
+    @SwitchProperty({
+        name: "Inventory Buttons",
+        description: "Allows you to make inventory buttons that can run specific commands. customize them with: &a/addbutton &rand &c/deletebutton",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    inventoryButtons = false;
 }
 
 export default new Settings()

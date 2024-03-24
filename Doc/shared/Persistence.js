@@ -50,7 +50,6 @@ export class Persistence {
     }
 
     static data = new PogObject("Doc", {
-        settings: {keybinds: {}},
         ragaxecd: {x: 10, y: 10, scale: 1},
         miningProfit: {x: 10, y: 10, scale: 1},
         visitorProfit: {x: 10, y: 10, scale: 1},
@@ -78,6 +77,7 @@ export class Persistence {
         pestsDisplay: {x: 10, y: 10, scale: 1},
         puzzlesDisplay: {x: 10, y: 10, scale: 1},
         deathsDisplay: {x: 10, y: 10, scale: 1},
+        inventoryButtons: {},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")
