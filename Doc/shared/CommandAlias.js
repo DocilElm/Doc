@@ -69,10 +69,10 @@ export class CommandAlias {
      * - text inside the TextInput
      */
     _createCommand() {
+        if (!this.commandInput.textInput.getText() || !this.aliasInput.textInput.getText()) return
+
         this.command = this.commandInput.textInput.getText().replace(/\//, "")
         this.alias = this.aliasInput.textInput.getText().replace(/\//, "")
-
-        if (!this.command || !this.alias) return
 
         Persistence.data.commandAliases[this.alias] = { command: this.command }
         Persistence.data.save()

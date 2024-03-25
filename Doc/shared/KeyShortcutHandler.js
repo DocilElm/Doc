@@ -34,8 +34,7 @@ export class KeybindShortcut {
         this.commandInput = new TextInput(this.msg ?? "Message", 1, 1, 30, 90)
         this.commandInput._create(scheme).setChildOf(this.mainBox)
 
-        this.setKeycodeButton = new Button("", 35, 1, 30, 90, false)
-            .onMouseClickEvent(this.onClick.bind(this))
+        this.setKeycodeButton = new Button("", 35, 1, 30, 90, false).onMouseClickEvent(this.onClick.bind(this))
         this.setKeycodeButton._create(scheme).setChildOf(this.mainBox)
 
         this.setText(Keyboard.getKeyName(this.keycode))
@@ -103,8 +102,19 @@ export class KeybindShortcut {
     _addKeybind(msg = null) {
         if (!this.keycode) return ChatLib.chat(`${TextHelper.PREFIX} &cError while trying to create keybind with keyname ${Keyboard.getKeyName(this.keycode)}`)
 
-        if (!msg) this.msg = this.commandInput.textInput.getText()
-        if (!this.msg || this.keybind) return
+        if (!msg && this.commandInput.textInput?.getText()) this.msg = this.commandInput.textInput?.getText()
+        if (!this.msg) return
+        if (this.keybind) {
+            const oldKeycode = this.keybind.getKeyCode()
+            KeyBind.removeKeyBind(this.keybind)
+
+            Client.scheduleTask(2, () => {
+                if (oldKeycode === this.keycode) return
+                
+                delete Persistence.data.keyShortcuts[oldKeycode]
+                Persistence.data.save()
+            })
+        }
 
         this.keybind = new KeyBind(`ShortCut: ${this.keycode}`, this.keycode, "Doc")
         this.keybind.registerKeyPress(() => ChatLib.say(this.msg))
@@ -122,6 +132,7 @@ export class KeybindShortcut {
     _removeKeybind() {
         if (this.keybind) KeyBind.removeKeyBind(this.keybind) // i love chattriggers so much
         this.parent.removeChild(this.mainBox)
+        this.keybind = null
         
         delete Persistence.data.keyShortcuts[this.keycode]
         Persistence.data.save()
