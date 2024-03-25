@@ -5,8 +5,7 @@ import { WorldState } from "../../shared/World"
 
 // Constant variables
 const feature = new Feature("secretsSound", "Dungeons", "")
-const item = new Item("minecraft:skull")
-const secretItems = new Set(["Healing VIII Splash Potion", "Healing Potion 8 Splash Potion", "Decoy", "Inflatable Jerry", "Spirit Leap", "Trap", "Training Weights", "Defuse Kit", "Dungeon Chest Key", "Treasure Talisman", "Revive Stone"])
+const secretItems = new Set(["Healing VIII Splash Potion", "Healing Potion 8 Splash Potion", "Decoy", "Inflatable Jerry", "Spirit Leap", "Trap", "Training Weights", "Defuse Kit", "Dungeon Chest Key", "Treasure Talisman", "Revive Stone", "Architect's First Draft"])
 const allowedIDs = new Set(["26bb1a8d-7c66-31c6-82d5-a9c04c94fb02", "edb0155f-379c-395a-9c7d-1b6005987ac8"])
 const secretBlocks = new Set(["minecraft:chest", "minecraft:lever", "minecraft:skull", "minecraft:trapped_chest"])
 // [SoundType, Pitch]
@@ -17,15 +16,15 @@ const soundsList = [
     ["random.break", 2],
     ["mob.guardian.land.hit", 2]
 ]
+const itemEntities = new Map()
 
 // Changeable variables
-let entityScanned = null
 let currentBlockClicked = null
 
 // Logic
 const registerWhen = () => WorldState.inDungeons() && config.secretsSound
 
-const playeSound = () => {
+const playSound = () => {
     if (!registerWhen()) return
 
     World.playSound(
@@ -35,31 +34,19 @@ const playeSound = () => {
         )
 }
 
-const checkEntities = () => {
+const checkEntities = (entityID) => {
     if (!registerWhen()) return
 
-    World.getAllEntitiesOfType(net.minecraft.entity.item.EntityItem).forEach(entity => {
-        // Add the current item stack to the Item object
-        item.setItemStack(entity.entity.func_92059_d())
+    if (!itemEntities.has(entityID)) return
 
-        // Remove all the formatting in the item's name
-        const itemName = item.getName()?.removeFormatting()
+    const obj = itemEntities.get(entityID)
+    const entity = obj.entity
 
-        // Check if the item name is in the list
-        if (!secretItems.has(itemName)) return
-        // If the entity is out of range reset the values
-        if (entity.distanceTo(Player.asPlayerMP()) >= 20) return entityScanned = null
+    const name = entity.func_92059_d()?.func_82833_r()
+    if (!name || !secretItems.has(name.removeFormatting())) return
 
-        // Set the [entityScanned] variable to [entity] if the item fits the criteria
-        entityScanned = entity
-    })
-
-    // If entity is null or entity is still alive we return
-    if (!entityScanned || !entityScanned.isDead()) return
-
-    // Play sound and reset variables to default
-    playeSound()
-    entityScanned = null
+    playSound()
+    itemEntities.delete(entityID)
 }
 
 const checkSkullTexture = (blockPos) => {
@@ -81,7 +68,7 @@ const checkClicked = (ctBlock, _, blockPos) => {
         ctBlock.toString() === currentBlockClicked
         ) return
 
-    playeSound()
+    playSound()
     currentBlockClicked = ctBlock.toString()
 
     // Reset the last block clicked after 20 ticks
@@ -89,12 +76,21 @@ const checkClicked = (ctBlock, _, blockPos) => {
 }
 
 // Events
+// Credits: https://github.com/BetterMap/BetterMap/blob/main/Extra/Events/SecretTracker.js
+register(net.minecraftforge.event.entity.EntityJoinWorldEvent, (event) => {
+    if (!WorldState.inDungeons() || !(event.entity instanceof net.minecraft.entity.item.EntityItem)) return
+
+    itemEntities.set(event.entity.func_145782_y(), {
+        entity: event.entity
+    })
+})
 new Event(feature, "step", checkEntities, registerWhen, 5)
+new Event(feature, "onCollectItem", checkEntities)
 new Event(feature, "onPlayerBlockPlacement", checkClicked, registerWhen)
-new Event(feature, "soundPlay", playeSound, registerWhen, "mob.bat.hurt")
-new Event(feature, "soundPlay", playeSound, registerWhen, "mob.bat.death")
+new Event(feature, "soundPlay", playSound, registerWhen, "mob.bat.hurt")
+new Event(feature, "soundPlay", playSound, registerWhen, "mob.bat.death")
 new Event(feature, "worldUnload", () => {
-    entityScanned = null
+    itemEntities.clear()
     currentBlockClicked = null
 })
 

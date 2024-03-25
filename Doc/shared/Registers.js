@@ -172,3 +172,10 @@ FeatureManager
             fn([x, y, z], yaw, pitch)
         }).setFilteredClass(net.minecraft.network.play.server.S08PacketPlayerPosLook).unregister()
     )
+    .createCustomEvent("onCollectItem", (fn) =>
+        register("packetReceived", (packet) => {
+            const entityID = packet.func_149354_c()
+            
+            fn(entityID)
+        }).setFilteredClass(net.minecraft.network.play.server.S0DPacketCollectItem).unregister()
+    )
