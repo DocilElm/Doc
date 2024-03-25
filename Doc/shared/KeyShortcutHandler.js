@@ -104,6 +104,7 @@ export class KeybindShortcut {
         if (!this.keycode) return ChatLib.chat(`${TextHelper.PREFIX} &cError while trying to create keybind with keyname ${Keyboard.getKeyName(this.keycode)}`)
 
         if (!msg) this.msg = this.commandInput.textInput.getText()
+        if (!this.msg || this.keybind) return
 
         this.keybind = new KeyBind(`ShortCut: ${this.keycode}`, this.keycode, "Doc")
         this.keybind.registerKeyPress(() => ChatLib.say(this.msg))

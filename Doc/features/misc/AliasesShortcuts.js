@@ -29,7 +29,7 @@ const scroll = new ScrollComponent()
     .setChildOf(bgbox)
 
 // Bottom buttons
-new Button("Command", 0, 0, 15, 8, true)
+new Button("Alias", 0, 0, 15, 8, true)
     ._setPosition(
         (25).percent(),
         (80).percent()
@@ -37,7 +37,7 @@ new Button("Command", 0, 0, 15, 8, true)
     .onMouseClickEvent(() => new CommandAlias(scroll))
     ._create(scheme).setChildOf(bgbox)
 
-new Button("Keybind", 0, 0, 15, 8, true)
+new Button("Key", 0, 0, 15, 8, true)
     ._setPosition(
         (45).percent(),
         (80).percent()
@@ -58,16 +58,18 @@ new Button("Save", 0, 0, 15, 8, true)
     })
     ._create(scheme).setChildOf(bgbox)
 
+// Load command aliases from settings
 Object.keys(Persistence.data.commandAliases)?.forEach(key => {
     const obj = Persistence.data.commandAliases[key]
 
     new CommandAlias(scroll, key, obj.command)
 })
 
+// Load keybind shortcuts from settings
 Object.keys(Persistence.data.keyShortcuts)?.forEach(key => {
     const obj = Persistence.data.keyShortcuts[key]
 
-    new KeybindShortcut(scroll, parseInt(key), obj.msg)._addKeybind(obj.msg)
+    new KeybindShortcut(scroll, parseInt(key), obj.msg)._addKeybind(true)
 })
 
 gui._drawNormal(bgbox)
