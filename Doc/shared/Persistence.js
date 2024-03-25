@@ -79,6 +79,7 @@ export class Persistence {
         deathsDisplay: {x: 10, y: 10, scale: 1},
         inventoryButtons: {},
         commandAliases: {},
+        keyShortcuts: {},
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

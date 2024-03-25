@@ -3,6 +3,7 @@ const numberFormat = {"k": 1000, "M": 1000000, "B": 1000000000}
 
 export class TextHelper {
     static PREFIX = "&0[&4Doc&0]&r"
+    static PREFIX2 = "§0[§4Doc§0]§r"
 
     /**
      * - Matches the given regex with the given string
