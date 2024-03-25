@@ -11,10 +11,10 @@ import { WorldState } from "../../shared/World"
 const allowedIDs = new Set(["26bb1a8d-7c66-31c6-82d5-a9c04c94fb02", "edb0155f-379c-395a-9c7d-1b6005987ac8"])
 const secretBlocks = new Set(["minecraft:chest", "minecraft:lever", "minecraft:skull", "minecraft:trapped_chest"])
 const feature = new Feature("secretsClicked", "Dungeons", "")
+const blocksToHighlight = new Map()
 
 // Changeable variables
-let ctBlockToHighlight = null
-let isLocked = false
+let locked = false
 
 // Logic
 const registerWhen = () => WorldState.inDungeons() && config.showSecretsClicked
@@ -31,29 +31,37 @@ const checkCtBlock = (ctBlock, _, blockPos) => {
 
     if (!secretBlocks.has(blockName) || blockName === "minecraft:skull" && !checkSkullTexture(blockPos)) return
 
-    ctBlockToHighlight = ctBlock
+    const blockString = ctBlock.toString()
+    if (blocksToHighlight.has(blockString)) return
+
+    blocksToHighlight.set(blockString, {
+        block: ctBlock
+    })
 
     Client.scheduleTask(20, () => {
-        ctBlockToHighlight = null
-        isLocked = false
+        blocksToHighlight.delete(blockString)
+        locked = false
     })
 }
 
 const renderHighlight = () => {
-    if (!ctBlockToHighlight) return
+    if (!blocksToHighlight.size) return
 
-    const r = isLocked ? 1 : config.showSecretsClickedColor.getRed() / 255
-    const g = isLocked ? 0 : config.showSecretsClickedColor.getGreen() / 255
-    const b = isLocked ? 0 : config.showSecretsClickedColor.getBlue() / 255
+    blocksToHighlight.forEach(obj => {
+        const block = obj.block
+        const r = locked && block.type.getRegistryName() === "minecraft:chest" ? 1 : config.showSecretsClickedColor.getRed() / 255
+        const g = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config.showSecretsClickedColor.getGreen() / 255
+        const b = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config.showSecretsClickedColor.getBlue() / 255
 
-    RenderHelper.outlineBlock(ctBlockToHighlight, r, g, b, 1, true, 2, false)
-    RenderHelper.filledBlock(ctBlockToHighlight, r, g, b, 0.2, true)
+        RenderHelper.outlineBlock(block, r, g, b, 1, true, 2, false)
+        RenderHelper.filledBlock(block, r, g, b, 0.2, true)
+    })
 }
 
 // Events
 new Event(feature, "onPlayerBlockPlacement", checkCtBlock, registerWhen)
 new Event(feature, "renderWorld", renderHighlight, registerWhen)
-new Event(feature, "onChatPacket", () => isLocked = true, registerWhen, /^That chest is locked!$/)
+new Event(feature, "onChatPacket", () => locked = true, registerWhen, /^That chest is locked!$/)
 
 // Starting events
 feature.start()
