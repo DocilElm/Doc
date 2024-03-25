@@ -64,8 +64,7 @@ import "./features/misc/PetDisplay"
 import "./features/misc/SkyblockLvlDisplay"
 import "./features/misc/CopyChat"
 import "./features/misc/InventoryButtons"
-import "./features/misc/CommandAliases"
-import "./features/misc/KeybindShortcuts"
+import "./features/misc/AliasesShortcuts"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

@@ -2,12 +2,12 @@ import ElementUtils from "../../../DocGuiLib/core/Element"
 import HandleGui from "../../../DocGuiLib/core/Gui"
 import Button from "../../../DocGuiLib/elements/Button"
 import { CenterConstraint, ScrollComponent, UIRoundedRectangle, UIText } from "../../../Elementa"
-import { scheme } from "../../shared/CommandAlias"
+import { CommandAlias, commandsCreated, scheme } from "../../shared/CommandAlias"
 import { KeybindShortcut, keybindsCreated } from "../../shared/KeyShortcutHandler"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/Text"
 
-const gui = new HandleGui("", "Doc").setCommand("keybindshortcuts")
+const gui = new HandleGui("", "Doc").setCommand("aliasesshortcut")
 
 const bgbox = new UIRoundedRectangle(3)
     .setX(new CenterConstraint())
@@ -16,7 +16,7 @@ const bgbox = new UIRoundedRectangle(3)
     .setHeight((50).percent())
     .setColor(ElementUtils.getJavaColor([24, 24, 24, 150]))
 
-new UIText(`${TextHelper.PREFIX2} §bkeybind shortcuts`)
+new UIText(TextHelper.PREFIX2)
     .setX(new CenterConstraint())
     .setY((10).pixels())
     .setChildOf(bgbox)
@@ -29,9 +29,17 @@ const scroll = new ScrollComponent()
     .setChildOf(bgbox)
 
 // Bottom buttons
-new Button("Add", 0, 0, 15, 8, true)
+new Button("Command", 0, 0, 15, 8, true)
     ._setPosition(
-        (35).percent(),
+        (25).percent(),
+        (80).percent()
+    )
+    .onMouseClickEvent(() => new CommandAlias(scroll))
+    ._create(scheme).setChildOf(bgbox)
+
+new Button("Keybind", 0, 0, 15, 8, true)
+    ._setPosition(
+        (45).percent(),
         (80).percent()
     )
     .onMouseClickEvent(() => new KeybindShortcut(scroll))
@@ -39,15 +47,22 @@ new Button("Add", 0, 0, 15, 8, true)
 
 new Button("Save", 0, 0, 15, 8, true)
     ._setPosition(
-        (52).percent(),
+        (65).percent(),
         (80).percent()
     )
     .onMouseClickEvent(() => {
+        commandsCreated.forEach(aliasClass => aliasClass._createCommand())
         keybindsCreated.forEach(keyClass => keyClass._addKeybind())
-        ChatLib.chat(`${TextHelper.PREFIX} &aSuccessfully created keybind shortcuts!`)
+
+        ChatLib.chat(`${TextHelper.PREFIX} &aSuccessfully created aliases & keybind shortcuts!`)
     })
     ._create(scheme).setChildOf(bgbox)
-Keyboard.getKeyName(this.keycode ?? 0)
+
+Object.keys(Persistence.data.commandAliases)?.forEach(key => {
+    const obj = Persistence.data.commandAliases[key]
+
+    new CommandAlias(scroll, key, obj.command)
+})
 
 Object.keys(Persistence.data.keyShortcuts)?.forEach(key => {
     const obj = Persistence.data.keyShortcuts[key]
@@ -56,6 +71,12 @@ Object.keys(Persistence.data.keyShortcuts)?.forEach(key => {
 })
 
 gui._drawNormal(bgbox)
+
+register("messageSent", (msg, event) => {
+    if (!msg.startsWith("/")) return
+
+    commandsCreated.forEach(aliasClass => aliasClass.messageSent(msg.replace(/\//g, ""), event))
+})
 
 register("guiKey", (char, keycode) => {
     if (!gui.ctGui.isOpen()) return
