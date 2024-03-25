@@ -52,7 +52,7 @@ Keyboard.getKeyName(this.keycode ?? 0)
 Object.keys(Persistence.data.keyShortcuts)?.forEach(key => {
     const obj = Persistence.data.keyShortcuts[key]
 
-    new KeybindShortcut(scroll, key, obj.msg)
+    new KeybindShortcut(scroll, parseInt(key), obj.msg)._addKeybind(obj.msg)
 })
 
 gui._drawNormal(bgbox)

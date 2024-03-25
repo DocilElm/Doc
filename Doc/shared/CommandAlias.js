@@ -57,9 +57,11 @@ export class CommandAlias {
         this.commandInput = new TextInput(this.command ?? "command", 35, 1, 30, 90)
         this.commandInput._create(scheme).setChildOf(this.mainBox)
         
-        this.removeButton = new Button("Remove", 70, 1, 20, 90, false)
+        this.removeButton = new Button("Remove", 70, 1, 30, 90, false)
             .onMouseClickEvent(this._removeCommand.bind(this))
-            ._create(scheme).setChildOf(this.mainBox)
+            ._create(scheme)
+            .setColor(ElementUtils.getJavaColor([100, 30, 22, 150]))
+            .setChildOf(this.mainBox)
     }
 
     /**

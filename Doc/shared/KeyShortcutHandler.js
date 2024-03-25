@@ -40,9 +40,11 @@ export class KeybindShortcut {
 
         this.setText(Keyboard.getKeyName(this.keycode))
         
-        this.removeButton = new Button("Remove", 68, 1, 20, 90, false)
+        this.removeButton = new Button("Remove", 68, 1, 30, 90, false)
             .onMouseClickEvent(this._removeKeybind.bind(this))
-            ._create(scheme).setChildOf(this.mainBox)
+            ._create(scheme)
+            .setColor(ElementUtils.getJavaColor([100, 30, 22, 150]))
+            .setChildOf(this.mainBox)
     }
 
     /**
@@ -98,10 +100,11 @@ export class KeybindShortcut {
     /**
      * - Creates the [keybind] with [msg] for this class to run
      */
-    _addKeybind() {
+    _addKeybind(msg = null) {
         if (!this.keycode) return ChatLib.chat(`${TextHelper.PREFIX} &cError while trying to create keybind with keyname ${Keyboard.getKeyName(this.keycode)}`)
 
-        this.msg = this.commandInput.textInput.getText()
+        if (!msg) this.msg = this.commandInput.textInput.getText()
+
         this.keybind = new KeyBind(`ShortCut: ${this.keycode}`, this.keycode, "Doc")
         this.keybind.registerKeyPress(() => ChatLib.say(this.msg))
 
@@ -116,7 +119,7 @@ export class KeybindShortcut {
      * - and deletes it from the list so it cannot be ran
      */
     _removeKeybind() {
-        KeyBind.removeKeyBind(this.keybind) // i love chattriggers so much
+        if (this.keybind) KeyBind.removeKeyBind(this.keybind) // i love chattriggers so much
         this.parent.removeChild(this.mainBox)
         
         delete Persistence.data.keyShortcuts[this.keycode]
