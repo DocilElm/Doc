@@ -11,7 +11,7 @@ const feature = new Feature("timerTitleFishing", "Fishing", "")
 const registerWhen = () => World.isLoaded() && config.timerTitleFishing
 
 const showTitleEntity = () => {
-    if(!Player.getPlayer().field_71104_cf) return
+    if(!World.isLoaded() || !Player.getPlayer()?.field_71104_cf) return
 
     World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).forEach(entity => {
         const entityName = entity.getName()?.removeFormatting()
