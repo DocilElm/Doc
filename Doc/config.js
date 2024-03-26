@@ -868,6 +868,14 @@ class Settings {
         subcategory: "Misc"
     })
     inventoryButtons = false;
+
+    @SwitchProperty({
+        name: "Party Commands",
+        description: "Enables party commands &f(in party chat do ?help)",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    partyCommands = false;
 }
 
 export default new Settings()

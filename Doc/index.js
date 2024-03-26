@@ -65,6 +65,7 @@ import "./features/misc/SkyblockLvlDisplay"
 import "./features/misc/CopyChat"
 import "./features/misc/InventoryButtons"
 import "./features/misc/AliasesShortcuts"
+import "./features/misc/PartyCommands"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
