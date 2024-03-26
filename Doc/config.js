@@ -147,15 +147,6 @@ class Settings {
     })
     showCroesusClicks = false;
 
-    @SelectorProperty({
-        name: "Croesus Clicks Mode",
-        description: "Overlay renderer option only works with some texture packs",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        options: ["Gui Renderer", "Overlay Renderer"]
-    })
-    croesusClicksMode = 0;
-
     @SwitchProperty({
         name: "Croesus Profit",
         description: "Displays the current chest's profit inside of croesus",
