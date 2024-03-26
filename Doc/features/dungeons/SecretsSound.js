@@ -75,15 +75,16 @@ const checkClicked = (ctBlock, _, blockPos) => {
     Client.scheduleTask(20, () => currentBlockClicked = null)
 }
 
-// Events
-// Credits: https://github.com/BetterMap/BetterMap/blob/main/Extra/Events/SecretTracker.js
-register(net.minecraftforge.event.entity.EntityJoinWorldEvent, (event) => {
-    if (!WorldState.inDungeons() || !(event.entity instanceof net.minecraft.entity.item.EntityItem)) return
-
-    itemEntities.set(event.entity.func_145782_y(), {
-        entity: event.entity
+const onEntityJoin = (entity, entityID) => {
+    if (!WorldState.inDungeons()) return
+    
+    itemEntities.set(entityID, {
+        entity: entity
     })
-})
+}
+
+// Events
+new Event(feature, "forgeEntityJoin", onEntityJoin, () => WorldState.inDungeons(), net.minecraft.entity.item.EntityItem)
 new Event(feature, "step", checkEntities, registerWhen, 5)
 new Event(feature, "onCollectItem", checkEntities)
 new Event(feature, "onPlayerBlockPlacement", checkClicked, registerWhen)
