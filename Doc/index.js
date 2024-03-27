@@ -66,6 +66,7 @@ import "./features/misc/CopyChat"
 import "./features/misc/InventoryButtons"
 import "./features/misc/AliasesShortcuts"
 import "./features/misc/PartyCommands"
+import "./features/misc/DeployableDisplay"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

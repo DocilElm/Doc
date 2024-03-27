@@ -876,6 +876,25 @@ class Settings {
         subcategory: "Misc"
     })
     partyCommands = false;
+
+    @SwitchProperty({
+        name: "Deployables Display",
+        description: "Displays the stats and time remaining of deployables &f(plasmaflux, sos flare etc...)",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    deployableDisplay = false;
+
+    @ButtonProperty({
+        name: "Deployables Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    editDeployableDisplay() {
+        ChatLib.command("editDeployableDisplay", true)
+    }
 }
 
 export default new Settings()
