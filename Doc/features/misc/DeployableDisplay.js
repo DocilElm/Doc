@@ -49,29 +49,31 @@ const scanForOrb = (entity) => {
         DeployablesList.set(entityUUID, deployable)
     })
 }
-const scanEntities = () => {
+const scanEntities = (mcEntity) => {
     if (!World.isLoaded() || !config.deployableDisplay) return
+    
+    Client.scheduleTask(2, () => {
+        const entity = new Entity(mcEntity)
+        if (orbRegex.test(entity.getName()?.removeFormatting())) return scanForOrb(entity)
 
-    World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).forEach(entity => {
-            if (orbRegex.test(entity.getName()?.removeFormatting())) return scanForOrb(entity)
+        const itemStack = mcEntity.func_82169_q(3)
+        if (!itemStack || !entity.isInvisible()) return
 
-            const itemStack = entity.getEntity().func_82169_q(3)
-            if (!itemStack || !entity.isInvisible()) return
+        const helmet = new Item(itemStack)
+        const nbtObj = helmet.getItemNBT()?.toObject()
+        const entityUUID = mcEntity.func_110124_au() // getUniqueID()
 
-            const helmet = new Item(itemStack)
-            const nbtObj = helmet.getItemNBT()?.toObject()
-            const entityUUID = entity.getEntity().func_110124_au() // getUniqueID()
+        if (!helmet || !nbtObj || DeployablesList.has(entityUUID)) return
 
-            if (!helmet || !nbtObj || DeployablesList.has(entityUUID)) return
+        const textureStr = nbtObj.tag?.SkullOwner?.Properties?.textures?.[0]?.Value
+        if (!textureStr || flaresTextures.indexOf(textureStr) === -1) return
 
-            const textureStr = nbtObj.tag?.SkullOwner?.Properties?.textures?.[0]?.Value
-            if (!textureStr || flaresTextures.indexOf(textureStr) === -1) return
+        const deployable = new Deployable(helmet, entity, textureStr, entityUUID)
 
-            const deployable = new Deployable(helmet, entity, textureStr, entityUUID)
-            if (!deployable.inRadious(entity.distanceTo(Player.getPlayer()))) return
+        if (!deployable.inRadious(entity.distanceTo(Player.getPlayer()))) return
 
-            DeployablesList.set(entityUUID, deployable)
-        })
+        DeployablesList.set(entityUUID, deployable)
+    })
 }
 
 const renderOverlay = () => {
@@ -104,7 +106,7 @@ const renderOverlay = () => {
 
 // Events
 new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && DeployablesList.size && config.deployableDisplay)
-new Event(feature, "step", scanEntities, () => World.isLoaded() && config.deployableDisplay, 5)
+new Event(feature, "forgeEntityJoin", scanEntities, () => World.isLoaded() && config.deployableDisplay, net.minecraft.entity.item.EntityArmorStand)
 new Event(feature, "worldUnload", () => DeployablesList.clear())
 
 // Starting Events
