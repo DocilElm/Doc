@@ -33,9 +33,9 @@ const soundHandler = () => {
     const heldItem = Player.getHeldItem()
     const skyblockID = TextHelper.getExtraAttribute(heldItem).id
 
-    if (!heldItem || skyblockID !== "TERMINATOR" || !TextHelper.getExtraAttribute(heldItem).ultimate_fatal_tempo) return
+    if (!heldItem || skyblockID !== "TERMINATOR" || !TextHelper.getExtraAttribute(heldItem)?.enchantments?.ultimate_fatal_tempo) return
 
-    ftLvl = TextHelper.getExtraAttribute(heldItem).ultimate_fatal_tempo
+    ftLvl = TextHelper.getExtraAttribute(heldItem)?.enchantments?.ultimate_fatal_tempo
     hitsAmount++
     lastHit = Date.now()
 }
