@@ -1,0 +1,64 @@
+{
+    "orbStats": {
+        "Radiant": {
+            "healthRegen": 0.01,
+            "manaRegen": 0,
+            "strength": 0,
+            "vitality": 0,
+            "mending": 0,
+            "range": 18
+        },
+        "Mana Flux": {
+            "healthRegen": 0.02,
+            "manaRegen": 0.5,
+            "strength": 10,
+            "vitality": 0,
+            "mending": 0,
+            "range": 18
+        },
+        "Overflux": {
+            "healthRegen": 0.025,
+            "manaRegen": 1,
+            "strength": 25,
+            "vitality": 5,
+            "mending": 5,
+            "range": 18
+        },
+        "Plasmaflux": {
+            "healthRegen": 0.03,
+            "manaRegen": 1.25,
+            "strength": 35,
+            "vitality": 7.5,
+            "mending": 7.5,
+            "range": 20
+        }
+    },
+    "flaresTextures": [
+        "ewogICJ0aW1lc3RhbXAiIDogMTY0NjY4NzMwNjIyMywKICAicHJvZmlsZUlkIiA6ICI0MWQzYWJjMmQ3NDk0MDBjOTA5MGQ1NDM0ZDAzODMxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNZWdha2xvb24iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjJlMmJmNmMxZWMzMzAyNDc5MjdiYTYzNDc5ZTU4NzJhYzY2YjA2OTAzYzg2YzgyYjUyZGFjOWYxYzk3MTQ1OCIKICAgIH0KICB9Cn0=",
+        "ewogICJ0aW1lc3RhbXAiIDogMTY0NjY4NzMyNjQzMiwKICAicHJvZmlsZUlkIiA6ICI0MWQzYWJjMmQ3NDk0MDBjOTA5MGQ1NDM0ZDAzODMxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNZWdha2xvb24iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQyYmY5ODY0NzIwZDg3ZmQwNmI4NGVmYTgwYjc5NWM0OGVkNTM5YjE2NTIzYzNiMWYxOTkwYjQwYzAwM2Y2YiIKICAgIH0KICB9Cn0=",
+        "ewogICJ0aW1lc3RhbXAiIDogMTY0NjY4NzM0NzQ4OSwKICAicHJvZmlsZUlkIiA6ICI0MWQzYWJjMmQ3NDk0MDBjOTA5MGQ1NDM0ZDAzODMxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNZWdha2xvb24iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAwNjJjYzk4ZWJkYTcyYTZhNGI4OTc4M2FkY2VmMjgxNWI0ODNhMDFkNzNlYTg3YjNkZjc2MDcyYTg5ZDEzYiIKICAgIH0KICB9Cn0="
+    ],
+    "flaresStats": [
+        {
+            "vitality": 10,
+            "trueDefense": 10,
+            "manaRegen": 0,
+            "ferocity": 0,
+            "attackSpeed": 0
+        },
+        {
+            "vitality": 20,
+            "trueDefense": 20,
+            "manaRegen": 0.5,
+            "ferocity": 10,
+            "attackSpeed": 0
+        },
+        {
+            "vitality": 30,
+            "trueDefense": 25,
+            "manaRegen": 1.25,
+            "ferocity": 10,
+            "attackSpeed": 5
+        }
+    ]
+}
