@@ -1,6 +1,7 @@
 import ScalableGui from "../shared/Scalable"
 import { Persistence } from "../shared/Persistence"
 import ThePlayer from "../../Atomx/skyblock/ThePlayer"
+import config from "../config"
 
 const DeployableData = Persistence.getDataFromFileOrLink("DeployablesData.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/DeployablesData.json")
 export const flaresTextures = DeployableData.flaresTextures
@@ -23,10 +24,12 @@ editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow("&a180s", 1, 24)
+
+    if (!config.deployableDisplayStats) return Renderer.finishDraw()
     
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(placeholderString, 28, 1)
+    Renderer.drawStringWithShadow(placeholderString, 28, 5)
     Renderer.finishDraw()
 })
 
@@ -135,9 +138,11 @@ export class Deployable {
         Renderer.scale(editGui.getScale())
         Renderer.drawStringWithShadow(time, x, 24)
         
+        if (!config.deployableDisplayStats) return Renderer.finishDraw()
+
         Renderer.translate(editGui.getX(), editGui.getY())
         Renderer.scale(editGui.getScale())
-        Renderer.drawStringWithShadow(string, 28, 1)
+        Renderer.drawStringWithShadow(string, 28, 5)
         Renderer.finishDraw()
     }
 

@@ -52,6 +52,7 @@ class Settings {
         this.addDependency("Pests Display Location", "Pests Display")
         this.addDependency("Puzzles Display Location", "Puzzles Display")
         this.addDependency("Deaths Display Location", "Deaths Display")
+        this.addDependency("Deployables Display Stats", "Deployables Display")
     }
     // General
     @ButtonProperty({
@@ -884,6 +885,14 @@ class Settings {
         subcategory: "Misc"
     })
     deployableDisplay = false;
+
+    @SwitchProperty({
+        name: "Deployables Display Stats",
+        description: "Enables the stats text being displayed for Deployables Display feature",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    deployableDisplayStats = true;
 
     @ButtonProperty({
         name: "Deployables Display Location",
