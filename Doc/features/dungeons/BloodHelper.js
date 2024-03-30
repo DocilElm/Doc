@@ -30,10 +30,9 @@ let mobsSpawned = 0
 let watcherEntity = null
 
 // Logic
-register("packetReceived", (packet) => {
+const scanEntityLookMove = (mcEntity, [x, y, z]) => {
     if (!World.isLoaded() || !WorldState.inDungeons() || Dungeons.getCurrentRoomName() !== "Blood" || !config.bloodHelper || !watcherEntity) return
 
-    const mcEntity = packet.func_149065_a(World.getWorld())
     if (!(mcEntity instanceof net.minecraft.entity.item.EntityArmorStand)) return
 
     const entity = new Entity(mcEntity)
@@ -66,7 +65,7 @@ register("packetReceived", (packet) => {
         return
     }
 
-    if (obj) return obj.vectors.push(new Vector3(packet.func_149062_c() / 32, packet.func_149061_d() / 32, packet.func_149064_e() / 32))
+    if (obj) return obj.vectors.push(new Vector3(x / 32, y / 32, z / 32))
 
     const itemStack = mcEntity.func_82169_q(3)
 
@@ -75,14 +74,14 @@ register("packetReceived", (packet) => {
     entityList.set(entityUUID, {
         entity: entity,
         vectors: [
-            new Vector3(packet.func_149062_c() / 32, packet.func_149061_d() / 32, packet.func_149064_e() / 32)
+            new Vector3(x / 32, y / 32, z / 32)
         ],
         finalVector: null,
         time: null,
         started: Date.now(),
         uuid: entityUUID
     })
-}).setFilteredClass(net.minecraft.network.play.server.S14PacketEntity$S17PacketEntityLookMove)
+}
 
 const highlightSpot = () => {
     if (!watcherEntity || !config.bloodHelper) return
@@ -133,6 +132,7 @@ const scanEntities = (mcEntity) => {
 // Events
 new Event(feature, "forgeEntityJoin", scanEntities, () => World.isLoaded() && WorldState.inDungeons() && config.bloodHelper, net.minecraft.entity.monster.EntityZombie)
 new Event(feature, "renderWorld", highlightSpot, () => WorldState.inDungeons() && Dungeons.getCurrentRoomName() === "Blood" && config.bloodHelper)
+new Event(feature, "onPacketLookMove", scanEntityLookMove, () => WorldState.inDungeons() && Dungeons.getCurrentRoomName() === "Blood" && config.bloodHelper)
 new Event(feature, "worldUnload", () => {
     entityList.clear()
     blacklisted.clear()
