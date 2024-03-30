@@ -38,7 +38,6 @@ const scanForOrb = (entity) => {
         if (!itemStack || !stand.func_82150_aj()) return
 
         const helmet = new Item(itemStack)
-        // const entityUUID = stand.func_110124_au() // getUniqueID()
         const entityUUID = new Entity(stand).getUUID().toString()
         
         if (DeployablesList.has(entityUUID)) return
@@ -84,7 +83,6 @@ const renderOverlay = () => {
     let currentDeployable = null
 
     DeployablesList.forEach(deployable => {
-        // if (DeployablesList.size === 1) deployable.draw()
         if (!currentDeployable) currentDeployable = deployable
         if (DeployablesList.size === 1) return
 

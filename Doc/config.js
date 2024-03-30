@@ -442,6 +442,14 @@ class Settings {
     })
     threeWeirdosSolver = false;
 
+    @SwitchProperty({
+        name: "Blood Camp Helper",
+        description: "Draws a prediction box, time and line to where the blood mob should spawn useful for blood campers (&cYou might notice that these are sometimes not accurate this is intentional since it was hard to make&r)",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    bloodHelper = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",
