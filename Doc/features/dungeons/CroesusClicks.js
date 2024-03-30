@@ -25,11 +25,9 @@ const getClickedSlots = (containerName, slotClicked) => {
 }
 
 const renderSlots = (slot) => {
-    if (!registerWhen()) return
-
     const currentPage = getCurrentPage()
 
-    if (Player.getContainer().getName() !== "Croesus" || !clickedSlots.has(`${currentPage}${slot.getIndex()}`)) return
+    if (!clickedSlots.has(`${currentPage}${slot.getIndex()}`)) return
 
     Renderer.retainTransforms(true)
     Renderer.translate(slot.getDisplayX() + .5, slot.getDisplayY(), 100)
@@ -40,7 +38,7 @@ const renderSlots = (slot) => {
 
 // Events
 new Event(feature, "onClickWindowPacket", getClickedSlots, registerWhen)
-new Event(feature, "renderSlot", renderSlots, () => World.isLoaded() && Player.getContainer()?.getName() === "Croesus")
+new Event(feature, "renderSlot", renderSlots, () => World.isLoaded() && Player.getContainer()?.getName() === "Croesus" && clickedSlots.size && config.showCroesusClicks)
 new Event(feature, "worldUnload", () => clickedSlots.clear())
 
 // Starting events
