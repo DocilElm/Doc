@@ -3,7 +3,7 @@ import { Feature } from "../../core/Feature"
 import config from "../../config"
 import { Deployable, DeployablesList, editGui, flaresTextures, orbRegex, orbStats } from "../../shared/DeployableHandler"
 
-// Credits: https://github.com/Fix3dll/SkyblockAddons/blob/main/src/main/java/codes/biscuit/skyblockaddons/features/DeployablesList/Deployable.java
+// Credits: https://github.com/Fix3dll/SkyblockAddons/blob/main/src/main/java/codes/biscuit/skyblockaddons/features/deployables/Deployable.java
 
 // Constant variables
 const feature = new Feature("DeployableDisplay", "Misc", "")
@@ -38,7 +38,8 @@ const scanForOrb = (entity) => {
         if (!itemStack || !stand.func_82150_aj()) return
 
         const helmet = new Item(itemStack)
-        const entityUUID = stand.func_110124_au() // getUniqueID()
+        // const entityUUID = stand.func_110124_au() // getUniqueID()
+        const entityUUID = new Entity(stand).getUUID().toString()
         
         if (DeployablesList.has(entityUUID)) return
 
@@ -49,31 +50,32 @@ const scanForOrb = (entity) => {
         DeployablesList.set(entityUUID, deployable)
     })
 }
-const scanEntities = (mcEntity) => {
-    if (!World.isLoaded() || !config.deployableDisplay) return
-    
-    Client.scheduleTask(2, () => {
-        const entity = new Entity(mcEntity)
-        if (orbRegex.test(entity.getName()?.removeFormatting())) return scanForOrb(entity)
+const scanEntities = () => {
+    if (!config.deployableDisplay) return
 
-        const itemStack = mcEntity.func_82169_q(3)
-        if (!itemStack || !entity.isInvisible()) return
+    World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
+        .filter(entity => entity.distanceTo(Player.getPlayer()) <= 60)
+        .forEach(entity => {
+            if (orbRegex.test(entity.getName()?.removeFormatting())) return scanForOrb(entity)
 
-        const helmet = new Item(itemStack)
-        const nbtObj = helmet.getItemNBT()?.toObject()
-        const entityUUID = mcEntity.func_110124_au() // getUniqueID()
+            const itemStack = entity.entity.func_82169_q(3)
+            if (!itemStack || !entity.isInvisible()) return
 
-        if (!helmet || !nbtObj || DeployablesList.has(entityUUID)) return
+            const helmet = new Item(itemStack)
+            const nbtObj = helmet.getItemNBT()?.toObject()
+            const entityUUID = entity.getUUID().toString()
 
-        const textureStr = nbtObj.tag?.SkullOwner?.Properties?.textures?.[0]?.Value
-        if (!textureStr || flaresTextures.indexOf(textureStr) === -1) return
+            if (!helmet || !nbtObj || DeployablesList.has(entityUUID)) return
 
-        const deployable = new Deployable(helmet, entity, textureStr, entityUUID)
+            const textureStr = nbtObj.tag?.SkullOwner?.Properties?.textures?.[0]?.Value
+            if (!textureStr || flaresTextures.indexOf(textureStr) === -1) return
 
-        if (!deployable.inRadious(entity.distanceTo(Player.getPlayer()))) return
+            const deployable = new Deployable(helmet, entity, textureStr, entityUUID)
 
-        DeployablesList.set(entityUUID, deployable)
-    })
+            if (!deployable.inRadious(entity.distanceTo(Player.getPlayer()))) return
+
+            DeployablesList.set(entityUUID, deployable)
+        })
 }
 
 const renderOverlay = () => {
@@ -82,8 +84,9 @@ const renderOverlay = () => {
     let currentDeployable = null
 
     DeployablesList.forEach(deployable => {
-        if (DeployablesList.size === 1) return deployable.draw()
-        if (!currentDeployable) return currentDeployable = deployable
+        // if (DeployablesList.size === 1) deployable.draw()
+        if (!currentDeployable) currentDeployable = deployable
+        if (DeployablesList.size === 1) return
 
         // We call the draw method with internal = true
         // meaning it wont draw the item on the player's screen
@@ -94,9 +97,7 @@ const renderOverlay = () => {
         if (
             deployable.getPriority() >= currentDeployable.getPriority() &&
             deployable.getTimeLeft() > currentDeployable.getTimeLeft()
-            ) return currentDeployable = deployable
-
-        return
+            ) currentDeployable = deployable
     })
 
     if (!currentDeployable) return
@@ -105,8 +106,8 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && DeployablesList.size && config.deployableDisplay)
-new Event(feature, "forgeEntityJoin", scanEntities, () => World.isLoaded() && config.deployableDisplay, net.minecraft.entity.item.EntityArmorStand)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.deployableDisplay)
+new Event(feature, "step", scanEntities, () => World.isLoaded() && config.deployableDisplay, 1)
 new Event(feature, "worldUnload", () => DeployablesList.clear())
 
 // Starting Events

@@ -87,10 +87,10 @@ export class Deployable {
      * - Draws the stats and item for a flare deployable
      */
     _drawFlare(internal = false) {
-        this._checkEntity()
-
         const entityTime = this.entity.entity.field_70173_aa * 50
         this.timeLeft = (baseFlareTime - entityTime)
+
+        if (internal) return
 
         const seconds = (this.timeLeft / 1000)
         const time = `&a${seconds.toFixed(0)}s`
@@ -98,24 +98,24 @@ export class Deployable {
         const manaRegenerated = this.deployableObj.manaRegen === 0 ? baseManaRegen : baseManaRegen + (ThePlayer.getMaxMana() * this.deployableObj.manaRegen) / 50
         const string = `&b+${manaRegenerated.toFixed(1)} ✎/s\n&4+${this.deployableObj.vitality} ♨ &f+${this.deployableObj.trueDefense} ❂\n&c+${this.deployableObj.ferocity} ⫽ &e+${this.deployableObj.attackSpeed}% ⚔`
 
-        if (!internal) this._draw(`&a${time}`, string)
+        this._draw(`&a${time}`, string)
     }
 
     /**
      * - Draws the stats and item for a orb deployable
      */
     _drawOrb(internal = false) {
-        this._checkEntity()
-
         const [ _, __, time ] = this.entity.getName()?.removeFormatting()?.match(orbRegex)
         this.timeLeft = parseInt(time.replace(/s/g, ""))
+
+        if (internal) return
 
         const baseManaRegen = (ThePlayer.getMaxMana() / 50)
         const manaRegenerated = this.deployableObj.manaRegen === 0 ? baseManaRegen : baseManaRegen + (ThePlayer.getMaxMana() * this.deployableObj.manaRegen) / 50
         const healthRegenerated = ThePlayer.getMaxHealth() * this.deployableObj.healthRegen
         const string = `&b+${manaRegenerated.toFixed(1)} ✎/s\n&c+${healthRegenerated.toFixed(1)} ❤/s\n&4+${this.deployableObj.vitality} ♨ &a+${this.deployableObj.mending} ☄ &c+${this.deployableObj.strength} ❁`
 
-        if (!internal) this._draw(`&a${time}`, string)
+        this._draw(`&a${time}`, string)
     }
     
     /**
@@ -151,6 +151,8 @@ export class Deployable {
      * @returns 
      */
     draw(internal = false) {
+        this._checkEntity()
+
         if (flaresTextures.indexOf(this.texture) !== -1) return this._drawFlare(internal)
 
         this._drawOrb(internal)
