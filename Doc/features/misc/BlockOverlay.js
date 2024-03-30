@@ -16,15 +16,15 @@ const highlightBlock = ({x, y, z}, event) => {
 
     // If third person disable phase
     const phase = !(Client.settings.getSettings()?.field_74320_O === 1)
+    const color = config.blockOverlayColor
     
-    const r = config.blockOverlayColor.getRed() / 255
-    const g = config.blockOverlayColor.getGreen() / 255
-    const b = config.blockOverlayColor.getBlue() / 255
-    const a = config.blockOverlayColor.getAlpha() / 255
+    const [ r, g, b, a ] = [color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255, color.getAlpha() / 255]
+    const [ r1, g1, b1 ] = [color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255]
 
     cancel(event)
 
     RenderHelper.outlineBlock(ctBlock, r, g, b, a, phase)
+    if (config.blockOverlayFill) RenderHelper.filledBlock(ctBlock, r1, g1, b1, 50 / 255, phase)
 }
 
 // Events

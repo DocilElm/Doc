@@ -35,6 +35,7 @@ class Settings {
         this.addDependency("RngMeter Location", "RngMeter")
         this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
         this.addDependency("Block Overlay Color", "Block Overlay")
+        this.addDependency("Block Overlay Filled", "Block Overlay")
         this.addDependency("Bonzo Mask Invincibility Timer Location", "Bonzo Mask Invincibility Timer")
         this.addDependency("Phoenix Pet Invincibility Timer Location", "Phoenix Pet Invincibility Timer")
         this.addDependency("Garden Display Location", "Garden Display")
@@ -704,6 +705,14 @@ class Settings {
         subcategory: "Misc"
     })
     blockOverlay = false;
+
+    @SwitchProperty({
+        name: "Block Overlay Filled",
+        description: "Makes the block overlay fill the block it's currently overlaying",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    blockOverlayFill = false;
 
     @ColorProperty({
         name: "Block Overlay Color",
