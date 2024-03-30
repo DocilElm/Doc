@@ -42,7 +42,7 @@ const scanItems = (itemStacks) => {
 }
 
 const makeStringToDraw = () => {
-    if (!chestData.size) return stringToDraw = null
+    if (!chestData.size || !Client.isInGui()) return stringToDraw = null
 
     let tempArray = []
 
