@@ -3,195 +3,172 @@ import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
 import ScalableGui from "../../shared/Scalable"
-import { TextHelper } from "../../shared/Text"
+import TextInputElement from "../../../DocGuiLib/elements/TextInput"
+import { Window } from "../../../Elementa"
 
 // Constant variables
 const feature = new Feature("searchBar", "Misc", "")
 const editGui = new ScalableGui("searchBar").setCommand("searchBarLocation")
+const window = new Window()
 const [ width, height ] = [ 100, 15 ]
-const highlightSlots = new Set()
+const highlightSlots = new Map()
 const cachedSlots = new Map()
-const avoidKeys = new Set([
-    42, // Left shift
-    199, // Home
-    207, // End
-    211, // Delete
-    203, // Left
-    205, // Right
-    54, // Right shift
-    29, // Left control
-    157, // Right control
-    58, // Caps lock
-    28, // Enter
-    15, // Tab
-])
+const scheme = {
+    "TextInput": {
+        "backgroundBox": [255, 255, 255, 100],
+        "textColor": [71, 188, 4, 255],
+        "textScale": 1,
+        "mouseEnter": [0, 0, 0, 80],
+        "mouseLeave": [71, 188, 4, 255]
+    }
+}
 
 // Changeable variables
-let shouldRender = false
-let isGuiFocused = false
 let findString = ""
+
+// Creating Elementa component
+const textInputComponent = new TextInputElement("Add Searching Text")
+    ._setPosition((editGui.getX()).pixels(), (editGui.getY()).pixels())
+    ._setSize((100).pixels(), (15).pixels())
+    .onKeyTypeEvent((text) => findString = text)
+
+textInputComponent._create(scheme).setChildOf(window)
 
 // Logic
 const registerWhen = () => config.searchBar && !editGui.isOpen()
 
-const barHandler = () => {
-    // Draw the background box for the text
-    Renderer.drawRect(
-        Renderer.color(255, 255, 255, 80),
-        editGui.getX(),
-        editGui.getY(),
-        width,
-        height
-    )
-
-    // If the string is falsey we make it render placeholder
-    const text = !findString ? "Add Searching Text" : findString.removeFormatting()
-
-    // Draw the text in the center of the background box
-    Renderer.drawStringWithShadow(
-        text,
-        (editGui.getX() + width / 2) - (Renderer.getStringWidth(text) / 2),
-        editGui.getY() + height / 4
-    )
-
-    // Draw a small box in the background box if the component is focused
-    if (!isGuiFocused) return
-
-    Renderer.drawRect(
-        Renderer.color(8, 24, 168, 80),
-        editGui.getX(),
-        editGui.getY(),
-        3,
-        height
-    )
-}
-
 const renderSlots = () => {
-    highlightSlots.forEach(values => {
+    highlightSlots.forEach(obj => {
         // If cache for this index exist we get it from the cache list
-        const [ x, y ] = cachedSlots.has(values[0])
-            ? cachedSlots.get(values[0])
-            : RenderHelper.getSlotRenderPosition(values[0], Client.currentGui.get())
+        const [ x, y ] = cachedSlots.has(obj.slot)
+            ? cachedSlots.get(obj.slot)
+            : RenderHelper.getSlotRenderPosition(obj.slot, Client.currentGui.get())
 
         // Add to cache values if it dosent exist
-        if (!cachedSlots.has(values[0])) cachedSlots.set(values[0], [x, y])
+        if (!cachedSlots.has(obj.slot)) cachedSlots.set(obj.slot, [x, y])
     
         Renderer.retainTransforms(true)
         Renderer.translate(x, y, 100)
         Renderer.scale(0.9)
-        Renderer.drawRect(values[2], 0, 0, 17, 17)
+        Renderer.drawRect(obj.color, 0, 0, 17, 17)
         Renderer.retainTransforms(false)
     })
 }
 
-const keyHandler = (char, keycode, gui, event) => {
-    if (!isGuiFocused || !shouldRender) return
-
-    // Esc [1]
-    if (keycode === 1) return isGuiFocused = false, cancel(event)
-    // Backspace [14]
-    else if (keycode === 14) return findString = findString.slice(0, -1)
-    // yep
-    else if (avoidKeys.has(keycode)) return cancel(event)
-
-    findString += char
+const keyHandler = (char, keycode, _, event) => {
+    if (!textInputComponent.textInput.hasFocus() || editGui.isOpen()) return
+    
+    window.keyType(char, keycode)
     cancel(event)
 }
 
-const checkString = (name, lore, index, string) => {
-    if (name.includes(string.toLowerCase())) return highlightSlots.add([index, name, Renderer.DARK_GREEN])
+const getMatch = (itemName, itemLore, string) => {
+    if (!itemName || !itemLore || !string) return
 
-    if (!lore.includes(string.toLowerCase())) return
+    const inName = itemName.includes(string.toLowerCase())
+    const inLore = itemLore.includes(string.toLowerCase())
 
-    highlightSlots.add([index, lore, Renderer.DARK_AQUA])
+    if (inName) return 1
+    if (!inLore) return
+
+    return 2
+}
+
+const makeMatch = (itemName, itemLore, idx, matchType) => {
+    if (!itemName || !itemLore || !matchType) return
+
+    if (matchType === 1) {
+        highlightSlots.set(idx, {
+            slot: idx,
+            string: findString,
+            color: Renderer.WHITE
+        })
+
+        return
+    }
+
+    if (matchType !== 2) return
+
+    highlightSlots.set(idx, {
+        slot: idx,
+        string: findString,
+        color: Renderer.DARK_AQUA
+    })
 }
 
 const checkItems = () => {
-    if (!shouldRender || !findString) return highlightSlots.clear()
+    if (!findString && highlightSlots.size || !Client.isInGui()) return highlightSlots.clear()
+    if (!findString) return
 
-    // Check whether the slot still matches the given [name|lore]
-    highlightSlots.forEach(values => {
-        const matchedValues = values[1]
+    // Check whether the current [findString] matches the saved [findString]
+    highlightSlots.forEach(obj => {
+        const { slot, string } = obj
 
-        // Check whether the string can be made into an array or not
-        if (findString.includes(",")) {
-            // Make the string into an array
-            let tempArr = findString.split(",")
+        if (string === findString) return
 
-            // Check whether the array matches this item's [name|lore]
-            let hasMatch = tempArr.map(str => matchedValues.includes(str.toLowerCase())).includes(false)
-
-            // If match we return so it dosent remove the item from the list
-            if (!hasMatch) return
-
-            return highlightSlots.delete(values)
-        }
-
-        // If the string still matches the [name|lore] return
-        if (matchedValues.includes(findString.toLowerCase())) return
-
-        highlightSlots.delete(values)
+        highlightSlots.delete(slot)
     })
 
-    Player.getContainer().getItems()?.forEach((item, index) => {
-        if (!item) return
+    // Check whether there is matching items with the current [findString]
+    Player.getContainer().getItems()?.forEach((item, idx) => {
+        if (!item || highlightSlots.has(idx)) return
 
-        const name = item.getName()?.removeFormatting()?.toLowerCase()
-        const lore = item.getLore()?.join("")?.removeFormatting()?.toLowerCase()
+        const itemName = item.getName()?.removeFormatting()?.toLowerCase()
+        const itemLore = item.getLore()?.join("")?.removeFormatting()?.toLowerCase()
 
-        // Check whether the string can be made into an array or not
-        if (findString.includes(",")) {
-            // Make the string into an array
-            let tempArr = findString.split(",")
+        if (/\,/g.test(findString)) {
+            const tempArr = findString.split(",")
+            const match = tempArr.map(str => itemName.includes(str.toLowerCase()) || itemLore.includes(str.toLowerCase())).includes(false)
 
-            // Check whether the array matches this item's [name|lore]
-            let hasMatch = tempArr.map(str => name.includes(str.toLowerCase()) || lore.includes(str.toLowerCase())).includes(false)
+            if (match) return
 
-            // If no match we return so it dosent add the item to the list
-            if (hasMatch) return
-
-            // Check lore and name to see what does the string matches
-            // and adds it to the highlight list
-            tempArr.forEach(a => {
-                checkString(name, lore, index, a)
+            tempArr.forEach(str => {
+                makeMatch(itemName, itemLore, idx, getMatch(itemName, itemLore, str))
             })
 
             return
         }
 
-        checkString(name, lore, index, findString)
+        makeMatch(itemName, itemLore, idx, getMatch(itemName, itemLore, findString))
     })
 }
 
-const changeFocusState = (mx, my) => isGuiFocused = TextHelper.checkBoundingBox([mx, my], [editGui.getX(), editGui.getY(), editGui.getX() + width, editGui.getY() + height])
-const changeShouldRender = (_, __, gui) => shouldRender = gui instanceof net.minecraft.client.gui.inventory.GuiChest
+const onMouseClick = (mx, my, mbtn) => {
+    if (editGui.isOpen()) return
+
+    window.mouseClick(mx, my, mbtn)
+}
 
 const reset = () => {
-    shouldRender = false
-    isGuiFocused = false
     cachedSlots.clear()
     highlightSlots.clear()
 }
 
 // Default display
-editGui.onRender(() => barHandler())
+editGui.onRender(() => {
+    textInputComponent.bgBox.setX((editGui.getX()).pixels())
+    textInputComponent.bgBox.setY((editGui.getY()).pixels())
+
+    window.draw()
+})
 editGui.setSize(width, height)
 
 // Events
 new Event(feature, "guiKey", keyHandler, registerWhen)
-new Event(feature, "step", checkItems, registerWhen, 1)
+new Event(feature, "step", checkItems, registerWhen, 5)
 
 // Handle both displays
-new Event(feature, "guiRender", () => {
-    if (!shouldRender || editGui.isOpen()) return
+new Event(feature, "guiRender", (_, __, gui) => {
+    if (editGui.isOpen()) return
 
-    barHandler()
-    renderSlots()
-}, () => registerWhen() && shouldRender)
+    if (gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest) {
+        window.draw()
+        renderSlots()
+    }
+}, () => registerWhen())
 
-new Event(feature, "guiMouseClick", changeFocusState, registerWhen)
+new Event(feature, "guiMouseClick", onMouseClick, registerWhen)
 new Event(feature, "guiClosed", reset, registerWhen)
-new Event(feature, "postGuiRender", changeShouldRender, registerWhen)
 
 // Starting events
 feature.start()

@@ -2,11 +2,10 @@
   "name": "Doc",
   "creator": "DocilElm",
   "description": "doc is the best.",
-  "version": "2.71.4",
+  "version": "2.72.4",
   "entry": "index.js",
   "changelog": "",
   "requires": [
-    "RenderLib",
     "BeaconBeam",
     "requestV2",
     "PromiseV2",
