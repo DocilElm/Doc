@@ -81,6 +81,7 @@ export class Persistence {
         inventoryButtons: {},
         commandAliases: {},
         keyShortcuts: {},
+        auctionsClicked: [],
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

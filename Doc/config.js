@@ -54,6 +54,7 @@ class Settings {
         this.addDependency("Puzzles Display Location", "Puzzles Display")
         this.addDependency("Deaths Display Location", "Deaths Display")
         this.addDependency("Deployables Display Stats", "Deployables Display")
+        this.addDependency("Auction Overlay Reset", "Auction Overlay")
     }
     // General
     @ButtonProperty({
@@ -921,6 +922,22 @@ class Settings {
     editDeployableDisplay() {
         ChatLib.command("editDeployableDisplay", true)
     }
+
+    @SwitchProperty({
+        name: "Auction Overlay",
+        description: "Enables a custom Auction house search gui whenever you click on the sign",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    auctionOverlay = false;
+
+    @SwitchProperty({
+        name: "Auction Overlay Reset",
+        description: "When enabled the text in the search will reset along with the results after leaving the gui making the click history visible next time this is opened",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    auctionOverlayReset = false;
 }
 
 export default new Settings()
