@@ -69,6 +69,7 @@ import "./features/misc/AliasesShortcuts"
 import "./features/misc/PartyCommands"
 import "./features/misc/DeployableDisplay"
 import "./features/misc/AuctionOverlay"
+import "./features/misc/BazaarOverlay"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

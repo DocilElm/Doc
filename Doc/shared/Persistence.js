@@ -82,6 +82,7 @@ export class Persistence {
         commandAliases: {},
         keyShortcuts: {},
         auctionsClicked: [],
+        bazaarClicked: [],
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

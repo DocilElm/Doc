@@ -55,6 +55,7 @@ class Settings {
         this.addDependency("Deaths Display Location", "Deaths Display")
         this.addDependency("Deployables Display Stats", "Deployables Display")
         this.addDependency("Auction Overlay Reset", "Auction Overlay")
+        this.addDependency("Bazaar Overlay Reset", "Bazaar Overlay")
     }
     // General
     @ButtonProperty({
@@ -938,6 +939,22 @@ class Settings {
         subcategory: "Misc"
     })
     auctionOverlayReset = false;
+
+    @SwitchProperty({
+        name: "Bazaar Overlay",
+        description: "Enables a custom Bazaar search gui whenever you click on the sign",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    bazaarOverlay = false;
+
+    @SwitchProperty({
+        name: "Bazaar Overlay Reset",
+        description: "When enabled the text in the search will reset along with the results after leaving the gui making the click history visible next time this is opened",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    bazaarOverlayReset = false;
 }
 
 export default new Settings()
