@@ -1,7 +1,5 @@
-import FeatureHandler from "../../../Atomx/events/FeatureHandler"
 import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
-import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
@@ -92,79 +90,27 @@ const handleQuestionNumber = (_, event, formatted) => {
     chat.push(formatted.replace(/§6/, "§b"))
 }
 
-const checkArmorStand = () => {
-    // Straight up copy paste
-    World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
-        .forEach(a => {
-            const match = a.getName().removeFormatting().match(/([ⓐⓑⓒ]) ([^.]+)[.+]?/)
-            if (!match) return
-            let [_, question, answer] = match
-            
-            if (currSolutions.some(a => a == answer)) {
-                currentBlock = World.getBlockAt(Math.floor(a.getX()), a.getY() + 1, Math.floor(a.getZ()))
-                a.getEntity().func_96094_a(`§6${question} §a§l${answer}`)
+register("chat", (event) => {
+    if (!WorldState.inDungeons() || !config.triviaQuizSolver) return
 
-                return
-            }
+    const evMsg = ChatLib.getChatMessage(event)
+    const msg = evMsg?.removeFormatting()
 
-            a.getEntity().func_96094_a(`§6${question} §4${answer}`)
-        })
-}
+    if (/^\[STATUE\] Oruo the Omniscient\: .+$/.test(msg) && !enteredRoom) return quizStarted()
 
-new FeatureHandler("TriviaSolver")
-    .AddEvent("chatpacket", quizStarted, {
-        criteria: /^\[STATUE\] Oruo the Omniscient\: .+$/,
-        registerWhen() {
-            return WorldState.inDungeons() && !enteredRoom && config.triviaQuizSolver
-        }
-    })
-    .AddEvent("chatpacket", handleQuestion, {
-        criteria: /^ +(.+)\?$/,
-        registerWhen() {
-            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver
-        }
-    })
-    .AddEvent("chatpacket", handleAnswer, {
-        criteria: /^ +[ⓐ|ⓑ|ⓒ] (.+)$/,
-        registerWhen() {
-            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver
-        }
-    })
-    .AddEvent("chatpacket", handleQuestionNumber, {
-        criteria: /^ +Question \#(\d+)$/,
-        registerWhen() {
-            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver
-        }
-    })
-    .AddEvent("chatpacket", quizDone, {
-        criteria: /^\[STATUE\] Oruo the Omniscient\: Yikes/,
-        registerWhen() {
-            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver
-        }
-    })
-    .AddEvent("chatpacket", quizDone, {
-        criteria: /^\[STATUE\] Oruo the Omniscient\: I bestow upon you all the power of a hundred years\!$/,
-        registerWhen() {
-            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver
-        }
-    })
-    .AddEvent("tick", checkArmorStand, {
-        registerWhen() {
-            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver
-        }
-    })
-    .AddEvent("renderWorld", () => {
-        // Just in case to not spam console
-        if (!currentBlock) return
+    const match = msg.match(/^ +(.+)\?$/)
+    if (match) return handleQuestion(match[1], event, evMsg)
 
-        RenderHelper.filledBlock(currentBlock, 0, 1, 0, 80 / 255, false)
-    }, {
-        registerWhen() {
-            return WorldState.inDungeons() && enteredRoom && config.triviaQuizSolver && currentBlock
-        }
-    })
-    .AddEvent("worldunload", reset, {
-        registerWhen() {
-            return true
-        }
-    })
+    const answerMatch = msg.match(/^ +[ⓐ|ⓑ|ⓒ] (.+)$/)
+    if (answerMatch) return handleAnswer(answerMatch[1], event, evMsg)
+
+    const questionNumberMatch = msg.match(/^ +Question \#(\d+)$/)
+    if (questionNumberMatch) return handleQuestionNumber(null, event, evMsg)
+
+    if (
+        /^\[STATUE\] Oruo the Omniscient\: I bestow upon you all the power of a hundred years\!$/.test(msg) ||
+        /^\[STATUE\] Oruo the Omniscient\: Yikes/.test(msg)
+        ) return quizDone()
+})
+
+register("worldUnload", () => reset())

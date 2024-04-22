@@ -1,11 +1,13 @@
-import FeatureHandler from "../../../Atomx/events/FeatureHandler"
 import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
 import ScalableGui from "../../shared/Scalable"
 import { WorldState } from "../../shared/World"
 
 const defaultString = `&bMilestone&f: &69`
 const editGui = new ScalableGui("milestoneDisplay", defaultString).setCommand("changemilestoneDisplay")
+const feature = new Feature("MilestoneDisplay", "Dungeons", "")
 
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -23,9 +25,8 @@ const renderMilestone = () => {
     Renderer.finishDraw()
 }
 
-new FeatureHandler("MilestoneDisplay")
-    .AddEvent("renderOverlay", renderMilestone, {
-        registerWhen() {
-            return World.isLoaded() && WorldState.inDungeons() && config.milestoneDisplay && !editGui.isOpen()
-        }
-    })
+// Events
+new Event(feature, "renderOverlay", renderMilestone, () => World.isLoaded() && WorldState.inDungeons() && config.milestoneDisplay && !editGui.isOpen())
+
+// Starting events
+feature.start()

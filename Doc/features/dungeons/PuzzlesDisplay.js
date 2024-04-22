@@ -1,11 +1,13 @@
-import FeatureHandler from "../../../Atomx/events/FeatureHandler"
 import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
 import ScalableGui from "../../shared/Scalable"
 import { WorldState } from "../../shared/World"
 
 const defaultString = `&dPuzzles&f: &65`
 const editGui = new ScalableGui("puzzlesDisplay", defaultString).setCommand("changepuzzleDisplay")
+const feature = new Feature("PuzzlesDisplay", "Dungeons", "")
 
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -14,7 +16,7 @@ editGui.onRender(() => {
     Renderer.finishDraw()
 })
 
-const renderMilestone = () => {
+const renderPuzzles = () => {
     const amount = Dungeons.getPuzzlesAmount()
 
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -23,9 +25,8 @@ const renderMilestone = () => {
     Renderer.finishDraw()
 }
 
-new FeatureHandler("PuzzleDisplay")
-    .AddEvent("renderOverlay", renderMilestone, {
-        registerWhen() {
-            return World.isLoaded() && WorldState.inDungeons() && config.puzzlesDisplay && !editGui.isOpen()
-        }
-    })
+// Events
+new Event(feature, "renderOverlay", renderPuzzles, () => World.isLoaded() && WorldState.inDungeons() && config.puzzlesDisplay && !editGui.isOpen())
+
+// Starting events
+feature.start()

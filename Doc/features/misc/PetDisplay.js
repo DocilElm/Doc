@@ -29,7 +29,7 @@ const handleTabName = (tabName, _, formatted) => {
     petLevel = formatted
 }
 
-new FeatureHandler("PetDisplay")
+const feature = new FeatureHandler("PetDisplay")
     .AddEvent("tabaddpacket", handleTabName, {
         registerWhen() {
             return config.petDisplay
@@ -56,5 +56,13 @@ new FeatureHandler("PetDisplay")
     }, {
         registerWhen() {
             return true // should always be enabled
+        }
+    })
+    .AddEvent("gameUnload", () => {
+        feature.subEvents.forEach(it => it.unregister())
+        feature.unregister()
+    }, {
+        registerWhen() {
+            return true
         }
     })

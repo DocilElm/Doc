@@ -18,7 +18,7 @@ let formattedLevel = null
 
 const handleTabName = (xp, requiredxp, totalxp, _, formatted) => formattedLevel = formatted.replace(/^§r SB Level§r§f\: /, "")
 
-new FeatureHandler("SkyblocklevelDisplay")
+const feature = new FeatureHandler("SkyblocklevelDisplay")
     .AddEvent("tabaddpacket", handleTabName, {
         criteria: regexData.CurrentSbLevel,
         registerWhen() {
@@ -42,6 +42,14 @@ new FeatureHandler("SkyblocklevelDisplay")
         }
     })
     .AddEvent("worldUnload", () => formattedLevel = null, {
+        registerWhen() {
+            return true
+        }
+    })
+    .AddEvent("gameUnload", () => {
+        feature.subEvents.forEach(it => it.unregister())
+        feature.unregister()
+    }, {
         registerWhen() {
             return true
         }
