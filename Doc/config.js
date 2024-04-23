@@ -971,6 +971,14 @@ class Settings {
         subcategory: "Misc"
     })
     etherwarpOverlayColor = Color.GREEN;
+
+    @SwitchProperty({
+        name: "Middle Click Guis",
+        description: "This cancels your left click and turns it into a middle click on certain guis",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    middleClickGui = false;
 }
 
 export default new Settings()

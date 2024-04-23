@@ -70,6 +70,7 @@ import "./features/misc/DeployableDisplay"
 import "./features/misc/AuctionOverlay"
 import "./features/misc/BazaarOverlay"
 import "./features/misc/EtherwarpOverlay"
+import "./features/misc/MIddleClickGuis"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
