@@ -133,10 +133,12 @@ const checkItems = () => {
     })
 }
 
-const onMouseClick = (mx, my, mbtn) => {
+const onMouseClick = (mx, my, mbtn, gui) => {
     if (editGui.isOpen()) return
 
-    window.mouseClick(mx, my, mbtn)
+    if (gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest) {
+        window.mouseClick(mx, my, mbtn)
+    }
 }
 
 const reset = () => {
