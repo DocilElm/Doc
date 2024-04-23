@@ -19,8 +19,8 @@ const onMouseClick = (_, __, mouseButton) => {
     if (!chatComponent?.func_150261_e()) return
     
     // Get max chat width taking scale into consideration
-    const screenScale = new net.minecraft.client.gui.ScaledResolution(Client.getMinecraft()).func_78325_e() // getScaleFactor
-    const maxChatWidth = Math.floor(screenScale * (320 - 40) + 320)
+    const screenScale = Client.settings.getSettings().field_74335_Z
+    const maxChatWidth = Client.getChatGUI().func_146233_a(screenScale)
 
     let components = []
 
@@ -39,7 +39,7 @@ const onMouseClick = (_, __, mouseButton) => {
                 )
 
         // For some reason nothing was working well until i added this method
-        idx += Renderer.getStringWidth(scannedComponent?.func_150265_g()) * 2 // getChatComponentText_TextValue
+        idx += Renderer.getStringWidth(scannedComponent?.func_150265_g()) * screenScale // getChatComponentText_TextValue
     }
     
     ChatLib.command(`ct copy ${components.join("")}`, true)
