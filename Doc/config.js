@@ -564,6 +564,14 @@ class Settings {
         ChatLib.command("changepestsdisplay", true);
     }
 
+    @SwitchProperty({
+        name: "Visitor Bazaar Button",
+        description: "Displays a button that you can click whenever inside a visitor gui to go to the required item in bazaar",
+        category: "Garden",
+        subcategory: "Garden"
+    })
+    visitorBazaarButton = false;
+
     // Slayer
     @SwitchProperty({
         name: "Boss Slain Timer",

@@ -40,6 +40,7 @@ import "./features/fishing/TimerTitle"
 import "./features/garden/VisitorProfit"
 import "./features/garden/GardenDisplay"
 import "./features/garden/PestsDisplay"
+import "./features/garden/VisitorBzButton"
 // Slayers
 import "./features/slayers/BossSlainTimer"
 // Trackers

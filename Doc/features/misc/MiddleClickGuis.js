@@ -8,7 +8,14 @@ import { TextHelper } from "../../shared/Text"
 // Constant variables
 const feature = new Feature("MiddleClickGui", "Misc", "")
 const avoidGuis = [
-    "Wardrobe", "Drill Anvil", "Anvil", "Storage", "The Hex"
+    "Wardrobe",
+    "Drill Anvil",
+    "Anvil",
+    "Storage",
+    "The Hex",
+    "Composter",
+    "Auctions",
+    "Abiphone"
 ]
 
 // Logic
