@@ -7,6 +7,9 @@ import { TextHelper } from "../../shared/Text"
 
 // Constant variables
 const feature = new Feature("MiddleClickGui", "Misc", "")
+const avoidGuis = [
+    "Wardrobe", "Drill Anvil", "Anvil", "Storage", "The Hex"
+]
 
 // Logic
 const onMouseClick = (_, __, mbtn, gui, event) => {
@@ -16,13 +19,13 @@ const onMouseClick = (_, __, mbtn, gui, event) => {
     const containerSize = container.getSize() - 36
 
     const slot = gui.getSlotUnderMouse()?.field_75222_d
-    if (!slot || slot >= containerSize || container.getName()?.startsWith("The Hex")) return
+    if (!slot || slot >= containerSize || avoidGuis.some(it => container.getName()?.startsWith(it))) return
 
     const item = container.getItems()[slot]
     if (TextHelper.getSkyblockItemID(item)) return
     if (
-        item.getName().removeFormatting() === "Reforge Item" ||
-        item.getName().removeFormatting() === "Salvage Item"
+        item?.getName()?.removeFormatting() === "Reforge Item" ||
+        item?.getName()?.removeFormatting() === "Salvage Item"
         ) return
 
     cancel(event)
