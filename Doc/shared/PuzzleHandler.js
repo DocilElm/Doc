@@ -1,3 +1,4 @@
+import Dungeons from "../../Atomx/skyblock/Dungeons"
 import { WorldState } from "../../Atomx/skyblock/World"
 import { TextHelper } from "./Text"
 
@@ -8,6 +9,7 @@ const offsetsToCheck = [
     [0, -16],
     [16, 0]
 ]
+const cachedRotations = new Map()
 
 let lastDungIndex = null
 let idxTicks = 0
@@ -44,18 +46,19 @@ const getPuzzleRotation = () => {
 }
 
 register("tick", () => {
-    if (!WorldState.inDungeons()) return
+    if (!WorldState.inDungeons() || Dungeons.inBossRoom()) return
 
     const posIndex = TextHelper.getDungeonsPosIndex()
 
-    if (posIndex === lastDungIndex && idxTicks >= 20) return
-    if (posIndex === lastDungIndex) idxTicks++
+    if (posIndex === lastDungIndex && idxTicks !== 0 && idxTicks % 20 === 0) return
 
     lastDungIndex = posIndex
-    idxTicks = 0
+    idxTicks++
 
-    const rotation = getPuzzleRotation()
+    const rotation = cachedRotations.get(posIndex)?.rotation ?? getPuzzleRotation()
     if (rotation == null) return
+
+    if (!cachedRotations.get(posIndex)) cachedRotations.set(posIndex, { rotation: rotation })
 
     listeners.forEach(fn => fn(rotation, posIndex))
 })
@@ -63,4 +66,5 @@ register("tick", () => {
 register("worldUnload", () => {
     lastDungIndex = null
     idxTicks = 0
+    cachedRotations.clear()
 })
