@@ -28,7 +28,6 @@ const firstSpawnRegex = /^\[BOSS\] The Watcher\: Let\'s see how you can handle t
 
 // Changeable variables
 let mobsSpawned = 0
-let firstSpawn = false
 let watcherEntity = null
 
 // Logic
@@ -48,7 +47,6 @@ const scanEntityLookMove = (mcEntity, [x, y, z]) => {
 
     if (obj && obj.vectors.length >= 3) {
         const fvec = obj.vectors.reduce((acc, vec) => acc.add(vec), new Vector3(0, 0, 0))
-        if (firstSpawn && mobsSpawned === 0) mobsSpawned = 4
 
         const multiply = mobsSpawned > 3 ? 10 : 14.6
         const fvecNormalized = fvec.normalize().multiply(multiply)
@@ -132,7 +130,7 @@ const scanEntities = (mcEntity) => {
     })
 }
 
-const handleChat = () => firstSpawn = true
+const handleChat = () => mobsSpawned = 4
 
 // Events
 new Event(feature, "forgeEntityJoin", scanEntities, () => World.isLoaded() && WorldState.inDungeons() && config.bloodHelper, net.minecraft.entity.monster.EntityZombie)
@@ -144,7 +142,6 @@ new Event(feature, "worldUnload", () => {
     blacklisted.clear()
     mobsSpawned = 0
     watcherEntity = null
-    firstSpawn = false
 })
 
 // Starting events
