@@ -69,6 +69,7 @@ import "./features/misc/PartyCommands"
 import "./features/misc/DeployableDisplay"
 import "./features/misc/AuctionOverlay"
 import "./features/misc/BazaarOverlay"
+import "./features/misc/EtherwarpOverlay"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

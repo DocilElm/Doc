@@ -955,6 +955,22 @@ class Settings {
         subcategory: "Misc"
     })
     bazaarOverlayReset = false;
+
+    @SwitchProperty({
+        name: "Etherwarp Overlay",
+        description: "Shows where your etherwarp will be at when holding aotv and shifting &bHuge thanks to unclaimedbloom6",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    etherwarpOverlay = false;
+
+    @ColorProperty({
+        name: "Etherwarp Overlay Color",
+        description: "Changes the highlight color of the block",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    etherwarpOverlayColor = Color.GREEN;
 }
 
 export default new Settings()
