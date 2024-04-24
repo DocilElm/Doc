@@ -9,7 +9,7 @@ import { WorldState } from "../../shared/World"
 import AtomxApi from "../../../Atomx/AtomxApi"
 
 // Constant variables
-const defaultString = `&aNPC&f: &b${Player.getName()}\n&aItems Required&f: \n &aEnchanted Life &8x1\n&cCopper&f: &60\n&9Special Item&f: &6None\n&aTotal Profit&f: &60`
+const defaultString = `&b${Player.getName()}\n &aEnchanted Life &8x1\n&aProfit&f: &c0 &7(&c0&7)`
 const editGui = new ScalableGui("visitorProfit", defaultString).setCommand("visitorProfitDisplay")
 const feature = new Feature("visitorProfitDisplay", "Garden", "")
 const GardenVisitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Atomx/main/api/GardenVisitors.json")
@@ -81,7 +81,7 @@ const scanItems = (itemStacks) => {
                 const totalPrice = requiredItemPrice * (requiredAmount?.replace(/,/g, "") ?? 1)
 
                 // Add values to the map
-                currentData.requiredItems.push(`\n${itemLore}`)
+                currentData.requiredItems.push(itemLore)
                 currentData.totalPrice += isNaN(totalPrice) ? 0 : totalPrice
                 
                 return
@@ -147,13 +147,13 @@ const makeStringToDraw = () => {
   
     visitorsData.forEach((value, key) => {
       const name = GardenVisitors[key].formattedName
-      const items = value.requiredItems.toString()
+      const items = value.requiredItems.join("\n")
       const copper = value.copperAmount
       const profit = value.profit
       const profitFormat = profit <= 0 ? "&c" : "&a"
-      const rareItem = value.rareItem
+      const rareItem = value.rareItem ? `\n  &e${value.rareItem}` : ""
   
-      tempArray.push(`\n&aNPC&f: ${name}\n&aRequired Items&f: ${items}\n&cTotal Copper&f: &6${copper}\n&9Rare Item&f: &b${rareItem ?? "&cNone"}\n&aTotal Profit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)}\n`)
+      tempArray.push(`\n${name}\n ${items}${rareItem}\n&bProfit&f: ${profitFormat}${TextHelper.addCommasTrunc(profit)} &7(&c${copper}&7)\n`)
     })
   
     stringToDraw = tempArray.join("")
@@ -169,6 +169,19 @@ const renderVisitors = () => {
     Renderer.finishDraw()
 }
 
+const scanEntities = () => {
+    if (Player.getX() === Player.getLastX()) return
+
+    World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
+        .forEach(entity => {
+            if (entity.getName()?.startsWith("§f")) return
+
+            if (entity.distanceTo(Player.getPlayer()) < 15 || !visitorsData.has(entity.getName().removeFormatting())) return
+
+            visitorsData.delete(entity.getName().removeFormatting())
+        })
+}
+
 // Default display
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -181,6 +194,7 @@ editGui.onRender(() => {
 new Event(feature, "onOpenWindowPacket", checkWindowName, registerWhen)
 new Event(feature, "onWindowItemsPacket", scanItems, registerWhen)
 new Event(feature, "tick", makeStringToDraw, registerWhen)
+new Event(feature, "step", scanEntities, () => visitorsData.size, 1)
 new Event(feature, "renderOverlay", renderVisitors, () => WorldState.getCurrentWorld() === requiredWorld && config.visitorProfitDisplay && stringToDraw)
 new Event(feature, "onChatPacket", removeVisitor, registerWhen, visitorDialogRegex)
 new Event(feature, "worldUnload", () => visitorsData.clear())
