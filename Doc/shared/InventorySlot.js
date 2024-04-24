@@ -15,7 +15,7 @@ const NBTTagListClass = net.minecraft.nbt.NBTTagList
 const ItemStackClass = net.minecraft.item.ItemStack
 const skullClass = net.minecraft.init.Items.field_151144_bL
 
-const createSkull = (texture) => {
+export const createSkull = (texture) => {
     // This is probably not needed but idc
     const uuid = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx".replace(/x/g, () => parseInt(Math.random() * 9, 16))
     const itemStack = new ItemStackClass(skullClass, 1, 3)
