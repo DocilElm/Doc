@@ -5,6 +5,7 @@ import {
     @ButtonProperty, 
     @SwitchProperty,
     @SelectorProperty,
+    @PercentSliderProperty,
     Color 
 } from 'Vigilance'
 
@@ -56,6 +57,8 @@ class Settings {
         this.addDependency("Deployables Display Stats", "Deployables Display")
         this.addDependency("Auction Overlay Reset", "Auction Overlay")
         this.addDependency("Bazaar Overlay Reset", "Bazaar Overlay")
+        this.addDependency("Render Item Rarity Shape", "Render Item Rarity")
+        this.addDependency("Render Item Rarity Opacity", "Render Item Rarity")
     }
     // General
     @ButtonProperty({
@@ -987,6 +990,31 @@ class Settings {
         subcategory: "Misc"
     })
     middleClickGui = false;
+
+    @SwitchProperty({
+        name: "Render Item Rarity",
+        description: "This renders the set shape behind every item that has a rarity whenever inside a gui",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    renderItemRarity = false;
+
+    @SelectorProperty({
+        name: "Render Item Rarity Shape",
+        description: "Changes the shape of Render Item Rarity",
+        category: "Misc",
+        subcategory: "Misc",
+        options: ["Box", "Hexagon", "Rounded"]
+    })
+    renderItemRarityShape = 0;
+
+    @PercentSliderProperty({
+        name: "Render Item Rarity Opacity",
+        description: "Changes the opacity of Render Item Rarity",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    renderItemRarityOpacity = 0.8;
 }
 
 export default new Settings()
