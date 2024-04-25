@@ -73,6 +73,7 @@ import "./features/misc/BazaarOverlay"
 import "./features/misc/EtherwarpOverlay"
 import "./features/misc/MiddleClickGuis"
 import "./features/misc/ItemRarity"
+import "./features/misc/ChatWaypoint"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

@@ -59,6 +59,9 @@ class Settings {
         this.addDependency("Bazaar Overlay Reset", "Bazaar Overlay")
         this.addDependency("Render Item Rarity Shape", "Render Item Rarity")
         this.addDependency("Render Item Rarity Opacity", "Render Item Rarity")
+        this.addDependency("Chat Waypoint Party", "Chat Waypoint")
+        this.addDependency("Chat Waypoint Coop", "Chat Waypoint")
+        this.addDependency("Chat Waypoint All", "Chat Waypoint")
     }
     // General
     @ButtonProperty({
@@ -1015,6 +1018,38 @@ class Settings {
         subcategory: "Misc"
     })
     renderItemRarityOpacity = 0.8;
+    
+    @SwitchProperty({
+        name: "Chat Waypoint",
+        description: "Creates a waypoint whenever a recieved chat message matches &bx: 1, y: 1, z: 1",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    chatWaypoint = false;
+
+    @SwitchProperty({
+        name: "Chat Waypoint Party",
+        description: "Allow Chat Waypoint feature to work with party chat",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    chatWaypointParty = true;
+
+    @SwitchProperty({
+        name: "Chat Waypoint Coop",
+        description: "Allow Chat Waypoint feature to work with coop chat",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    chatWaypointCoop = false;
+
+    @SwitchProperty({
+        name: "Chat Waypoint All",
+        description: "Allow Chat Waypoint feature to work with all chat",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    chatWaypointAll = false;
 }
 
 export default new Settings()
