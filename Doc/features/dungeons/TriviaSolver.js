@@ -1,5 +1,7 @@
+import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
+import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
 
@@ -26,26 +28,17 @@ let answers = []
 const sendChat = () => {
     chat.forEach(msg => ChatLib.chat(msg))
     ChatLib.chat(" ")
-    answers.forEach(msg => ChatLib.chat(`                               ${msg}`))
+    answers.forEach(msg => ChatLib.chat(`                                ${msg}`))
     ChatLib.chat(" ")
-}
-
-const resetChat = () => {
-    chat = []
-    answers = []
-    currentBlock = null
 }
 
 const reset = () => {
     enteredRoom = null
     currentQuestion = null
     currSolutions = []
-    resetChat()
-}
-
-const quizDone = () => {
-    ChatLib.chat(`${TextHelper.PREFIX} &aTrivia took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
-    reset()
+    chat = []
+    answers = []
+    currentBlock = null
 }
 
 const inSolutions = (question, answer) => {
@@ -58,59 +51,91 @@ const inSolutions = (question, answer) => {
     return solutions.get(question)?.some(a => a === answer)
 }
 
-const quizStarted = () => {
-    if (enteredRoom) return
-    enteredRoom = Date.now()
-}
-
-const handleQuestion = (question, event, formatted) => {
-    cancel(event)
-    currentQuestion = `${question}?`
-
-    chat.push(formatted.replace(/§6/, "§b"))
-}
-
-const handleAnswer = (answer, event, formatted) => {
-    cancel(event)
-
-    const isSol = inSolutions(currentQuestion, answer)
-    if (isSol) currSolutions.push(answer)
-
-    const msg = isSol ? formatted.replace(/§a/, "§a§l").replace(/^( +)/, "") : formatted.replace(/§a/, "§c").replace(/^( +)/, "")
-
-    answers.push(msg)
-
-    if (formatted.includes("ⓒ")) Client.scheduleTask(2, () => sendChat())
-}
-
-const handleQuestionNumber = (_, event, formatted) => {
-    cancel(event)
-
-    resetChat()
-    chat.push(formatted.replace(/§6/, "§b"))
-}
-
 register("chat", (event) => {
     if (!WorldState.inDungeons() || !config.triviaQuizSolver) return
 
-    const evMsg = ChatLib.getChatMessage(event)
+    const evMsg = ChatLib.getChatMessage(event, true)
     const msg = evMsg?.removeFormatting()
 
-    if (/^\[STATUE\] Oruo the Omniscient\: .+$/.test(msg) && !enteredRoom) return quizStarted()
+    if (/^\[STATUE\] Oruo the Omniscient\: .+$/.test(msg) && !enteredRoom) return enteredRoom = Date.now()
 
-    const match = msg.match(/^ +(.+)\?$/)
-    if (match) return handleQuestion(match[1], event, evMsg)
+    const match = msg.match(/^ +(.+\?)$/)
+    if (match) {
+        cancel(event)
+
+        currentQuestion = match[1]
+        chat.push(`&b&l${msg}`)
+
+        return
+    }
 
     const answerMatch = msg.match(/^ +[ⓐ|ⓑ|ⓒ] (.+)$/)
-    if (answerMatch) return handleAnswer(answerMatch[1], event, evMsg)
+    if (answerMatch) {
+        cancel(event)
 
-    const questionNumberMatch = msg.match(/^ +Question \#(\d+)$/)
-    if (questionNumberMatch) return handleQuestionNumber(null, event, evMsg)
+        const isSol = inSolutions(currentQuestion, answerMatch[1])
+        if (isSol) currSolutions.push(answerMatch[1])
+
+        const msg1 = isSol
+            ? `&a&l${msg.replace(/^( +)/, "")}`
+            : `&c${msg.replace(/^( +)/, "")}`
+
+        answers.push(msg1)
+
+        if (msg.includes("ⓒ")) Client.scheduleTask(2, () => sendChat())
+
+        return
+    }
+
+    if (/^ +Question \#\d+$/.test(msg)) {
+        cancel(event)
+        
+        chat = []
+        answers = []
+        currentBlock = null
+
+        chat.push(`                                &b&l${msg.replace(/^( +)/, "")}`)
+
+        return
+    }
 
     if (
         /^\[STATUE\] Oruo the Omniscient\: I bestow upon you all the power of a hundred years\!$/.test(msg) ||
         /^\[STATUE\] Oruo the Omniscient\: Yikes/.test(msg)
-        ) return quizDone()
+        ) {
+            ChatLib.chat(`${TextHelper.PREFIX} &aTrivia took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
+            reset()
+
+            return
+        }
+})
+
+const checkArmorStand = () => {
+    if (Dungeons.getCurrentRoomName() !== "Quiz" || !config.triviaQuizSolver) return
+
+    World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
+        .forEach(a => {
+            const match = a.getName().removeFormatting().match(/([ⓐⓑⓒ]) ([^.]+)[.+]?/)
+            if (!match) return
+            let [_, question, answer] = match
+
+            if (currSolutions.some(a => a == answer)) {
+                currentBlock = World.getBlockAt(Math.floor(a.getX()), a.getY() + 1, Math.floor(a.getZ()))
+                a.getEntity().func_96094_a(`§6${question} §a§l${answer}`)
+            
+                return
+            }
+        
+            a.getEntity().func_96094_a(`§6${question} §4${answer}`)
+        })
+}
+
+register("step", checkArmorStand).setFps(1)
+
+register("renderWorld", () => {
+    if (!WorldState.inDungeons() || !config.triviaQuizSolver || !currentBlock) return
+
+    RenderHelper.filledBlock(currentBlock, 0, 1, 0, 80 / 255, false)
 })
 
 register("worldUnload", () => reset())
