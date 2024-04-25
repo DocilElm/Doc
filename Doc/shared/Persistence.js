@@ -83,6 +83,7 @@ export class Persistence {
         keyShortcuts: {},
         auctionsClicked: [],
         bazaarClicked: [],
+        chatWaypointNames: [],
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")
