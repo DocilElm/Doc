@@ -29,7 +29,13 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "renderWorld", renderWorld, () => World.isLoaded() && holdingAOTV() && config.etherwarpOverlay)
+const registerWorld = register("renderWorld", renderWorld).unregister()
+
+register("tick", () => {
+    if (!World.isLoaded() || !holdingAOTV() || !config.etherwarpOverlay) return registerWorld.unregister()
+
+    registerWorld.register()
+})
 
 // Starting events
 feature.start()
