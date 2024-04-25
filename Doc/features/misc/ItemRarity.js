@@ -23,7 +23,7 @@ const renderSlot = (slot) => {
     if (!item) return
 
     const itemName = item.getName()
-    const match = itemName.match(/^(?:§\w(?:§\w)?(?:✿|BUY|SELL|\[Lvl \d+\])? )?(§\w)/)
+    const match = itemName.match(/^(?:§\w(?:§\w)?(?:✿|BUY|SELL|\[Lvl \d+\])? )?(?:§\w\[.+\] )?(§\w)/)
     if (!match || !(match[1] in colors) || !TextHelper.getSkyblockItemID(item)) return
 
     const [ r, g, b ] = colors[match[1]]
