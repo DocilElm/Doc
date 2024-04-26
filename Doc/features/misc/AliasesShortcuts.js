@@ -89,3 +89,13 @@ register("guiKey", (char, keycode) => {
         keyClass.onKeyType(keycode)
     })
 })
+
+register("guiMouseClick", (mx, my, mbtn) => {
+    if (!gui.ctGui.isOpen()) return
+
+    keybindsCreated.forEach(keyClass => {
+        if (!keyClass.isFocused) return
+
+        keyClass.onKeyType(mbtn, true)
+    })
+})

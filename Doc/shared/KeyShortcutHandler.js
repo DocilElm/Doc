@@ -37,7 +37,7 @@ export class KeybindShortcut {
         this.setKeycodeButton = new Button("", 35, 1, 30, 90, false).onMouseClickEvent(this.onClick.bind(this))
         this.setKeycodeButton._create(scheme).setChildOf(this.mainBox)
 
-        this.setText(Keyboard.getKeyName(this.keycode))
+        this.setText(this.keycode < 0 ? `M${this._getMouseButton()}` : Keyboard.getKeyName(this.keycode))
         
         this.removeButton = new Button("Remove", 68, 1, 30, 90, false)
             .onMouseClickEvent(this._removeKeybind.bind(this))
@@ -64,10 +64,12 @@ export class KeybindShortcut {
      * - sets the focus/unfocus and changes the keybind button text
      * @returns 
      */
-    onClick() {
-        this.isFocused = !this.isFocused
-        if (!this.isFocused) return this.setText(Keyboard.getKeyName(this.keycode))
+    onClick(comp, event) {
+        if (event.mouseButton !== 0) return
 
+        this.isFocused = !this.isFocused
+        if (!this.isFocused) return this.setText(this.keycode < 0 ? `M${this._getMouseButton()}` : Keyboard.getKeyName(this.keycode))
+        
         this.setText("****")
     }
 
@@ -77,7 +79,7 @@ export class KeybindShortcut {
      */
     unfocus() {
         this.isFocused = false
-        this.setText(Keyboard.getKeyName(this.keycode))
+        this.setText(this.keycode < 0 ? `M${this._getMouseButton()}` : Keyboard.getKeyName(this.keycode))
 
         return this
     }
@@ -86,12 +88,13 @@ export class KeybindShortcut {
      * - Sets the keybind for this class
      * - calls the #unfocus method to change the keybind button text
      * @param {Number} keycode 
+     * @param {Boolean} isMouseButton Whether the keycode comes from a mouse button click
      * @returns this for method chaining
      */
-    onKeyType(keycode) {
-        if (keycode === 1) return this.unfocus()
-        this.keycode = keycode
-        this.unfocus()
+    onKeyType(keycode, isMouseButton = false) {
+        if (keycode === 1) return this.unfocus(isMouseButton ? keycode : null)
+        this.keycode = isMouseButton ? -100 + keycode : keycode
+        this.unfocus(isMouseButton ? keycode : null)
 
         return this
     }
@@ -106,6 +109,7 @@ export class KeybindShortcut {
         if (!this.msg) return
         if (this.keybind) {
             const oldKeycode = this.keybind.getKeyCode()
+            this.keybind.unregisterKeyPress()
             KeyBind.removeKeyBind(this.keybind)
 
             Client.scheduleTask(2, () => {
@@ -138,5 +142,9 @@ export class KeybindShortcut {
         Persistence.data.save()
 
         keybindsCreated.delete(this)
+    }
+
+    _getMouseButton() {
+        return Math.abs(-100 % this.keycode)
     }
 }
