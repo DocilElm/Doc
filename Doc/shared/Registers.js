@@ -190,3 +190,6 @@ FeatureManager
     .createCustomEvent("onPacketLookMove", (fn) => register("packetReceived", (packet) => {
         fn(packet.func_149065_a(World.getWorld()), [packet.func_149062_c(), packet.func_149061_d(), packet.func_149064_e()])
     }).setFilteredClass(net.minecraft.network.play.server.S14PacketEntity$S17PacketEntityLookMove).unregister())
+    .createCustomEvent("onPlayerDigging", (fn) => register("packetSent", (packet, event) => {
+        fn(packet.func_180762_c()?.toString(), event)
+    }).setFilteredClass(net.minecraft.network.play.client.C07PacketPlayerDigging).unregister())

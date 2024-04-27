@@ -62,6 +62,8 @@ class Settings {
         this.addDependency("Chat Waypoint Party", "Chat Waypoint")
         this.addDependency("Chat Waypoint Coop", "Chat Waypoint")
         this.addDependency("Chat Waypoint All", "Chat Waypoint")
+        this.addDependency("Slot Locking Display", "Slot Locking")
+        this.addDependency("Slot Locking SB Only", "Slot Locking")
     }
     // General
     @ButtonProperty({
@@ -1050,6 +1052,30 @@ class Settings {
         subcategory: "Misc"
     })
     chatWaypointAll = false;
+
+    @SwitchProperty({
+        name: "Slot Locking",
+        description: "Allow you to lock slots and bind them with the set keybind",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    slotLocking = false;
+
+    @SwitchProperty({
+        name: "Slot Locking Display",
+        description: "Adds a darker rectangle display to the locked slot and a line to the binded slots whenever shifting over them",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    slotLockingDisplay = false;
+
+    @SwitchProperty({
+        name: "Slot Locking SB Only",
+        description: "Makes this feature only work in skyblock",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    slotLockingSB = false;
 }
 
 export default new Settings()

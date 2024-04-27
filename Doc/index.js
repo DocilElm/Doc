@@ -74,6 +74,7 @@ import "./features/misc/EtherwarpOverlay"
 import "./features/misc/MiddleClickGuis"
 import "./features/misc/ItemRarity"
 import "./features/misc/ChatWaypoint"
+import "./features/misc/SlotLocking"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
