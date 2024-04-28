@@ -1076,6 +1076,14 @@ class Settings {
         subcategory: "Misc"
     })
     slotLockingSB = false;
+
+    @SwitchProperty({
+        name: "No Cursor Reset",
+        description: "Avoids resetting your cursor when you change gui &c(this only works with chest guis)",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    noCursorReset = false;
 }
 
 export default new Settings()

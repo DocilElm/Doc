@@ -75,6 +75,7 @@ import "./features/misc/MiddleClickGuis"
 import "./features/misc/ItemRarity"
 import "./features/misc/ChatWaypoint"
 import "./features/misc/SlotLocking"
+import "./features/misc/NoCursorReset"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
