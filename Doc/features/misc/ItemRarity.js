@@ -23,10 +23,12 @@ const renderSlot = (slot) => {
     if (!item) return
 
     const itemName = item.getName()
-    const match = itemName.match(/^(?:§\w(?:§\w)?(?:✿|BUY|SELL|\[Lvl \d+\])? )?(?:§\w\[.+\] )?(§\w)/)
-    if (!match || !(match[1] in colors) || !TextHelper.getSkyblockItemID(item)) return
+    const match = itemName.match(/^(?:§f§f)?(?:§\w(?:§\w)?(?:(?:✿|BUY|SELL|\[Lvl \d+\]) ))?(?:§\w\[.+\] )?(?:§\w+ (§\w)Rift Necklace$)?(§\w)?/)
+    const format = match[1] ?? match[2]
 
-    const [ r, g, b ] = colors[match[1]]
+    if (!match || !(format in colors) || !TextHelper.getSkyblockItemID(item)) return
+
+    const [ r, g, b ] = colors[format]
     const color = Renderer.color(r, g, b, Math.floor(config.renderItemRarityOpacity * 255))
     const [ x1, y1, x2, y2 ] = [
         slot.getDisplayX(),
