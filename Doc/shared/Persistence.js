@@ -82,6 +82,8 @@ export class Persistence {
         inventoryButtons: {},
         commandAliases: {},
         keyShortcuts: {},
+        showMessageTitle: {},
+        cancelMessage: {},
         auctionsClicked: [],
         bazaarClicked: [],
         chatWaypointNames: [],
