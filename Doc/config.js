@@ -1084,6 +1084,14 @@ class Settings {
         subcategory: "Misc"
     })
     noCursorReset = false;
+
+    @SwitchProperty({
+        name: "Equipment Display",
+        description: "Displays your current equipments at the side of your armor &c(this is scanned everytime you open your equipments)",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    equipmentsDiplay = false;
 }
 
 export default new Settings()

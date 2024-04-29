@@ -85,6 +85,7 @@ export class Persistence {
         bazaarClicked: [],
         chatWaypointNames: [],
         lockedSlots: {},
+        equipments: [],
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

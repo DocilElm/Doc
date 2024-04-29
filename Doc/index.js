@@ -76,6 +76,7 @@ import "./features/misc/ItemRarity"
 import "./features/misc/ChatWaypoint"
 import "./features/misc/SlotLocking"
 import "./features/misc/NoCursorReset"
+import "./features/misc/EquipmentDisplay"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
