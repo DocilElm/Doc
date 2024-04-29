@@ -64,6 +64,9 @@ class Settings {
         this.addDependency("Chat Waypoint All", "Chat Waypoint")
         this.addDependency("Slot Locking Display", "Slot Locking")
         this.addDependency("Slot Locking SB Only", "Slot Locking")
+        this.addDependency("Armor Display Background", "Armor Display")
+        this.addDependency("Armor Display Barrier", "Armor Display")
+        this.addDependency("Armor Display Location", "Armor Display")
     }
     // General
     @ButtonProperty({
@@ -1092,6 +1095,41 @@ class Settings {
         subcategory: "Misc"
     })
     equipmentsDisplay = false;
+
+    @SwitchProperty({
+        name: "Armor Display",
+        description: "Displays your current equipped armor",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    armorDisplay = false;
+
+    @SwitchProperty({
+        name: "Armor Display Background",
+        description: "Adds a slot like background to this display",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    armorDisplayBackground = false;
+
+    @SwitchProperty({
+        name: "Armor Display Barrier",
+        description: "Displays a barrier whenever the slot has no item in it instead of not displaying the slot",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    armorDisplayBarrier = false;
+
+    @ButtonProperty({
+        name: "Armor Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    editeditarmorDisplay() {
+        ChatLib.command("editarmorDisplay", true)
+    }
 }
 
 export default new Settings()

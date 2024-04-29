@@ -77,6 +77,7 @@ import "./features/misc/ChatWaypoint"
 import "./features/misc/SlotLocking"
 import "./features/misc/NoCursorReset"
 import "./features/misc/EquipmentDisplay"
+import "./features/misc/ArmorDisplay"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
