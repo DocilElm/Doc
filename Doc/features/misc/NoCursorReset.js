@@ -11,14 +11,14 @@ let [ mx, my ] = [ 0, 0 ]
 let shouldSet = false
 
 // Logic
-const onTick = () => {
-    if (!config.noCursorReset || !Client.isInGui() || Client.isInChat()) return
-    if (!(Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest)) {
+const onGuiRender = (_, __, gui) => {
+    if (!config.noCursorReset || !(gui instanceof net.minecraft.client.gui.inventory.GuiChest)) {
         mx = 0
         my = 0
 
         return
     }
+    if (mx === Mouse.getX() && my === Mouse.getY()) return
 
     if (shouldSet && mx > 0 && my > 0) {
         shouldSet = false
@@ -34,8 +34,12 @@ const onTick = () => {
 }
 
 // Events
-new Event(feature, "tick", onTick, () => World.isLoaded() && config.noCursorReset)
+new Event(feature, "guiRender", onGuiRender, () => World.isLoaded() && config.noCursorReset)
 new Event(feature, "onOpenWindowPacket", () => shouldSet = true, () => World.isLoaded() && config.noCursorReset)
+new Event(feature, "clientCloseWindow", () => {
+    mx = 0
+    my = 0
+}, () => World.isLoaded() && config.noCursorReset)
 
 // Starting events
 feature.start()

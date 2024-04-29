@@ -193,3 +193,6 @@ FeatureManager
     .createCustomEvent("onPlayerDigging", (fn) => register("packetSent", (packet, event) => {
         fn(packet.func_180762_c()?.toString(), event)
     }).setFilteredClass(net.minecraft.network.play.client.C07PacketPlayerDigging).unregister())
+    .customTriggers("clientCloseWindow", (fn) => register("packetSent", () => {
+        fn()
+    }).setFilteredClass(net.minecraft.network.play.client.C0DPacketCloseWindow).unregister())
