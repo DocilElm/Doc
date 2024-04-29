@@ -197,11 +197,11 @@ const onStep = () => {
 }
 
 // Events
-new Event(feature, "step", onStep, () => World.isLoaded() && config.equipmentsDiplay, 1)
-new Event(feature, "onOpenWindowPacket", (windowName) => shouldScan = windowName === "Your Equipment and Stats", () => World.isLoaded() && config.equipmentsDiplay)
-new Event(feature, "onWindowItemsPacket", onWindowItems, () => World.isLoaded() && config.equipmentsDiplay)
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.equipmentsDiplay)
-new Event(feature, "guiMouseClick", onGuiClick, () => World.isLoaded() && config.equipmentsDiplay)
+new Event(feature, "step", onStep, () => World.isLoaded() && config.equipmentsDisplay, 1)
+new Event(feature, "onOpenWindowPacket", (windowName) => shouldScan = windowName === "Your Equipment and Stats", () => World.isLoaded() && config.equipmentsDisplay)
+new Event(feature, "onWindowItemsPacket", onWindowItems, () => World.isLoaded() && config.equipmentsDisplay)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.equipmentsDisplay)
+new Event(feature, "guiMouseClick", onGuiClick, () => World.isLoaded() && config.equipmentsDisplay)
 
 // Starting events
 feature.start()

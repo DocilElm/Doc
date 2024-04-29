@@ -1091,7 +1091,7 @@ class Settings {
         category: "Misc",
         subcategory: "Misc"
     })
-    equipmentsDiplay = false;
+    equipmentsDisplay = false;
 }
 
 export default new Settings()
