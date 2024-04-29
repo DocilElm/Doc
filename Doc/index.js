@@ -41,6 +41,7 @@ import "./features/garden/VisitorProfit"
 import "./features/garden/GardenDisplay"
 import "./features/garden/PestsDisplay"
 import "./features/garden/VisitorBzButton"
+import "./features/garden/RenderInfestedPlots"
 // Slayers
 import "./features/slayers/BossSlainTimer"
 // Trackers

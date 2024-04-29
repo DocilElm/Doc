@@ -583,6 +583,14 @@ class Settings {
     })
     visitorBazaarButton = false;
 
+    @SwitchProperty({
+        name: "Render Infested Plots",
+        description: "Draws a box around the whole plot that has pests in it",
+        category: "Garden",
+        subcategory: "Garden"
+    })
+    renderInfestedPlots = false;
+
     // Slayer
     @SwitchProperty({
         name: "Boss Slain Timer",
