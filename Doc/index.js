@@ -79,6 +79,7 @@ import "./features/misc/SlotLocking"
 import "./features/misc/NoCursorReset"
 import "./features/misc/EquipmentDisplay"
 import "./features/misc/ArmorDisplay"
+import "./features/misc/SystemTimeDisplay"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

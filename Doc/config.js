@@ -67,6 +67,8 @@ class Settings {
         this.addDependency("Armor Display Background", "Armor Display")
         this.addDependency("Armor Display Barrier", "Armor Display")
         this.addDependency("Armor Display Location", "Armor Display")
+        this.addDependency("System Time Display Color", "System Time Display")
+        this.addDependency("System Time Display Location", "System Time Display")
     }
     // General
     @ButtonProperty({
@@ -1137,6 +1139,51 @@ class Settings {
     })
     editeditarmorDisplay() {
         ChatLib.command("editarmorDisplay", true)
+    }
+
+    @SwitchProperty({
+        name: "System Time Display",
+        description: "Displays your current time",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    systemTimeDisplay = false;
+
+    @SelectorProperty({
+        name: "System Time Display Color",
+        description: "Changes the color for this display",
+        category: "Misc",
+        subcategory: "Misc",
+        options: [
+            "§4Dark Red",
+            "§cRed",
+            "§6Gold",
+            "§eYellow",
+            "§2Dark Green",
+            "§aGreen",
+            "§bAqua",
+            "§3Dark Aqua",
+            "§1Dark Blue",
+            "§9Blue",
+            "§dLight Purple",
+            "§5Dark Purple",
+            "§fWhite",
+            "§7Gray",
+            "§8Dark Gray",
+            "§0Black"
+        ]
+    })
+    systemTimeDisplayColor = 0;
+
+    @ButtonProperty({
+        name: "System Time Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    editeditSystemTimeDisplay() {
+        ChatLib.command("editSystemTimeDisplay", true)
     }
 }
 
