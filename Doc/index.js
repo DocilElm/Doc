@@ -83,6 +83,7 @@ import "./features/misc/ArmorDisplay"
 import "./features/misc/SystemTimeDisplay"
 import "./features/misc/ToggleSprint"
 import "./features/misc/NoDeathAnimation"
+import "./features/misc/NoLightning"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

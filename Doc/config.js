@@ -1231,6 +1231,14 @@ class Settings {
         subcategory: "Misc"
     })
     noDeathAnimation = false;
+
+    @SwitchProperty({
+        name: "No Lightning",
+        description: "Avoids rendering lightning &bCredits to unclaimedbloom6",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    noLightning = false;
 }
 
 export default new Settings()
