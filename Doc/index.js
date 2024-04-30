@@ -28,6 +28,7 @@ import "./features/dungeons/TriviaSolver"
 import "./features/dungeons/ThreeWeirdosSolver"
 import "./features/dungeons/BloodHelper"
 import "./features/dungeons/RemoveDamageTag"
+import "./features/dungeons/PuzzleNames"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
@@ -52,7 +53,7 @@ import "./features/trackers/PowderTracker"
 // Kuudra
 import "./features/kuudra/FatalTempoDisplay"
 import "./features/kuudra/CratesWaypoints"
-//Misc
+// Misc
 import "./features/misc/CreeperAlert"
 import "./features/misc/RagAxeTimer"
 import "./features/misc/RngMeter"
@@ -85,6 +86,7 @@ import "./features/misc/ToggleSprint"
 import "./features/misc/NoDeathAnimation"
 import "./features/misc/NoLightning"
 import "./features/misc/RemoveFrontView"
+// Updater
 import "./features/misc/AutoUpdater"
 
 new Command(null, "doc", () => config.openGUI()).start()

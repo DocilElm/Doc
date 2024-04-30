@@ -81,6 +81,7 @@ export class Persistence {
         armorDisplay: {x: 10, y: 10, scale: 1},
         systemDisplay: {x: 10, y: 10, scale: 1},
         toggleSprintDisplay: {x: 10, y: 10, scale: 1},
+        puzzleNameDisplay: {x: 10, y: 10, scale: 1},
         inventoryButtons: {},
         commandAliases: {},
         keyShortcuts: {},

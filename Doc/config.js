@@ -71,6 +71,7 @@ class Settings {
         this.addDependency("System Time Display Location", "System Time Display")
         this.addDependency("Toggle Sprint Display Text", "Toggle Sprint Display")
         this.addDependency("Toggle Sprint Display Location", "Toggle Sprint Display")
+        this.addDependency("Puzzle Names Display Location", "Puzzle Names Display")
     }
     // General
     @ButtonProperty({
@@ -475,6 +476,25 @@ class Settings {
         subcategory: "Dungeons"
     })
     removeDamageTag = false;
+
+    @SwitchProperty({
+        name: "Puzzle Names Display",
+        description: "Display the current status and names of the puzzles in tablist",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    puzzleNamesDisplay = false;
+
+    @ButtonProperty({
+        name: "Puzzle Names Display Location",
+        description: "Changes The Display Location",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Change"
+    })
+    editpuzzleNameDisplay() {
+        ChatLib.command("editpuzzleNameDisplay", true);
+    }
 
     // Mining
     @SwitchProperty({
@@ -1248,6 +1268,8 @@ class Settings {
     })
     removeFrontView = false;
 
+
+    // Updater
     @SwitchProperty({
         name: "Auto Updater",
         description: "Enables this module's auto updater &c(fetches data every 30mins)",
