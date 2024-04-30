@@ -1215,6 +1215,14 @@ class Settings {
     editedittoggleSprint() {
         ChatLib.command("edittoggleSprint", true)
     }
+
+    @SwitchProperty({
+        name: "No Death Animation",
+        description: "Avoids rendering the death animation on entities &bCredits to unclaimedbloom6",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    noDeathAnimation = false;
 }
 
 export default new Settings()
