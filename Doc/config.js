@@ -1239,6 +1239,14 @@ class Settings {
         subcategory: "Misc"
     })
     noLightning = false;
+
+    @SwitchProperty({
+        name: "Remove Front View",
+        description: "Removes the front view from F5",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    removeFrontView = false;
 }
 
 export default new Settings()

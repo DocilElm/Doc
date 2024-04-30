@@ -84,6 +84,7 @@ import "./features/misc/SystemTimeDisplay"
 import "./features/misc/ToggleSprint"
 import "./features/misc/NoDeathAnimation"
 import "./features/misc/NoLightning"
+import "./features/misc/RemoveFrontView"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
