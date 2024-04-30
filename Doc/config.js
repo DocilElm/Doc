@@ -468,6 +468,14 @@ class Settings {
     })
     bloodHelper = false;
 
+    @SwitchProperty({
+        name: "Remove Damage Tag",
+        description: "Removes every damage tag from rendering",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    removeDamageTag = false;
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",
