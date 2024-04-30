@@ -11,7 +11,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer", "Tracker", "Kuudra", "Misc"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer", "Tracker", "Kuudra", "Misc", "Updater"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -1247,6 +1247,14 @@ class Settings {
         subcategory: "Misc"
     })
     removeFrontView = false;
+
+    @SwitchProperty({
+        name: "Auto Updater",
+        description: "Enables this module's auto updater &c(fetches data every 30mins)",
+        category: "Updater",
+        subcategory: "Updater"
+    })
+    autoUpdater = false;
 }
 
 export default new Settings()

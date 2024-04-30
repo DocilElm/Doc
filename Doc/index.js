@@ -85,6 +85,7 @@ import "./features/misc/ToggleSprint"
 import "./features/misc/NoDeathAnimation"
 import "./features/misc/NoLightning"
 import "./features/misc/RemoveFrontView"
+import "./features/misc/AutoUpdater"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
