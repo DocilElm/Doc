@@ -80,6 +80,7 @@ import "./features/misc/NoCursorReset"
 import "./features/misc/EquipmentDisplay"
 import "./features/misc/ArmorDisplay"
 import "./features/misc/SystemTimeDisplay"
+import "./features/misc/ToggleSprint"
 
 new Command(null, "doc", () => config.openGUI()).start()
 

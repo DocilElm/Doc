@@ -69,6 +69,8 @@ class Settings {
         this.addDependency("Armor Display Location", "Armor Display")
         this.addDependency("System Time Display Color", "System Time Display")
         this.addDependency("System Time Display Location", "System Time Display")
+        this.addDependency("Toggle Sprint Display Text", "Toggle Sprint Display")
+        this.addDependency("Toggle Sprint Display Location", "Toggle Sprint Display")
     }
     // General
     @ButtonProperty({
@@ -1184,6 +1186,34 @@ class Settings {
     })
     editeditSystemTimeDisplay() {
         ChatLib.command("editSystemTimeDisplay", true)
+    }
+
+    @SwitchProperty({
+        name: "Toggle Sprint Display",
+        description: "Displays the assigned text whenever ToggleSprint is enabled &b(take a look at your keybinds if you don't know how to toggle it)",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    toggleSprintDisplay = false;
+
+    @TextProperty({
+        name: "Toggle Sprint Display Text",
+        category: "The text that ToggleSprint feature will display",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "&bToggle Sprint&f: &aEnabled"
+    })
+    toggleSprintText = "&bToggle Sprint&f: &aEnabled";
+
+    @ButtonProperty({
+        name: "Toggle Sprint Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    editedittoggleSprint() {
+        ChatLib.command("edittoggleSprint", true)
     }
 }
 
