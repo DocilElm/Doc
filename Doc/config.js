@@ -496,6 +496,23 @@ class Settings {
         ChatLib.command("editpuzzleNameDisplay", true);
     }
 
+    @SwitchProperty({
+        name: "Send Mimic Dead",
+        description: "Sends the set Mimic Dead message whenever mimic dies",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    sendMimicDead = false;
+
+    @TextProperty({
+        name: "Mimic Dead Message",
+        category: "The message that Send Mimic Dead feature will send",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "Mimic Killed!"
+    })
+    mimicDeadMessage = "Mimic Killed!";
+
     // Mining
     @SwitchProperty({
         name: "Emisarry Waypoints",

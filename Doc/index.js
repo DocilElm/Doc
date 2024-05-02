@@ -30,6 +30,7 @@ import "./features/dungeons/BloodHelper"
 import "./features/dungeons/RemoveDamageTag"
 import "./features/dungeons/PuzzleNames"
 import "./features/dungeons/TicTacToeSolver"
+import "./features/dungeons/MimicKilled"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
