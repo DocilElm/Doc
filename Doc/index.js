@@ -29,6 +29,7 @@ import "./features/dungeons/ThreeWeirdosSolver"
 import "./features/dungeons/BloodHelper"
 import "./features/dungeons/RemoveDamageTag"
 import "./features/dungeons/PuzzleNames"
+import "./features/dungeons/TicTacToeSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"

@@ -99,7 +99,7 @@ Object.keys(Persistence.data.showMessageTitle)?.forEach(key => {
 
 // Load CancelMessages from settings
 Object.keys(Persistence.data.cancelMessage)?.forEach(key => {
-    new TitleMessage(scroll, key).create(true)
+    new CancelMessage(scroll, key).create(true)
 })
 
 gui._drawNormal(bgbox)
