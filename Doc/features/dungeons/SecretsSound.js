@@ -1,3 +1,4 @@
+import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
@@ -22,7 +23,7 @@ const itemEntities = new Map()
 let currentBlockClicked = null
 
 // Logic
-const registerWhen = () => WorldState.inDungeons() && config.secretsSound
+const registerWhen = () => WorldState.inDungeons() && config.secretsSound && !Dungeons.inBossRoom()
 
 const playSound = () => {
     if (!registerWhen()) return
