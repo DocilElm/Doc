@@ -72,6 +72,8 @@ class Settings {
         this.addDependency("Toggle Sprint Display Text", "Toggle Sprint Display")
         this.addDependency("Toggle Sprint Display Location", "Toggle Sprint Display")
         this.addDependency("Puzzle Names Display Location", "Puzzle Names Display")
+        this.addDependency("Slayer Display Location", "Slayer Display")
+        this.addDependency("Slayer Box", "Slayer Display")
     }
     // General
     @ButtonProperty({
@@ -645,9 +647,36 @@ class Settings {
         name: "Boss Slain Timer",
         description: "Sends a chat msg with the time it took to kill the slayer (also uses scoreboard for checks)",
         category: "Slayer",
-        subcategory: "Sayer"
+        subcategory: "Slayer"
     })
     bossSlainTimer = false;
+
+    @SwitchProperty({
+        name: "Slayer Display",
+        description: "Displays your current boss's hp and time",
+        category: "Slayer",
+        subcategory: "Slayer"
+    })
+    slayerDisplay = false;
+
+    @ButtonProperty({
+        name: "Slayer Display Location",
+        description: "Changes The Display Location",
+        category: "Slayer",
+        subcategory: "Slayer",
+        placeholder: "Change"
+    })
+    changeeditslayerDisplay() {
+        ChatLib.command("editslayerDisplay", true);
+    }
+
+    @SwitchProperty({
+        name: "Slayer Box",
+        description: "Displays a box at the boss",
+        category: "Slayer",
+        subcategory: "Slayer"
+    })
+    slayerDisplayBox = false;
 
     // Tracker
     @SwitchProperty({
