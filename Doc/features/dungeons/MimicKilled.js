@@ -16,7 +16,7 @@ const onEntityDeath = (ctEntity) => {
     if (sentMessage) return
 
     const entity = ctEntity.entity
-    if (!(entity instanceof net.minecraft.entity.monster.EntityZombie)) return ChatLib.chat("return")
+    if (!(entity instanceof net.minecraft.entity.monster.EntityZombie)) return
     if (!entity.func_70631_g_() || entity.func_82169_q(0)) return
 
     ChatLib.command(`pc ${config.mimicDeadMessage}`)
