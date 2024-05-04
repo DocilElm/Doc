@@ -16,12 +16,19 @@ const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && con
 
 // Events
 new Event(feature, "step", () => {
-    mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => entity.getName().includes("✯ ") && !entity.getName().includes("Fels"))
+    mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => entity.getName().includes("✯ "))
 }, registerWhen, 3)
 
 new Event(feature, "renderWorld", () => {
     mobsArray.forEach(entity => {
-        RenderHelper.drawEntityBox(entity.getRenderX(), entity.getRenderY() - 2, entity.getRenderZ(), 0.6, 2, 0, 35, 243, 255, 1.3)
+        // Only render the head of fel
+        if (entity.getName().includes("Fels")) {
+            RenderHelper.drawEntityBox(entity.getRenderX(), entity.getRenderY() - 3, entity.getRenderZ(), 0.7, 0.9, 1, 51 / 255, 1, 1, 2)
+
+            return
+        }
+
+        RenderHelper.drawEntityBox(entity.getRenderX(), entity.getRenderY() - 2, entity.getRenderZ(), 0.6, 2, 0, 35, 243, 1, 2)
     })
 }, registerWhen)
 
