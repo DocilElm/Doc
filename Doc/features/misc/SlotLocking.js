@@ -1,3 +1,4 @@
+import { Keybind } from "../../../KeybindFix"
 import { WorldState } from "../../../Atomx/skyblock/World"
 import ThePlayer from "../../../Atomx/skyblock/ThePlayer"
 import config from "../../config"
@@ -9,8 +10,8 @@ import { TextHelper } from "../../shared/Text"
 
 // Constant variables
 const feature = new Feature("SlotLocking", "Misc", "")
-const lockKeybind = new KeyBind("Lock Slot", Keyboard.KEY_NONE, "Doc")
-const bindingKeybind = new KeyBind("Bind Slots", Keyboard.KEY_NONE, "Doc")
+const lockKeybind = new Keybind("Lock Slot", Keyboard.KEY_NONE, "Doc")
+const bindingKeybind = new Keybind("Bind Slots", Keyboard.KEY_NONE, "Doc")
 const dropKey = Client.getKeyBindFromDescription("key.drop")
 
 // Changeable variables

@@ -1,3 +1,4 @@
+import { Keybind } from "../../../KeybindFix"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
@@ -255,7 +256,7 @@ const scanWaterBoard = () => {
     hasScanned = true
 }
 
-new KeyBind(`Record custom waterboard`, Keyboard.KEY_NONE, "Doc")
+new Keybind(`Record custom waterboard`, Keyboard.KEY_NONE, "Doc")
     .registerKeyPress(() => {
         shouldRecord = !shouldRecord
 

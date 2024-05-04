@@ -1,3 +1,4 @@
+import { Keybind } from "../../../KeybindFix"
 import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
 import ScalableGui from "../../shared/Scalable"
@@ -5,7 +6,7 @@ import { TextHelper } from "../../shared/Text"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/ToggleSprint.js
 
-const toggleSprintKeybind = new KeyBind("Toggle Sprint", Keyboard.KEY_NONE, "Doc")
+const toggleSprintKeybind = new Keybind("Toggle Sprint", Keyboard.KEY_NONE, "Doc")
 const sprintKey = new KeyBind(Client.getMinecraft().field_71474_y.field_151444_V)
 const forwardKey = new KeyBind(Client.getMinecraft().field_71474_y.field_74351_w)
 const editGui = new ScalableGui("toggleSprintDisplay").setCommand("edittoggleSprint")
