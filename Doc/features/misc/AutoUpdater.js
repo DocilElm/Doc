@@ -61,7 +61,7 @@ const update = (url) => {
 }
 
 register("step", () => {
-    if (!World.isLoaded() || !config.autoUpdater) return
+    if (!World.isLoaded()) return
 
     if (shouldUpdate) {
         shouldUpdate = false
@@ -73,7 +73,7 @@ register("step", () => {
         return
     }
 
-    if (lastCheck && Date.now() - lastCheck < 30000) return
+    if (lastCheck && Date.now() - lastCheck < 30000 || !config.autoUpdater) return
 
     request({
         url: "https://api.github.com/repos/DocilElm/Doc/releases/latest",
@@ -81,8 +81,10 @@ register("step", () => {
     })
     .then(data => {
         const newVersion = data.tag_name?.replace("v", "")
+        const apiVersion = parseInt(newVersion.replace(/\./g, ""))
+        const localVersion = parseInt(currentVersion.replace(/\./g, ""))
 
-        if (newVersion === currentVersion) return
+        if (apiVersion === localVersion) return
 
         ChatLib.command("docupdate", true)
     })
@@ -98,8 +100,10 @@ register("command", () => {
     })
     .then(data => {
         const newVersion = data.tag_name?.replace("v", "")
+        const apiVersion = parseInt(newVersion.replace(/\./g, ""))
+        const localVersion = parseInt(currentVersion.replace(/\./g, ""))
 
-        if (newVersion === currentVersion || currentVersion > newVersion) return ChatLib.chat(`${TextHelper.PREFIX} &aAlready up to date`)
+        if (apiVersion === localVersion || localVersion > apiVersion) return ChatLib.chat(`${TextHelper.PREFIX} &aAlready up to date`)
 
         const changelogs = data.body.replace(/(`+(?:diff)?)/g, "").trim().split("\r\n")
 
