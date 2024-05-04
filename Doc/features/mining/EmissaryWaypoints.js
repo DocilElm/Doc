@@ -23,8 +23,8 @@ const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && con
 const renderWaypoints = () => {
     Object.keys(emissaryCoords).forEach(name => {
         const [ x, y, z ] = emissaryCoords[name]
-        Tessellator.drawString(name, x, y, z, Renderer.WHITE, false, .05, false)
-        renderBeaconBeam(x, y, z, 1, 1, 1, 1, true)
+        Tessellator.drawString(name, x, y + 3, z, Renderer.AQUA, false, .05, false)
+        renderBeaconBeam(x, y, z, 0, 1, 1, 1, true)
     })
 }
 

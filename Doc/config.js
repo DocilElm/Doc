@@ -517,7 +517,7 @@ class Settings {
 
     // Mining
     @SwitchProperty({
-        name: "Emisarry Waypoints",
+        name: "Emissary Waypoints",
         description: "Waypoints every emissary in the dwarven mines",
         category: "Mining",
         subcategory: "Mining"
