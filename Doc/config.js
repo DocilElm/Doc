@@ -1323,6 +1323,14 @@ class Settings {
     })
     mushroomTimer = false;
 
+    @SwitchProperty({
+        name: "Wooden Buttons",
+        description: "Renders a text and waypoint where the buttons should be clicked &b/resetbuttons &ato reset the clicked button list",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    woodenButtons = false;
+
 
     // Updater
     @SwitchProperty({

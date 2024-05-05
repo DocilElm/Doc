@@ -91,6 +91,7 @@ import "./features/misc/NoLightning"
 import "./features/misc/RemoveFrontView"
 // Rift
 import "./features/rift/MushroomTimer"
+import "./features/rift/WoodenButtons"
 // Updater
 import "./features/misc/AutoUpdater"
 

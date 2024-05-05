@@ -93,6 +93,7 @@ export class Persistence {
         chatWaypointNames: [],
         lockedSlots: {},
         equipments: [],
+        clickedWoodenButtons: [],
         toggleSprint: false,
         apiCheckTime: null,
         firstTime: true
