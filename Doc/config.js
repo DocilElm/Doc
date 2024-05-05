@@ -1355,6 +1355,14 @@ class Settings {
     })
     lavaMazeRender = false;
 
+    @SwitchProperty({
+        name: "Tubulator Render",
+        description: "Renders filled blocks where you should step",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    tubulatorRender = false;
+
 
     // Updater
     @SwitchProperty({

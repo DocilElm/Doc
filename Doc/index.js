@@ -95,6 +95,7 @@ import "./features/rift/WoodenButtons"
 import "./features/rift/BoxBerberis"
 import "./features/rift/GlyphRender"
 import "./features/rift/LavaMaze"
+import "./features/rift/Tubulator"
 // Updater
 import "./features/misc/AutoUpdater"
 
