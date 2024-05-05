@@ -1339,6 +1339,14 @@ class Settings {
     })
     boxBerberis = false;
 
+    @SwitchProperty({
+        name: "Glyph Render",
+        description: "Renders a text in each of the glyph locations",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    glyphRender = false;
+
 
     // Updater
     @SwitchProperty({
