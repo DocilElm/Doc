@@ -89,6 +89,8 @@ import "./features/misc/ToggleSprint"
 import "./features/misc/NoDeathAnimation"
 import "./features/misc/NoLightning"
 import "./features/misc/RemoveFrontView"
+// Rift
+import "./features/rift/MushroomTimer"
 // Updater
 import "./features/misc/AutoUpdater"
 

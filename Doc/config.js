@@ -11,7 +11,7 @@ import {
 
 @Vigilant("Doc", "Doc", {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden","Slayer", "Tracker", "Kuudra", "Misc", "Updater"]
+        const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Misc", "Updater"]
         return categories.indexOf(a.name) - categories.indexOf(b.name)
     }
 })
@@ -1313,6 +1313,15 @@ class Settings {
         subcategory: "Misc"
     })
     removeFrontView = false;
+
+    // Rift
+    @SwitchProperty({
+        name: "Mushroom Timer",
+        description: "Renders the amount of time in a countdown required to look at the mushroom in dreadfarm &c(this might not be accurate for all mushrooms)",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    mushroomTimer = false;
 
 
     // Updater
