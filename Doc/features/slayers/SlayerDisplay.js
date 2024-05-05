@@ -51,7 +51,7 @@ const onTick = () => {
     
     if (!displayList.spawnedBy) {
         World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).forEach(it => {
-            if (!spawnedByRegex.test(it.getName()?.removeFormatting())) return
+            if (!spawnedByRegex.test(it.getName()?.removeFormatting()) || !Player.asPlayerMP().canSeeEntity(it)) return
             
             const [ _, spawnerName ] = it.getName().removeFormatting().match(spawnedByRegex)
             if (spawnerName.toLowerCase() !== Player.getName().toLowerCase()) return
