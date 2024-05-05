@@ -1331,6 +1331,14 @@ class Settings {
     })
     woodenButtons = false;
 
+    @SwitchProperty({
+        name: "Box Berberis",
+        description: "Renders a box where the berberis particles are currently at &c(this has a 20 block scan distance)",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    boxBerberis = false;
+
 
     // Updater
     @SwitchProperty({

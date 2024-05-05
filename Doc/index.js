@@ -92,6 +92,7 @@ import "./features/misc/RemoveFrontView"
 // Rift
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
+import "./features/rift/BoxBerberis"
 // Updater
 import "./features/misc/AutoUpdater"
 
