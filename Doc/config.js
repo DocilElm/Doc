@@ -1347,6 +1347,14 @@ class Settings {
     })
     glyphRender = false;
 
+    @SwitchProperty({
+        name: "Lava Maze Render",
+        description: "Renders filled blocks where you should step to avoid the lava &c(this is the second checkpoint in mirrorverse)",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    lavaMazeRender = false;
+
 
     // Updater
     @SwitchProperty({

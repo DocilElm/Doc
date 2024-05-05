@@ -94,6 +94,7 @@ import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
 import "./features/rift/BoxBerberis"
 import "./features/rift/GlyphRender"
+import "./features/rift/LavaMaze"
 // Updater
 import "./features/misc/AutoUpdater"
 
