@@ -256,7 +256,7 @@ const scanWaterBoard = () => {
     hasScanned = true
 }
 
-new Keybind(`Record custom waterboard`, Keyboard.KEY_NONE, "Doc")
+new Keybind(`§fRecord custom waterboard`, Keyboard.KEY_NONE, "Doc")
     .registerKeyPress(() => {
         shouldRecord = !shouldRecord
 

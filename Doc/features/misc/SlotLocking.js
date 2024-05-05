@@ -10,8 +10,8 @@ import { TextHelper } from "../../shared/Text"
 
 // Constant variables
 const feature = new Feature("SlotLocking", "Misc", "")
-const lockKeybind = new Keybind("Lock Slot", Keyboard.KEY_NONE, "Doc")
-const bindingKeybind = new Keybind("Bind Slots", Keyboard.KEY_NONE, "Doc")
+const lockKeybind = new Keybind("§fLock Slot", Keyboard.KEY_NONE, "Doc")
+const bindingKeybind = new Keybind("§fBind Slots", Keyboard.KEY_NONE, "Doc")
 const dropKey = Client.getKeyBindFromDescription("key.drop")
 
 // Changeable variables
