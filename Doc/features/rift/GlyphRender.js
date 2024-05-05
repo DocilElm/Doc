@@ -6,7 +6,7 @@ import { Persistence } from "../../shared/Persistence"
 
 // Constant variables
 const feature = new Feature("GlyphRender", "Rift", "")
-const GlyphLocations = Persistence.getDataFromFile("GlyphLocations.json")
+const GlyphLocations = Persistence.getDataFromFileOrLink("GlyphLocations.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/GlyphLocations.json")
 const glyphKeys = Object.keys(GlyphLocations)
 
 // Logic
