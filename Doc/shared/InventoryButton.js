@@ -162,7 +162,7 @@ export class InventoryButton {
         // we use the fixed scales to scale this render
         const scale = patcherScale
             ? fixedScales[patcherScale]
-            : 1 // otherwise we 1
+            : 1 // otherwise 1
 
         Renderer.retainTransforms(true)
         Renderer.scale(scale ?? 2) // If the scale is null/undefined default to 2
