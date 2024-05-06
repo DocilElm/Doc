@@ -1,9 +1,8 @@
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
-import { createSkull } from "../../shared/InventorySlot"
+import { InventoryButton } from "../../shared/InventoryButton"
 import { Persistence } from "../../shared/Persistence"
-import { RenderHelper } from "../../shared/Render"
 import { WorldState } from "../../shared/World"
 
 // Constant variables
@@ -14,8 +13,6 @@ const requiredWorld = "Garden"
 const GardenVisitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Atomx/main/api/GardenVisitors.json")
 const GardenVisitorsArray = Object.keys(GardenVisitors)
 const requiredItemsRegex = /^ ([a-zA-z ]+)(?: x)?([\d,]+)?/
-const slotBorderColor = Renderer.color(50, 50, 50, 150)
-const slotColor = Renderer.color(100, 100, 100, 150)
 const itemIDList = {
     "Mutant Nether Wart": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTExYTNjZWM3YWFmOTA0MjEyY2NmOTNiYjY3YTNjYWYzZDY0OTc4M2JhOTBiOGI2MGJiNjNjNzY4N2ViMzlmIn19fQ==",
     "Fermento": "ewogICJ0aW1lc3RhbXAiIDogMTY2MjUwMjkxNjU1MiwKICAicHJvZmlsZUlkIiA6ICIwOTZkYWUzZWY1MmU0YWU4ODk3ODY2N2EyOGIwZWFhNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJHd0FiaXlCZ2dnIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2NiNDFkYWViNTdkMmFlNjJjNjZlNThlYjZkZWJiMmE3ZDQ0NmUzNDU0MWE3NzEzNTA3MjhjOWRiMTViZWFmYmEiCiAgICB9CiAgfQp9",
@@ -50,10 +47,10 @@ const itemIDList = {
     "Enchanted Nether Wart": {"id":"minecraft:nether_wart","Count":1,"tag":{"ench":[],"HideFlags":254,"display":{"Lore":["§a§lUNCOMMON"],"Name":"§aEnchanted Nether Wart"},"ExtraAttributes":{"id":"ENCHANTED_NETHER_STALK"}},"Damage":0},
     "Enchanted Raw Rabbit": {"id":"minecraft:rabbit","Count":1,"tag":{"ench":[],"HideFlags":254,"display":{"Lore":["§a§lUNCOMMON"],"Name":"§aEnchanted Raw Rabbit"},"ExtraAttributes":{"id":"ENCHANTED_RABBIT"}},"Damage":0}
 }
+const buttonsCreated = new Set()
 
 // Changeable variables
 let shouldScan = false
-let currentItems = []
 let currentVisitor = null
 
 // Functions
@@ -64,65 +61,8 @@ const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && con
 
 const checkWindowName = windowTitle => shouldScan = GardenVisitorsArray.some(name => name === windowTitle)
 
-class InventoryButton {
-    constructor(item, slot, itemName) {
-        this.item = item
-        this.slot = slot
-        this.itemName = itemName
-
-        currentItems.push(this)
-    }
-
-    getBoundary() {
-        if (Player.getContainer().getSize() !== 90) return
-        const [ x, y ] = RenderHelper.getSlotRenderPosition(this.slot)
-
-        const coords = [
-            x + 27,
-            y,
-            x + 27 + 16,
-            y + 16
-        ]
-        
-        return coords
-    }
-
-    draw() {
-        this.drawOutline()
-
-        const [ x, y ] = this.getBoundary()
-        this.item.draw(x, y)
-        Renderer.drawRect(slotColor, x, y, 16, 16)
-    }
-
-    drawOutline() {
-        const [ x1, y1, x2, y2 ] = this.getBoundary()
-
-        // Top line
-        Renderer.drawLine(slotBorderColor, x1, y1, x2, y1, 1)
-        
-        // Left line
-        Renderer.drawLine(slotBorderColor, x1, y1, x1, y2, 1)
-        
-        // Right line
-        Renderer.drawLine(slotBorderColor, x2, y1, x2, y2, 1)
-        
-        // Bottom line
-        Renderer.drawLine(slotBorderColor, x1, y2, x2, y2, 1)
-    }
-
-    onMouseClick(mx, my, btn) {
-        const [ x, y, x1, y1 ] = this.getBoundary()
-        if (!(mx >= x && mx <= x1 && my >= y && my <= y1)) return
-
-        if (btn !== 0) return
-        
-        ChatLib.command(`bz ${this.itemName}`)
-    }
-}
-
 const scanItems = (itemStacks) => {
-    if (!shouldScan) return currentItems = []
+    if (!shouldScan) return buttonsCreated.clear()
 
     let hasVisitorHead = false
     // let currentVisitor = null
@@ -138,7 +78,7 @@ const scanItems = (itemStacks) => {
 
         // If it's an actual visitor re-assign these variables for saving data
         if (hasOffers) {
-            if (currentVisitor !== ctItem.getName()?.removeFormatting()) currentItems = []
+            if (currentVisitor !== ctItem.getName()?.removeFormatting()) buttonsCreated.clear()
 
             currentVisitor = ctItem.getName()?.removeFormatting()
             hasVisitorHead = hasOffers
@@ -161,11 +101,15 @@ const scanItems = (itemStacks) => {
 
                 // Add values to the map
                 const itemObj = itemIDList[actualName]
-                const slot = currentItems.length === 0 ? 44 : 53
+                const slot = buttonsCreated.size === 0 ? 44 : 53
 
-                if (typeof(itemObj) == "object") return new InventoryButton(makeItemFromNbt(itemObj), slot, actualName)
+                if (typeof(itemObj) == "object") {
+                    buttonsCreated.add(new InventoryButton(slot).setOffset(27).setItem(makeItemFromNbt(itemObj)).setCommand(`bz ${actualName}`))
 
-                new InventoryButton(createSkull(itemObj), slot, actualName)
+                    return
+                }
+
+                buttonsCreated.add(new InventoryButton(slot).setOffset(27).createItemByTexture(itemObj).setCommand(`bz ${actualName}`))
 
                 return
             }
@@ -176,28 +120,21 @@ const scanItems = (itemStacks) => {
 }
 
 const renderOverlay = () => {
-    if (!currentItems || shouldScan || !currentVisitor) return
+    if (!buttonsCreated.size || shouldScan || !currentVisitor) return
 
     const container = Player.getContainer()
-    if (container.getName() !== currentVisitor) return currentItems = []
+    if (container.getName() !== currentVisitor) {
+        buttonsCreated.forEach(it => it.delete())
+        buttonsCreated.clear()
+    }
 
-    currentItems.forEach(it => it.draw())
-}
-
-const mouseClick = (mx, my, mbtn) => {
-    if (!currentItems || shouldScan || !currentVisitor) return
-
-    const container = Player.getContainer()
-    if (container.getName() !== currentVisitor) return
-
-    currentItems.forEach(it => it.onMouseClick(mx, my, mbtn))
+    buttonsCreated.forEach(it => it.draw())
 }
 
 // Events
 new Event(feature, "onOpenWindowPacket", checkWindowName, registerWhen)
 new Event(feature, "onWindowItemsPacket", scanItems, registerWhen)
 new Event(feature, "renderOverlay", renderOverlay, registerWhen)
-new Event(feature, "guiMouseClick", mouseClick, registerWhen)
 
 // Starting events
 feature.start()

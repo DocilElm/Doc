@@ -261,7 +261,7 @@ export class InventoryButton {
      */
     delete() {
         allButtons.delete(this)
-        this.list.delete(this)
+        if (this.list) this.list.delete(this)
         delete this
     }
 }
