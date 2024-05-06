@@ -83,6 +83,7 @@ export class Persistence {
         toggleSprintDisplay: {x: 10, y: 10, scale: 1},
         puzzleNameDisplay: {x: 10, y: 10, scale: 1},
         slayerDisplay: {x: 10, y: 10, scale: 1},
+        otterDisplay: {x: 10, y: 10, scale: 0.5},
         inventoryButtons: {},
         commandAliases: {},
         keyShortcuts: {},

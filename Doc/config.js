@@ -74,6 +74,7 @@ class Settings {
         this.addDependency("Puzzle Names Display Location", "Puzzle Names Display")
         this.addDependency("Slayer Display Location", "Slayer Display")
         this.addDependency("Slayer Box", "Slayer Display")
+        this.addDependency("Otter Display Location", "Otter Display")
     }
     // General
     @ButtonProperty({
@@ -1321,6 +1322,25 @@ class Settings {
         subcategory: "Misc"
     })
     removeFrontView = false;
+
+    @SwitchProperty({
+        name: "Otter Display",
+        description: "Displays otters. why ? why not.",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    otterDisplay = false;
+
+    @ButtonProperty({
+        name: "Otter Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    editeditotterdisplay() {
+        ChatLib.command("editotterdisplay", true)
+    }
 
     // Rift
     @SwitchProperty({

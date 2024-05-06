@@ -90,6 +90,7 @@ import "./features/misc/ToggleSprint"
 import "./features/misc/NoDeathAnimation"
 import "./features/misc/NoLightning"
 import "./features/misc/RemoveFrontView"
+import "./features/misc/OtterDisplay"
 // Rift
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
