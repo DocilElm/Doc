@@ -1363,6 +1363,14 @@ class Settings {
     })
     tubulatorRender = false;
 
+    @SwitchProperty({
+        name: "Box Splatter Hearts",
+        description: "Renders a box where the heart particles are in &4Stillgore Chteau &cthis breaks whenever you're close to a vampire slayer",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    boxSplatterHearts = false;
+
 
     // Updater
     @SwitchProperty({
