@@ -6,8 +6,8 @@ export class WorldState {
         return TabList.getNames().map(name => name.removeFormatting())
     }
 
-    static getScoreboard(descending = false) {
-        return Scoreboard.getLines(descending).map(line => line.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
+    static getScoreboard(descending = false, removeFormatting = true) {
+        return Scoreboard.getLines(descending).map(line => removeFormatting ? line.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, "") : line.getName()?.replace(/[^\u0000-\u007F]/g, ""))
     }
 
     static inTab(string) {

@@ -97,6 +97,7 @@ import "./features/rift/GlyphRender"
 import "./features/rift/LavaMaze"
 import "./features/rift/Tubulator"
 import "./features/rift/BoxSplatterHearts"
+import "./features/rift/EffigiesWaypoint"
 // Updater
 import "./features/misc/AutoUpdater"
 

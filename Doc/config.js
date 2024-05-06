@@ -1371,6 +1371,14 @@ class Settings {
     })
     boxSplatterHearts = false;
 
+    @SwitchProperty({
+        name: "EffigiesWaypoint",
+        description: "Renders a waypoint like on the inactive effigies spot",
+        category: "Rift",
+        subcategory: "Rift"
+    })
+    effigiesWaypoint = false;
+
 
     // Updater
     @SwitchProperty({
