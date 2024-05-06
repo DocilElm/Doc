@@ -678,6 +678,14 @@ class Settings {
     })
     slayerDisplayBox = false;
 
+    @SwitchProperty({
+        name: "Box Miniboss",
+        description: "Renders a box where the miniboss is located",
+        category: "Slayer",
+        subcategory: "Slayer"
+    })
+    boxMiniboss = false;
+
     // Tracker
     @SwitchProperty({
         name: "Ghost Tracker",
