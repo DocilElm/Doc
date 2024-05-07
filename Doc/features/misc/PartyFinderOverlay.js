@@ -4,6 +4,8 @@ import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
 
+// Credits: https://github.com/UnclaimedBloom6
+
 // Constant variables
 const feature = new Feature("PartyFinderOverlay", "Misc", "")
 const partyMembersRegex = /^ \w{1,16}\: (\w+) \((\d+)\)$/
