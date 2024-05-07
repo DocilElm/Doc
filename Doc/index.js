@@ -50,6 +50,7 @@ import "./features/garden/RenderInfestedPlots"
 import "./features/slayers/BossSlainTimer"
 import "./features/slayers/SlayerDisplay"
 import "./features/slayers/BoxMiniboss"
+import "./features/slayers/SlayerArmorDisplay"
 // Trackers
 import "./features/trackers/GhostsTracker"
 import "./features/trackers/TrophyFishingTracker"

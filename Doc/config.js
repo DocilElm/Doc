@@ -76,6 +76,7 @@ class Settings {
         this.addDependency("Slayer Box", "Slayer Display")
         this.addDependency("Otter Display Location", "Otter Display")
         this.addDependency("World Age Display Location", "World Age Display")
+        this.addDependency("Slayer Armor Display Location", "Slayer Armor Display")
     }
     // General
     @ButtonProperty({
@@ -687,6 +688,26 @@ class Settings {
         subcategory: "Slayer"
     })
     boxMiniboss = false;
+
+    
+    @SwitchProperty({
+        name: "Slayer Armor Display",
+        description: "Displays your current slayer armor with its stats/kills/needed kills",
+        category: "Slayer",
+        subcategory: "Slayer"
+    })
+    slayerArmorDisplay = false;
+
+    @ButtonProperty({
+        name: "Slayer Armor Display Location",
+        description: "Changes The Display Location",
+        category: "Slayer",
+        subcategory: "Slayer",
+        placeholder: "Change"
+    })
+    changeeditslayerArmorDisplay() {
+        ChatLib.command("editslayerArmorDisplay", true);
+    }
 
     // Tracker
     @SwitchProperty({
