@@ -32,7 +32,7 @@ const makeButton = (slot, texture, command) => {
             .setCommand(command)
             .setOffset(x, y)
             .setCalculateSize(true)
-            .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest))
+            .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config.inventoryButtons)
 
         return
     }
@@ -42,7 +42,7 @@ const makeButton = (slot, texture, command) => {
         .setCommand(command)
         .setOffset(x, y)
         .setCalculateSize(true)
-        .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest))
+        .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config.inventoryButtons)
 }
 
 // Logic
