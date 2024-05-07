@@ -91,7 +91,9 @@ const deletebutton = (slot) => {
     const theSlot = mainArray[parseInt(slot) - 1]
     if (!theSlot || !(theSlot in Persistence.data.inventoryButtons)) return ChatLib.chat(`${TextHelper.PREFIX} &cSlot ${slot} is not in the saved data or it's an invalid slot`)
 
+    buttonsCreated.get(theSlot).delete()
     buttonsCreated.delete(theSlot)
+    
     delete Persistence.data.inventoryButtons[theSlot]
     Persistence.data.save()
 
