@@ -104,12 +104,24 @@ const scanItems = (itemStacks) => {
                 const slot = buttonsCreated.size === 0 ? 44 : 53
 
                 if (typeof(itemObj) == "object") {
-                    buttonsCreated.add(new InventoryButton(slot).setOffset(27).setItem(makeItemFromNbt(itemObj)).setCommand(`bz ${actualName}`))
+                    buttonsCreated.add(
+                        new InventoryButton(slot)
+                            .setOffset(27)
+                            .setItem(makeItemFromNbt(itemObj))
+                            .setCommand(`bz ${actualName}`)
+                            .setCheckFn(() => config.visitorBazaarButton)
+                        )
 
                     return
                 }
 
-                buttonsCreated.add(new InventoryButton(slot).setOffset(27).createItemByTexture(itemObj).setCommand(`bz ${actualName}`))
+                buttonsCreated.add(
+                    new InventoryButton(slot)
+                        .setOffset(27)
+                        .createItemByTexture(itemObj)
+                        .setCommand(`bz ${actualName}`)
+                        .setCheckFn(() => config.visitorBazaarButton)
+                    )
 
                 return
             }
