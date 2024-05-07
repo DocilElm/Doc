@@ -75,6 +75,7 @@ class Settings {
         this.addDependency("Slayer Display Location", "Slayer Display")
         this.addDependency("Slayer Box", "Slayer Display")
         this.addDependency("Otter Display Location", "Otter Display")
+        this.addDependency("World Age Display Location", "World Age Display")
     }
     // General
     @ButtonProperty({
@@ -1340,6 +1341,25 @@ class Settings {
     })
     editeditotterdisplay() {
         ChatLib.command("editotterdisplay", true)
+    }
+
+    @SwitchProperty({
+        name: "World Age Display",
+        description: "Displays the current world age",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    worldAgeDisplay = false;
+
+    @ButtonProperty({
+        name: "World Age Display Location",
+        description: "Changes The Display Location",
+        category: "Misc",
+        subcategory: "Misc",
+        placeholder: "Move"
+    })
+    editeditworldAgeDisplay() {
+        ChatLib.command("editworldAgeDisplay", true)
     }
 
     // Rift

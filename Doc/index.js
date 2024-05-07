@@ -91,6 +91,7 @@ import "./features/misc/NoDeathAnimation"
 import "./features/misc/NoLightning"
 import "./features/misc/RemoveFrontView"
 import "./features/misc/OtterDisplay"
+import "./features/misc/WorldAgeDisplay"
 // Rift
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
