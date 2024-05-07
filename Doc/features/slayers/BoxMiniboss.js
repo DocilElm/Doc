@@ -4,7 +4,7 @@ import { Feature } from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
 
 // Constant variables
-const feature = new Feature("BoxMiniboss")
+const feature = new Feature("BoxMiniboss", "Slayer", "")
 const miniBossNames = [
     "Revenant Sycophant",
     "Revenant Champion",

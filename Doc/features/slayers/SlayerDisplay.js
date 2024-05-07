@@ -6,7 +6,7 @@ import ScalableGui from "../../shared/Scalable"
 import { TextHelper } from "../../shared/Text"
 
 // Constant variables
-const feature = new Feature("SlayerDisplay")
+const feature = new Feature("SlayerDisplay", "Slayer", "")
 const editGui = new ScalableGui("slayerDisplay").setCommand("editslayerDisplay")
 const spawnedByRegex = /^Spawned by: (\w+)$/
 const timeRegex = /^\d+\:\d+( .+)?/
