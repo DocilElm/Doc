@@ -93,6 +93,7 @@ import "./features/misc/NoLightning"
 import "./features/misc/RemoveFrontView"
 import "./features/misc/OtterDisplay"
 import "./features/misc/WorldAgeDisplay"
+import "./features/misc/PartyFinderOverlay"
 // Rift
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"

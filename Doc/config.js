@@ -1392,6 +1392,14 @@ class Settings {
         ChatLib.command("editworldAgeDisplay", true)
     }
 
+    @SwitchProperty({
+        name: "Party Finder Overlay",
+        description: "Currently only displays dungeon finder first letter classes missing and cata requirement",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    partyFinderOverlay = false;
+
     // Rift
     @SwitchProperty({
         name: "Mushroom Timer",
