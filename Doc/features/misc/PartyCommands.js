@@ -1,9 +1,10 @@
 import { WorldState } from "../../../Atomx/skyblock/World"
-import { Event } from "../../core/Events"
+import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { TextHelper } from "../../shared/Text"
 import Party from "../../../Atomx/skyblock/Party"
 import config from "../../config"
+import { Persistence } from "../../shared/Persistence"
 
 // Constant variables
 const partyRegex = /^Party > \[?(?:MVP|VIP)?\+?\]? ?(.{1,16})\: \?(.+)$/
@@ -27,41 +28,53 @@ const commands = {
         description: "Transfer the party to the player that sent the message",
         fn: (name) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+
             sendCommand(`p transfer ${name}`)
         }
     },
     "allinv": {
         description: "Enables allinvites for the party",
-        fn: () => {
+        fn: (name) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+
             sendCommand("p settings allinvite")
         }
     },
     "warp": {
         description: "Warps the party",
-        fn: () => {
+        fn: (name) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+
             sendCommand("p warp")
         }
     },
     "private": {
         description: "Sends the party private games command",
-        fn: () => {
+        fn: (name) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+
             sendCommand(`p private`)
         }
     },
     "mute": {
         description: "Sends the party mute command",
-        fn: () => {
+        fn: (name) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+
             sendCommand(`p mute`)
         }
     },
     "ko": {
         description: "Sends the party kickoffline command",
-        fn: () => {
+        fn: (name) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+            
             sendCommand(`p kickoffline`)
         }
     },
@@ -69,6 +82,8 @@ const commands = {
         description: "Sends the join catacombs commands",
         fn: (name, msg, num) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+
             sendCommand(`joindungeon ${dungeonFloors[parseInt(num) - 1]}`)
         }
     },
@@ -76,6 +91,8 @@ const commands = {
         description: "Sends the join master catacombs commands",
         fn: (name, msg, num) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+
             sendCommand(`joindungeon master_${dungeonFloors[parseInt(num) - 1]}`)
         }
     },
@@ -83,6 +100,8 @@ const commands = {
         description: "Sends the join kuudra command",
         fn: (name, msg, num) => {
             if (Party.getLeader().toLowerCase() !== Player.getName().toLowerCase()) return
+            if (config.partyCommandsList && !Persistence.data.partyCommandList.some(it => it === name.toLowerCase())) return
+            
             sendCommand(`joininstance kuudra_${kuudraTiers[parseInt(num) - 1]}`)
         }
     },
@@ -124,6 +143,33 @@ const handleChat = (name, msg) => {
 
 // Events
 new Event(feature, "onChatPacket", handleChat, () => World.isLoaded() && config.partyCommands, partyRegex)
+new Command(feature, "partylist", (type, name) => {
+    if (!type) return ChatLib.chat(`${TextHelper.PREFIX} &cPlease set a valid type &7add, remove or list.`)
+
+    if (type.toLowerCase() === "list") return ChatLib.chat(`${TextHelper.PREFIX} &aCurrent party list&f: &6${Persistence.data.partyCommandList.join(" ")}`)
+
+    if (!name) return ChatLib.chat(`${TextHelper.PREFIX} &cPlease set a valid username`)
+
+    const idx = Persistence.data.partyCommandList.findIndex(it => it === name.toLowerCase())
+
+    if (type.toLowerCase() === "add") {
+        if (idx !== -1) return ChatLib.chat(`${TextHelper.PREFIX} &aWoah looks like that username is already in the list`)
+
+        Persistence.data.partyCommandList.push(name.toLowerCase())
+        Persistence.data.save()
+
+        ChatLib.chat(`${TextHelper.PREFIX} &aSaved &b${name} &ato the list`)
+
+        return
+    }
+
+    if (type.toLowerCase() !== "remove") return
+
+    delete Persistence.data.partyCommandList[idx]
+    Persistence.data.save()
+
+    ChatLib.chat(`${TextHelper.PREFIX} &aRemoved user &c${name} &afrom the list`)
+})
 
 // Starting events
 feature.start()

@@ -97,6 +97,7 @@ export class Persistence {
         lockedSlots: {},
         equipments: [],
         clickedWoodenButtons: [],
+        partyCommandList: [],
         toggleSprint: false,
         apiCheckTime: null,
         firstTime: true

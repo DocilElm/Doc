@@ -77,6 +77,7 @@ class Settings {
         this.addDependency("Otter Display Location", "Otter Display")
         this.addDependency("World Age Display Location", "World Age Display")
         this.addDependency("Slayer Armor Display Location", "Slayer Armor Display")
+        this.addDependency("Party Commands List", "Party Commands")
     }
     // General
     @ButtonProperty({
@@ -1032,6 +1033,14 @@ class Settings {
         subcategory: "Misc"
     })
     partyCommands = false;
+
+    @SwitchProperty({
+        name: "Party Commands List",
+        description: "Enables the list mode only, this will make it so it checks for the user to be in the list before being able to send party leader commands",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    partyCommandsList = false;
 
     @SwitchProperty({
         name: "Deployables Display",
