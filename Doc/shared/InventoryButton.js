@@ -71,6 +71,7 @@ export class InventoryButton {
         this.yOffset = 0
         this.texture = null
         this.calculateSize = false
+        this.checkFn = () => World.isLoaded()
 
         // Add [this] class to the list if it's defined
         if (this.list) this.list.set(this.slot, this)
@@ -132,6 +133,18 @@ export class InventoryButton {
         if (!slot) throw new Error(`[Doc] InventoryButton class: ${slot} is not a valid slot`)
 
         this.slot = slot
+
+        return this
+    }
+
+    /**
+     * - Sets a function that is ran before running the mouseClick events
+     * - This requires to return a boolean
+     * @param {Function} fn 
+     * @returns this for method chaining
+     */
+    setCheckFn(fn) {
+        this.checkFn = fn
 
         return this
     }
@@ -253,6 +266,8 @@ export class InventoryButton {
     }
 
     _mouseClick(mx, my, mbtn) {
+        if (!this.checkFn()) return
+        
         const [ x, y, x1, y1 ] = this._getBoundary()
         if (!(mx >= x && mx <= x1 && my >= y && my <= y1)) return
 
