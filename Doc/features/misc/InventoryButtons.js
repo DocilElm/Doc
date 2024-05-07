@@ -1,22 +1,58 @@
 import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
-import { InventoryButtonsData, InventorySlot, mainArray, slotsCreated } from "../../shared/InventorySlot"
+import { InventoryButton } from "../../shared/InventoryButton"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/Text"
 
+// Constant variables
 const feature = new Feature("InventoryButtons", "Misc", "")
+const InventoryButtonsData = Persistence.getDataFromFileOrLink("InventoryButtonsData.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/InventoryButtonsData.json")
+const leftSlots = [9, 18, 27, 36]
+const bottomSlots = [37, 38, 39, 40, 41, 42, 43]
+const rightSlots = [17, 26, 35, 44]
+const mainArray = [...leftSlots, ...rightSlots, ...bottomSlots]
+const buttonsCreated = new Map()
+
+// Functions
+const getOffset = (slot) => {
+    if (leftSlots.some(num => num === slot)) return [ -27, 0 ]
+    if (rightSlots.some(num => num === slot)) return [ 27, 0 ]
+    if (!bottomSlots.some(num => num === slot)) return
+
+    return [ 0, 27 ]
+}
+
+const makeButton = (slot, texture, command) => {
+    const [ x, y ] = getOffset(slot)
+
+    if (texture.startsWith("minecraft:")) {
+        new InventoryButton(slot, null, buttonsCreated)
+            .setItem(new Item(texture))
+            .setCommand(command)
+            .setOffset(x, y)
+            .setCalculateSize(true)
+
+        return
+    }
+
+    new InventoryButton(slot, null, buttonsCreated)
+        .createItemByTexture(InventoryButtonsData[texture])
+        .setCommand(command)
+        .setOffset(x, y)
+        .setCalculateSize(true)
+}
 
 // Logic
 const checkSettings = () => {
     if (!World.isLoaded()) return
     
     Object.keys(Persistence.data.inventoryButtons)?.forEach(slot => {
-        if (slotsCreated.has(slot)) return
+        if (buttonsCreated.has(parseInt(slot))) return
 
         const { textureName, command } = Persistence.data.inventoryButtons[slot]
-    
-        new InventorySlot(parseInt(slot), textureName, command)
+
+        makeButton(parseInt(slot), textureName, command)
     })
 }
 
@@ -26,17 +62,7 @@ const drawSlots = () => {
     const currGui = Client.currentGui?.get()
     if (!(currGui instanceof net.minecraft.client.gui.inventory.GuiInventory || currGui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
 
-    slotsCreated.forEach(slotClass => slotClass.draw())
-}
-
-const onMouseClick = (mx, my, mbtn) => {
-    if (!World.isLoaded() || !config.inventoryButtons) return
-
-    const currGui = Client.currentGui?.get()
-
-    if (!(currGui instanceof net.minecraft.client.gui.inventory.GuiInventory || currGui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
-
-    slotsCreated.forEach(slotClass => slotClass.onMouseClick(mx, my, mbtn))
+    buttonsCreated.forEach(it => it.draw())
 }
 
 const addbutton = (slot, textureName, ...command) => {
@@ -48,7 +74,7 @@ const addbutton = (slot, textureName, ...command) => {
     const theCommand = command.join(" ").replace(/\//g, "")
     const theSlot = mainArray[parseInt(slot) - 1]
     
-    new InventorySlot(theSlot, textureName, theCommand)
+    makeButton(theSlot, textureName, theCommand)
     ChatLib.chat(`${TextHelper.PREFIX} &aSuccessfully created inventory button with Command &b/${theCommand}`)
 
     Persistence.data.inventoryButtons[theSlot] = {
@@ -65,7 +91,7 @@ const deletebutton = (slot) => {
     const theSlot = mainArray[parseInt(slot) - 1]
     if (!theSlot || !(theSlot in Persistence.data.inventoryButtons)) return ChatLib.chat(`${TextHelper.PREFIX} &cSlot ${slot} is not in the saved data or it's an invalid slot`)
 
-    slotsCreated.delete(theSlot)
+    buttonsCreated.delete(theSlot)
     delete Persistence.data.inventoryButtons[theSlot]
     Persistence.data.save()
 
@@ -74,7 +100,6 @@ const deletebutton = (slot) => {
 
 // Events
 new Event(feature, "renderOverlay", drawSlots, () => World.isLoaded() && config.inventoryButtons)
-new Event(feature, "guiMouseClick", onMouseClick, () => World.isLoaded() && config.inventoryButtons)
 new Event(feature, "step", checkSettings, () => World.isLoaded(), 1)
 new Command(feature, "addbutton", addbutton)
 new Command(feature, "deletebutton", deletebutton)

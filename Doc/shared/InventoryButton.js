@@ -1,6 +1,10 @@
 import { RenderHelper } from "./Render"
 
 const PatcherConfig = Java.type("club.sk1er.patcher.config.PatcherConfig")
+const NBTTagCompoundClass = net.minecraft.nbt.NBTTagCompound
+const NBTTagListClass = net.minecraft.nbt.NBTTagList
+const ItemStackClass = net.minecraft.item.ItemStack
+const skullClass = net.minecraft.init.Items.field_151144_bL
 
 const slotColor = Renderer.color(100, 100, 100, 150)
 const slotBorderColor = Renderer.color(50, 50, 50, 150)
@@ -11,11 +15,6 @@ const fixedScales = [
     1.5, // 3
     2 // 4
 ]
-
-const NBTTagCompoundClass = net.minecraft.nbt.NBTTagCompound
-const NBTTagListClass = net.minecraft.nbt.NBTTagList
-const ItemStackClass = net.minecraft.item.ItemStack
-const skullClass = net.minecraft.init.Items.field_151144_bL
 
 export const createSkull = (texture) => {
     // This is probably not needed but idc
@@ -71,6 +70,7 @@ export class InventoryButton {
         this.xOffset = 0
         this.yOffset = 0
         this.texture = null
+        this.calculateSize = false
 
         // Add [this] class to the list if it's defined
         if (this.list) this.list.set(this.slot, this)
@@ -86,7 +86,10 @@ export class InventoryButton {
      * @returns {[Number, Number, Number, Number]}
      */
     _getBoundary() {
-        const [ x, y ] = RenderHelper.getSlotRenderPosition(this.slot)
+        const containerSize = Player.getContainer().getSize()
+        const [ x, y ] = this.calculateSize && containerSize > 45
+            ? RenderHelper.getSlotRenderPosition(this.slot + (containerSize - 45))
+            : RenderHelper.getSlotRenderPosition(this.slot)
 
         return [
             x + this.xOffset,
@@ -105,6 +108,30 @@ export class InventoryButton {
         if (!item) throw new Error(`[Doc] InventoryButton class: ${item} is not a valid item`)
         
         this.item = item
+
+        return this
+    }
+
+    /**
+     * - Sets the CalculateSize boolean for this [InventoryButton]
+     * @param {Boolean} bool 
+     * @returns this for method chaining
+     */
+    setCalculateSize(bool) {
+        this.calculateSize = bool
+
+        return this
+    }
+
+    /**
+     * - Sets the slot for this [InventoryButton] class
+     * @param {Number} slot 
+     * @returns this for method chaining
+     */
+    setSlot(slot) {
+        if (!slot) throw new Error(`[Doc] InventoryButton class: ${slot} is not a valid slot`)
+
+        this.slot = slot
 
         return this
     }
