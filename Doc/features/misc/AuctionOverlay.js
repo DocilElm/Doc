@@ -75,7 +75,7 @@ const mainBgBox = new UIRoundedRectangle(3)
     .setColor(new ConstantColorConstraint(ElementUtils.getJavaColor([0, 0, 0, 0])))
     .setChildOf(window)
 
-const inputText = new TextInputElement("search...")
+const inputText = new TextInputElement("")
 inputText
     ._setPosition(new CenterConstraint(), (1).pixels())
     ._setSize((42).percent(), (8).percent())
@@ -291,6 +291,7 @@ register("guiMouseClick", (mx, my, mbtn, _, event) => {
 register("guiKey", (char, keycode, _, event) => {
     if (!registerWhen()) return
     if (!inputText.textInput.hasFocus()) return
+    if (keycode === Keyboard.KEY_ESCAPE) return
 
     window.keyType(char, keycode)
     cancel(event)
