@@ -69,6 +69,7 @@ const onStep = () => {
                 .setOffset(-27)
                 .setCommand("equipment")
                 .setItem(barrier)
+                .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory)
 
             return
         }
@@ -77,6 +78,7 @@ const onStep = () => {
             .setOffset(-27)
             .setCommand("equipment")
             .createItemByTexture(it)
+            .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory)
     })
 }
 
