@@ -85,7 +85,7 @@ const secondaryBgBox = new UIRoundedRectangle(3)
     .setColor(new ConstantColorConstraint(ElementUtils.getJavaColor(colorPalette.primary)))
     .setChildOf(mainBgBox)
 
-const resultsText = new UIText(`Results: ${Persistence.data?.bazaarClicked?.length}`)
+const resultsText = new UIText(`Results: ${Persistence.data?.bazaarClicked?.length + Persistence.data.bazaarStrings?.length}`)
     .setX(new CenterConstraint())
     .setY((1).pixels())
     .setChildOf(secondaryBgBox)
@@ -143,6 +143,7 @@ class ItemButton {
         this.button
         .onMouseClick((component, event) => {
             if (event.mouseButton !== 0) return
+            if (this.obj.text) return addTextToSign(this.obj.displayName.removeFormatting())
 
             const bazaarClicked = Persistence.data.bazaarClicked
 
@@ -155,7 +156,11 @@ class ItemButton {
 
             addTextToSign(this.signText)
         })
-        .onMouseEnter(() => hoverText = this.obj.lore)
+        .onMouseEnter(() => {
+            if (this.obj.text) return hoverText = null
+
+            hoverText = this.obj.lore
+        })
         .onMouseLeave(() => hoverText = null)
     }
 
@@ -165,7 +170,8 @@ class ItemButton {
     }
 }
 
-Persistence.data?.bazaarClicked?.reverse()?.forEach(obj => new ItemButton(obj))
+Persistence.data.bazaarClicked?.reverse()?.forEach(obj => new ItemButton(obj))
+Persistence.data.bazaarStrings?.reverse()?.forEach(obj => new ItemButton(obj))
 
 // Events
 register("tick", () => {
@@ -186,8 +192,9 @@ register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (ev
         scrollable.clearChildren()
         buttonsClass.forEach(btnClass => btnClass._delete())
         inputText.textInput.setText("")
-        Persistence.data?.bazaarClicked?.reverse()?.forEach(obj => new ItemButton(obj))
-        resultsText.setText(`Results: ${Persistence.data?.bazaarClicked?.length}`)
+        Persistence.data.bazaarClicked?.reverse()?.forEach(obj => new ItemButton(obj))
+        Persistence.data.bazaarStrings?.reverse()?.forEach(obj => new ItemButton(obj))
+        resultsText.setText(`Results: ${Persistence.data?.bazaarClicked?.length + Persistence.data.bazaarStrings?.length}`)
     }
 
     if (!registerWhen()) return firstType = false
@@ -242,7 +249,22 @@ register("guiMouseRelease", () => {
 
 inputText.onKeyTypeEvent((str, char, keycode) => {
     // On enter press send the text as typed
-    if (keycode === Keyboard.KEY_RETURN) return addTextToSign(str)
+    if (keycode === Keyboard.KEY_RETURN) {
+        addTextToSign(str)
+
+        if (str && !Persistence.data.bazaarStrings?.some(it => it.displayName === str.toLowerCase())) {
+            if (Persistence.data.bazaarStrings.length >= 5) Persistence.data.bazaarStrings.splice(0, 1)
+
+            Persistence.data.bazaarStrings.push({
+                "displayName": str.toLowerCase(),
+                "id": `${str.toUpperCase()}`,
+                "text": true
+            })
+            Persistence.data.save()
+        }
+
+        return
+    }
     if (str.length <= 3) return
 
     hoverText = []
