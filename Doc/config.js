@@ -1084,7 +1084,7 @@ class Settings {
         subcategory: "Misc"
     })
     auctionOverlayReset = false;
-
+    
     @SwitchProperty({
         name: "Bazaar Overlay",
         description: "Enables a custom Bazaar search gui whenever you click on the sign",

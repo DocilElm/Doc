@@ -92,6 +92,7 @@ export class Persistence {
         showMessageTitle: {},
         cancelMessage: {},
         auctionsClicked: [],
+        auctionsStrings: [],
         bazaarClicked: [],
         chatWaypointNames: [],
         lockedSlots: {},

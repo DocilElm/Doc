@@ -90,7 +90,7 @@ const secondaryBgBox = new UIRoundedRectangle(3)
     .setColor(new ConstantColorConstraint(ElementUtils.getJavaColor(colorPalette.primary)))
     .setChildOf(mainBgBox)
 
-const resultsText = new UIText(`Results: ${Persistence.data?.auctionsClicked?.length}`)
+const resultsText = new UIText(`Results: ${Persistence.data.auctionsClicked?.length + Persistence.data.auctionsStrings?.length}`)
     .setX(new CenterConstraint())
     .setY((1).pixels())
     .setChildOf(secondaryBgBox)
@@ -216,6 +216,8 @@ class ItemButton {
         .onMouseClick((component, event) => {
             if (event.mouseButton !== 0) return
 
+            if (this.obj.text) return addTextToSign(this.obj.displayName.removeFormatting())
+
             const auctionsClicked = Persistence.data.auctionsClicked
 
             if (auctionsClicked && !auctionsClicked.find(it => it.id === this.obj.id)) {
@@ -230,7 +232,11 @@ class ItemButton {
 
             addTextToSign(`${this.signText} ${starsToAdd}${mstarsToAdd ?? ""}`)
         })
-        .onMouseEnter(() => hoverText = this.obj.lore)
+        .onMouseEnter(() => {
+            if (this.obj.text) return hoverText = null
+
+            hoverText = this.obj.lore
+        })
         .onMouseLeave(() => hoverText = null)
     }
 
@@ -240,7 +246,8 @@ class ItemButton {
     }
 }
 
-Persistence.data?.auctionsClicked?.reverse()?.forEach(obj => new ItemButton(obj))
+Persistence.data.auctionsClicked?.reverse()?.forEach(obj => new ItemButton(obj))
+Persistence.data.auctionsStrings?.reverse()?.forEach(obj => new ItemButton(obj))
 
 // Events
 register("tick", () => {
@@ -261,8 +268,9 @@ register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (ev
         scrollable.clearChildren()
         buttonsClass.forEach(btnClass => btnClass._delete())
         inputText.textInput.setText("")
-        Persistence.data?.auctionsClicked?.reverse()?.forEach(obj => new ItemButton(obj))
-        resultsText.setText(`Results: ${Persistence.data?.auctionsClicked?.length}`)
+        Persistence.data.auctionsClicked?.reverse()?.forEach(obj => new ItemButton(obj))
+        Persistence.data.auctionsStrings?.reverse()?.forEach(obj => new ItemButton(obj))
+        resultsText.setText(`Results: ${Persistence.data.auctionsClicked?.length + Persistence.data.auctionsStrings?.length}`)
     }
 
     if (!registerWhen()) return firstType = false
@@ -317,7 +325,22 @@ register("guiMouseRelease", () => {
 
 inputText.onKeyTypeEvent((str, char, keycode) => {
     // On enter press send the text as typed
-    if (keycode === Keyboard.KEY_RETURN) return addTextToSign(str)
+    if (keycode === Keyboard.KEY_RETURN) {
+        addTextToSign(str)
+
+        if (str && !Persistence.data.auctionsStrings?.some(it => it.displayName === str.toLowerCase())) {
+            if (Persistence.data.auctionsStrings.length >= 5) Persistence.data.auctionsStrings.splice(0, 1)
+
+            Persistence.data.auctionsStrings.push({
+                "displayName": str.toLowerCase(),
+                "id": `${str.toUpperCase()}`,
+                "text": true
+            })
+            Persistence.data.save()
+        }
+
+        return
+    }
     if (str.length <= 3) return
 
     hoverText = []
