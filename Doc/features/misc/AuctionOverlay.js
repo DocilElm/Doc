@@ -45,7 +45,7 @@ const matchString = (string, displayName) => {
 
 const getItems = (str) => {
     if (!str) return
-    str = str.replace(/\[Lvl 100\] /, "")
+    str = str.replace(/\[Lvl 100\] /, "").trim()
 
     let res = []
 
