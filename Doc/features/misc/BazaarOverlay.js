@@ -38,8 +38,9 @@ const getItems = (str) => {
     for (let idx = 0; idx < itemData.length; idx++) {
         let obj = itemData[idx]
         let displayName = obj.displayName.removeFormatting().toLowerCase()
+        let clearedName = obj.displayName.removeFormatting().toLowerCase().replace(/\'s/g, "")
 
-        if (!(displayName.includes(str.toLowerCase()) || obj.lore.some(it => it.removeFormatting().toLowerCase().includes(str.toLowerCase())))) continue
+        if (!(displayName.includes(str.toLowerCase()) || clearedName.includes(str.toLowerCase()) || obj.lore.some(it => it.removeFormatting().toLowerCase().includes(str.toLowerCase())))) continue
 
         res.push(obj)
     }
