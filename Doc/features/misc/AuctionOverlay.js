@@ -369,7 +369,7 @@ inputText.onKeyTypeEvent((str, char, keycode) => {
         addTextToSign(str)
 
         if (str && !Persistence.data.auctionsStrings?.some(it => it.displayName === str.toLowerCase())) {
-            if (Persistence.data.auctionsStrings.length >= 5) Persistence.data.auctionsStrings.splice(0, 1)
+            if (Persistence.data.auctionsStrings.length >= 5) Persistence.data.auctionsStrings.reverse().splice(0, 1)
 
             Persistence.data.auctionsStrings.push({
                 "displayName": str.toLowerCase(),

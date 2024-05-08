@@ -149,7 +149,7 @@ class ItemButton {
             const bazaarClicked = Persistence.data.bazaarClicked
 
             if (bazaarClicked && !bazaarClicked.find(it => it.id === this.obj.id)) {
-                if (bazaarClicked.length >= 5) bazaarClicked.splice(0, 1)
+                if (bazaarClicked.length >= 5) bazaarClicked.reverse().splice(0, 1)
 
                 bazaarClicked.push(this.obj)
                 Persistence.data.save()
@@ -262,7 +262,7 @@ inputText.onKeyTypeEvent((str, char, keycode) => {
         addTextToSign(str)
 
         if (str && !Persistence.data.bazaarStrings?.some(it => it.displayName === str.toLowerCase())) {
-            if (Persistence.data.bazaarStrings.length >= 5) Persistence.data.bazaarStrings.splice(0, 1)
+            if (Persistence.data.bazaarStrings.length >= 5) Persistence.data.bazaarStrings.reverse().splice(0, 1)
 
             Persistence.data.bazaarStrings.push({
                 "displayName": str.toLowerCase(),
