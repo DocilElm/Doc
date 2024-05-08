@@ -163,10 +163,12 @@ new Event(feature, "step", checkItems, registerWhen, 5)
 new Event(feature, "guiRender", (_, __, gui) => {
     if (editGui.isOpen()) return
 
-    if (gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest) {
-        window.draw()
-        renderSlots()
-    }
+    if (!(gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return textInputComponent.textInput.unfocus()
+    
+    textInputComponent.bgBox.setX((editGui.getX()).pixels())
+    textInputComponent.bgBox.setY((editGui.getY()).pixels())
+    window.draw()
+    renderSlots()
 }, () => registerWhen())
 
 new Event(feature, "guiMouseClick", onMouseClick, registerWhen)
