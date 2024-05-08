@@ -33,6 +33,7 @@ const textInputComponent = new TextInputElement("")
     .onKeyTypeEvent((text) => findString = text)
 
 textInputComponent._create(scheme).setChildOf(window)
+textInputComponent.textInput.onFocusLost((comp) => comp.mouseRelease())
 
 // Logic
 const registerWhen = () => config.searchBar && !editGui.isOpen()
