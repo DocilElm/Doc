@@ -40,6 +40,7 @@ const matchString = (string, displayName) => {
 
 const getItems = (str) => {
     if (!str) return
+    str = str.trim()
 
     let res = []
 
