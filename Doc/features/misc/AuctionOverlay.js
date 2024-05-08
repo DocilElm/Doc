@@ -301,6 +301,7 @@ register("guiKey", (char, keycode, _, event) => {
     if (!registerWhen()) return
 
     if (keycode === Keyboard.KEY_F && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+        cancel(event)
         inputText.textInput.grabWindowFocus()
 
         return
