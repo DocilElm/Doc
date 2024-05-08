@@ -108,7 +108,7 @@ import "./features/misc/AutoUpdater"
 
 new Command(null, "doc", () => config.openGUI()).start()
 
-if (Persistence.data.firstTime){
+if (Persistence.data.firstTime) {
     ChatLib.chat(`${TextHelper.PREFIX} &aUse /doc for config menu`)
     Persistence.data.firstTime = false
     Persistence.data.save()
