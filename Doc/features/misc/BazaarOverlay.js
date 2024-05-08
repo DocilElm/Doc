@@ -30,6 +30,14 @@ let hoverText = null
 
 const itemData = Persistence.getDataFromFileOrLink("BazaarData.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BazaarData.json")
 
+const matchString = (string, displayName) => {
+    const name = displayName.toLowerCase()
+    const cleanName = name.replace(/\'s/g, "")
+    const withoutTil = name.replace(/\'/g, "")
+
+    return ( name.includes(string.toLowerCase()) || cleanName.includes(string.toLowerCase()) || withoutTil.includes(string.toLowerCase()) )
+}
+
 const getItems = (str) => {
     if (!str) return
 
@@ -37,10 +45,8 @@ const getItems = (str) => {
 
     for (let idx = 0; idx < itemData.length; idx++) {
         let obj = itemData[idx]
-        let displayName = obj.displayName.removeFormatting().toLowerCase()
-        let clearedName = obj.displayName.removeFormatting().toLowerCase().replace(/\'s/g, "")
 
-        if (!(displayName.includes(str.toLowerCase()) || clearedName.includes(str.toLowerCase()) || obj.lore.some(it => it.removeFormatting().toLowerCase().includes(str.toLowerCase())))) continue
+        if (!(matchString(str, obj.displayName.removeFormatting()) || obj.lore.some(it => it.removeFormatting().toLowerCase().includes(str.toLowerCase())))) continue
 
         res.push(obj)
     }
