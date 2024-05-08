@@ -1,4 +1,5 @@
 const AxisAlignedBB = net.minecraft.util.AxisAlignedBB
+const GuiUtils = Java.type("net.minecraftforge.fml.client.config.GuiUtils")
 
 // From BloomCore
 const GuiContainer = Java.type("net.minecraft.client.gui.inventory.GuiContainer")
@@ -491,5 +492,26 @@ export class RenderHelper {
         )
 
         this.drawEntityAxisFilled(axis, r, g, b, a, lineWidth, phase)
+    }
+
+    // TODO: add jsdocs to this
+    static drawHoveringText(
+        list = [],
+        mx = Client.getMouseX(),
+        my = Client.getMouseY(),
+        screenWidth = Renderer.screen.getWidth(),
+        screenHeight = Renderer.screen.getHeight(),
+        maxLength = -1,
+        fontRenderer = Renderer.getFontRenderer()
+        ) {
+        GuiUtils.drawHoveringText(
+            list,
+            mx,
+            my,
+            screenWidth,
+            screenHeight,
+            maxLength,
+            fontRenderer
+        )
     }
 }

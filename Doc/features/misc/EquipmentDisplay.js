@@ -3,6 +3,7 @@ import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { InventoryButton } from "../../shared/InventoryButton"
 import { Persistence } from "../../shared/Persistence"
+import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 
 // Constant variables
@@ -24,7 +25,7 @@ const onWindowItems = (stackArray) => {
         const item = new Item(stackArray[it])
 
         if (item.getName().removeFormatting() === "Empty Equipment Slot") {
-            Persistence.data.equipments[idx] = "no"
+            Persistence.data.equipments[idx] = ["no"]
             Persistence.data.save()
 
             return
@@ -37,7 +38,7 @@ const onWindowItems = (stackArray) => {
             return
         }
 
-        Persistence.data.equipments[idx] = texture
+        Persistence.data.equipments[idx] = [texture, item.getLore().map(it => it)]
         Persistence.data.save()
     })
 
@@ -54,17 +55,19 @@ const onStep = () => {
     const equipmentList = Persistence.data.equipments
     if (!equipmentList) return
 
-    equipmentList.forEach((it, idx) => {
-        if (!it || createdList[idx] && createdList[idx] === it) return
+    if (equipmentList.some(it => typeof(it) === "string")) return ChatLib.chat(`${TextHelper.PREFIX} &cLooks like you have old equipment data please open your equipments to re-make this data`)
 
-        if (createdList[idx] && createdList[idx] !== it) {
+    equipmentList.forEach((it, idx) => {
+        if (!it || createdList[idx] && createdList[idx] === it[0]) return
+
+        if (createdList[idx] && createdList[idx] !== it[0]) {
             buttonsClass.get(armorSlots[idx]).delete()
             delete createdList[idx]
         }
 
-        if (!createdList[idx]) createdList[idx] = it
+        if (!createdList[idx]) createdList[idx] = it[0]
 
-        if (it === "no") {
+        if (it[0] === "no") {
             new InventoryButton(armorSlots[idx], null, buttonsClass)
                 .setOffset(-27)
                 .setCommand("equipment")
@@ -74,11 +77,21 @@ const onStep = () => {
             return
         }
 
+        const maxLength = it[1].reduce((a, b) => {
+            if (a > b.length) return a
+
+            a = b.length
+            return a
+        }, 0)
+
         new InventoryButton(armorSlots[idx], null, buttonsClass)
             .setOffset(-27)
             .setCommand("equipment")
-            .createItemByTexture(it)
+            .createItemByTexture(it[0])
             .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory && config.equipmentsDisplay)
+            .onMouseHover((mx, my, gui) => {
+                RenderHelper.drawHoveringText(it[1], mx - maxLength * 4, my)
+            })
     })
 }
 

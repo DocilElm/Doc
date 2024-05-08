@@ -67,6 +67,7 @@ export class InventoryButton {
         this.rightClickFn = null
         this.leftClickFn = null
         this.middleClickFn = null
+        this.mouseHoverFn = null
         this.xOffset = 0
         this.yOffset = 0
         this.texture = null
@@ -265,6 +266,19 @@ export class InventoryButton {
         return this
     }
 
+    /**
+     * -  Assigns the function to be ran whenever this [InventoryButton] is hovered
+     * @param {Function} fn 
+     * @returns this for method chaining
+     */
+    onMouseHover(fn) {
+        if (typeof(fn) !== "function") throw new Error(`[Doc] InventoryButton class: ${fn} is not a valid function`)
+
+        this.mouseHoverFn = fn
+
+        return this
+    }
+
     _mouseClick(mx, my, mbtn) {
         if (!this.checkFn()) return
         
@@ -276,6 +290,15 @@ export class InventoryButton {
         if (!this.leftClickFn) return
 
         this.leftClickFn(mx, my)
+    }
+
+    _mouseHover(mx, my, gui) {
+        if (!this.checkFn() || !this.mouseHoverFn) return
+        
+        const [ x, y, x1, y1 ] = this._getBoundary()
+        if (!(mx >= x && mx <= x1 && my >= y && my <= y1)) return
+
+        this.mouseHoverFn(mx, my, gui)
     }
 
     /**
@@ -314,4 +337,12 @@ register("guiMouseClick", (mx, my, mbtn, gui) => {
     // Calls all the button's [_mouseClick] method to check whether
     // that button was clicked
     allButtons.forEach(btn => btn._mouseClick(mx, my, mbtn))
+})
+
+register("guiRender", (mx, my, gui) => {
+    if (!(gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
+
+    // Calls all the button's [_mouseHover] method to check whether
+    // that the current mouse position is hovering this button
+    allButtons.forEach(btn => btn._mouseHover(mx, my, gui))
 })
