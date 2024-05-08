@@ -126,19 +126,33 @@ const rightPanelBox = new UIRoundedRectangle(3)
     .setX((73).percent())
     .setY((11).percent())
     .setHeight((70).percent())
-    .setWidth((15).percent())
+    .setWidth((20).percent())
     .setColor(ElementUtils.getJavaColor([0, 0, 0, 0]))
     .setChildOf(mainBgBox)
 
-for (let idx = 0; idx < 5; idx++) {
-    let x = idx === 0 ? (1).pixels() : new CramSiblingConstraint(5)
+const normalStarsBox = new UIRoundedRectangle(3)
+    .setX((1).pixels())
+    .setY(new SiblingConstraint())
+    .setHeight((10).percent())
+    .setWidth((80).percent())
+    .setColor(ElementUtils.getJavaColor([0, 0, 0, 0]))
+    .setChildOf(rightPanelBox)
 
+const masterStarsBox = new UIRoundedRectangle(3)
+    .setX((1).pixels())
+    .setY(new SiblingConstraint())
+    .setHeight((10).percent())
+    .setWidth((80).percent())
+    .setColor(ElementUtils.getJavaColor([0, 0, 0, 0]))
+    .setChildOf(rightPanelBox)
+
+for (let idx = 0; idx < 5; idx++) {
     let toggled = false
 
     new UIText(`§7${normalStar}`)
-        .setX(x)
-        .setY(new CramSiblingConstraint(5))
-        .setChildOf(rightPanelBox)
+        .setX(new CramSiblingConstraint(5))
+        .setY((1).pixels())
+        .setChildOf(normalStarsBox)
         .onMouseClick((comp, event) => {
             if (event.mouseButton !== 0) return
 
@@ -153,15 +167,14 @@ for (let idx = 0; idx < 5; idx++) {
 }
 
 for (let idx = 0; idx < masterStars.length; idx++) {
-    let x = idx === 0 ? (1).pixels() : new CramSiblingConstraint(5)
     let star = masterStars[idx]
 
     let toggled = false
 
     new UIText(`§7${star}`)
-        .setX(x)
-        .setY(new CramSiblingConstraint(5))
-        .setChildOf(rightPanelBox)
+        .setX(new CramSiblingConstraint(5))
+        .setY((1).pixels())
+        .setChildOf(masterStarsBox)
         .onMouseClick((comp, event) => {
             if (event.mouseButton !== 0) return
 
