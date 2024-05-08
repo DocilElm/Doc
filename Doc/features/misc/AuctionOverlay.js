@@ -299,6 +299,13 @@ register("guiMouseClick", (mx, my, mbtn, _, event) => {
 
 register("guiKey", (char, keycode, _, event) => {
     if (!registerWhen()) return
+
+    if (keycode === Keyboard.KEY_F && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+        inputText.textInput.grabWindowFocus()
+
+        return
+    }
+
     if (!inputText.textInput.hasFocus()) return
     if (keycode === Keyboard.KEY_ESCAPE) return
 
