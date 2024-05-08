@@ -37,6 +37,7 @@ const itemData = Persistence.getDataFromFileOrLink("ItemData.json", "https://raw
 
 const getItems = (str) => {
     if (!str) return
+    str = str.replace(/\[Lvl 100\] /, "")
 
     let res = []
 
@@ -182,9 +183,17 @@ new UIText(`§7✯ [Lvl 100]`)
         if (event.mouseButton !== 0) return
 
         lvl100Only = !lvl100Only
-        lvl100Only
-            ? comp.setText(`§e✯ §b[Lvl 100]`)
-            : comp.setText(`§7✯ [Lvl 100]`)
+        if (lvl100Only) {
+            comp.setText(`§e✯ §b[Lvl 100]`)
+            inputText.textInput.setText("[Lvl 100] ")
+
+            return
+        }
+
+        const text = inputText.textInput.getText().replace("[Lvl 100] ", "")
+
+        comp.setText(`§7✯ [Lvl 100]`)
+        inputText.textInput.setText(text)
     })
 
 const buttonsClass = new Set()
@@ -229,9 +238,10 @@ class ItemButton {
             }
 
             if (lvl100Only) return addTextToSign(`[Lvl ${this.lvl100Mode}] ${this.signText}`)
+            if (mstarsToAdd) return addTextToSign(`${normalStar.repeat(5)}${mstarsToAdd}`)
             if (!starsToAdd) return addTextToSign(this.signText)
 
-            addTextToSign(`${this.signText} ${starsToAdd}${mstarsToAdd ?? ""}`)
+            addTextToSign(`${this.signText} ${starsToAdd}`)
         })
         .onMouseEnter(() => {
             if (this.obj.text) return hoverText = null
