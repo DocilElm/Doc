@@ -35,6 +35,14 @@ let lvl100Only = false
 
 const itemData = Persistence.getDataFromFileOrLink("ItemData.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/ItemData.json")
 
+const matchString = (string, displayName) => {
+    const name = displayName.toLowerCase()
+    const cleanName = name.replace(/\'s/g, "")
+    const withoutTil = name.replace(/\'/g, "")
+
+    return ( name.includes(string.toLowerCase()) || cleanName.includes(string.toLowerCase()) || withoutTil.includes(string.toLowerCase()) )
+}
+
 const getItems = (str) => {
     if (!str) return
     str = str.replace(/\[Lvl 100\] /, "")
@@ -43,10 +51,8 @@ const getItems = (str) => {
 
     for (let idx = 0; idx < itemData.length; idx++) {
         let obj = itemData[idx]
-        let displayName = obj.displayName.removeFormatting().toLowerCase()
-        let clearedName = obj.displayName.removeFormatting().toLowerCase().replace(/\'s/g, "")
         
-        if (!(displayName.includes(str.toLowerCase()) || clearedName.includes(str.toLowerCase()))) continue
+        if (!matchString(str, obj.displayName.removeFormatting())) continue
 
         res.push(obj)
     }
@@ -304,7 +310,7 @@ register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (ev
 
     if (!firstType) {
         if (lvl100Only) inputText.textInput.setText("[Lvl 100] ")
-        
+
         inputText.textInput.grabWindowFocus()
         firstType = true
     }
