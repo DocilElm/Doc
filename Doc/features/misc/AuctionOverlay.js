@@ -303,6 +303,8 @@ register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (ev
     window.draw()
 
     if (!firstType) {
+        if (lvl100Only) inputText.textInput.setText("[Lvl 100] ")
+        
         inputText.textInput.grabWindowFocus()
         firstType = true
     }
