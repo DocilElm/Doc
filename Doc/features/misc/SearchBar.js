@@ -27,7 +27,7 @@ const scheme = {
 let findString = ""
 
 // Creating Elementa component
-const textInputComponent = new TextInputElement("Add Searching Text")
+const textInputComponent = new TextInputElement("")
     ._setPosition((editGui.getX()).pixels(), (editGui.getY()).pixels())
     ._setSize((100).pixels(), (15).pixels())
     .onKeyTypeEvent((text) => findString = text)
