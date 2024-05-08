@@ -244,14 +244,14 @@ class ItemButton {
             const auctionsClicked = Persistence.data.auctionsClicked
 
             if (auctionsClicked && !auctionsClicked.find(it => it.id === this.obj.id)) {
-                if (auctionsClicked.length >= 5) auctionsClicked.splice(0, 1)
+                if (auctionsClicked.length >= 5) auctionsClicked.reverse().splice(0, 1)
 
                 auctionsClicked.push(this.obj)
                 Persistence.data.save()
             }
 
             if (lvl100Only) return addTextToSign(`[Lvl ${this.lvl100Mode}] ${this.signText}`)
-            if (mstarsToAdd) return addTextToSign(`${normalStar.repeat(5)}${mstarsToAdd}`)
+            if (mstarsToAdd) return addTextToSign(`${this.signText} ${normalStar.repeat(5)}${mstarsToAdd}`)
             if (!starsToAdd) return addTextToSign(this.signText)
 
             addTextToSign(`${this.signText} ${starsToAdd}`)
