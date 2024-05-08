@@ -97,6 +97,7 @@ const makeMatch = (itemName, itemLore, idx, matchType) => {
 }
 
 const checkItems = () => {
+    if (!World.isLoaded()) return
     if (!findString && highlightSlots.size || !Client.isInGui()) return highlightSlots.clear()
     if (!findString) return
 
@@ -161,9 +162,9 @@ new Event(feature, "step", checkItems, registerWhen, 5)
 
 // Handle both displays
 new Event(feature, "guiRender", (_, __, gui) => {
-    if (editGui.isOpen()) return
+    if (!World.isLoaded() || editGui.isOpen()) return
 
-    if (!(gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return textInputComponent.textInput.unfocus()
+    if (!(gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return window.unfocus()
     
     textInputComponent.bgBox.setX((editGui.getX()).pixels())
     textInputComponent.bgBox.setY((editGui.getY()).pixels())
