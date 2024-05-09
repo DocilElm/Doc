@@ -64,7 +64,7 @@ const getItems = (str) => {
 const addTextToSign = (string) => {
     if (!string) return
 
-    if (config.auctionOverlayKeybind) {
+    if (config.auctionOverlayKeybind && ctGui.isOpen()) {
         ctGui.close()
         ChatLib.command(`ahs ${string}`)
 

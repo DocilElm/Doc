@@ -5,6 +5,7 @@ import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
 
 export const window = new Window()
+const ctGui = new Gui()
 const ChatComponentText = Java.type("net.minecraft.util.ChatComponentText")
 const tileSign = Java.type("net.minecraft.client.gui.inventory.GuiEditSign").class.getDeclaredField("field_146848_f")
 tileSign.setAccessible(true)
@@ -57,6 +58,13 @@ const getItems = (str) => {
 
 const addTextToSign = (string) => {
     if (!string) return
+
+    if (config.auctionOverlayKeybind && ctGui.isOpen()) {
+        ctGui.close()
+        ChatLib.command(`bz ${string}`)
+
+        return
+    }
 
     const currentTileSign = tileSign.get(Client.currentGui.get())
 
@@ -192,7 +200,7 @@ register("tick", () => {
     previousGui = containerName
 })
 
-const registerWhen = () => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiEditSign) && previousGui.includes("Bazaar") && config.bazaarOverlay
+const registerWhen = () => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiEditSign || ctGui.isOpen()) && previousGui.includes("Bazaar") && config.bazaarOverlay
 
 register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (event) => {
     if (config.bazaarOverlayReset && firstType && !registerWhen()) {
@@ -228,7 +236,20 @@ register("guiMouseClick", (mx, my, mbtn, _, event) => {
     window.mouseClick(mx, my, mbtn)
 })
 
-register("guiKey", (char, keycode, _, event) => {
+register("guiKey", (char, keycode, gui, event) => {
+    if (
+        config.bazaarOverlay &&
+        config.bazaarOverlayKeybind &&
+        Player.getContainer().getName().includes("Bazaar") &&
+        gui instanceof net.minecraft.client.gui.inventory.GuiChest &&
+        keycode === Keyboard.KEY_F &&
+        Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
+    ) {
+        ctGui.open()
+
+        return
+    }
+
     if (!registerWhen()) return
 
     if (keycode === Keyboard.KEY_F && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {

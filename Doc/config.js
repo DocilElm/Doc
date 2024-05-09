@@ -79,6 +79,7 @@ class Settings {
         this.addDependency("Slayer Armor Display Location", "Slayer Armor Display")
         this.addDependency("Party Commands List", "Party Commands")
         this.addDependency("Auction Overlay Keybind", "Auction Overlay")
+        this.addDependency("Bazaar Overlay Keybind", "Bazaar Overlay")
     }
     // General
     @ButtonProperty({
@@ -1109,6 +1110,14 @@ class Settings {
         subcategory: "Misc"
     })
     bazaarOverlayReset = false;
+
+    @SwitchProperty({
+        name: "Bazaar Overlay Keybind",
+        description: "When enabled and pressing CTRL + F inside bazaar it'll open up the gui &4&lThis requires you to have a &b&lBooster Cookie &4&lactive",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    bazaarOverlayKeybind = false;
 
     @SwitchProperty({
         name: "Etherwarp Overlay",
