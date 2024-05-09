@@ -78,6 +78,7 @@ class Settings {
         this.addDependency("World Age Display Location", "World Age Display")
         this.addDependency("Slayer Armor Display Location", "Slayer Armor Display")
         this.addDependency("Party Commands List", "Party Commands")
+        this.addDependency("Auction Overlay Keybind", "Auction Overlay")
     }
     // General
     @ButtonProperty({
@@ -1084,6 +1085,14 @@ class Settings {
         subcategory: "Misc"
     })
     auctionOverlayReset = false;
+
+    @SwitchProperty({
+        name: "Auction Overlay Keybind",
+        description: "When enabled and pressing CTRL + F inside auction house it'll open up the gui &4&lThis requires you to have a &b&lBooster Cookie &4&lactive",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    auctionOverlayKeybind = false;
     
     @SwitchProperty({
         name: "Bazaar Overlay",
