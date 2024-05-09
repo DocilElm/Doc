@@ -17,11 +17,14 @@ export default class ScalableGui {
         this.string = defaultString
         this.width = null
         this.height = null
+        this.customSize = null
 
         this.gui.registerScrolled((_, __, dir) => {
-            if (dir == 1) Persistence.data[this.featureName].scale += 0.02
+            if (dir === 1) Persistence.data[this.featureName].scale += 0.02
             else Persistence.data[this.featureName].scale -= 0.02
             Persistence.data.save()
+
+            if (this.customSize) this.customSize(dir)
         })
 
         this.gui.registerMouseDragged((mx, my) => {
@@ -39,6 +42,18 @@ export default class ScalableGui {
             this.open()
         }).setName(commandName)
         
+        return this
+    }
+
+    /**
+     * - Sets a custom size function that will be ran everytime the editGui is open
+     * - and the scroll has been detected, giving the direction of this as a param to the function.
+     * @param {Function} fn 
+     * @returns this for method chaining
+     */
+    setCustomSize(fn) {
+        this.customSize = fn
+
         return this
     }
 

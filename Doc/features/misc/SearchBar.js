@@ -7,12 +7,14 @@ import TextInputElement from "../../../DocGuiLib/elements/TextInput"
 import { Window } from "../../../Elementa"
 import { TextHelper } from "../../shared/Text"
 import Formula from "../../../fparser/index"
+import { Persistence } from "../../shared/Persistence"
 
 // Constant variables
 const feature = new Feature("searchBar", "Misc", "")
-const editGui = new ScalableGui("searchBar").setCommand("searchBarLocation")
+const editGui = new ScalableGui("searchBar").setCommand("searchBarLocation").setSize(Persistence.data.searchBar.width ?? 100, Persistence.data.searchBar.height ?? 15)
 const window = new Window()
-const [ width, height ] = [ 100, 15 ]
+const text = "&b&lClick/Drag anywhere to change the location of this display"
+const text2 = "&4&lIf you use scroll you can change the width and if you hold CTRL while you scroll you can change the height"
 const highlightSlots = new Map()
 const cachedSlots = new Map()
 const scheme = {
@@ -31,7 +33,7 @@ let findString = ""
 // Creating Elementa component
 const textInputComponent = new TextInputElement("")
     ._setPosition((editGui.getX()).pixels(), (editGui.getY()).pixels())
-    ._setSize((100).pixels(), (15).pixels())
+    ._setSize((editGui.width).pixels(), (editGui.height).pixels())
     .onKeyTypeEvent((text) => {
         findString = text
 
@@ -43,6 +45,28 @@ const textInputComponent = new TextInputElement("")
 
 textInputComponent._create(scheme).setChildOf(window)
 textInputComponent.textInput.onFocusLost((comp) => comp.mouseRelease())
+
+editGui.setCustomSize((dir) => {
+    if (!Persistence.data.searchBar.height) {
+        Persistence.data.searchBar.height = 15
+        Persistence.data.searchBar.width = 100
+
+        Persistence.data.save()
+        return
+    }
+
+    if (dir === 1 && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) Persistence.data.searchBar.height += 1
+    else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) Persistence.data.searchBar.height -= 1
+
+    if (dir === 1 && !Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) Persistence.data.searchBar.width += 10
+    else if (!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) Persistence.data.searchBar.width -= 10
+    Persistence.data.save()
+
+    textInputComponent.bgBox.setWidth((Persistence.data.searchBar.width).pixels())
+    textInputComponent.bgBox.setHeight((Persistence.data.searchBar.height).pixels())
+
+    editGui.setSize(Persistence.data.searchBar.width, Persistence.data.searchBar.height)
+})
 
 // Logic
 const registerWhen = () => config.searchBar && !editGui.isOpen()
@@ -159,12 +183,25 @@ const reset = () => {
 
 // Default display
 editGui.onRender(() => {
+    if (editGui.isOpen()) {
+        Renderer.translate(
+            Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(text.removeFormatting()) / 2,
+            Renderer.screen.getHeight() / 2
+        )
+        Renderer.drawStringWithShadow(text, 0, 0)
+
+        Renderer.translate(
+            Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(text2.removeFormatting()) / 2,
+            Renderer.screen.getHeight() / 2
+        )
+        Renderer.drawStringWithShadow(text2, 0, 10)
+    }
+
     textInputComponent.bgBox.setX((editGui.getX()).pixels())
     textInputComponent.bgBox.setY((editGui.getY()).pixels())
 
     window.draw()
 })
-editGui.setSize(width, height)
 
 // Events
 new Event(feature, "guiKey", keyHandler, registerWhen)

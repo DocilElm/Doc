@@ -67,7 +67,7 @@ export class Persistence {
         gardenDisplay: {x: 10, y: 10, scale: 1},
         blessingDisplay: {x: 10, y: 10, scale: 1},
         statsDisplay: {x: 10, y: 10, scale: 1},
-        searchBar: {x: 10, y: 10, scale: 1},
+        searchBar: {x: 10, y: 10, scale: 1, width: 100, height: 15},
         waterBoardDisplay: {x: 10, y: 10, scale: 1},
         championDisplay: {x: 10, y: 10, scale: 1},
         petDisplay: {x: 10, y: 10, scale: 1},
