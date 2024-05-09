@@ -5,6 +5,8 @@ import { RenderHelper } from "../../shared/Render"
 import ScalableGui from "../../shared/Scalable"
 import TextInputElement from "../../../DocGuiLib/elements/TextInput"
 import { Window } from "../../../Elementa"
+import { TextHelper } from "../../shared/Text"
+import Formula from "../../../fparser/index"
 
 // Constant variables
 const feature = new Feature("searchBar", "Misc", "")
@@ -16,10 +18,10 @@ const cachedSlots = new Map()
 const scheme = {
     "TextInput": {
         "backgroundBox": [255, 255, 255, 100],
-        "textColor": [71, 188, 4, 255],
+        "textColor": [255, 255, 255, 255],
         "textScale": 1,
         "mouseEnter": [0, 0, 0, 80],
-        "mouseLeave": [71, 188, 4, 255]
+        "mouseLeave": [255, 255, 255, 255]
     }
 }
 
@@ -30,7 +32,14 @@ let findString = ""
 const textInputComponent = new TextInputElement("")
     ._setPosition((editGui.getX()).pixels(), (editGui.getY()).pixels())
     ._setSize((100).pixels(), (15).pixels())
-    .onKeyTypeEvent((text) => findString = text)
+    .onKeyTypeEvent((text) => {
+        findString = text
+
+        if (/\d+/.test(text.replace(/[()]/g, "")) && text.endsWith("=")) {
+            const num = text.includes(".") // i know there might be better ways of doing this
+            textInputComponent.textInput.setText(`${text} ${TextHelper.addCommas( num ? Formula.calc(text).toFixed(2) : Math.trunc(Formula.calc(text)) )}`)
+        }
+    })
 
 textInputComponent._create(scheme).setChildOf(window)
 textInputComponent.textInput.onFocusLost((comp) => comp.mouseRelease())
