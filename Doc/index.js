@@ -56,7 +56,7 @@ import "./features/trackers/GhostsTracker"
 import "./features/trackers/TrophyFishingTracker"
 import "./features/trackers/PowderTracker"
 // Kuudra
-import "./features/kuudra/FatalTempoDisplay"
+// import "./features/kuudra/FatalTempoDisplay"
 import "./features/kuudra/CratesWaypoints"
 // Misc
 import "./features/misc/CreeperAlert"
@@ -94,6 +94,7 @@ import "./features/misc/RemoveFrontView"
 import "./features/misc/OtterDisplay"
 import "./features/misc/WorldAgeDisplay"
 import "./features/misc/PartyFinderOverlay"
+import "./features/misc/RabbitHelper"
 // Rift
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"

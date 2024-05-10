@@ -34,7 +34,7 @@ class Settings {
         this.addDependency("Trophy Fishing Tracker Location", "Trophy Fishing Tracker")
         this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
         this.addDependency("RngMeter Location", "RngMeter")
-        this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
+        // this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
         this.addDependency("Block Overlay Color", "Block Overlay")
         this.addDependency("Block Overlay Filled", "Block Overlay")
         this.addDependency("Bonzo Mask Invincibility Timer Location", "Bonzo Mask Invincibility Timer")
@@ -771,24 +771,25 @@ class Settings {
     }
 
     // Kuudra
-    @SwitchProperty({
-        name: "Fatal Tempo Display",
-        description: "Displays your current fatal tempo time, hits and percent §4Might not be 100% accurate especially in last phase of kuudra t5 since it uses the terror stack's sounds",
-        category: "Kuudra",
-        subcategory: "Kuudra"
-    })
-    ftDisplay = false;
+    // shh this can be kept between you and me right !?
+    // @SwitchProperty({
+    //     name: "Fatal Tempo Display",
+    //     description: "Displays your current fatal tempo time, hits and percent §4Might not be 100% accurate especially in last phase of kuudra t5 since it uses the terror stack's sounds",
+    //     category: "Kuudra",
+    //     subcategory: "Kuudra"
+    // })
+    // ftDisplay = false;
 
-    @ButtonProperty({
-        name: "Fatal Tempo Display Location",
-        description: "Changes The Display Location",
-        category: "Kuudra",
-        subcategory: "Kuudra",
-        placeholder: "Change"
-    })
-    changefatalTempoDisplay() {
-        ChatLib.command("fatalTempoDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Fatal Tempo Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Kuudra",
+    //     subcategory: "Kuudra",
+    //     placeholder: "Change"
+    // })
+    // changefatalTempoDisplay() {
+    //     ChatLib.command("fatalTempoDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Crates Waypoints",
@@ -1417,6 +1418,14 @@ class Settings {
         subcategory: "Misc"
     })
     partyFinderOverlay = false;
+
+    @SwitchProperty({
+        name: "Rabbit Helper",
+        description: "Tells you the most efficient rabbit to upgrade in your &bChocolate Factory",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    rabbitHelper = false;
 
     // Rift
     @SwitchProperty({
