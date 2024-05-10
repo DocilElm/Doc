@@ -127,7 +127,7 @@ const onMouseClick = (_, __, ___, gui, event) => {
     if (!(gui instanceof net.minecraft.client.gui.inventory.GuiChest || gui instanceof net.minecraft.client.gui.inventory.GuiInventory)) return
     if (config.slotLockingSB && !ThePlayer.inSkyblock()) return
 
-    if (isHotbarKey()) {
+    if (isHotbarKey() && gui.getSlotUnderMouse()?.field_75222_d) {
         ChatLib.chat(`${TextHelper.PREFIX} &bWow! maybe don't bind that slot`)
         cancel(event)
 
