@@ -84,13 +84,19 @@ const onEntityJoin = (entity, entityID) => {
     })
 }
 
+const handleSoundPlay = (_, __, vol) => {
+    if (!registerWhen() || vol !== 0.10000000149011612) return
+
+    playSound()
+}
+
 // Events
 new Event(feature, "forgeEntityJoin", onEntityJoin, () => WorldState.inDungeons(), net.minecraft.entity.item.EntityItem)
 new Event(feature, "step", checkEntities, registerWhen, 5)
 new Event(feature, "onCollectItem", checkEntities)
 new Event(feature, "onPlayerBlockPlacement", checkClicked, registerWhen)
-new Event(feature, "soundPlay", playSound, registerWhen, "mob.bat.hurt")
-new Event(feature, "soundPlay", playSound, registerWhen, "mob.bat.death")
+new Event(feature, "soundPlay", handleSoundPlay, registerWhen, "mob.bat.hurt")
+new Event(feature, "soundPlay", handleSoundPlay, registerWhen, "mob.bat.death")
 new Event(feature, "worldUnload", () => {
     itemEntities.clear()
     currentBlockClicked = null
