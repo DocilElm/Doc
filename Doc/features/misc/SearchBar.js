@@ -6,7 +6,6 @@ import ScalableGui from "../../shared/Scalable"
 import TextInputElement from "../../../DocGuiLib/elements/TextInput"
 import { Window } from "../../../Elementa"
 import { TextHelper } from "../../shared/Text"
-import Formula from "../../../fparser/index"
 import { Persistence } from "../../shared/Persistence"
 
 // Constant variables
@@ -30,16 +29,57 @@ const scheme = {
 // Changeable variables
 let findString = ""
 
+const eqRegex = /^(\d+) ?([+*\-%/x^]) ?(\d+)/
+
+const equationList = {
+    "x": (num1, num2) => num1 * num2,
+    "*": (num1, num2) => num1 * num2,
+    "+": (num1, num2) => num1 + num2,
+    "/": (num1, num2) => num1 / num2,
+    "%": (num1, num2) => num1 % num2,
+    "^": (num1, num2) => num1 ** num2,
+    "-": (num1, num2) => num1 - num2
+}
+
+const calculate = (str, res = 0) => {
+    // Removes any "()"" from the string
+    str = str.replace(/[()]/g, "")
+
+    const matched = str.match(eqRegex)
+
+    // Checks whether it matched the regex or not
+    if (!matched) return 0
+
+    // Get [number 1, type of eq, number 2]
+    const [ _, num1, eq, num2 ] = matched
+
+    // Run it through the function list
+    const result = equationList[eq](parseFloat(num1), parseFloat(num2))
+    // Add the result to the [res] variable
+    res = result
+
+    // Replace the string we just calculated with the result of the eq
+    const newStr = str.replace(matched[0], result)
+    // Check whether the new string matches the regex
+    const match2 = newStr.match(eqRegex)
+    // If it does repeat the cycle
+    if (match2) return calculate(newStr, res)
+
+    // Return the combined result
+    return res
+}
+
 // Creating Elementa component
 const textInputComponent = new TextInputElement("")
     ._setPosition((editGui.getX()).pixels(), (editGui.getY()).pixels())
     ._setSize((editGui.width).pixels(), (editGui.height).pixels())
-    .onKeyTypeEvent((text) => {
+    .onKeyTypeEvent((text, _, keycode) => {
         findString = text
+        if (keycode === Keyboard.KEY_BACK) return
 
-        if (/\d+/.test(text.replace(/[()]/g, "")) && text.endsWith("=")) {
+        if (/\d+/.test(text.replace(/[()]/g, "")) && text.endsWith("=") && text.match(/=/g).length < 2) {
             const num = text.includes(".") // i know there might be better ways of doing this
-            textInputComponent.textInput.setText(`${text} ${TextHelper.addCommas( num ? Formula.calc(text).toFixed(2) : Math.trunc(Formula.calc(text)) )}`)
+            textInputComponent.textInput.setText(`${text} ${TextHelper.addCommas( num ? calculate(text).toFixed(2) : Math.trunc(calculate(text)) )}`)
         }
     })
 

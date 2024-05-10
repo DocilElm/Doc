@@ -2,7 +2,7 @@
   "name": "Doc",
   "creator": "DocilElm",
   "description": "doc is the best.",
-  "version": "3.69.13",
+  "version": "3.70.13",
   "entry": "index.js",
   "changelog": "",
   "requires": [
@@ -16,7 +16,6 @@
     "BloomCore",
     "DocGuiLib",
     "Elementa",
-    "KeybindFix",
-    "fparser"
+    "KeybindFix"
   ]
 }
