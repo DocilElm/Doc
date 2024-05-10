@@ -193,21 +193,21 @@ const scanWaterBoard = () => {
 
         if (blockUnderPiston.type.getName() === "tile.air.name" || blockUnderPiston.type.getName() === "Stone") return
 
-        switch (blockUnderPiston.type.getName()) {
-            case "Block of Gold":
-                foundGold = true
+        switch (blockUnderPiston.type?.getRegistryName()) {
+            case "minecraft:hardened_clay":
+                foundClay = true
                 break
-            case "Block of Quartz":
-                foundQuartz = true
-                break
-            case "Block of Emerald":
+            case "minecraft:emerald_block":
                 foundEmerald = true
                 break
-            case "Block of Diamond":
+            case "minecraft:diamond_block":
                 foundDiamond = true
                 break
-            case "Hardened Clay":
-                foundClay = true
+            case "minecraft:quartz_block":
+                foundQuartz = true
+                break
+            case "minecraft:gold_block":
+                foundGold = true
                 break
         }
     })
