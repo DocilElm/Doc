@@ -9,7 +9,7 @@ import { TextHelper } from "../../shared/Text"
 const toggleSprintKeybind = new Keybind("§fToggle Sprint", Keyboard.KEY_NONE, "Doc")
 const sprintKey = new KeyBind(Client.getMinecraft().field_71474_y.field_151444_V)
 const forwardKey = new KeyBind(Client.getMinecraft().field_71474_y.field_74351_w)
-const editGui = new ScalableGui("toggleSprintDisplay").setCommand("edittoggleSprint")
+const editGui = new ScalableGui("toggleSprintDisplay", config.toggleSprintText ?? "&bToggle Sprint&f: &aEnabled").setCommand("edittoggleSprint")
 
 let hasEnabled = false
 

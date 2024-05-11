@@ -13,19 +13,26 @@ const barrier = new Item("minecraft:barrier")
 
 // Default
 editGui.onRender(() => {
+    const armorText = `&b+${Player.getName()} &a0&7/&c1`
+
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
     barrier.draw(0, 0)
-    Renderer.drawStringWithShadow(`&b+${Player.getName()} &a0&7/&c1`, 18, 5)
+    Renderer.drawStringWithShadow(armorText, 18, 5)
     barrier.draw(0, 18)
-    Renderer.drawStringWithShadow(`&b+${Player.getName()} &a0&7/&c1`, 18, 5)
+    Renderer.drawStringWithShadow(armorText, 18, 5)
     barrier.draw(0, 18)
-    Renderer.drawStringWithShadow(`&b+${Player.getName()} &a0&7/&c1`, 18, 5)
+    Renderer.drawStringWithShadow(armorText, 18, 5)
     barrier.draw(0, 18)
-    Renderer.drawStringWithShadow(`&b+${Player.getName()} &a0&7/&c1`, 18, 5)
+    Renderer.drawStringWithShadow(armorText, 18, 5)
     Renderer.retainTransforms(false)
     Renderer.finishDraw()
+
+    editGui.setSize(
+        (16 * editGui.getScale()) + Renderer.getStringWidth(armorText.removeFormatting()),
+        (16 * editGui.getScale()) * 4
+        )
 })
 
 // Logic

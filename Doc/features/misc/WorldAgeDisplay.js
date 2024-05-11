@@ -5,7 +5,7 @@ import ScalableGui from "../../shared/Scalable"
 
 // Constant variables
 const feature = new Feature("WorldAgeDisplay", "Misc", "")
-const editGui = new ScalableGui("worldAgeDisplay").setCommand("editworldAgeDisplay")
+const editGui = new ScalableGui("worldAgeDisplay", "&bDay&f: &61.05").setCommand("editworldAgeDisplay")
 
 // Default render
 editGui.onRender(() => {

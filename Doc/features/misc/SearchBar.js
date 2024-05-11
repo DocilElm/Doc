@@ -223,7 +223,7 @@ const reset = () => {
 
 // Default display
 editGui.onRender(() => {
-    if (editGui.isOpen()) {
+    if (editGui.isOpen() || editGui.selected) {
         Renderer.translate(
             Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(text.removeFormatting()) / 2,
             Renderer.screen.getHeight() / 2

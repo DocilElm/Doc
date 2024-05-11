@@ -10,7 +10,6 @@ import { WorldState } from "../../shared/World"
 // i will make an actual recode later on
 
 // Constant variables
-const editGui = new ScalableGui("runSplits").setCommand("runSplitsDisplay")
 const feature = new Feature("dungeonRunSplits", "Dungeons", "")
 const defaultSplits = [
     `&a&lRun Splits`,
@@ -19,6 +18,7 @@ const defaultSplits = [
     `&5Portal Entry&f: &a0s`,
     `&bBoss Entry&f: &a0s`,
 ].join("\n")
+const editGui = new ScalableGui("runSplits", defaultSplits).setCommand("runSplitsDisplay")
 
 // Changeable variables
 let splits = null

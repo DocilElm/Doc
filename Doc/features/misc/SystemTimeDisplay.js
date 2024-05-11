@@ -5,7 +5,7 @@ import ScalableGui from "../../shared/Scalable"
 
 // Constant variables
 const feature = new Feature("SystemTimeDisplay")
-const editGui = new ScalableGui("systemDisplay").setCommand("editSystemTimeDisplay")
+const editGui = new ScalableGui("systemDisplay", "04:24:11 PM").setCommand("editSystemTimeDisplay")
 const colorList = ["&4", "&c", "&6", "&e", "&2", "&a", "&b", "&3", "&1", "&9", "&d", "&5", "&f", "&7", "&8", "&0"]
 
 // Default render

@@ -6,7 +6,8 @@ import { Feature } from "../../core/Feature"
 import ScalableGui from "../../shared/Scalable"
 
 const feature = new Feature("PuzzleNames", "Misc", "")
-const editGui = new ScalableGui("puzzleNameDisplay").setCommand("editpuzzleNameDisplay")
+const defaultString = `&d&lBoulder &6✦\n&d&lThree Weirdos &a✔`
+const editGui = new ScalableGui("puzzleNameDisplay", defaultString).setCommand("editpuzzleNameDisplay")
 const PuzzleEnums = {
     0: "&6✦",
     1: "&a✔",
@@ -21,7 +22,7 @@ editGui.onRender(() => {
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(`&d&lBoulder &6✦\n&d&lThree Weirdos &a✔`, 0, 0)
+    Renderer.drawStringWithShadow(defaultString, 0, 0)
     Renderer.retainTransforms(false)
     Renderer.finishDraw()
 })

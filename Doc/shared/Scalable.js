@@ -1,3 +1,6 @@
+import ElementUtils from "../../DocGuiLib/core/Element"
+import HandleGui from "../../DocGuiLib/core/Gui"
+import { CenterConstraint, ConstantColorConstraint, CramSiblingConstraint, ScrollComponent, UIRoundedRectangle, UIText } from "../../Elementa"
 import { Command } from "../core/Events"
 import { Persistence } from "./Persistence"
 import { TextHelper } from "./Text"
@@ -8,6 +11,7 @@ import { TextHelper } from "./Text"
 const mainEditGui = new Gui()
 const savedGui = new Set()
 const text = "&a&lClick at any component to open their edit gui"
+let currGui = null
 
 export default class ScalableGui {
     constructor(featureName, defaultString = null){
@@ -18,6 +22,9 @@ export default class ScalableGui {
         this.width = null
         this.height = null
         this.customSize = null
+        this.commandName = null
+
+        this.selected = false
 
         this.gui.registerScrolled((_, __, dir) => {
             if (dir === 1) Persistence.data[this.featureName].scale += 0.02
@@ -37,7 +44,43 @@ export default class ScalableGui {
         savedGui.add(this)
     }
 
-    setCommand(commandName) {        
+    onMouseScroll(dir) {
+        if (!this.selected) return
+
+        if (dir === 1) Persistence.data[this.featureName].scale += 0.02
+        else Persistence.data[this.featureName].scale -= 0.02
+
+        Persistence.data.save()
+
+        if (this.customSize) this.customSize(dir)
+    }
+
+    onMouseDrag(mx, my) {
+        if (!this.selected) return
+
+        Persistence.data[this.featureName].x = mx
+        Persistence.data[this.featureName].y = my
+        Persistence.data.save()
+    }
+
+    onMouseClick(mx, my, mbtn) {
+        if (!this.getBoundingBox() || currGui && currGui !== this.featureName) return
+
+        if (!TextHelper.checkBoundingBox([mx, my], this.getBoundingBox()) && this.selected) {
+            this.selected = false
+            currGui = null
+
+            return
+        }
+        if (!TextHelper.checkBoundingBox([mx, my], this.getBoundingBox())) return
+
+        this.selected = true
+        currGui = this.featureName
+    }
+
+    setCommand(commandName) {
+        this.commandName = commandName
+
         register("command", () => {
             this.open()
         }).setName(commandName)
@@ -129,7 +172,7 @@ export default class ScalableGui {
      * @returns {[Number, Number]| null}
      */
     getSize() {
-        if (!this.hasBoundingBox) return null
+        if (!this.hasBoundingBox()) return null
 
         // If [w, h] values are set by the feature we return those
         if (this.width !== null && this.height !== null) return [ this.width, this.height ]
@@ -145,8 +188,14 @@ export default class ScalableGui {
 
         // Gets the amount of [\n] in the string
         const spaceAmount = this.string.match(/\n+/g)?.length
-        // Gets the first text that has [\n] on it
-        const subString = this.string.match(/(.+)\n+/)?.[1]
+        // Gets the biggest text that has [\n] on it
+        const subString = this.string.match(/(.+)\n/g).reduce((a, b) => {
+            if (a.length > b.length) return a
+          
+            a = b
+          
+            return a
+          }, "")
 
         // If either of these isn't defined we return [null]
         if (!spaceAmount || !subString) return null
@@ -154,7 +203,7 @@ export default class ScalableGui {
         // Else we return the [w, h] values
         return [
             Renderer.getStringWidth(subString.removeFormatting()), // Gets the [subString] width to use as width
-            spaceAmount * Renderer.getFontRenderer().field_78288_b // Gets the [FONT_HEIGHT] and times it by the amount of [\n]
+            (spaceAmount + 1) * Renderer.getFontRenderer().field_78288_b // Gets the [FONT_HEIGHT] and times it by the amount of [\n]
         ]
     }
 
@@ -182,7 +231,7 @@ export default class ScalableGui {
     drawBoundingBox() {
         const [ x1, y1, x2, y2 ] = this.getBoundingBox()
         const thickness = 1.5
-        const color = Renderer.color(0, 0, 0, 80)
+        const color = Renderer.color(0, 255, 100, 255)
 
         // Draw top line
         Renderer.drawLine(
@@ -229,11 +278,13 @@ export default class ScalableGui {
 // Trigger all of the guis default function
 // this is to render them in the current gui all at once
 mainEditGui.registerDraw(() => {
-    Renderer.drawStringWithShadow(
-        text,
-        Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(text.removeFormatting()) / 2,
-        Renderer.screen.getHeight() / 2
-    )
+    if (!currGui) {
+        Renderer.drawStringWithShadow(
+            text,
+            Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(text.removeFormatting()) / 2,
+            Renderer.screen.getHeight() / 2
+        )
+    }
 
     savedGui.forEach(guis => {
         guis.defaultFunc()
@@ -242,19 +293,93 @@ mainEditGui.registerDraw(() => {
 
         guis.drawBoundingBox()
     })
+
+    if (currGui) {
+        const theText = `&bCurrently editing&f: &6${currGui}`
+
+        Renderer.retainTransforms(true)
+        Renderer.translate(Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(theText.removeFormatting()) / 2, 10, 300)
+        Renderer.drawRect(Renderer.BLACK, 0, 0, Renderer.getStringWidth(theText.removeFormatting()), 12)
+        Renderer.drawStringWithShadow(theText, 0, 1)
+        Renderer.retainTransforms(false)
+        Renderer.finishDraw()
+    }
 })
 
-mainEditGui.registerClicked((mx, my) => {
-    savedGui.forEach(guis => {
-        if (!guis.hasBoundingBox()) return
+mainEditGui.registerClicked((mx, my, mbtn) => savedGui.forEach(it => it.onMouseClick(mx, my, mbtn)))
+mainEditGui.registerMouseDragged((mx, my) => savedGui.forEach(it => it.onMouseDrag(mx, my)))
+mainEditGui.registerScrolled((mx, my, dir) => savedGui.forEach(it => it.onMouseScroll(dir)))
 
-        // If the mouse click isnt near this component's
-        // boundries we return
-        if (!TextHelper.checkBoundingBox([mx, my], guis.getBoundingBox())) return
+new Command(null, "docallguis", () => mainEditGui.open()).start()
 
-        // Else we open the component's edit gui
-        guis.open()
+const handler = new HandleGui()
+
+const bgBox = new UIRoundedRectangle(5)
+    .setX(new CenterConstraint())
+    .setY(new CenterConstraint())
+    .setWidth((30).percent())
+    .setHeight((50).percent())
+    .setColor(ElementUtils.getJavaColor([0, 0, 0, 80]))
+
+const bgScrollable = new ScrollComponent("", 5)
+    .setX(new CenterConstraint())
+    .setY((1).pixels())
+    .setWidth((80).percent())
+    .setHeight((90).percent())
+    .setChildOf(bgBox)
+
+const scrollableSlider = new UIRoundedRectangle(3)
+    .setX(new CramSiblingConstraint(2))
+    .setY((5).pixels())
+    .setHeight((5).pixels())
+    .setWidth((5).pixels())
+    .setColor(ElementUtils.getJavaColor([255, 255, 255, 80]))
+    .setChildOf(bgBox)
+
+bgScrollable.setScrollBarComponent(scrollableSlider, true, false)
+
+const btnCreated = new Set()
+
+class ButtonComponent {
+    constructor(featureName, commandName) {
+        this.featureName = featureName
+        this.commandName = commandName
+
+        this._init()
+        btnCreated.add(this.featureName)
+    }
+
+    _init() {
+        this.bgButtonBox = new UIRoundedRectangle(5)
+            .setX((1).pixels())
+            .setY(new CramSiblingConstraint(5))
+            .setWidth((100).percent())
+            .setHeight((12).percent())
+            .setColor(ElementUtils.getJavaColor([0, 0, 0, 80]))
+            .setChildOf(bgScrollable)
+            .onMouseClick((comp, event) => {
+                if (event.mouseButton !== 0) return
+
+                ChatLib.command(this.commandName, true)
+            })
+
+        this.buttonText = new UIText(this.featureName)
+            .setX(new CenterConstraint())
+            .setY(new CenterConstraint())
+            .setChildOf(this.bgButtonBox)
+    }
+}
+
+new ButtonComponent("All Gui Edits", "docallguis")
+
+register("command", () => {
+    savedGui.forEach(it => {
+        if (btnCreated.has(it.featureName)) return
+
+        new ButtonComponent(it.featureName, it.commandName)
     })
-})
 
-new Command(null, "docguis", () => mainEditGui.open()).start()
+    handler.ctGui.open()
+}).setName("docguis")
+
+handler._drawNormal(bgBox)

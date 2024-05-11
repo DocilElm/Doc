@@ -45,6 +45,11 @@ editGui.onRender(() => {
     drawSlotBg(null, 0, 18, true)
     Renderer.retainTransforms(false)
     Renderer.finishDraw()
+
+    editGui.setSize(
+        16 * editGui.getScale(),
+        (16 * editGui.getScale()) * 4
+    )
 })
 
 const renderOverlay = () => {

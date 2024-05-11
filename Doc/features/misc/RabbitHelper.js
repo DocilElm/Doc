@@ -9,6 +9,7 @@ const rabbitSlots = [ 29, 30, 31, 32, 33 ]
 const chocolateCostRegex = /Cost ([\d,.]+) Chocolate/
 const employedRabbitRegex = /^Rabbit \w+ - \[\d+\] \w+$/
 const rabbitUpgradeRegex = /^Rabbit \w+ has been promoted to \[\d+\] \w+\!$/
+const notEnoughChocoRegex = /^You don\'t have enough Chocolate\!$/
 
 // Changeable variables
 let shouldScan = false
@@ -83,6 +84,12 @@ new Event(feature, "onChatPacket", () => {
     shouldScan = true
     renderIdx = null
 }, () => World.isLoaded(), rabbitUpgradeRegex)
+new Event(feature, "onChatPacket", () => {
+    if (!config.rabbitHelper) return
+    
+    shouldScan = true
+    renderIdx = null
+}, () => World.isLoaded(), notEnoughChocoRegex)
 new Event(feature, "guiRender", onGuiRender, () => World.isLoaded() && renderIdx && config,rabbitSlots)
 
 // Starting events

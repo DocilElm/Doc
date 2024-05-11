@@ -21,39 +21,39 @@ class Settings {
         this.initialize(this)
         this.setCategoryDescription("General", "Author DocilElm")
         // main feature to the right and hidden feature to the left
-        this.addDependency("Gemstone Mining Profit Location", "Gemstone Mining Profit")
-        this.addDependency("Visitor Profit Display Location", "Visitor Profit Display")
+        // this.addDependency("Gemstone Mining Profit Location", "Gemstone Mining Profit")
+        // this.addDependency("Visitor Profit Display Location", "Visitor Profit Display")
         this.addDependency("Rgb Timer Title", "Timer Title")
         this.addDependency("Secrets Click Color", "Show Secrets Clicked")
-        this.addDependency("Move Timer", "Ragnarok Axe Cooldown Timer")
-        this.addDependency("Run Splits Location", "Run Splits")
-        this.addDependency("Chest Profit Location", "Chest Profit")
-        this.addDependency("Croesus Profit Location", "Croesus Profit")
-        this.addDependency("Boss Splits Location", "Boss Splits")
-        this.addDependency("Ghost Tracker Location", "Ghost Tracker")
-        this.addDependency("Trophy Fishing Tracker Location", "Trophy Fishing Tracker")
-        this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
-        this.addDependency("RngMeter Location", "RngMeter")
+        // this.addDependency("Move Timer", "Ragnarok Axe Cooldown Timer")
+        // this.addDependency("Run Splits Location", "Run Splits")
+        // this.addDependency("Chest Profit Location", "Chest Profit")
+        // this.addDependency("Croesus Profit Location", "Croesus Profit")
+        // this.addDependency("Boss Splits Location", "Boss Splits")
+        // this.addDependency("Ghost Tracker Location", "Ghost Tracker")
+        // this.addDependency("Trophy Fishing Tracker Location", "Trophy Fishing Tracker")
+        // this.addDependency("Powder Mining Tracker Location", "Powder Mining Tracker")
+        // this.addDependency("RngMeter Location", "RngMeter")
         // this.addDependency("Fatal Tempo Display Location", "Fatal Tempo Display")
         this.addDependency("Block Overlay Color", "Block Overlay")
         this.addDependency("Block Overlay Filled", "Block Overlay")
-        this.addDependency("Bonzo Mask Invincibility Timer Location", "Bonzo Mask Invincibility Timer")
-        this.addDependency("Phoenix Pet Invincibility Timer Location", "Phoenix Pet Invincibility Timer")
-        this.addDependency("Garden Display Location", "Garden Display")
-        this.addDependency("Blessings Display Location", "Blessings Display")
-        this.addDependency("Stats Display Location", "Stats Display")
-        this.addDependency("Search Bar Location", "Search Bar")
+        // this.addDependency("Bonzo Mask Invincibility Timer Location", "Bonzo Mask Invincibility Timer")
+        // this.addDependency("Phoenix Pet Invincibility Timer Location", "Phoenix Pet Invincibility Timer")
+        // this.addDependency("Garden Display Location", "Garden Display")
+        // this.addDependency("Blessings Display Location", "Blessings Display")
+        // this.addDependency("Stats Display Location", "Stats Display")
+        // this.addDependency("Search Bar Location", "Search Bar")
         this.addDependency("Secrets Sound Type", "Secrets Sound")
         this.addDependency("Water Board Solver Display", "Water Board Solver")
-        this.addDependency("Water Board Solver Display Location", "Water Board Solver Display")
-        this.addDependency("Champion Xp Display Location", "Champion Xp Display")
+        // this.addDependency("Water Board Solver Display Location", "Water Board Solver Display")
+        // this.addDependency("Champion Xp Display Location", "Champion Xp Display")
         this.addDependency("Creeper Beams Solver Line", "Creeper Beams Solver")
-        this.addDependency("Pet Display Location", "Pet Display")
-        this.addDependency("Crypts Display Location", "Crypts Display")
-        this.addDependency("Milestone Display Location", "Milestone Display")
-        this.addDependency("Pests Display Location", "Pests Display")
-        this.addDependency("Puzzles Display Location", "Puzzles Display")
-        this.addDependency("Deaths Display Location", "Deaths Display")
+        // this.addDependency("Pet Display Location", "Pet Display")
+        // this.addDependency("Crypts Display Location", "Crypts Display")
+        // this.addDependency("Milestone Display Location", "Milestone Display")
+        // this.addDependency("Pests Display Location", "Pests Display")
+        // this.addDependency("Puzzles Display Location", "Puzzles Display")
+        // this.addDependency("Deaths Display Location", "Deaths Display")
         this.addDependency("Deployables Display Stats", "Deployables Display")
         this.addDependency("Auction Overlay Reset", "Auction Overlay")
         this.addDependency("Bazaar Overlay Reset", "Bazaar Overlay")
@@ -66,17 +66,17 @@ class Settings {
         this.addDependency("Slot Locking SB Only", "Slot Locking")
         this.addDependency("Armor Display Background", "Armor Display")
         this.addDependency("Armor Display Barrier", "Armor Display")
-        this.addDependency("Armor Display Location", "Armor Display")
+        // this.addDependency("Armor Display Location", "Armor Display")
         this.addDependency("System Time Display Color", "System Time Display")
-        this.addDependency("System Time Display Location", "System Time Display")
+        // this.addDependency("System Time Display Location", "System Time Display")
         this.addDependency("Toggle Sprint Display Text", "Toggle Sprint Display")
-        this.addDependency("Toggle Sprint Display Location", "Toggle Sprint Display")
-        this.addDependency("Puzzle Names Display Location", "Puzzle Names Display")
-        this.addDependency("Slayer Display Location", "Slayer Display")
+        // this.addDependency("Toggle Sprint Display Location", "Toggle Sprint Display")
+        // this.addDependency("Puzzle Names Display Location", "Puzzle Names Display")
+        // this.addDependency("Slayer Display Location", "Slayer Display")
         this.addDependency("Slayer Box", "Slayer Display")
-        this.addDependency("Otter Display Location", "Otter Display")
-        this.addDependency("World Age Display Location", "World Age Display")
-        this.addDependency("Slayer Armor Display Location", "Slayer Armor Display")
+        // this.addDependency("Otter Display Location", "Otter Display")
+        // this.addDependency("World Age Display Location", "World Age Display")
+        // this.addDependency("Slayer Armor Display Location", "Slayer Armor Display")
         this.addDependency("Party Commands List", "Party Commands")
         this.addDependency("Auction Overlay Keybind", "Auction Overlay")
         this.addDependency("Bazaar Overlay Keybind", "Bazaar Overlay")
@@ -137,16 +137,16 @@ class Settings {
     })
     dungeonRunSplits = false;
 
-    @ButtonProperty({
-        name: "Run Splits Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changeRunSplitsDisplay() {
-        ChatLib.command("runSplitsDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Run Splits Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changeRunSplitsDisplay() {
+    //     ChatLib.command("runSplitsDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Chest Profit",
@@ -156,16 +156,16 @@ class Settings {
     })
     dungeonProfitDisplay = false;
 
-    @ButtonProperty({
-        name: "Chest Profit Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changedungeonProfitDisplay() {
-        ChatLib.command("dungeonProfitDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Chest Profit Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changedungeonProfitDisplay() {
+    //     ChatLib.command("dungeonProfitDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Show Croesus Clicks",
@@ -192,16 +192,16 @@ class Settings {
     })
     croesusProfitMode = 0;
 
-    @ButtonProperty({
-        name: "Croesus Profit Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changecroesusProfitDisplay() {
-        ChatLib.command("croesusProfitDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Croesus Profit Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changecroesusProfitDisplay() {
+    //     ChatLib.command("croesusProfitDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Show Extra Stats",
@@ -219,16 +219,16 @@ class Settings {
     })
     dungeonBossSplits = false;
 
-    @ButtonProperty({
-        name: "Boss Splits Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changebossSplitsDisplay() {
-        ChatLib.command("bossSplitsDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Boss Splits Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changebossSplitsDisplay() {
+    //     ChatLib.command("bossSplitsDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Blessings Display",
@@ -238,16 +238,16 @@ class Settings {
     })
     blessingsDisplay = false;
 
-    @ButtonProperty({
-        name: "Blessings Display Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changeblessingsDisplayLocation() {
-        ChatLib.command("blessingsDisplayLocation", true);
-    }
+    // @ButtonProperty({
+    //     name: "Blessings Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changeblessingsDisplayLocation() {
+    //     ChatLib.command("blessingsDisplayLocation", true);
+    // }
 
     @SwitchProperty({
         name: "Secrets Sound",
@@ -303,7 +303,7 @@ class Settings {
         description: "Sends the tutorial for recording your own solutions to your chat &c(you can also just /recordingtutorial)",
         category: "Dungeons",
         subcategory: "Dungeons",
-        placeholder: "Change"
+        placeholder: "Click"
     })
     changewaterboardtutorial() {
         ChatLib.command("recordingtutorial", true);
@@ -318,16 +318,16 @@ class Settings {
     })
     waterBoardSolverDisplay = false;
 
-    @ButtonProperty({
-        name: "Water Board Solver Display Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changewaterboardsolverdisplay() {
-        ChatLib.command("waterboardsolverdisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Water Board Solver Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changewaterboardsolverdisplay() {
+    //     ChatLib.command("waterboardsolverdisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Boulder Solver",
@@ -385,16 +385,16 @@ class Settings {
     })
     cryptsDisplay = false;
 
-    @ButtonProperty({
-        name: "Crypts Display Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changecryptsdisplay() {
-        ChatLib.command("changecryptsdisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Crypts Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changecryptsdisplay() {
+    //     ChatLib.command("changecryptsdisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Milestone Display",
@@ -404,16 +404,16 @@ class Settings {
     })
     milestoneDisplay = false;
 
-    @ButtonProperty({
-        name: "Milestone Display Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changemilestonedisplay() {
-        ChatLib.command("changemilestoneDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Milestone Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changemilestonedisplay() {
+    //     ChatLib.command("changemilestoneDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Trivia Solver",
@@ -431,16 +431,16 @@ class Settings {
     })
     puzzlesDisplay = false;
 
-    @ButtonProperty({
-        name: "Puzzles Display Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changepuzzleDisplay() {
-        ChatLib.command("changepuzzleDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Puzzles Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changepuzzleDisplay() {
+    //     ChatLib.command("changepuzzleDisplay", true);
+    // }
     
     @SwitchProperty({
         name: "Deaths Display",
@@ -450,16 +450,16 @@ class Settings {
     })
     deathsDisplay = false;
 
-    @ButtonProperty({
-        name: "Deaths Display Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    changedeathsDisplay() {
-        ChatLib.command("changedeathsDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Deaths Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // changedeathsDisplay() {
+    //     ChatLib.command("changedeathsDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Three Weirdos Solver",
@@ -493,16 +493,16 @@ class Settings {
     })
     puzzleNamesDisplay = false;
 
-    @ButtonProperty({
-        name: "Puzzle Names Display Location",
-        description: "Changes The Display Location",
-        category: "Dungeons",
-        subcategory: "Dungeons",
-        placeholder: "Change"
-    })
-    editpuzzleNameDisplay() {
-        ChatLib.command("editpuzzleNameDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Puzzle Names Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Dungeons",
+    //     subcategory: "Dungeons",
+    //     placeholder: "Change"
+    // })
+    // editpuzzleNameDisplay() {
+    //     ChatLib.command("editpuzzleNameDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Send Mimic Dead",
@@ -538,16 +538,16 @@ class Settings {
     })
     gemstonesProfit = false;
 
-    @ButtonProperty({
-        name: "Gemstone Mining Profit Location",
-        description: "Changes The Display Location",
-        category: "Mining",
-        subcategory: "Mining",
-        placeholder: "Change"
-    })
-    changeMiningProfitDisplay() {
-        ChatLib.command("miningProfitDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Gemstone Mining Profit Location",
+    //     description: "Changes The Display Location",
+    //     category: "Mining",
+    //     subcategory: "Mining",
+    //     placeholder: "Change"
+    // })
+    // changeMiningProfitDisplay() {
+    //     ChatLib.command("miningProfitDisplay", true);
+    // }
 
     // Fishing
     @SwitchProperty({
@@ -583,16 +583,16 @@ class Settings {
     })
     visitorProfitDisplay = false;
 
-    @ButtonProperty({
-        name: "Visitor Profit Display Location",
-        description: "Changes The Display Location",
-        category: "Garden",
-        subcategory: "Garden",
-        placeholder: "Change"
-    })
-    changeVisitorProfitDisplay() {
-        ChatLib.command("visitorProfitDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Visitor Profit Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Garden",
+    //     subcategory: "Garden",
+    //     placeholder: "Change"
+    // })
+    // changeVisitorProfitDisplay() {
+    //     ChatLib.command("visitorProfitDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Garden Display",
@@ -602,16 +602,16 @@ class Settings {
     })
     gardenDisplay = false;
 
-    @ButtonProperty({
-        name: "Garden Display Location",
-        description: "Changes The Display Location",
-        category: "Garden",
-        subcategory: "Garden",
-        placeholder: "Change"
-    })
-    changegardenDisplayLocation() {
-        ChatLib.command("gardenDisplayLocation", true);
-    }
+    // @ButtonProperty({
+    //     name: "Garden Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Garden",
+    //     subcategory: "Garden",
+    //     placeholder: "Change"
+    // })
+    // changegardenDisplayLocation() {
+    //     ChatLib.command("gardenDisplayLocation", true);
+    // }
 
     @SwitchProperty({
         name: "Pests Display",
@@ -621,16 +621,16 @@ class Settings {
     })
     pestsDisplay = false;
 
-    @ButtonProperty({
-        name: "Pests Display Location",
-        description: "Changes The Display Location",
-        category: "Garden",
-        subcategory: "Garden",
-        placeholder: "Change"
-    })
-    changechangepestsdisplay() {
-        ChatLib.command("changepestsdisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Pests Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Garden",
+    //     subcategory: "Garden",
+    //     placeholder: "Change"
+    // })
+    // changechangepestsdisplay() {
+    //     ChatLib.command("changepestsdisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Visitor Bazaar Button",
@@ -665,16 +665,16 @@ class Settings {
     })
     slayerDisplay = false;
 
-    @ButtonProperty({
-        name: "Slayer Display Location",
-        description: "Changes The Display Location",
-        category: "Slayer",
-        subcategory: "Slayer",
-        placeholder: "Change"
-    })
-    changeeditslayerDisplay() {
-        ChatLib.command("editslayerDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Slayer Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Slayer",
+    //     subcategory: "Slayer",
+    //     placeholder: "Change"
+    // })
+    // changeeditslayerDisplay() {
+    //     ChatLib.command("editslayerDisplay", true);
+    // }
 
     @SwitchProperty({
         name: "Slayer Box",
@@ -701,16 +701,16 @@ class Settings {
     })
     slayerArmorDisplay = false;
 
-    @ButtonProperty({
-        name: "Slayer Armor Display Location",
-        description: "Changes The Display Location",
-        category: "Slayer",
-        subcategory: "Slayer",
-        placeholder: "Change"
-    })
-    changeeditslayerArmorDisplay() {
-        ChatLib.command("editslayerArmorDisplay", true);
-    }
+    // @ButtonProperty({
+    //     name: "Slayer Armor Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Slayer",
+    //     subcategory: "Slayer",
+    //     placeholder: "Change"
+    // })
+    // changeeditslayerArmorDisplay() {
+    //     ChatLib.command("editslayerArmorDisplay", true);
+    // }
 
     // Tracker
     @SwitchProperty({
@@ -721,16 +721,16 @@ class Settings {
     })
     ghostTracker = false;
 
-    @ButtonProperty({
-        name: "Ghost Tracker Location",
-        description: "Changes The Display Location",
-        category: "Tracker",
-        subcategory: "Tracker",
-        placeholder: "Change"
-    })
-    changeghostDisplayLocation() {
-        ChatLib.command("ghostDisplayLocation", true);
-    }
+    // @ButtonProperty({
+    //     name: "Ghost Tracker Location",
+    //     description: "Changes The Display Location",
+    //     category: "Tracker",
+    //     subcategory: "Tracker",
+    //     placeholder: "Change"
+    // })
+    // changeghostDisplayLocation() {
+    //     ChatLib.command("ghostDisplayLocation", true);
+    // }
 
     @SwitchProperty({
         name: "Trophy Fishing Tracker",
@@ -740,16 +740,16 @@ class Settings {
     })
     trophyFishingTracker = false;
 
-    @ButtonProperty({
-        name: "Trophy Fishing Tracker Location",
-        description: "Changes The Display Location",
-        category: "Tracker",
-        subcategory: "Tracker",
-        placeholder: "Change"
-    })
-    changetrophyDisplayLocation() {
-        ChatLib.command("trophyDisplayLocation", true);
-    }
+    // @ButtonProperty({
+    //     name: "Trophy Fishing Tracker Location",
+    //     description: "Changes The Display Location",
+    //     category: "Tracker",
+    //     subcategory: "Tracker",
+    //     placeholder: "Change"
+    // })
+    // changetrophyDisplayLocation() {
+    //     ChatLib.command("trophyDisplayLocation", true);
+    // }
 
     @SwitchProperty({
         name: "Powder Mining Tracker",
@@ -759,16 +759,16 @@ class Settings {
     })
     powderMiningTracker = false;
 
-    @ButtonProperty({
-        name: "Powder Mining Tracker Location",
-        description: "Changes The Display Location",
-        category: "Tracker",
-        subcategory: "Tracker",
-        placeholder: "Change"
-    })
-    changepowderDisplayLocation() {
-        ChatLib.command("powderDisplayLocation", true);
-    }
+    // @ButtonProperty({
+    //     name: "Powder Mining Tracker Location",
+    //     description: "Changes The Display Location",
+    //     category: "Tracker",
+    //     subcategory: "Tracker",
+    //     placeholder: "Change"
+    // })
+    // changepowderDisplayLocation() {
+    //     ChatLib.command("powderDisplayLocation", true);
+    // }
 
     // Kuudra
     // shh this can be kept between you and me right !?
@@ -808,17 +808,17 @@ class Settings {
     })
     ragnarokAxeTimer = false;
 
-    @ButtonProperty({
-        name: "Move Timer",
-        description: "Moves and size the Ragnarok Axe timer display",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    action() {
-        ChatLib.command("ragnarokAxeDisplay", true)
+    // @ButtonProperty({
+    //     name: "Move Timer",
+    //     description: "Moves and size the Ragnarok Axe timer display",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // action() {
+    //     ChatLib.command("ragnarokAxeDisplay", true)
 
-    }
+    // }
 
     @SwitchProperty({
         name: "RngMeter",
@@ -828,17 +828,16 @@ class Settings {
     })
     RngMeter = false;
 
-    @ButtonProperty({
-        name: "RngMeter Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changerngMeterDisplay() {
-        ChatLib.command("rngMeterDisplay", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "RngMeter Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changerngMeterDisplay() {
+    //     ChatLib.command("rngMeterDisplay", true)
+    // }
 
     @SwitchProperty({
         name: "Block Overlay",
@@ -872,17 +871,16 @@ class Settings {
     })
     bonzoMaskInvincibilityTimer = false;
 
-    @ButtonProperty({
-        name: "Bonzo Mask Invincibility Timer Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changebonzoMaskInvisDisplay() {
-        ChatLib.command("bonzoMaskInvisDisplay", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "Bonzo Mask Invincibility Timer Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changebonzoMaskInvisDisplay() {
+    //     ChatLib.command("bonzoMaskInvisDisplay", true)
+    // }
 
     @SwitchProperty({
         name: "Phoenix Pet Invincibility Timer",
@@ -892,17 +890,16 @@ class Settings {
     })
     phoenixInvincibilityTimer = false;
 
-    @ButtonProperty({
-        name: "Phoenix Pet Invincibility Timer Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changephoenixInvisDisplay() {
-        ChatLib.command("phoenixInvisDisplay", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "Phoenix Pet Invincibility Timer Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changephoenixInvisDisplay() {
+    //     ChatLib.command("phoenixInvisDisplay", true)
+    // }
 
     @SelectorProperty({
         name: "Phoenix Pet Time",
@@ -921,17 +918,16 @@ class Settings {
     })
     statsDisplay = false;
 
-    @ButtonProperty({
-        name: "Stats Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changestatsDisplayLocation() {
-        ChatLib.command("statsDisplayLocation", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "Stats Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changestatsDisplayLocation() {
+    //     ChatLib.command("statsDisplayLocation", true)
+    // }
 
     @SwitchProperty({
         name: "Search Bar",
@@ -941,17 +937,16 @@ class Settings {
     })
     searchBar = false;
 
-    @ButtonProperty({
-        name: "Search Bar Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changesearchBarLocation() {
-        ChatLib.command("searchBarLocation", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "Search Bar Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changesearchBarLocation() {
+    //     ChatLib.command("searchBarLocation", true)
+    // }
     
     @SwitchProperty({
         name: "Champion Xp Display",
@@ -961,17 +956,16 @@ class Settings {
     })
     championxpDisplay = false;
 
-    @ButtonProperty({
-        name: "Champion Xp Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changechampiondisplay() {
-        ChatLib.command("editchampiondisplay", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "Champion Xp Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changechampiondisplay() {
+    //     ChatLib.command("editchampiondisplay", true)
+    // }
     
     @SwitchProperty({
         name: "Pet Display",
@@ -981,17 +975,16 @@ class Settings {
     })
     petDisplay = false;
 
-    @ButtonProperty({
-        name: "Pet Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changepetdisplay() {
-        ChatLib.command("changepetdisplaylocation", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "Pet Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changepetdisplay() {
+    //     ChatLib.command("changepetdisplaylocation", true)
+    // }
     
     @SwitchProperty({
         name: "Skyblock Level Display",
@@ -1001,17 +994,16 @@ class Settings {
     })
     skyblockLevelDisplay = false;
 
-    @ButtonProperty({
-        name: "Skyblock Level Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    changesbleveldisplay() {
-        ChatLib.command("changeskyblockleveldisplay", true)
-
-    }
+    // @ButtonProperty({
+    //     name: "Skyblock Level Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // changesbleveldisplay() {
+    //     ChatLib.command("changeskyblockleveldisplay", true)
+    // }
 
     @SwitchProperty({
         name: "Copy Chat",
@@ -1061,16 +1053,16 @@ class Settings {
     })
     deployableDisplayStats = true;
 
-    @ButtonProperty({
-        name: "Deployables Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    editDeployableDisplay() {
-        ChatLib.command("editDeployableDisplay", true)
-    }
+    // @ButtonProperty({
+    //     name: "Deployables Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // editDeployableDisplay() {
+    //     ChatLib.command("editDeployableDisplay", true)
+    // }
 
     @SwitchProperty({
         name: "Auction Overlay",
@@ -1265,16 +1257,16 @@ class Settings {
     })
     armorDisplayBarrier = false;
 
-    @ButtonProperty({
-        name: "Armor Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    editeditarmorDisplay() {
-        ChatLib.command("editarmorDisplay", true)
-    }
+    // @ButtonProperty({
+    //     name: "Armor Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // editeditarmorDisplay() {
+    //     ChatLib.command("editarmorDisplay", true)
+    // }
 
     @SwitchProperty({
         name: "System Time Display",
@@ -1310,16 +1302,16 @@ class Settings {
     })
     systemTimeDisplayColor = 0;
 
-    @ButtonProperty({
-        name: "System Time Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    editeditSystemTimeDisplay() {
-        ChatLib.command("editSystemTimeDisplay", true)
-    }
+    // @ButtonProperty({
+    //     name: "System Time Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // editeditSystemTimeDisplay() {
+    //     ChatLib.command("editSystemTimeDisplay", true)
+    // }
 
     @SwitchProperty({
         name: "Toggle Sprint Display",
@@ -1338,16 +1330,16 @@ class Settings {
     })
     toggleSprintText = "&bToggle Sprint&f: &aEnabled";
 
-    @ButtonProperty({
-        name: "Toggle Sprint Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    editedittoggleSprint() {
-        ChatLib.command("edittoggleSprint", true)
-    }
+    // @ButtonProperty({
+    //     name: "Toggle Sprint Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // editedittoggleSprint() {
+    //     ChatLib.command("edittoggleSprint", true)
+    // }
 
     @SwitchProperty({
         name: "No Death Animation",
@@ -1381,16 +1373,16 @@ class Settings {
     })
     otterDisplay = false;
 
-    @ButtonProperty({
-        name: "Otter Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    editeditotterdisplay() {
-        ChatLib.command("editotterdisplay", true)
-    }
+    // @ButtonProperty({
+    //     name: "Otter Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // editeditotterdisplay() {
+    //     ChatLib.command("editotterdisplay", true)
+    // }
 
     @SwitchProperty({
         name: "World Age Display",
@@ -1400,16 +1392,16 @@ class Settings {
     })
     worldAgeDisplay = false;
 
-    @ButtonProperty({
-        name: "World Age Display Location",
-        description: "Changes The Display Location",
-        category: "Misc",
-        subcategory: "Misc",
-        placeholder: "Move"
-    })
-    editeditworldAgeDisplay() {
-        ChatLib.command("editworldAgeDisplay", true)
-    }
+    // @ButtonProperty({
+    //     name: "World Age Display Location",
+    //     description: "Changes The Display Location",
+    //     category: "Misc",
+    //     subcategory: "Misc",
+    //     placeholder: "Move"
+    // })
+    // editeditworldAgeDisplay() {
+    //     ChatLib.command("editworldAgeDisplay", true)
+    // }
 
     @SwitchProperty({
         name: "Party Finder Overlay",

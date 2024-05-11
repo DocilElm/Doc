@@ -7,7 +7,12 @@ import { TextHelper } from "../../shared/Text"
 
 // Constant variables
 const feature = new Feature("SlayerDisplay", "Slayer", "")
-const editGui = new ScalableGui("slayerDisplay").setCommand("editslayerDisplay")
+const defaultString = [
+    "&c☠ &fAtoned Horror &a6M",
+    "&c02:59",
+    `&eSpawned by: &a${Player?.getName()}`
+].join("\n")
+const editGui = new ScalableGui("slayerDisplay", defaultString).setCommand("editslayerDisplay")
 const spawnedByRegex = /^Spawned by: (\w+)$/
 const timeRegex = /^\d+\:\d+( .+)?/
 const entityNameRegex = /^☠ (.+)$/
