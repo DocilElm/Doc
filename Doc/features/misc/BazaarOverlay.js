@@ -240,7 +240,7 @@ register("guiKey", (char, keycode, gui, event) => {
     if (
         config.bazaarOverlay &&
         config.bazaarOverlayKeybind &&
-        Player.getContainer().getName().includes("Bazaar") &&
+        Player?.getContainer()?.getName()?.includes("Bazaar") &&
         gui instanceof net.minecraft.client.gui.inventory.GuiChest &&
         keycode === Keyboard.KEY_F &&
         Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
