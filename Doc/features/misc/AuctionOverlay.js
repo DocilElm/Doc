@@ -340,7 +340,7 @@ register("guiKey", (char, keycode, gui, event) => {
     if (
         config.auctionOverlay &&
         config.auctionOverlayKeybind &&
-        (Player.getContainer().getName().includes("Auctions") || Player.getContainer().getName().includes("Auction House")) &&
+        (Player?.getContainer()?.getName()?.includes("Auctions") || Player?.getContainer()?.getName()?.includes("Auction House")) &&
         gui instanceof net.minecraft.client.gui.inventory.GuiChest &&
         keycode === Keyboard.KEY_F &&
         Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
