@@ -51,9 +51,9 @@ const calculate = (str, res = 0) => {
 
         const result = equationList[eq](parseFloat(num1), parseFloat(num2))
 
-        console.log(`${match} ${result} ${str}`)
         str = str.replace(match, result)
         res = result
+        
         return calculate(str, result)
     }
 
