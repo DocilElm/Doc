@@ -30,6 +30,7 @@ const scheme = {
 let findString = ""
 
 const eqRegex = /^(\d+) ?([+*\-%/x^]) ?(\d+)/
+const divmulRegex = /(\d+) ?([x*/]) ?(\d+)/
 
 const equationList = {
     "x": (num1, num2) => num1 * num2,
@@ -42,17 +43,28 @@ const equationList = {
 }
 
 const calculate = (str, res = 0) => {
-    // Removes any "()"" from the string
+    // Removes any "()" from the string
     str = str.replace(/[()]/g, "")
 
-    const matched = str.match(eqRegex)
+    if (divmulRegex.test(str)) {
+        const [ match, num1, eq, num2 ] = str.match(divmulRegex)
 
+        const result = equationList[eq](parseFloat(num1), parseFloat(num2))
+
+        console.log(`${match} ${result} ${str}`)
+        str = str.replace(match, result)
+        res = result
+        return calculate(str, result)
+    }
+
+    const matched = str.match(eqRegex)
+    
     // Checks whether it matched the regex or not
-    if (!matched) return 0
+    if (!matched) return res
 
     // Get [number 1, type of eq, number 2]
     const [ _, num1, eq, num2 ] = matched
-
+    
     // Run it through the function list
     const result = equationList[eq](parseFloat(num1), parseFloat(num2))
     // Add the result to the [res] variable
