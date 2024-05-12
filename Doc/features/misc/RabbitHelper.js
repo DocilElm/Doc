@@ -2,6 +2,7 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
+import { TextHelper } from "../../shared/Text"
 
 // Constant variables
 const feature = new Feature("RabbitHelper", "Misc", "")
@@ -27,7 +28,8 @@ const onTick = () => {
 
     renderIdx = null
 
-    const chocolatePurse = parseFloat(items[13].getName().removeFormatting().replace(/[,.]/g, ""))
+    const chocolatePurse = parseFloat(items?.[13]?.getName()?.removeFormatting()?.replace(/[,.]/g, ""))
+    if (!chocolatePurse) return ChatLib.chat(`${TextHelper.PREFIX} &cWoah looks like we couldn't find the chocolates you currently have.`)
 
     const rabbitData = rabbitSlots.map((it, idx) => {
         const item = items[it]
