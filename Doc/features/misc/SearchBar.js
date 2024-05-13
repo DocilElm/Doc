@@ -29,8 +29,8 @@ const scheme = {
 // Changeable variables
 let findString = ""
 
-const eqRegex = /^(\d+) ?([+*\-%/x^]) ?(\d+)/
-const divmulRegex = /(\d+) ?([x*/]) ?(\d+)/
+const eqRegex = /^([\d,.]+) ?([+*\-%/x^]) ?([\d,.]+)/
+const divmulRegex = /([\d,.]+) ?([x*/]) ?([\d,.]+)/
 
 const equationList = {
     "x": (num1, num2) => num1 * num2,
