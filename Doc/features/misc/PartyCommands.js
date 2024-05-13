@@ -7,7 +7,7 @@ import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
 
 // Constant variables
-const partyRegex = /^Party > \[?(?:MVP|VIP)?\+?\]? ?(.{1,16})\: \?(.+)$/
+const partyRegex = /^Party > \[?(?:MVP|VIP)?\+*\]? ?(.{1,16})\: \?(.+)$/
 const feature = new Feature("PartyCommands", "Misc", "")
 const dungeonFloors = ["catacombs_floor_one", "catacombs_floor_two", "catacombs_floor_three", "catacombs_floor_four", "catacombs_floor_five", "catacombs_floor_six", "catacombs_floor_seven"]
 const kuudraTiers = ["normal", "hot", "burning", "fiery", "infernal"]
