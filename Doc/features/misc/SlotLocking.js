@@ -16,6 +16,7 @@ const dropKey = Client.getKeyBindFromDescription("key.drop")
 
 // Changeable variables
 let previousSlot = null
+let hasDungeonStarted = false
 
 // Functions
 const handleShiftClick = (slotClicked) => {
@@ -159,7 +160,7 @@ const onMouseClick = (_, __, ___, gui, event) => {
 const onPlayerDigging = (status, event) => {
     if (config.slotLockingSB && !ThePlayer.inSkyblock()) return
     // Cant drop items in dungeons because of ability
-    if (WorldState.inDungeons()) return
+    if (WorldState.inDungeons() && hasDungeonStarted) return
     if (!status.includes("DROP")) return
 
     const slot = Player.getHeldItemIndex() + 36
@@ -211,11 +212,15 @@ const onGuiRender = (_, __, gui) => {
     }
 }
 
+const scoreboardPacket = () => hasDungeonStarted = true
+
 // Events
 new Event(feature, "guiKey", onGuiKey, () => config.slotLocking)
 new Event(feature, "guiMouseClick", onMouseClick, () => config.slotLocking)
 new Event(feature, "onPlayerDigging", onPlayerDigging, () => config.slotLocking)
 new Event(feature, "guiRender", onGuiRender, () => config.slotLocking && config.slotLockingDisplay)
+new Event(feature, "onScoreboardPacket", scoreboardPacket, () => config.slotLocking, /^Time Elapsed\: ([\w ]+)$/)
+new Event(feature, "worldUnload", () => hasDungeonStarted = false)
 
 // Starting events
 feature.start()
