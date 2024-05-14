@@ -44,7 +44,7 @@ const equationList = {
 
 const calculate = (str, res = 0) => {
     // Removes any "()" from the string
-    str = str.replace(/[()]/g, "")
+    str = str.replace(/[(),]/g, "")
 
     if (divmulRegex.test(str)) {
         const [ match, num1, eq, num2 ] = str.match(divmulRegex)
