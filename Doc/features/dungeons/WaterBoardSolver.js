@@ -220,7 +220,7 @@ const getVariant = () => {
 }
 
 onPuzzleRotation((rotation) => {
-    if (!WorldState.inDungeons() || currentRoation !== null) return
+    if (!WorldState.inDungeons() || currentRoation !== null || !config.waterBoardSolver) return
 
     const topPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.topPiston, rotation))
     let bottomPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bottomPiston, rotation))
@@ -243,7 +243,7 @@ onPuzzleRotation((rotation) => {
 })
 
 const renderTimer = () => {
-    if (!currentBoard) return
+    if (!currentBoard || !config.waterBoardSolver) return
     
     let toRender = []
 
@@ -302,7 +302,7 @@ const recordLevers = (leverObj) => {
 }
 
 const detectBlockPlacement = (block) => {
-    if (!openedWater && block.toString() === leversScanned.get("minecraft:water")?.block?.toString()) openedWater = Date.now()
+    if (!config.waterBoardSolver || !openedWater && block.toString() === leversScanned.get("minecraft:water")?.block?.toString()) openedWater = Date.now()
 
     // Detect if the player clicked a lever
     if (!leversScanned2.has(block.toString())) return
@@ -324,7 +324,7 @@ const detectBlockPlacement = (block) => {
 }
 
 const renderOverlay = () => {
-    if (shouldRecord) {
+    if (shouldRecord || !config.waterBoardSolver) {
         const text = `&a${((Date.now() - (openedWater ?? Date.now())) / 1000).toFixed(1)}s`
 
         Renderer.drawStringWithShadow(
@@ -415,9 +415,9 @@ new Keybind(`§fRecord custom waterboard`, Keyboard.KEY_NONE, "Doc")
     })
 
 // Events
-new Event(feature, "renderWorld", renderTimer, () => WorldState.inDungeons())
-new Event(feature, "renderOverlay", renderOverlay, () => WorldState.inDungeons())
-new Event(feature, "onPlayerBlockPlacement", detectBlockPlacement, () => WorldState.inDungeons())
+new Event(feature, "renderWorld", renderTimer, () => WorldState.inDungeons() && config.waterBoardSolver)
+new Event(feature, "renderOverlay", renderOverlay, () => WorldState.inDungeons() && config.waterBoardSolver)
+new Event(feature, "onPlayerBlockPlacement", detectBlockPlacement, () => WorldState.inDungeons() && config.waterBoardSolver)
 Dungeons.onRoomIDEvent((name) => {
     if (name === "Water Board") return
 
@@ -467,7 +467,7 @@ new Command(feature, "recordingtutorial", () => {
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/WaterBoardTimer.js
 // Detect chest opened. Chest animation means it'll only trigger when the chest is actually opened, so no cheesing!
 register("packetReceived", (packet) => {
-    if (!currentBoard || !openedWater) return
+    if (!currentBoard || !openedWater || !config.waterBoardSolver) return
 
     const pos = new BlockPos(packet.func_179825_a())
     const block = packet.func_148868_c()
