@@ -32,7 +32,7 @@ let watcherEntity = null
 
 // Logic
 const scanEntityLookMove = (mcEntity, [x, y, z]) => {
-    if (!World.isLoaded() || !WorldState.inDungeons() || Dungeons.getCurrentRoomName() !== "Blood" || !config.bloodHelper || !watcherEntity) return
+    if (Dungeons.inBossRoom() || !WorldState.inDungeons() || Dungeons.getCurrentRoomName() !== "Blood" || !config.bloodHelper || !watcherEntity) return
 
     if (!(mcEntity instanceof net.minecraft.entity.item.EntityArmorStand)) return
 
@@ -85,7 +85,7 @@ const scanEntityLookMove = (mcEntity, [x, y, z]) => {
 }
 
 const highlightSpot = () => {
-    if (!watcherEntity || !config.bloodHelper) return
+    if (Dungeons.inBossRoom() || !watcherEntity || !config.bloodHelper) return
 
     entityList.forEach(obj => {
         const { entity, vectors, finalVector, time, started, uuid } = obj
@@ -109,7 +109,7 @@ const highlightSpot = () => {
 }
 
 const scanEntities = (mcEntity) => {
-    if (watcherEntity || !config.bloodHelper) return
+    if (Dungeons.inBossRoom() || watcherEntity || !config.bloodHelper) return
 
     Client.scheduleTask(2, () => {
         const entity = new Entity(mcEntity)
