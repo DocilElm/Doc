@@ -1,32 +1,65 @@
+import Dungeons from "../../../Atomx/skyblock/Dungeons"
+import { WorldState } from "../../../Atomx/skyblock/World"
 import { Keybind } from "../../../KeybindFix"
+import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
-import { TextHelper } from "../../shared/Text"
-import Dungeons from "../../../Atomx/skyblock/Dungeons"
-import config from "../../config"
-import ScalableGui from "../../shared/Scalable"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
-
-// Credits: https://github.com/Desco1/WaterSolver/
-// and also unclaimedbloom6 for giving me the idea of making a recording feature for it
+import ScalableGui from "../../shared/Scalable"
+import { TextHelper } from "../../shared/Text"
 
 // Constant variables
-const feature = new Feature("WaterBoard", "Dungeons", "")
-const editGui = new ScalableGui("waterBoardDisplay", "&cRed\n&aGreen").setCommand("waterboardsolverdisplay")
-const blockPos = net.minecraft.util.BlockPos
-const solutions = Persistence.getDataFromFileOrLink("WaterSolutions.json", "https://raw.githubusercontent.com/Desco1/WaterSolver/master/src/main/resources/watertimes.json")
-const customSolutions = Persistence.getDataFromFile("CustomWaterSolutions.json", {})
-const woolColors = {
-    10: "&dPurple",
-    1: "&6Orange",
-    11: "&9Blue",
-    5: "&aGreen",
-    14: "&cRed"
-}
-// i gave up so this is here now
-const woolColors2 = [10, 1, 11, 5, 14]
+// Blocks
+const Blocks = net.minecraft.init.Blocks
+const blockStickyPiston = Blocks.field_150320_F
+const blockWool = Blocks.field_150325_L
+const blockLever = Blocks.field_150442_at
+const blockHardenedClay = Blocks.field_150405_ch
+const blockEmeraldBlock = Blocks.field_150475_bE
+const blockDiamondBlock = Blocks.field_150484_ah
+const blockQuartzBlock = Blocks.field_150371_ca
+const blockGoldBlock = Blocks.field_150340_R
 
+const feature = new Feature("WaterBoard", "Dungeons", "")
+const solutions = Persistence.getDataFromFileOrLink("WaterSolutions.json", "https://raw.githubusercontent.com/Desco1/WaterSolver/master/src/main/resources/watertimes.json")
+const customSolutions = Persistence.getDataFromFile("CustomWaterSolutions.json", {}) // Recorded solutions
+const editGui = new ScalableGui("waterBoardDisplay", "&cRed\n&aGreen").setCommand("waterboardsolverdisplay")
+const relativeCoords = {
+    topPiston: [0, 82, -13],
+    bottomPiston: [-1, 78, -13],
+    bottomPiston2: [-1, 77, -13],
+    bottomBlueWool: [0, 58, -10],
+    waterLever: [0, 60, 10],
+    chestPos: [0, 56, -7],
+    wool: {
+        10: [0, 56, -4],
+        1: [0, 56, -3],
+        11: [0, 56, -2],
+        5: [0, 56, -1],
+        14: [0, 56, 0]
+    },
+    levers: {
+        "minecraft:quartz_block": [-5, 61, -5],
+        "minecraft:gold_block": [-5, 61, 0],
+        "minecraft:coal_block": [-5, 61, 5],
+        "minecraft:diamond_block": [5, 61, -5],
+        "minecraft:emerald_block": [5, 61, 0],
+        "minecraft:hardened_clay": [5, 61, 5],
+        "minecraft:water": [0, 60, 10]
+    }
+}
+const woolColors = [10, 1, 11, 5, 14]
+const leverNames = {
+    "minecraft:quartz_block": "§fQUARTZ",
+    "minecraft:gold_block": "§6GOLD",
+    "minecraft:coal_block": "§7COAL",
+    "minecraft:diamond_block": "§bDIAMOND",
+    "minecraft:emerald_block": "§aEMERALD",
+    "minecraft:hardened_clay": "§dCLAY",
+    "minecraft:water": "§bWATER"
+}
 const lineColors = [
     [ 0, 255, 0 ],
     [ 0, 0, 255 ],
@@ -34,313 +67,187 @@ const lineColors = [
     [ 255, 255, 255 ],
     [ 0, 0, 0 ]
 ]
-
-const leverNames = [
-    "QUARTZ",
-    "GOLD",
-    "COAL",
-    "DIAMOND",
-    "EMERALD",
-    "CLAY",
-    "WATER"
-]
-const leverTypes = {
-    "minecraft:quartz_block": "QUARTZ",
-    "minecraft:gold_block": "GOLD",
-    "minecraft:coal_block": "COAL",
-    "minecraft:diamond_block": "DIAMOND",
-    "minecraft:emerald_block": "EMERALD",
-    "minecraft:hardened_clay": "CLAY",
-    "minecraft:water": "WATER"
-}
-
-const leverTypes2 = {
-    "QUARTZ": "minecraft:quartz_block",
-    "GOLD": "minecraft:gold_block",
-    "COAL": "minecraft:coal_block",
-    "DIAMOND": "minecraft:diamond_block",
-    "EMERALD": "minecraft:emerald_block",
-    "CLAY": "minecraft:hardened_clay",
-    "WATER": "minecraft:water"
-}
-const beingRendered = new Set()
+const cachedY = new Map()
 const leversScanned = new Map()
 const leversScanned2 = new Map()
-const woolScanned = new Set()
-const cachedY = new Map()
 const leversRecorded = new Map()
-
-// Changeable variables
-let hasScanned = false
-let currentBoard = {}
-let openedWater = null
-let shouldRescan = false
-
-let shouldRecord = false
-let scannedVariants = {
-    variant: -1,
-    subVariant: null
-}
-let recordedSolution = {}
+const beingRendered = new Set()
 
 // Default gui
 editGui.onRender(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow("&cRed\n&aGreen", 0, 0)
+    Renderer.drawStringWithShadow("&6GOLD&f: &eClick now\n&aEMERALD&f: &a5.5s", 0, 0)
     Renderer.finishDraw()
 })
 
-// Functions required by the feature
-const getLeverPos = (pos, rotation, leverName) => {
-    if (!leverName) return
-
-    if (leverNames.indexOf(leverName) === 6) return World.getBlockAt(new BlockPos(pos.func_177967_a(rotation, 17)).up(4))
-
-    const idx = leverNames.indexOf(leverName)
-    if (idx === -1) return
-
-    const shiftby = idx % 3 * 5
-    const leverSide = idx < 3
-        ? rotation.func_176735_f()
-        : rotation.func_176746_e()
-
-    // chestPos!!.up(5).offset(leverSide.opposite, 6).offset(roomFacing!!.opposite, 2 + shiftBy)
-    //     .offset(leverSide)
-    const block = World.getBlockAt(new BlockPos(pos.func_177981_b(5).func_177967_a(leverSide.func_176734_d(), 6).func_177967_a(rotation, 2 + shiftby).func_177972_a(leverSide)))
-    if (!block.type) return
-
-    return block
+// Changeable variables
+let currentY = null
+let currentRoation = null
+let roomData = {
+    variant: null,
+    subvariant: null
 }
+let currentBoard = null
+let openedWater = null
+let shouldRescan = 0
+let shouldRecord = false
+let recordedSolution = {}
 
-const getVectorValues = (vec) =>  [
-        vec?.func_177958_n(), //getX()
-        vec?.func_177956_o(), //getY()
-        vec?.func_177952_p() //getZ()
-    ]
-
+// Functions
 const reset = () => {
-    beingRendered.clear()
+    cachedY.clear()
     leversScanned.clear()
     leversScanned2.clear()
-    woolScanned.clear()
-    cachedY.clear()
-    
-    hasScanned = false
-    currentBoard = {}
-    openedWater = null
-    shouldRescan = false
-    scannedVariants = {
-        variant: -1,
-        subVariant: null
+    beingRendered.clear()
+
+    currentY = null
+    currentRoation = null
+    roomData = {
+        variant: null,
+        subvariant: null
     }
+    currentBoard = null
+    openedWater = null
+    shouldRescan = 0
 }
 
 // Logic
-const scanWaterBoard = () => {
-    if (!World.isLoaded() || hasScanned || !config.waterBoardSolver) return
+const mapLeversBlock = () => {
+    Object.keys(relativeCoords.levers).forEach(key => {
+        const value = relativeCoords.levers[key]
+        const block = World.getBlockAt(...TextHelper.getRealCoord(value, currentRoation))
 
-    const [ x1, z1 ] = TextHelper.getRoomCenter()
+        leversScanned.set(key, { block: block, key: key })
+        leversScanned2.set(block.toString(), { block: block, key: key })
+    })
+}
 
-    let rotation = null
-    let pos = null
-    let variant = -1
+const getSolutionFromCustom = () => {
+    const URL = config.waterBoardChannelURL
+    const fileName = URL.match(/.+\/(\w+\.json)/)?.[1]
+    if (!fileName || !URL) return ChatLib.chat(`${TextHelper.PREFIX} &cError while getting the custom url solutions`)
+
+    const otherSolution = Persistence.getDataFromFileOrLink(fileName, URL)
+    if (!otherSolution) return ChatLib.chat(`${TextHelper.PREFIX} &cError while getting the custom url solutions`)
+
+    return otherSolution?.[roomData.variant]?.[roomData.subvariant]
+}
+
+const getSolution = () => {
+    switch (config.waterBoardChannelMode) {
+        case 1: return solutions?.[roomData.variant]?.[roomData.subvariant]
+        case 2: return customSolutions?.[roomData.variant]?.[roomData.subvariant]
+        case 3: return getSolutionFromCustom()
+        case 0:
+        default:
+            return customSolutions?.[roomData.variant]?.[roomData.subvariant] ?? solutions?.[roomData.variant]?.[roomData.subvariant]
+    }
+}
+
+const getSubVariant = (fn) => {
     let subVariant = ""
 
-    net.minecraft.util.EnumFacing.field_176754_o.forEach(horizontal => {
-        const horizontalBP = new BlockPos(x1, 56, z1).toMCBlock().func_177967_a(horizontal, 7)
+    woolColors.forEach((key, idx) => {
+        const value = relativeCoords.wool[key]
+        const woolBlock = World.getBlockAt(...TextHelper.getRealCoord(value, currentRoation))
 
-        if (World.getBlockAt(new BlockPos(horizontalBP).up(2)).type.mcBlock !== net.minecraft.init.Blocks.field_150399_cn) return
-
-        rotation = horizontal
-        pos = horizontalBP
-    })
-
-    if (!rotation || !pos) return
-
-    woolColors2.forEach((colors, idx) => {
-        const woolBlock = World.getBlockAt(new BlockPos(pos.func_177967_a(rotation.func_176734_d(), 3 + idx)))
-
-        if (woolBlock?.getMetadata() !== colors) return
+        if (woolBlock.getMetadata() !== parseInt(key)) return
 
         subVariant += idx.toString()
-        woolScanned.add(woolColors[colors])
     })
 
-    leverNames.forEach(name => {
-        const ctBlock = getLeverPos(pos, rotation.func_176734_d(), name)
+    if (subVariant.length > 3) return ChatLib.chat(`${TextHelper.PREFIX} &cLooks like more than 3 sub variants were found! &7this is normally impossible so the scanner broke`)
 
-        if (!ctBlock) return
+    if (subVariant.length < 3) {
+        ChatLib.chat(`${TextHelper.PREFIX} &cError while attempting to scan the current waterboard &7Sub variant not found`)
+        if (shouldRescan >= 2) return
 
-        leversScanned.set(name, { block: ctBlock })
-        // Used on the lever detection feature
-        leversScanned2.set(ctBlock.toString(), { block: ctBlock, name: name })
-    })
+        setTimeout(() => {
+            ChatLib.chat(`${TextHelper.PREFIX} &aAttempting to re-scan Water Board`)
+            getVariant()
+        }, 500)
 
-    let foundGold = false
-    let foundClay = false
-    let foundEmerald = false
-    let foundQuartz = false
-    let foundDiamond = false
-
-    const pistonBlockPos = new BlockPos(pos.func_177967_a(rotation, 5)).up(26)
-
-    const blocksBelowPiston = blockPos.func_177980_a(new blockPos(pistonBlockPos.x + 1, 78, pistonBlockPos.z + 1), new blockPos(pistonBlockPos.x - 1, 77, pistonBlockPos.z - 1))
-
-    blocksBelowPiston.forEach(block => {
-        const [ xA, yA, zA ] = getVectorValues(block)
-        const blockUnderPiston = World.getBlockAt(xA, yA, zA)
-
-        if (blockUnderPiston.type.getName() === "tile.air.name" || blockUnderPiston.type.getName() === "Stone") return
-
-        switch (blockUnderPiston.type?.getRegistryName()) {
-            case "minecraft:hardened_clay":
-                foundClay = true
-                break
-            case "minecraft:emerald_block":
-                foundEmerald = true
-                break
-            case "minecraft:diamond_block":
-                foundDiamond = true
-                break
-            case "minecraft:quartz_block":
-                foundQuartz = true
-                break
-            case "minecraft:gold_block":
-                foundGold = true
-                break
-        }
-    })
-
-    if (foundGold && foundClay) variant = 0
-    if (foundEmerald && foundQuartz) variant = 1
-    if (foundQuartz && foundDiamond) variant = 2
-    if (foundGold && foundQuartz) variant = 3
-
-    if (shouldRecord) {
-        scannedVariants.variant = variant
-        scannedVariants.subVariant = subVariant
-        hasScanned = true
-
-        ChatLib.chat(`${TextHelper.PREFIX} &aCurrent variant being recorded&f: &b${scannedVariants.variant} &aWith Subvariant&f: &b${scannedVariants.subVariant}`)
-
-        return
-    }
-
-    const currentSolution = customSolutions?.[variant]?.[subVariant] ?? solutions?.[variant]?.[subVariant]
-
-    if (!shouldRescan && !currentSolution) {
-        shouldRescan = true
-        hasScanned = false
-        ChatLib.chat(`${TextHelper.PREFIX} &cScanner failed attempting to re-scan`)
-        Client.scheduleTask(20, () => scanWaterBoard())
+        shouldRescan++
         
         return
     }
 
-    if (!currentSolution) {
-        ChatLib.chat(`${TextHelper.PREFIX} &cSolution not found for WaterBoard Solver! &8The scanner will try again once you go out and back inside waterboard if this issue persists the solution might just not exist`)
-
-        return
-    }
-
-    Object.keys(currentSolution)?.forEach(key => {
-        const block = key
-        const time = currentSolution[key]
-
-        let lever = leverTypes[block]
-
-        currentBoard[lever] = time
-    })
-
-    hasScanned = true
+    return fn(subVariant)
 }
 
-new Keybind(`§fRecord custom waterboard`, Keyboard.KEY_NONE, "Doc")
-    .registerKeyPress(() => {
-        shouldRecord = !shouldRecord
+const getVariant = () => {
+    if (currentRoation == null || !currentY) return
 
-        ChatLib.chat(`${TextHelper.PREFIX} ${shouldRecord ? "&aEnabled" : "&cDisabled"} Waterboard solution recording`)
+    let variant = null
 
-        // Save current solution if the list isn't empty and the user disabled recording
-        if (!shouldRecord && leversRecorded.size >= 1 && scannedVariants.variant !== -1) {
-            const a = recordedSolution[scannedVariants.variant] = {}
-            a[scannedVariants.subVariant] = {}
+    let leftPushed = World.getBlockAt(...TextHelper.getRealCoord([-1, currentY, -11], currentRoation))
+    if (leftPushed.type.getName() === "tile.air.name" || leftPushed.type.getName() === "Stone") {
+        leftPushed = World.getBlockAt(...TextHelper.getRealCoord([-1, currentY, -12], currentRoation))
+    }
 
-            const currentSolution = recordedSolution[scannedVariants.variant][scannedVariants.subVariant] = {}
+    let rightPushed = World.getBlockAt(...TextHelper.getRealCoord([1, currentY, -11], currentRoation))
+    if (rightPushed.type.getName() === "tile.air.name" || rightPushed.type.getName() === "Stone") {
+        rightPushed = World.getBlockAt(...TextHelper.getRealCoord([1, currentY, -12], currentRoation))
+    }
 
-            leversRecorded.forEach(leverObj => {
-                const newArray = leverObj.array.map(value => {
-                    const time = (value - (openedWater ?? Date.now())) / 1000
-            
-                    return time < 0 ? "0" : time.toFixed(1)
-                })
+    const left = leftPushed.type.mcBlock
+    const right = rightPushed.type.mcBlock
 
-                currentSolution[leverObj.blockName] = newArray
-            })
+    if (left === blockGoldBlock && right === blockHardenedClay) variant = 0
+    if (left === blockEmeraldBlock && right === blockQuartzBlock) variant = 1
+    if (left === blockQuartzBlock && right === blockDiamondBlock) variant = 2
+    if (left === blockGoldBlock && right === blockQuartzBlock) variant = 3
 
-            Persistence.saveDataToFile("CustomWaterSolutions.json", recordedSolution)
-            // Update the json data from the variable
-            // i know i could've done this alot better but oh well
-            if (!(scannedVariants.variant in customSolutions)) customSolutions[scannedVariants.variant] = {}
-            if (!(scannedVariants.subVariant in customSolutions[scannedVariants.variant])) customSolutions[scannedVariants.variant][scannedVariants.subVariant] = {}
+    if (variant === null) return ChatLib.chat(`${TextHelper.PREFIX} &cError while attempting to scan the current waterboard &7Variant not found`)
 
-            customSolutions[scannedVariants.variant][scannedVariants.subVariant] = recordedSolution[scannedVariants.variant][scannedVariants.subVariant]
+    getSubVariant((subvariant) => {
+        roomData.variant = variant
+        roomData.subvariant = subvariant
+        
+        mapLeversBlock()
 
-            // Send message to let the player know what was saved
-            ChatLib.chat(`${TextHelper.PREFIX} &aSuccessfully saved&f: &b${scannedVariants.variant} &awith subvariant&f: &b${scannedVariants.subVariant}`)
-
-            leversRecorded.clear()
-            recordedSolution = {}
-            reset()
+        if (shouldRecord) return
+        
+        currentBoard = getSolution()
+        if (!currentBoard?.["minecraft:water"]?.length) {
+            ChatLib.chat(`${TextHelper.PREFIX} &cLooks like the Water Board solution chosen was emtpy attempting to assign a new one`)
+            currentBoard = getSolution()
         }
+
+        ChatLib.chat(`${TextHelper.PREFIX} &aCurrent Water Board: Variant ${variant} SubVariant ${subvariant}`)
     })
-
-const recordLevers = (leverObj) => {
-    if (!shouldRecord || !leverObj) return
-
-    const { block, name } = leverObj
-    const blockName = leverTypes2[name]
-
-    if (!leversRecorded.has(name)) leversRecorded.set(name, { array: [], blockName: blockName })
-
-    const currentLeverMap = leversRecorded.get(name).array
-    currentLeverMap.push(Date.now())
 }
 
-const detectBlockPlacement = (block) => {
-    // lazy docilelm
-    if (block.toString().toLowerCase().includes("chest") && openedWater) {
-        ChatLib.chat(`${TextHelper.PREFIX} &aWater Board took&f: &6${((Date.now() - openedWater) / 1000).toFixed(2)}s`)
-        openedWater = null
+onPuzzleRotation((rotation) => {
+    if (!WorldState.inDungeons() || currentRoation !== null) return
 
-        return
-    }
+    const topPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.topPiston, rotation))
+    let bottomPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bottomPiston, rotation))
+    const bottomBlueWool = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bottomBlueWool, rotation))
+    const waterLever = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.waterLever, rotation))
 
-    if (!openedWater && block.toString() === leversScanned.get("WATER")?.block?.toString()) openedWater = Date.now()
+    if (bottomPiston.type.mcBlock !== blockStickyPiston) bottomPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bottomPiston2, rotation))
 
-    // Detect if the player clicked a lever
-    if (!leversScanned2.has(block.toString())) return
+    if (
+        topPiston.type.mcBlock !== blockStickyPiston ||
+        bottomPiston.type.mcBlock !== blockStickyPiston ||
+        bottomBlueWool.type.mcBlock !== blockWool ||
+        waterLever.type.mcBlock !== blockLever
+    ) return
 
-    const listObj = leversScanned2.get(block.toString())
+    currentRoation = rotation
+    currentY = bottomPiston.getY()
 
-    // If the custom solutions recording is enabled we return
-    // and pass the currently clicked lever object to the recorder
-    if (shouldRecord) return recordLevers(listObj)
-
-    // Removes the first index so that the user doesn't see the "click now" even when it shouldn't
-    const time = currentBoard?.[listObj.name]?.[0]
-    const actualTime = openedWater ? time - ((Date.now() - openedWater) / 1000) : 10
-
-    if (time <= 0) return currentBoard?.[listObj.name]?.splice(0, 1)
-    if (actualTime >= 1) return
-
-    currentBoard?.[listObj.name]?.splice(0, 1)
-}
+    Client.scheduleTask(5, () => getVariant())
+})
 
 const renderTimer = () => {
+    if (!currentBoard) return
+    
     let toRender = []
 
+    // TODO: make this less ugly hello ??
     Object.keys(currentBoard).forEach((listIdx) => {
         const currentSolution = currentBoard[listIdx]
         const leverName = listIdx
@@ -358,7 +265,7 @@ const renderTimer = () => {
 
             stringToDraw = time <= 0 ? `§eClick now` : `§a${time}s`
 
-            if (!openedWater) return Tessellator.drawString(`${leverName} ${stringToDraw}`, Math.floor(block.getX()), y, Math.floor(block.getZ()))
+            if (!openedWater) return Tessellator.drawString(`${leverNames[leverName]} ${stringToDraw}`, block.getX() + 0.5, y, block.getZ() + 0.5)
 
             const timeRes = time - ((Date.now() - openedWater) / 1000)
 
@@ -366,7 +273,7 @@ const renderTimer = () => {
 
             stringToDraw = timeRes <= 0 ? `§eClick now` : `§a${timeRes.toFixed(2)}s`
 
-            Tessellator.drawString(`${leverName} ${stringToDraw}`, Math.floor(block.getX()), y, Math.floor(block.getZ()))
+            Tessellator.drawString(`${leverNames[leverName]} ${stringToDraw}`, block.getX() + 0.5, y, block.getZ() + 0.5)
         })
     })
 
@@ -383,39 +290,157 @@ const renderTimer = () => {
     })
 }
 
-const drawString = () => {
-    let y = 0
+const recordLevers = (leverObj) => {
+    if (!shouldRecord || !leverObj) return
 
-    woolScanned.forEach(value => {
-        Renderer.translate(editGui.getX(), editGui.getY() + (10 * y))
-        Renderer.scale(editGui.getScale())
-        Renderer.drawStringWithShadow(value, 0, 0)
-        Renderer.finishDraw()
-        
-        y++
-    })
+    const { block, key } = leverObj
 
-    if (!shouldRecord) return
+    if (!leversRecorded.has(key)) leversRecorded.set(key, { array: [], key: key })
 
-    const text = `&a${((Date.now() - (openedWater ?? Date.now())) / 1000).toFixed(1)}s`
-
-    Renderer.drawStringWithShadow(
-        text,
-        Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(text.removeFormatting()) / 2,
-        Renderer.screen.getHeight() / 2
-        )
+    const currentLeverMap = leversRecorded.get(key).array
+    currentLeverMap.push(Date.now())
 }
 
+const detectBlockPlacement = (block) => {
+    if (!openedWater && block.toString() === leversScanned.get("minecraft:water")?.block?.toString()) openedWater = Date.now()
+
+    // Detect if the player clicked a lever
+    if (!leversScanned2.has(block.toString())) return
+
+    const listObj = leversScanned2.get(block.toString())
+
+    // If the custom solutions recording is enabled we return
+    // and pass the currently clicked lever object to the recorder
+    if (shouldRecord) return recordLevers(listObj)
+
+    // Removes the first index so that the user doesn't see the "click now" even when it shouldn't
+    const time = currentBoard?.[listObj.key]?.[0]
+    const actualTime = openedWater ? time - ((Date.now() - openedWater) / 1000) : 10
+
+    if (time <= 0) return currentBoard?.[listObj.key]?.splice(0, 1)
+    if (actualTime >= 1) return
+
+    currentBoard?.[listObj.key]?.splice(0, 1)
+}
+
+const renderOverlay = () => {
+    if (shouldRecord) {
+        const text = `&a${((Date.now() - (openedWater ?? Date.now())) / 1000).toFixed(1)}s`
+
+        Renderer.drawStringWithShadow(
+            text,
+            Renderer.screen.getWidth() / 2 - Renderer.getStringWidth(text.removeFormatting()) / 2,
+            Renderer.screen.getHeight() / 2
+            )
+    }
+
+    if (!currentBoard || editGui.isOpen()) return
+
+    let render = []
+
+    Object.keys(currentBoard).forEach((listIdx) => {
+        const currentSolution = currentBoard[listIdx]
+        const leverName = listIdx
+        const time = currentSolution[0]
+        if (time == null) return
+
+        let stringToDraw = null
+
+        stringToDraw = time <= 0 ? `&eClick now` : `&a${time}s`
+
+        if (!openedWater) {
+            render.push([`${leverNames[leverName]} ${stringToDraw}`, time])
+            return
+        }
+
+        const timeRes = time - ((Date.now() - openedWater) / 1000)
+
+        stringToDraw = timeRes <= 0 ? `&eClick now` : `&a${timeRes.toFixed(2)}s`
+        render.push([`${leverNames[leverName]} ${stringToDraw}`, time])
+    })
+
+    render.sort((a, b) => a[1] - b[1])
+
+    Renderer.retainTransforms(true)
+    Renderer.translate(editGui.getX(), editGui.getY())
+    Renderer.scale(editGui.getScale())
+    render.forEach((it, idx) => {
+        Renderer.drawStringWithShadow(it[0], 0, idx === 0 ? 0 : 10 * idx)
+    })
+    Renderer.retainTransforms(false)
+    Renderer.finishDraw()
+}
+
+new Keybind(`§fRecord custom waterboard`, Keyboard.KEY_NONE, "Doc")
+    .registerKeyPress(() => {
+        shouldRecord = !shouldRecord
+
+        ChatLib.chat(`${TextHelper.PREFIX} ${shouldRecord ? "&aEnabled" : "&cDisabled"} Waterboard solution recording`)
+
+        // Save current solution if the list isn't empty and the user disabled recording
+        if (!shouldRecord && leversRecorded.size >= 1 && roomData.variant != null) {
+            const variant = roomData.variant
+            const subvariant = roomData.subvariant
+
+            const a = recordedSolution[variant] = {}
+            a[subvariant] = {}
+
+            const currentSolution = recordedSolution[variant][subvariant] = {}
+
+            leversRecorded.forEach(leverObj => {
+                const newArray = leverObj.array.map(value => {
+                    const time = (value - (openedWater ?? Date.now())) / 1000
+            
+                    return time < 0 ? "0" : time.toFixed(1)
+                })
+
+                currentSolution[leverObj.key] = newArray
+            })
+
+            Persistence.saveDataToFile("CustomWaterSolutions.json", recordedSolution)
+            // Update the json data from the variable
+            // i know i could've done this alot better but oh well
+            if (!(variant in customSolutions)) customSolutions[variant] = {}
+            if (!(subvariant in customSolutions[variant])) customSolutions[variant][subvariant] = {}
+
+            customSolutions[variant][subvariant] = recordedSolution[variant][subvariant]
+
+            // Send message to let the player know what was saved
+            ChatLib.chat(`${TextHelper.PREFIX} &aSuccessfully saved&f: &b${variant} &awith subvariant&f: &b${subvariant}`)
+
+            leversRecorded.clear()
+            recordedSolution = {}
+            reset()
+        }
+    })
+
 // Events
-new Event(feature, "worldUnload", reset)
-new Event(feature, "onPlayerBlockPlacement", detectBlockPlacement, () => World.isLoaded() && Dungeons.inPuzzle() && Dungeons.getCurrentRoomName() === "Water Board" && hasScanned && config.waterBoardSolver)
-new Event(feature, "renderWorld", renderTimer, () => World.isLoaded() && Dungeons.inPuzzle() && Dungeons.getCurrentRoomName() === "Water Board" && hasScanned && config.waterBoardSolver)
-new Event(feature, "renderOverlay", drawString, () => World.isLoaded() && Dungeons.inPuzzle() && Dungeons.getCurrentRoomName() === "Water Board" && hasScanned && config.waterBoardSolver && config.waterBoardSolverDisplay && !editGui.isOpen())
+new Event(feature, "renderWorld", renderTimer, () => WorldState.inDungeons())
+new Event(feature, "renderOverlay", renderOverlay, () => WorldState.inDungeons())
+new Event(feature, "onPlayerBlockPlacement", detectBlockPlacement, () => WorldState.inDungeons())
 Dungeons.onRoomIDEvent((name) => {
-    if (!World.isLoaded() || !config.waterBoardSolver) return
-    if (name === "Water Board") return scanWaterBoard()
+    if (name === "Water Board") return
 
     reset()
+})
+new Event(feature, "worldUnload", reset)
+new Command(feature, "rescanwb", () => {
+    ChatLib.chat(`${TextHelper.PREFIX} &aAttempting to re-scan Water Board by command`)
+    
+    cachedY.clear()
+    leversScanned.clear()
+    leversScanned2.clear()
+    beingRendered.clear()
+
+    roomData = {
+        variant: null,
+        subvariant: null
+    }
+    currentBoard = null
+    openedWater = null
+    shouldRescan = 0
+
+    getVariant()
 })
 new Command(feature, "deletesolution", (variant, subvariant) => {
     if (!variant || !subvariant) return ChatLib.chat(`${TextHelper.PREFIX} &cPlease add a variant or subvariant!`)
@@ -438,6 +463,22 @@ new Command(feature, "recordingtutorial", () => {
         &bthen you can just do &6/deletesolution <variant> <subvariant> &7e.g (/deletesolution 1 134)
     `)
 })
+
+// Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/WaterBoardTimer.js
+// Detect chest opened. Chest animation means it'll only trigger when the chest is actually opened, so no cheesing!
+register("packetReceived", (packet) => {
+    if (!currentBoard || !openedWater) return
+
+    const pos = new BlockPos(packet.func_179825_a())
+    const block = packet.func_148868_c()
+    if (!(block instanceof net.minecraft.block.BlockChest)) return
+
+    const chestPos = [ pos.x, pos.y, pos.z ]
+    const realChestPos = TextHelper.getRealCoord(relativeCoords.chestPos, currentRoation)
+    if (!chestPos.every((v, i) => v == realChestPos[i])) return
+
+    ChatLib.chat(`${TextHelper.PREFIX} &aWater Board took&f: &6${((Date.now() - openedWater) / 1000).toFixed(2)}s`)
+}).setFilteredClass(net.minecraft.network.play.server.S24PacketBlockAction)
 
 // Starting events
 feature.start()

@@ -80,6 +80,8 @@ class Settings {
         this.addDependency("Party Commands List", "Party Commands")
         this.addDependency("Auction Overlay Keybind", "Auction Overlay")
         this.addDependency("Bazaar Overlay Keybind", "Bazaar Overlay")
+        this.addDependency("Water Board Solution Channel", "Water Board Solver")
+        this.addDependency("Water Board Solution Custom", "Water Board Solver")
     }
     // General
     @ButtonProperty({
@@ -312,11 +314,29 @@ class Settings {
 
     @SwitchProperty({
         name: "Water Board Solver Display",
-        description: "Displays the wool that the scanner sees opened (e.g Red, Blue, Purple)",
+        description: "Displays the current solution &c(e.g QUARTZ: 5.5s, EMERALD: Click now, GOLD: 5.5s) &7these are sorted from closest to least &c(e.g 0 will always go top before 1)",
         category: "Dungeons",
         subcategory: "Dungeons"
     })
     waterBoardSolverDisplay = false;
+
+    @SelectorProperty({
+        name: "Water Board Solution Channel",
+        description: "Changes the solution channel of Water Board Solver. &aThis is where the module gets the solutions from",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        options: ["Desco1 & Recorded", "Desco1", "Recorded", "Other"]
+    })
+    waterBoardChannelMode = 0;
+
+    @TextProperty({
+        name: "Water Board Solution Custom",
+        description: "If the [other] option is enabled in [Water Board Solution Channel] you can input the url of your solutions here",
+        category: "Dungeons",
+        subcategory: "Dungeons",
+        placeholder: "https://raw.githubusercontent.com/Desco1/WaterSolver/master/src/main/resources/watertimes.json"
+    })
+    waterBoardChannelURL = "https://raw.githubusercontent.com/Desco1/WaterSolver/master/src/main/resources/watertimes.json";
 
     // @ButtonProperty({
     //     name: "Water Board Solver Display Location",
@@ -1323,7 +1343,7 @@ class Settings {
 
     @TextProperty({
         name: "Toggle Sprint Display Text",
-        category: "The text that ToggleSprint feature will display",
+        description: "The text that ToggleSprint feature will display",
         category: "Misc",
         subcategory: "Misc",
         placeholder: "&bToggle Sprint&f: &aEnabled"
