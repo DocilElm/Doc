@@ -17,11 +17,11 @@ const relativeCoords = {
     firstbox: [ -9, 66, -9 ]
 }
 const feature = new Feature("BoulderSolver", "Dungeons", "")
-const solutions = Persistence.getDataFromFileOrLink("BoulderData.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BoulderData.json")?.solutions
-const gridBlocks = new Set()
+const solutions = Persistence.getDataFromFileOrLink("BoulderDataV2.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BoulderDataV2.json")?.solutions
 
 // Changeable variables
 let renderBlocks = []
+let clickBlocks = []
 let hasSolution = false
 let enteredRoomAt = null
 let puzzleDone = false
@@ -47,7 +47,6 @@ const reset = () => {
     enteredRoomAt = null
     renderBlocks = []
     scanAgain = false
-    gridBlocks.clear()
 }
 
 // Logic
@@ -68,11 +67,12 @@ onPuzzleRotation((rotation, posIndex) => {
     ChatLib.chat(`${TextHelper.PREFIX} &aBoulder room detected`)
     hasSolution = true
 
-    currentSolution?.forEach(coord => {
+    currentSolution?.render?.forEach((coord, idx) => {
+        const click = currentSolution?.click?.[idx]
         const solutionBlock = World.getBlockAt(...TextHelper.getRealCoord(coord, rotation))
 
         renderBlocks.push(solutionBlock)
-        gridBlocks.add(solutionBlock)
+        clickBlocks.push(TextHelper.getRealCoord(click, rotation))
     })
 
     enteredRoomAt = Date.now()
@@ -81,13 +81,24 @@ onPuzzleRotation((rotation, posIndex) => {
 const renderSolutions = () => {
     if (!World.isLoaded() || !renderBlocks.length) return
 
-    renderBlocks?.forEach(block => RenderHelper.outlineBlock(
+    renderBlocks?.forEach(block => {
+        RenderHelper.filledBlock(
             block,
             0,
             1,
+            1,
+            80 / 255,
+            false
+        )
+
+        RenderHelper.outlineBlock(
+            block,
             0,
+            1,
+            1,
             1
-            ))
+        )
+    })
 }
 
 const onBlockPlacement = (block) => {
@@ -102,23 +113,13 @@ const onBlockPlacement = (block) => {
         return
     }
 
-    if (block.type.mcBlock === net.minecraft.init.Blocks.field_150444_as || block.type.mcBlock === net.minecraft.init.Blocks.field_150430_aB) {
-        let blocksScanned = 0
+    if (!(block.type.mcBlock === net.minecraft.init.Blocks.field_150444_as || block.type.mcBlock === net.minecraft.init.Blocks.field_150430_aB)) return
 
-        gridBlocks.forEach(gBlock => {
-            const distance = gBlock.pos.compareTo(block.pos)
+    if (!clickBlocks.some(it => Math.floor(it[0]) === Math.floor(block.getX()) &&
+    Math.floor(it[1]) === Math.floor(block.getY()) &&
+    Math.floor(it[2]) === Math.floor(block.getZ()))) return
 
-            if (distance < 1 && distance > 2) return
-
-            blocksScanned++
-        })
-
-        if (blocksScanned < 1) return
-
-        renderBlocks.splice(0, 1)
-        
-        return
-    }
+    renderBlocks.splice(0, 1)
 }
 
 // Events
