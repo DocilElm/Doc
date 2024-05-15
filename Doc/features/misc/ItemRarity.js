@@ -39,7 +39,6 @@ const renderSlot = (slot) => {
 
     Tessellator.pushMatrix()
     Tessellator.disableLighting()
-    Tessellator.disableDepth()
     Tessellator.enableBlend()
     Tessellator.enableAlpha()
 
@@ -59,7 +58,6 @@ const renderSlot = (slot) => {
         Renderer.drawCircle(color, x1 + 8, y1 + 8, 9, config.renderItemRarityShape === 1 ? 6 : 10)
 
     Tessellator.enableLighting()
-    Tessellator.enableDepth()
     Tessellator.disableAlpha()
     Tessellator.popMatrix()
 }
