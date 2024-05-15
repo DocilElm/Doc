@@ -211,8 +211,8 @@ const getVariant = () => {
         
         currentBoard = getSolution()
         if (!currentBoard?.["minecraft:water"]?.length) {
-            ChatLib.chat(`${TextHelper.PREFIX} &cLooks like the Water Board solution chosen was emtpy attempting to assign a new one`)
             currentBoard = getSolution()
+            ChatLib.chat(`${TextHelper.PREFIX} &cLooks like the Water Board solution chosen was emtpy attempting to assign a new one`)
         }
 
         ChatLib.chat(`${TextHelper.PREFIX} &aCurrent Water Board: Variant ${variant} SubVariant ${subvariant}`)
