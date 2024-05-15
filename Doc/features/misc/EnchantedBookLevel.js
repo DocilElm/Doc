@@ -1,7 +1,10 @@
 import config from "../../config"
+import { Event } from "../../core/Events"
+import { Feature } from "../../core/Feature"
 import { TextHelper } from "../../shared/Text"
 
 // Constan variables
+const feature = new Feature("EnchantedBookLevel", "Misc", "")
 const formattedRegex = /^(§\w(§\w)?)([\w ]+) \d$/
 
 // Logic
@@ -39,11 +42,6 @@ const renderSlot = (slot) => {
 
     if (keys.length > 1 || !values) return
 
-    Tessellator.pushMatrix()
-    Tessellator.disableLighting()
-    Tessellator.enableDepth()
-    Tessellator.enableAlpha()
-
     if (config.enchantedBookAbbreviation) {
         Renderer.translate(slot.getDisplayX(), slot.getDisplayY(), 280)
         Renderer.scale(0.9)
@@ -52,14 +50,10 @@ const renderSlot = (slot) => {
 
     Renderer.translate(slot.getDisplayX() + (16 - Renderer.getStringWidth(values)), slot.getDisplayY() + 8, 280)
     Renderer.drawStringWithShadow(values, 0, 0)
-
-    Tessellator.enableLighting()
-    Tessellator.disableDepth()
-    Tessellator.disableAlpha()
-    Tessellator.popMatrix()
 }
 
 // Events
-// Using actual ct events cuz im too lazy to make something with priority system
-// since this needs to run after [ItemRarity] is rendered
-register("renderSlot", renderSlot).setPriority(Priority.LOWEST)
+new Event(feature, "renderSlot", renderSlot, () => World.isLoaded() && config.enchantedBookLevel)
+
+// Starting events
+feature.start()
