@@ -33,6 +33,7 @@ const relativeCoords = {
         [6, 69, 1]
     ],
     hopper: [4, 71, -3],
+    hopper2: [4, 71, 1],
     bedrock: [4, 70, -4],
     chest: [13, 70, -1]
 }
@@ -77,6 +78,7 @@ const reset = () => {
     renderBlocks = []
     enteredRoom = null
     currentRotation = null
+    puzzleDone = false
 }
 
 // We try to avoid as much as possible accidentally running this function
@@ -174,8 +176,13 @@ onPuzzleRotation((rotation, posIndex) => {
 
     const bedrockBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bedrock, rotation))
     const hopperBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.hopper, rotation))
+    const hopperBlock2 = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.hopper2, rotation))
 
-    if (bedrockBlock.type.mcBlock !== net.minecraft.init.Blocks.field_150357_h && hopperBlock.type.mcBlock !== net.minecraft.init.Blocks.field_150438_bZ) return
+    if (
+        bedrockBlock.type.mcBlock !== net.minecraft.init.Blocks.field_150357_h ||
+        hopperBlock.type.mcBlock !== net.minecraft.init.Blocks.field_150438_bZ ||
+        hopperBlock2.type.mcBlock !== net.minecraft.init.Blocks.field_150438_bZ
+        ) return
 
     ChatLib.chat(`${TextHelper.PREFIX} &aTic Tac Toe detected`)
     currentRotation = rotation
