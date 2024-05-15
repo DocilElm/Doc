@@ -339,7 +339,7 @@ register("guiMouseClick", (mx, my, mbtn, gui) => {
     allButtons.forEach(btn => btn._mouseClick(mx, my, mbtn))
 })
 
-register("guiRender", (mx, my, gui) => {
+register("postGuiRender", (mx, my, gui) => {
     if (!(gui instanceof net.minecraft.client.gui.inventory.GuiInventory || gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
 
     // Calls all the button's [_mouseHover] method to check whether

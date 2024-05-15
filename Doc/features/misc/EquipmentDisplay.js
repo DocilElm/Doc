@@ -90,7 +90,7 @@ const onStep = () => {
             .createItemByTexture(it[0])
             .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory && config.equipmentsDisplay)
             .onMouseHover((mx, my, gui) => {
-                RenderHelper.drawHoveringText(it[1], mx - maxLength * 4, my)
+                RenderHelper.drawHoveringText(it[1], mx, my)
             })
     })
 }
