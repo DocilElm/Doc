@@ -1,54 +1,6 @@
 import PogObject from "../../PogData"
 
 export class Persistence {
-    static rareGardenItemsList = new Map([
-        ["Flowering Bouquet", "FLOWERING_BOUQUET"],
-        ["Overgrown Grass", "OVERGROWN_GRASS"],
-        ["Green Bandana", "GREEN_BANDANA"],
-        ["Dedication IV", "ENCHANTMENT_DEDICATION_4"],
-        ["Dedication 4", "ENCHANTMENT_DEDICATION_4"],
-        ["Music Rune 1", "MUSIC_RUNE;1"],
-        ["Music Rune I", "MUSIC_RUNE;1"],
-        ["Space Helmet", "DCTR_SPACE_HELM"],
-        ["Cultivating I", "ENCHANTMENT_CULTIVATING_1"],
-        ["Cultivating 1", "ENCHANTMENT_CULTIVATING_1"],
-        ["Replenish I", "ENCHANTMENT_REPLENISH_1"],
-        ["Replenish 1", "ENCHANTMENT_REPLENISH_1"],
-        ["Jungle Key", "JUNGLE_KEY"]
-    ])
-
-    static sbNameToGardenID = {
-        "MUTANT_NETHER_WART": "MUTANT_NETHER_STALK",
-        "ENCHANTED_HAY_BALE": "ENCHANTED_HAY_BLOCK",
-        "ENCHANTED_RED_MUSHROOM_BLOCK": "ENCHANTED_HUGE_MUSHROOM_2",
-        "ENCHANTED_CARROT": "ENCHANTED_CARROT",
-        "ENCHANTED_GOLDEN_CARROT": "ENCHANTED_GOLDEN_CARROT",
-        "ENCHANTED_POTATO": "ENCHANTED_POTATO",
-        "ENCHANTED_BAKED_POTATO": "ENCHANTED_BAKED_POTATO",
-        "ENCHANTED_PUMPKIN": "ENCHANTED_PUMPKIN",
-        "POLISHED_PUMPKIN": "POLISHED_PUMPKIN",
-        "ENCHANTED_MELON": "ENCHANTED_MELON",
-        "ENCHANTED_MELON_BLOCK": "ENCHANTED_MELON_BLOCK",
-        "ENCHANTED_RED_MUSHROOM": "ENCHANTED_RED_MUSHROOM",
-        "ENCHANTED_BROWN_MUSHROOM": "ENCHANTED_BROWN_MUSHROOM",
-        "ENCHANTED_BROWN_MUSHROOM_BLOCK": "ENCHANTED_HUGE_MUSHROOM_1",
-        "ENCHANTED_COCOA_BEAN": "ENCHANTED_COCOA",
-        "ENCHANTED_COOKIE": "ENCHANTED_COOKIE",
-        "ENCHANTED_CACTUS_GREEN": "ENCHANTED_CACTUS_GREEN",
-        "ENCHANTED_CACTUS": "ENCHANTED_CACTUS",
-        "ENCHANTED_SUGAR": "ENCHANTED_SUGAR",
-        "ENCHANTED_SUGAR_CANE": "ENCHANTED_SUGAR_CANE",
-        "ENCHANTED_RAW_BEEF": "ENCHANTED_RAW_BEEF",
-        "ENCHANTED_PORK": "ENCHANTED_PORK",
-        "ENCHANTED_GRILLED_PORK": "ENCHANTED_GRILLED_PORK",
-        "ENCHANTED_RAW_CHICKEN": "ENCHANTED_RAW_CHICKEN",
-        "ENCHANTED_MUTTON": "ENCHANTED_MUTTON",
-        "ENCHANTED_COOKED_MUTTON": "ENCHANTED_COOKED_MUTTON",
-        "ENCHANTED_NETHER_WART": "ENCHANTED_NETHER_STALK",
-        "COMPOST": "COMPOST",
-        "ENCHANTED_RAW_RABBIT": "ENCHANTED_RABBIT"
-    }
-
     static data = new PogObject("Doc", {
         ragaxecd: {x: 10, y: 10, scale: 1},
         miningProfit: {x: 10, y: 10, scale: 1},
@@ -165,15 +117,19 @@ export class Persistence {
      */
     static getDataFromFileOrLink(filePath, url, defaultValue = {}) {
         const thefile = FileLib.read("Doc", `data/${filePath}`)
+        const json = JSON.parse(thefile)
 
-        if (!thefile) {
+        if (!thefile || !json.savedAt || (Date.now() - json.savedAt) >= 1800000) {
             const obj = this.getDataFromURL(url, defaultValue)
-            this.saveDataToFile(filePath, obj)
+            this.saveDataToFile(filePath, {
+                obj,
+                savedAt: Date.now()
+            })
 
             return obj
         }
 
-        return JSON.parse(thefile)
+        return json.obj
     }
 
     /**
