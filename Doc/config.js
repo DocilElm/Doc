@@ -82,6 +82,8 @@ class Settings {
         this.addDependency("Bazaar Overlay Keybind", "Bazaar Overlay")
         this.addDependency("Water Board Solution Channel", "Water Board Solver")
         this.addDependency("Water Board Solution Custom", "Water Board Solver")
+        this.addDependency("Enchanted Book Name", "Enchanted Book Level")
+        this.addDependency("Enchanted Book Name Color", "Enchanted Book Name")
     }
     // General
     @ButtonProperty({
@@ -1446,6 +1448,22 @@ class Settings {
         subcategory: "Misc"
     })
     enchantedBookLevel = false;
+
+    @SwitchProperty({
+        name: "Enchanted Book Name",
+        description: "Displays the abbreviation of an enchanted name above it",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    enchantedBookAbbreviation = false;
+
+    @SwitchProperty({
+        name: "Enchanted Book Name Color",
+        description: "Whether to display colors for enchants that are not ultimate enchants or not",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    enchantedBookAbbreviationColor = true;
 
     // Rift
     @SwitchProperty({
