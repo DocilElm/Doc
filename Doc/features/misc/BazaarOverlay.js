@@ -3,6 +3,7 @@ import TextInputElement from "../../../DocGuiLib/elements/TextInput"
 import { AdditiveConstraint, CenterConstraint, ConstantColorConstraint, CramSiblingConstraint, ScrollComponent, SiblingConstraint, UIRoundedRectangle, UIText, Window } from "../../../Elementa"
 import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
+import { RenderHelper } from "../../shared/Render"
 
 export const window = new Window()
 const ctGui = new Gui()
@@ -225,7 +226,7 @@ register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (ev
 
     if (hoverText) {
         Renderer.translate(0, 0, 300)
-        Client.currentGui.get().func_146283_a(hoverText, Client.getMouseX(), Client.getMouseY())
+        RenderHelper.drawHoveringText(hoverText)
     }
 })
 
