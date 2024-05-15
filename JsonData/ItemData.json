@@ -20503,6 +20503,19 @@
         "id": "PARTY_HAT_CRAB_PURPLE_ANIMATED"
     },
     {
+        "displayName": "§dRose Dye",
+        "lore": [
+            "§7§8Combinable in Anvil",
+            "",
+            "§7Animates the color of a leather",
+            "§7armor piece between §c#F06766§7 and",
+            "§7§c#310417§7!",
+            "",
+            "§d§lMYTHIC"
+        ],
+        "id": "DYE_ROSE"
+    },
+    {
         "displayName": "§f§f§cRed Crab Hat of Celebration",
         "lore": [
             "§f§f§cRed Crab Hat of Celebration",
