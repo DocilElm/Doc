@@ -1439,6 +1439,14 @@ class Settings {
     })
     rabbitHelper = false;
 
+    @SwitchProperty({
+        name: "Enchanted Book Level",
+        description: "Displays the level of an enchanted book above it",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    enchantedBookLevel = false;
+
     // Rift
     @SwitchProperty({
         name: "Mushroom Timer",

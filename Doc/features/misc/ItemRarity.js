@@ -37,9 +37,9 @@ const renderSlot = (slot) => {
         slot.getDisplayY() + 16,
     ]
 
+    Tessellator.pushMatrix()
     Tessellator.disableLighting()
     Tessellator.disableDepth()
-    Tessellator.pushMatrix()
     Tessellator.enableBlend()
     Tessellator.enableAlpha()
 
@@ -58,11 +58,10 @@ const renderSlot = (slot) => {
     if (config.renderItemRarityShape >= 1)
         Renderer.drawCircle(color, x1 + 8, y1 + 8, 9, config.renderItemRarityShape === 1 ? 6 : 10)
 
-    Tessellator.popMatrix()
-    Tessellator.blendFunc(770, 771)
     Tessellator.enableLighting()
     Tessellator.enableDepth()
     Tessellator.disableAlpha()
+    Tessellator.popMatrix()
 }
 
 // Events

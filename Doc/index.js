@@ -95,6 +95,7 @@ import "./features/misc/OtterDisplay"
 import "./features/misc/WorldAgeDisplay"
 import "./features/misc/PartyFinderOverlay"
 import "./features/misc/RabbitHelper"
+import "./features/misc/EnchantedBookLevel"
 // Rift
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
