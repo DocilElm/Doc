@@ -84,6 +84,8 @@ class Settings {
         this.addDependency("Water Board Solution Custom", "Water Board Solver")
         this.addDependency("Enchanted Book Name", "Enchanted Book Level")
         this.addDependency("Enchanted Book Name Color", "Enchanted Book Name")
+        this.addDependency("Attribute Shard Name", "Attribute Shard Level")
+        this.addDependency("Attribute Shard Name Color", "Attribute Shard Name")
     }
     // General
     @ButtonProperty({
@@ -1464,6 +1466,30 @@ class Settings {
         subcategory: "Misc"
     })
     enchantedBookAbbreviationColor = true;
+
+    @SwitchProperty({
+        name: "Attribute Shard Level",
+        description: "Displays the level of a attribute shard above it",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    attributeShardLevel = false;
+
+    @SwitchProperty({
+        name: "Attribute Shard Name",
+        description: "Displays the abbreviation of a attribute shard name above it",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    attributeShardAbbreviation = false;
+
+    @SwitchProperty({
+        name: "Attribute Shard Name Color",
+        description: "Whether to display colors for attribute shards or not",
+        category: "Misc",
+        subcategory: "Misc"
+    })
+    attributeShardAbbreviationColor = true;
 
     // Rift
     @SwitchProperty({
