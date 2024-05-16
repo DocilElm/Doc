@@ -562,6 +562,14 @@ class Settings {
     })
     gemstonesProfit = false;
 
+    @SwitchProperty({
+        name: "Comissions Display",
+        description: "Displays your current comissions with their progress",
+        category: "Mining",
+        subcategory: "Mining"
+    })
+    comissionDisplay = false;
+
     // @ButtonProperty({
     //     name: "Gemstone Mining Profit Location",
     //     description: "Changes The Display Location",

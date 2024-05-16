@@ -38,6 +38,7 @@ export class Persistence {
         otterDisplay: {x: 10, y: 10, scale: 0.5},
         worldAgeDisplay: {x: 10, y: 10, scale: 1},
         slayerArmorDisplay: {x: 10, y: 10, scale: 1},
+        comissionsDisplay: {x: 10, y: 10, scale: 1},
         inventoryButtons: {},
         commandAliases: {},
         keyShortcuts: {},
