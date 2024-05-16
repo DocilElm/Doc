@@ -35,6 +35,7 @@ import "./features/dungeons/MimicKilled"
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
 import "./features/mining/ComissionDisplay"
+import "./features/mining/PowderDisplay"
 // Commands
 import "./features/commands/Ping"
 import "./features/commands/InventoryLog"

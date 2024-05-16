@@ -570,6 +570,14 @@ class Settings {
     })
     comissionDisplay = false;
 
+    @SwitchProperty({
+        name: "Powder Display",
+        description: "Displays your current mining powders",
+        category: "Mining",
+        subcategory: "Mining"
+    })
+    powderDisplay = false;
+
     // @ButtonProperty({
     //     name: "Gemstone Mining Profit Location",
     //     description: "Changes The Display Location",

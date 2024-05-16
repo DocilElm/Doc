@@ -2,7 +2,7 @@
   "name": "Doc",
   "creator": "DocilElm",
   "description": "doc is the best.",
-  "version": "3.98.13",
+  "version": "3.99.13",
   "entry": "index.js",
   "changelog": "",
   "requires": [

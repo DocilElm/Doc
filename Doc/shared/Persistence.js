@@ -39,6 +39,7 @@ export class Persistence {
         worldAgeDisplay: {x: 10, y: 10, scale: 1},
         slayerArmorDisplay: {x: 10, y: 10, scale: 1},
         comissionsDisplay: {x: 10, y: 10, scale: 1},
+        powderDisplay: {x: 10, y: 10, scale: 1},
         inventoryButtons: {},
         commandAliases: {},
         keyShortcuts: {},
