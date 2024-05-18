@@ -13,7 +13,11 @@ export const scheme = {
         "textScale": 1,
         "mouseClick": [255, 255, 255, 80],
         "mouseEnter": [0, 0, 0, 80],
-        "mouseLeave": [0, 0, 0, 0]
+        "mouseLeave": [0, 0, 0, 0],
+        "mouseClickAnimation": "OUT_EXP",
+        "animationTime": 0.2,
+        "outlineColor": [255, 255, 255, 255],
+        "outlineThickness": 0.5
     },
     "TextInput": {
         "backgroundBox": [0, 0, 0, 80],
