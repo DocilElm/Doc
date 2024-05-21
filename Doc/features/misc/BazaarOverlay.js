@@ -60,7 +60,7 @@ const getItems = (str) => {
 const addTextToSign = (string) => {
     if (!string) return
 
-    if (config.auctionOverlayKeybind && ctGui.isOpen()) {
+    if (config.bazaarOverlayKeybind && ctGui.isOpen()) {
         ctGui.close()
         ChatLib.command(`bz ${string}`)
 
