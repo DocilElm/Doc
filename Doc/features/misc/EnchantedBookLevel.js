@@ -42,6 +42,9 @@ const renderSlot = (slot) => {
 
     if (keys.length > 1 || !values) return
 
+    Tessellator.pushMatrix()
+    Tessellator.disableLighting()
+
     if (config.enchantedBookAbbreviation) {
         Renderer.translate(slot.getDisplayX(), slot.getDisplayY(), 280)
         Renderer.scale(0.9)
@@ -50,6 +53,9 @@ const renderSlot = (slot) => {
 
     Renderer.translate(slot.getDisplayX() + (16 - Renderer.getStringWidth(values)), slot.getDisplayY() + 8, 280)
     Renderer.drawStringWithShadow(values, 0, 0)
+
+    Tessellator.disableLighting()
+    Tessellator.popMatrix()
 }
 
 // Events

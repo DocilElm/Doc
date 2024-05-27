@@ -17,7 +17,7 @@ let shouldScan = false
 let renderIdx = null
 
 // Logic
-const onWindowOpen = (title) => shouldScan = title === "Chocolate Factory"
+const onWindowOpen = (title) => Client.scheduleTask(2, () => shouldScan = title === "Chocolate Factory")
 
 const onTick = () => {
     if (!World.isLoaded() || !shouldScan || !config.rabbitHelper) return
