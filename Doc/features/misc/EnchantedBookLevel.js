@@ -5,10 +5,12 @@ import { TextHelper } from "../../shared/Text"
 
 // Constan variables
 const feature = new Feature("EnchantedBookLevel", "Misc", "")
-const formattedRegex = /^(§\w(§\w)?)([\w ]+) \d$/
+const formattedRegex = /^(§\w(§\w)?)([\w\- ]+) \d$/
 
 // Logic
 const getName = (str) => {
+    str = str.replace(/\-/g, " ")
+
     const strSplit = str.split(" ")
 
     if (strSplit.length > 1) return `${strSplit[0][0]}${strSplit[1][0]}`.toUpperCase().removeFormatting()?.replace(/§z/g, "")
