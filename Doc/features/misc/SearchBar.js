@@ -90,8 +90,8 @@ const textInputComponent = new TextInputElement("")
         if (keycode === Keyboard.KEY_BACK) return
 
         if (/\d+/.test(text.replace(/[()]/g, "")) && text.endsWith("=") && text.match(/=/g).length < 2) {
-            const num = text.includes(".") // i know there might be better ways of doing this
-            textInputComponent.textInput.setText(`${text} ${TextHelper.addCommas( num ? calculate(text).toFixed(2) : Math.trunc(calculate(text)) )}`)
+            const result = calculate(text)
+            textInputComponent.textInput.setText(`${text} ${TextHelper.addCommas( result % 1 !== 0 ? result.toFixed(2) : result )}`)
         }
     })
 
