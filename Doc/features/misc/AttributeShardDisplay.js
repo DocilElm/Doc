@@ -5,7 +5,7 @@ import { TextHelper } from "../../shared/Text"
 
 // Constan variables
 const feature = new Feature("AttributeShardDisplay", "Misc", "")
-const formattedRegex = /^(§\w(§\w)*?)([\w ]+) \d$/
+const formattedRegex = /^(§\w(§\w)*?)([\w ]+) [IVXLCDM\d]+$/
 
 // Logic
 const getName = (str) => {
