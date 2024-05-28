@@ -3,6 +3,7 @@ import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { InventoryButton } from "../../shared/InventoryButton"
 import { Persistence } from "../../shared/Persistence"
+import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 
 // Constant variables
@@ -30,6 +31,9 @@ const makeButton = (slot, texture, command) => {
         new InventoryButton(slot, null, buttonsCreated)
             .setItem(new Item(texture))
             .setCommand(command)
+            .onMouseHover((mx, my) => {
+                RenderHelper.drawHoveringText([ command, TextHelper.PREFIX2 ], mx, my)
+            })
             .setOffset(x, y)
             .setCalculateSize(true)
             .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config.inventoryButtons)
@@ -40,6 +44,9 @@ const makeButton = (slot, texture, command) => {
     new InventoryButton(slot, null, buttonsCreated)
         .createItemByTexture(InventoryButtonsData[texture])
         .setCommand(command)
+        .onMouseHover((mx, my) => {
+            RenderHelper.drawHoveringText([ command, TextHelper.PREFIX2 ], mx, my)
+        })
         .setOffset(x, y)
         .setCalculateSize(true)
         .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config.inventoryButtons)

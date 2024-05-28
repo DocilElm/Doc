@@ -287,7 +287,7 @@ export class InventoryButton {
 
         if (mbtn === 2 && this.middleClickFn) return this.middleClickFn(mx, my)
         if (mbtn === 1 && this.rightClickFn) return this.rightClickFn(mx, my)
-        if (!this.leftClickFn) return
+        if (!this.leftClickFn || mbtn !== 0) return
 
         this.leftClickFn(mx, my)
     }
