@@ -521,6 +521,7 @@ export class RenderHelper {
      */
     static outlineBlockMC(ctBlock, r, g, b, a, phase = false) {
         const RenderGlobal = Client.getMinecraft().field_71438_f // renderGlobal
+        const [ rx, ry, rz ] = [ Player.getRenderX(), Player.getRenderY(), Player.getRenderZ() ]
 
         // setBlockBoundsBasedOnState - func_180654_a
         ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
@@ -528,7 +529,7 @@ export class RenderHelper {
         // getSelectedBoundingBox - func_180646_a
         const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
             .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
-            .func_72317_d(-Player.getRenderX(), -Player.getRenderY(), -Player.getRenderZ()) // func_72317_d - offset
+            .func_72317_d(-rx, -ry, -rz) // func_72317_d - offset
         
         Tessellator.pushMatrix()
 
@@ -547,6 +548,129 @@ export class RenderHelper {
         Tessellator.enableTexture2D()
         Tessellator.disableBlend()
         if (phase) Tessellator.enableDepth()
+        Tessellator.popMatrix()
+    }
+
+    static outlineBlockAxisAligned(ctBlock, r, g, b, a, phase = true, thick = 3) {
+        // setBlockBoundsBasedOnState - func_180654_a
+        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+    
+        // getSelectedBoundingBox - func_180646_a
+        const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
+            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
+
+        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis)
+
+        Tessellator.pushMatrix()
+
+        GL11.glLineWidth(thick)
+        Tessellator.begin(3)
+        Tessellator.depthMask(false)
+        Tessellator.disableTexture2D()
+        Tessellator.enableBlend()
+        
+        if (phase) Tessellator.disableDepth()
+        
+        const locations = [
+            [x0, y0, z0],
+            [x0, y0, z1],
+            [x0, y1, z1],
+            [x1, y1, z1],
+            [x1, y1, z0],
+            [x0, y1, z0],
+            [x0, y0, z0],
+            [x1, y0, z0],
+            [x1, y0, z1],
+            [x0, y0, z1],
+            [x0, y1, z1],
+            [x0, y1, z0],
+            [x1, y1, z0],
+            [x1, y0, z0],
+            [x1, y0, z1],
+            [x1, y1, z1]
+        ]
+
+        Tessellator.colorize(r, g, b, a)
+
+        locations.forEach(([x, y, z]) => {
+            Tessellator.pos(x, y, z).tex(0, 0)
+        })
+        Tessellator.draw()
+
+        if (phase) Tessellator.enableDepth()
+
+        Tessellator.enableTexture2D()
+        Tessellator.disableBlend()
+        Tessellator.depthMask(true)
+        Tessellator.popMatrix()
+    }
+
+    static filledBlockAxisAligned(ctBlock, r, g, b, a, phase = true) {
+        // setBlockBoundsBasedOnState - func_180654_a
+        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+    
+        // getSelectedBoundingBox - func_180646_a
+        const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
+            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
+
+        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis)
+
+        Tessellator.pushMatrix()
+
+        Tessellator.begin(GL11.GL_QUADS)
+        GlStateManager.func_179129_p() // disableCullFace
+        Tessellator.depthMask(false)
+        Tessellator.disableTexture2D()
+        Tessellator.enableBlend()
+        
+        if (phase) Tessellator.disableDepth()
+        
+        Tessellator.colorize(r, g, b, a)
+        
+        const locations = [
+            [x1, y0, z1],
+            [x1, y0, z0],
+            [x0, y0, z0],
+            [x0, y0, z1],
+
+            [x1, y1, z1],
+            [x1, y1, z0],
+            [x0, y1, z0],
+            [x0, y1, z1],
+
+            [x0, y1, z1],
+            [x0, y1, z0],
+            [x0, y0, z0],
+            [x0, y0, z1],
+
+            [x1, y1, z1],
+            [x1, y1, z0],
+            [x1, y0, z0],
+            [x1, y0, z1],
+
+            [x1, y1, z0],
+            [x0, y1, z0],
+            [x0, y0, z0],
+            [x1, y0, z0],
+
+            [x0, y1, z1],
+            [x1, y1, z1],
+            [x1, y0, z1],
+            [x0, y0, z1]
+        ]
+
+        locations.forEach(([x, y, z]) => {
+            Tessellator.pos(x, y, z)
+        })
+
+        Tessellator.draw()
+
+        if (phase) Tessellator.enableDepth()
+
+        GlStateManager.func_179089_o() // enableCull
+        Tessellator.enableTexture2D()
+        Tessellator.disableBlend()
+        Tessellator.depthMask(true)
         Tessellator.popMatrix()
     }
 }

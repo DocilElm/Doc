@@ -18,13 +18,13 @@ const highlightBlock = ({x, y, z}, event) => {
     const phase = !(Client.settings.getSettings()?.field_74320_O === 1)
     const color = config.blockOverlayColor
     
-    const [ r, g, b, a ] = [color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() / 255]
+    const [ r, g, b, a ] = [color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255, color.getAlpha() / 255]
     const [ r1, g1, b1 ] = [color.getRed() / 255, color.getGreen() / 255, color.getBlue() / 255]
 
     cancel(event)
 
-    RenderHelper.outlineBlockMC(ctBlock, r, g, b, a, phase)
-    if (config.blockOverlayFill) RenderHelper.filledBlock(ctBlock, r1, g1, b1, 50 / 255, phase)
+    RenderHelper.outlineBlockAxisAligned(ctBlock, r, g, b, a, phase)
+    if (config.blockOverlayFill) RenderHelper.filledBlockAxisAligned(ctBlock, r1, g1, b1, 50 / 255, phase)
 }
 
 // Events
