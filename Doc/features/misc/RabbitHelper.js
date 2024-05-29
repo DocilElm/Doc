@@ -6,7 +6,7 @@ import { TextHelper } from "../../shared/Text"
 
 // Constant variables
 const feature = new Feature("RabbitHelper", "Misc", "")
-const rabbitSlots = [ 29, 30, 31, 32, 33 ]
+const rabbitSlots = [ 28, 29, 30, 31, 32, 33, 34 ]
 const chocolateCostRegex = /Cost ([\d,.]+) Chocolate/
 const employedRabbitRegex = /^Rabbit \w+ - \[\d+\] \w+$/
 const rabbitUpgradeRegex = /^Rabbit \w+ has been promoted to \[\d+\] \w+\!$/

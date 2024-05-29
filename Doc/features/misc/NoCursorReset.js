@@ -8,38 +8,37 @@ const feature = new Feature("NoCursorReset", "Misc", "")
 
 // Changeable variables
 let [ mx, my ] = [ 0, 0 ]
-let shouldSet = false
+let openedWindow = null
+let ticks = 0
 
 // Logic
-const onGuiRender = (_, __, gui) => {
-    if (!config.noCursorReset || !(gui instanceof net.minecraft.client.gui.inventory.GuiChest)) {
-        mx = 0
-        my = 0
-
-        return
-    }
-    if (mx === Mouse.getX() && my === Mouse.getY()) return
-
-    if (shouldSet && mx > 0 && my > 0) {
-        shouldSet = false
-        Mouse.setCursorPosition(mx, my)
-        mx = 0
-        my = 0
-
-        return
-    }
+const onWindowClosedPacket = () => {
+    if (!config.noCursorReset) return
 
     mx = Mouse.getX()
     my = Mouse.getY()
+    openedWindow = Date.now()
+}
+
+const onGuiRender = (_, __, gui) => {
+    if (!config.noCursorReset || !(gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
+
+    if (ticks >= 2 && openedWindow) {
+        Mouse.setCursorPosition(mx, my)
+        openedWindow = null
+        mx = 0
+        my = 0
+        ticks = 0
+    }
+
+    if (!openedWindow || (Date.now() - openedWindow) >= 50 || mx === 0 || my === 0) return
+
+    ticks++
 }
 
 // Events
+new Event(feature, "onWindowClosedPacket", onWindowClosedPacket, () => World.isLoaded() && config.noCursorReset)
 new Event(feature, "guiRender", onGuiRender, () => World.isLoaded() && config.noCursorReset)
-new Event(feature, "onOpenWindowPacket", () => shouldSet = true, () => World.isLoaded() && config.noCursorReset)
-new Event(feature, "clientCloseWindow", () => {
-    mx = 0
-    my = 0
-}, () => World.isLoaded() && config.noCursorReset)
 
 // Starting events
 feature.start()

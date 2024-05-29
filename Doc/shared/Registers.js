@@ -254,3 +254,4 @@ FeatureManager
 
         fn(particleType, [x, y, z], event)
     }).setFilteredClass(net.minecraft.network.play.server.S2APacketParticles).unregister())
+    .createCustomEvent("onWindowClosedPacket", (fn) => register("packetReceived", fn).setFilteredClass(net.minecraft.network.play.server.S2EPacketCloseWindow))
