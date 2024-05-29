@@ -23,8 +23,8 @@ const highlightBlock = ({x, y, z}, event) => {
 
     cancel(event)
 
-    RenderHelper.outlineBlockAxisAligned(ctBlock, r, g, b, a, phase)
-    if (config.blockOverlayFill) RenderHelper.filledBlockAxisAligned(ctBlock, r1, g1, b1, 50 / 255, phase)
+    RenderHelper.outlineBlock(ctBlock, r, g, b, a, phase)
+    if (config.blockOverlayFill) RenderHelper.filledBlock(ctBlock, r1, g1, b1, 50 / 255, phase)
 }
 
 // Events

@@ -3,14 +3,12 @@ const GuiUtils = Java.type("net.minecraftforge.fml.client.config.GuiUtils")
 
 // From BloomCore
 const GuiContainer = Java.type("net.minecraft.client.gui.inventory.GuiContainer")
-
 const guiContainerLeftField = GuiContainer.class.getDeclaredField("field_147003_i")
 const guiContainerTopField = GuiContainer.class.getDeclaredField("field_147009_r")
 guiContainerLeftField.setAccessible(true)
 guiContainerTopField.setAccessible(true)
 
 /**
- * 
  * @param {Block} ctBlock 
  * @returns {Number[]} - A 6-long array of numbers with the [x0, y0, z0, x1, y1, z1] corners of the block's bounding box.
  */
@@ -36,13 +34,18 @@ export const getBlockBoundingBox = (ctBlock, filled = false) => {
     ]
 }
 
-const getAxisValues = (axis) => [
-        axis.field_72340_a, // Min X
-        axis.field_72338_b, // Min Y
-        axis.field_72339_c, // Min Z
-        axis.field_72336_d, // Max X
-        axis.field_72337_e, // Max Y
-        axis.field_72334_f // Max Z
+/**
+ * - Gets the given [AxisAlignedBB] [Min] and [Max] positions
+ * @param {AxisAlignedBB} axis 
+ * @returns {[ Number, Number, Number, Number, Number, Number ]}
+ */
+const getAxisValues = (axis, filled = false) => [
+        axis.field_72340_a - (filled ? .01 : 0), // Min X
+        axis.field_72338_b - (filled ? .01 : 0), // Min Y
+        axis.field_72339_c - (filled ? .01 : 0), // Min Z
+        axis.field_72336_d + (filled ? .01 : 0), // Max X
+        axis.field_72337_e + (filled ? .01 : 0), // Max Y
+        axis.field_72334_f + (filled ? .01 : 0) // Max Z
     ]
 
 const currentTitle = {
@@ -93,115 +96,6 @@ register("renderOverlay", () => {
 })
 
 export class RenderHelper {
-    static outlineBlock(ctBlock, r, g, b, a, phase = true, thick = 3) {
-        const [ x0, y0, z0, x1, y1, z1 ] = getBlockBoundingBox(ctBlock)
-
-        Tessellator.pushMatrix()
-
-        GL11.glLineWidth(thick)
-        Tessellator.begin(3)
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-        Tessellator.enableBlend()
-        
-        if (phase) Tessellator.disableDepth()
-        
-        const locations = [
-            [x0, y0, z0],
-            [x0, y0, z1],
-            [x0, y1, z1],
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x1, y0, z0],
-            [x1, y0, z1],
-            [x0, y0, z1],
-            [x0, y1, z1],
-            [x0, y1, z0],
-            [x1, y1, z0],
-            [x1, y0, z0],
-            [x1, y0, z1],
-            [x1, y1, z1]
-        ]
-
-        Tessellator.colorize(r, g, b, a)
-
-        locations.forEach(([x, y, z]) => {
-            Tessellator.pos(x, y, z).tex(0, 0)
-        })
-        Tessellator.draw()
-
-        if (phase) Tessellator.enableDepth()
-
-        Tessellator.enableTexture2D()
-        Tessellator.disableBlend()
-        Tessellator.depthMask(true)
-        Tessellator.popMatrix()
-    }
-
-    static filledBlock(ctBlock, r, g, b, a, phase = true) {
-        const [ x0, y0, z0, x1, y1, z1 ] = getBlockBoundingBox(ctBlock, true)
-
-        Tessellator.pushMatrix()
-
-        Tessellator.begin(GL11.GL_QUADS)
-        GlStateManager.func_179129_p() // disableCullFace
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-        Tessellator.enableBlend()
-        
-        if (phase) Tessellator.disableDepth()
-        
-        Tessellator.colorize(r, g, b, a)
-        
-        const locations = [
-            [x1, y0, z1],
-            [x1, y0, z0],
-            [x0, y0, z0],
-            [x0, y0, z1],
-
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y1, z1],
-
-            [x0, y1, z1],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x0, y0, z1],
-
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x1, y0, z0],
-            [x1, y0, z1],
-
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x1, y0, z0],
-
-            [x0, y1, z1],
-            [x1, y1, z1],
-            [x1, y0, z1],
-            [x0, y0, z1]
-        ]
-
-        locations.forEach(([x, y, z]) => {
-            Tessellator.pos(x, y, z)
-        })
-
-        Tessellator.draw()
-
-        if (phase) Tessellator.enableDepth()
-
-        GlStateManager.func_179089_o() // enableCull
-        Tessellator.enableTexture2D()
-        Tessellator.disableBlend()
-        Tessellator.depthMask(true)
-        Tessellator.popMatrix()
-    }
-    
     /**
      * - Gets the gui's X and Y values
      * @param {GuiContainer} mcGuiContainer The GuiContainer. if null it'll try to assign the current GuiContainer
@@ -272,7 +166,7 @@ export class RenderHelper {
 
         GL11.glLineWidth(lineWidth)
         Tessellator.begin(GL11.GL_LINE_STRIP)
-        GlStateManager.func_179129_p(); // disableCullFace
+        GlStateManager.func_179129_p() // disableCullFace
         Tessellator.depthMask(false)
         Tessellator.disableTexture2D()
         Tessellator.enableBlend()
@@ -288,7 +182,7 @@ export class RenderHelper {
 
         if (phase) Tessellator.enableDepth()
 
-        GlStateManager.func_179089_o(); // enableCull
+        GlStateManager.func_179089_o() // enableCull
         Tessellator.enableTexture2D()
         Tessellator.disableBlend()
         Tessellator.depthMask(true)
@@ -516,85 +410,63 @@ export class RenderHelper {
     }
 
     /**
-     * - Calls MC's [#drawSelectionBoundingBox] method
-     * - from mojang (mostly)
+     * - Renders an outline at the given [Block]
+     * - This is (mostly) [Mojang]'s code
+     * @param {Block} ctBlock The Ct Block to render an outline on
+     * @param {Number} r Red
+     * @param {Number} g Green
+     * @param {Number} b Blue
+     * @param {Number} a Alpha
+     * @param {Boolean} phase Whether it should show the outline through walls or not (`true` by default)
+     * @param {Number} thickness The thickness of the line being rendered (`3` by default)
      */
-    static outlineBlockMC(ctBlock, r, g, b, a, phase = false) {
-        const RenderGlobal = Client.getMinecraft().field_71438_f // renderGlobal
-        const [ rx, ry, rz ] = [ Player.getRenderX(), Player.getRenderY(), Player.getRenderZ() ]
+    static outlineBlock(ctBlock, r, g, b, a, phase = true, thickness = 3) {
+        if (!ctBlock) return
 
+        // TODO: find a better workaround to this
         // setBlockBoundsBasedOnState - func_180654_a
-        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+        if (ctBlock.getState().func_177227_a().some(it => it instanceof net.minecraft.block.properties.PropertyDirection)) ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
     
         // getSelectedBoundingBox - func_180646_a
         const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
             .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
-            .func_72317_d(-rx, -ry, -rz) // func_72317_d - offset
-        
+
+        const [ minX, minY, minZ, maxX, maxY, maxZ ] = getAxisValues(axis)
+
         Tessellator.pushMatrix()
 
-        Tessellator.enableBlend()
-        Tessellator.tryBlendFuncSeparate(771, 770, 0, 1)
-        Tessellator.colorize(r / 255, g / 255, b / 255, a / 255)
-        GL11.glLineWidth(2)
-        Tessellator.disableTexture2D()
+        GL11.glLineWidth(thickness)
         Tessellator.depthMask(false)
+        Tessellator.disableTexture2D()
+        Tessellator.enableBlend()
 
         if (phase) Tessellator.disableDepth()
 
-        RenderGlobal.func_181561_a(axis) // func_181561_a - drawSelectionBoundingBox
-
-        Tessellator.depthMask(true)
-        Tessellator.enableTexture2D()
-        Tessellator.disableBlend()
-        if (phase) Tessellator.enableDepth()
-        Tessellator.popMatrix()
-    }
-
-    static outlineBlockAxisAligned(ctBlock, r, g, b, a, phase = true, thick = 3) {
-        // setBlockBoundsBasedOnState - func_180654_a
-        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
-    
-        // getSelectedBoundingBox - func_180646_a
-        const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
-            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
-
-        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis)
-
-        Tessellator.pushMatrix()
-
-        GL11.glLineWidth(thick)
         Tessellator.begin(3)
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-        Tessellator.enableBlend()
-        
-        if (phase) Tessellator.disableDepth()
-        
-        const locations = [
-            [x0, y0, z0],
-            [x0, y0, z1],
-            [x0, y1, z1],
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x1, y0, z0],
-            [x1, y0, z1],
-            [x0, y0, z1],
-            [x0, y1, z1],
-            [x0, y1, z0],
-            [x1, y1, z0],
-            [x1, y0, z0],
-            [x1, y0, z1],
-            [x1, y1, z1]
-        ]
+        Tessellator.pos(minX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(minX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(minX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.draw()
 
-        Tessellator.colorize(r, g, b, a)
+        Tessellator.begin(3)
+        Tessellator.pos(minX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(minX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(minX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.draw()
 
-        locations.forEach(([x, y, z]) => {
-            Tessellator.pos(x, y, z).tex(0, 0)
-        })
+        Tessellator.begin(1)
+        Tessellator.pos(minX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(minX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(maxX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(minX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
+        Tessellator.pos(minX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
         Tessellator.draw()
 
         if (phase) Tessellator.enableDepth()
@@ -605,15 +477,28 @@ export class RenderHelper {
         Tessellator.popMatrix()
     }
 
-    static filledBlockAxisAligned(ctBlock, r, g, b, a, phase = true) {
+    /**
+     * - Renders a filled block like at the given [Block]
+     * - Partially [Bloom]'s code
+     * @param {Block} ctBlock The Ct Block to render on
+     * @param {Number} r Red
+     * @param {Number} g Green
+     * @param {Number} b Blue
+     * @param {Number} a Alpha
+     * @param {Boolean} phase Whether it should show the filled block through walls or not (`true` by default)
+     */
+    static filledBlock(ctBlock, r, g, b, a, phase = true) {
+        if (!ctBlock) return
+
+        // TODO: find a better workaround to this
         // setBlockBoundsBasedOnState - func_180654_a
-        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+        if (ctBlock.getState().func_177227_a().some(it => it instanceof net.minecraft.block.properties.PropertyDirection)) ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
     
         // getSelectedBoundingBox - func_180646_a
         const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
             .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
 
-        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis)
+        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis, true)
 
         Tessellator.pushMatrix()
 
