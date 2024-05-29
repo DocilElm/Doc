@@ -23,7 +23,7 @@ const onWindowClosedPacket = () => {
 const onGuiRender = (_, __, gui) => {
     if (!config.noCursorReset || !(gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
 
-    if (ticks >= 2 && openedWindow) {
+    if (ticks >= 2 && openedWindow && (Date.now() - openedWindow) <= 50) {
         Mouse.setCursorPosition(mx, my)
         openedWindow = null
         mx = 0
