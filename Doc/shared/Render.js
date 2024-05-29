@@ -225,7 +225,7 @@ export class RenderHelper {
      * @returns {[Number, Number]}
      */
     static getSlotRenderPosition(slotNumber, mcGuiContainer) {
-        if (!Client.isInGui()) return
+        if (!Client.isInGui() || slotNumber == null) return
 
         if (!mcGuiContainer) mcGuiContainer = Client.currentGui.get()
 
@@ -513,5 +513,40 @@ export class RenderHelper {
             maxLength,
             fontRenderer
         )
+    }
+
+    /**
+     * - Calls MC's [#drawSelectionBoundingBox] method
+     * - from mojang (mostly)
+     */
+    static outlineBlockMC(ctBlock, r, g, b, a, phase = false) {
+        const RenderGlobal = Client.getMinecraft().field_71438_f // renderGlobal
+
+        // setBlockBoundsBasedOnState - func_180654_a
+        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+    
+        // getSelectedBoundingBox - func_180646_a
+        const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
+            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
+            .func_72317_d(-Player.getRenderX(), -Player.getRenderY(), -Player.getRenderZ()) // func_72317_d - offset
+        
+        Tessellator.pushMatrix()
+
+        Tessellator.enableBlend()
+        Tessellator.tryBlendFuncSeparate(771, 770, 0, 1)
+        Tessellator.colorize(r / 255, g / 255, b / 255, a / 255)
+        GL11.glLineWidth(2)
+        Tessellator.disableTexture2D()
+        Tessellator.depthMask(false)
+
+        if (phase) Tessellator.disableDepth()
+
+        RenderGlobal.func_181561_a(axis) // func_181561_a - drawSelectionBoundingBox
+
+        Tessellator.depthMask(true)
+        Tessellator.enableTexture2D()
+        Tessellator.disableBlend()
+        if (phase) Tessellator.enableDepth()
+        Tessellator.popMatrix()
     }
 }
