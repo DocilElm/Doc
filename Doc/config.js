@@ -839,6 +839,14 @@ class Settings {
     })
     cratesWaypoints = false;
 
+    @SwitchProperty({
+        name: "Kuudra Splits",
+        description: "Displays the current kuudra splits",
+        category: "Kuudra",
+        subcategory: "Kuudra"
+    })
+    kuudraSplits = false;
+
     //Misc
     @SwitchProperty({
         name: "Ragnarok Axe Cooldown Timer",

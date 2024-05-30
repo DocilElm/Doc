@@ -60,6 +60,7 @@ import "./features/trackers/PowderTracker"
 // Kuudra
 // import "./features/kuudra/FatalTempoDisplay"
 import "./features/kuudra/CratesWaypoints"
+import "./features/kuudra/KuudraSplits"
 // Misc
 import "./features/misc/CreeperAlert"
 import "./features/misc/RagAxeTimer"
