@@ -1,6 +1,6 @@
 // Import custom events so they actually work
 import "../shared/Registers"
-import FeatureManager from "./FeatureManager";
+import FeatureManager from "./FeatureManager"
 
 /**
  * @param {class} feature - The feature class
@@ -13,14 +13,14 @@ import FeatureManager from "./FeatureManager";
 export class Event {
     constructor(feature, eventName, eventFunction, registerWhen = null, eventArguments = null) {
         // Allow for internal events by allowing you to skip this
-        if (feature) feature.events.push(this);
+        if (feature) feature.events.push(this)
         
-        this.eventName = eventName;
-        this.eventFunction = eventFunction;
-        this.registerWhen = registerWhen;
-        this.eventArguments = eventArguments;
+        this.eventName = eventName
+        this.eventFunction = eventFunction
+        this.registerWhen = registerWhen
+        this.eventArguments = eventArguments
 
-        this._register = null;
+        this._register = null
     }
 
     // Internal function to start the event
@@ -72,6 +72,6 @@ export class Event {
 
 export class Command extends Event {
     constructor(feature, commandName, eventFunction) {
-        super(feature, "command", eventFunction, null, commandName);
+        super(feature, "command", eventFunction, null, commandName)
     }
 }

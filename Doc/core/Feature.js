@@ -18,7 +18,9 @@ export class Feature {
         FeatureManager.conditionalTriggers.set(this.name, [])
 
         // Register it under this feature otherwise it's considered internal
-        this.events.forEach(event => event.start(this.name))
+        for (let idx = 0; idx < this.events.length; idx++) {
+            this.events[idx].start(this.name)
+        }
 
         return this
     }
@@ -28,7 +30,9 @@ export class Feature {
         FeatureManager.conditionalTriggers.delete(this.name)
 
         // Unregister all the events
-        this.events.forEach(event => event.stop(false))
+        for (let idx = 0; idx < this.events.length; idx++) {
+            this.events[idx].stop(false)
+        }
 
         return this
     }

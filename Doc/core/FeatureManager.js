@@ -6,11 +6,10 @@ export default new class FeatureManager {
         
         // This list holds the events registered
         this.featuresRegistered = new Set()
-
         this.customTriggers = new Map()
-
-        this.registerWhenStep = register("step", this.registerWhenStepFn.bind(this)).setFps(1)
+        this.registerWhenTrigger = register("step", this.registerWhenCheck.bind(this)).setFps(1)
         
+        // Clean up events on game unload
         register("gameUnload", () => {
             // Loop through every conditional trigger and unregister its events
             // then delete the name [featureName] from the map
@@ -20,37 +19,36 @@ export default new class FeatureManager {
             })
 
             // Clearing up from memory
+            this.registerWhenTrigger.unregister()
             this.conditionalTriggers.clear()
             this.featuresRegistered.clear()
             this.customTriggers.clear()
             this.features = null
-            this.registerWhenStep = null
+            this.registerWhenTrigger = null
         })
     }
 
-    registerWhenStepFn() {
+    registerWhenCheck() {
         // This loops over the conditional events which are stored in an array per feature
-        this.conditionalTriggers.forEach(featureEvents => 
-            featureEvents.forEach(event => {
+        for (let featureEvents of this.conditionalTriggers.values()) {
+            for (let idx = 0; idx < featureEvents.length; idx++) {
+                let event = featureEvents[idx]
+
                 // If the feature hasn't been registered and the [registerWhen]
                 // is true we register it once
                 if (!this.featuresRegistered.has(event) && event.registerWhen()) {
                     event._register.register()
                     this.featuresRegistered.add(event)
 
-                    return
+                    continue
                 }
 
-                // Else if it's not well we unregister and delete the event from the list
-                else if (this.featuresRegistered.has(event) && !event.registerWhen()) {
-                    event._register.unregister()
-                    this.featuresRegistered.delete(event)
+                if (!(this.featuresRegistered.has(event) && !event.registerWhen())) continue
 
-                    return
-                }
-
-            })
-        )
+                event._register.unregister()
+                this.featuresRegistered.delete(event)
+            }
+        }
     }
 
     /**
