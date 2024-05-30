@@ -91,33 +91,7 @@ messagesArray.forEach((msg, idx) => {
 new Event(feature, "renderOverlay", renderOverlay, () => WorldState.getCurrentWorld() === "Kuudra" && config.kuudraSplits)
 new Event(feature, "worldUnload", () => {
     // Reset to default values
-    phasesMsg = [
-        {
-            criteria: "[NPC] Elle: Okay adventurers, I will go and fish up Kuudra!",
-            time: null,
-            displayText: `&bSupplies&f:`
-        },
-        {
-            criteria: "[NPC] Elle: OMG! Great work collecting my supplies!",
-            time: null,
-            displayText: `&bBuild&f:`
-        },
-        {
-            criteria: "[NPC] Elle: Phew! The Ballista is finally ready! It should be strong enough to tank Kuudra's blows now!",
-            time: null,
-            displayText: `&bFuel/Stun&f:`
-        },
-        {
-            criteria: "[NPC] Elle: POW! SURELY THAT'S IT! I don't think he has any more in him!",
-            time: null,
-            displayText: `&bClear&f:`
-        },
-        {
-            criteria: /^ *Tokens Earned\: [\d,.]+$/,
-            time: null,
-            displayText: null
-        }
-    ]
+    phasesMsg.forEach(it => it.time = null)
     msgSent.clear()
 })
 
