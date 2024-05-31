@@ -1,7 +1,6 @@
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
-import DungeonsState from "../../shared/Dungeons"
 import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
@@ -17,8 +16,10 @@ const Blocks = net.minecraft.init.Blocks
 const BlockBedrock = Blocks.field_150357_h
 const BlockBanner = Blocks.field_180393_cK
 const relativeCoords = {
-    banner: [-4, 59, -5],
-    bedrock: [5, 68, -8]
+    bannerTop: [-4, 59, -5],
+    bedrockTop: [5, 68, -8],
+    bannerBottom1: [-3, 69, 10],
+    bannerBottom2: [3, 69, 10]
 }
 
 // Changeable variables
@@ -33,10 +34,15 @@ let previousCount = 0
 onPuzzleRotation((rotation) => {
     if (!(WorldState.inDungeons() && (config.blazeSolverLine || config.blazeSolver))) return
 
-    const banner = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.banner, rotation))
-    const bedrock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bedrock, rotation))
+    // Top
+    const bannerTop = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bannerTop, rotation)).type.mcBlock
+    const bedrockTop = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bedrockTop, rotation)).type.mcBlock
+    // Bottom
+    const bannerBottom1 = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bannerBottom1, rotation)).type.mcBlock
+    const bannerBottom2 = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bannerBottom2, rotation)).type.mcBlock
 
-    inBlaze = banner.type.mcBlock === BlockBanner && bedrock.type.mcBlock === BlockBedrock
+    inBlaze = (bannerTop === BlockBanner && bedrockTop === BlockBedrock) || (bannerBottom1 === BlockBanner && bannerBottom2 === BlockBanner)
+    if (inBlaze) ChatLib.chat(`${TextHelper.PREFIX} &aBlaze room detected`)
 })
 
 const registerWhen = () => (WorldState.inDungeons() && inBlaze) && (config.blazeSolverLine || config.blazeSolver)
@@ -134,7 +140,7 @@ const scanBlazes = () => {
 
     if (currentBlazes <= 0 && enteredRoom && !blazeDone) {
         if (previousCount !== 1) return
-        
+
         ChatLib.chat(`${TextHelper.PREFIX} &aBlaze took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
         if (config.blazeSolverDone) ChatLib.command("pc Blaze Done")
 
