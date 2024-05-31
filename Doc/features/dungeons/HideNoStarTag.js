@@ -6,6 +6,7 @@ import { Feature } from "../../core/Feature"
 
 // Constant variables
 const feature = new Feature("HideNoneStarredTags", "Dungeons", "")
+const blazeHealthRegex = /^\[Lv15\] Blaze [\d,]+\/([\d,]+)❤$/
 const noStarTagRegex = /^(?:\[Lv\d+\] )?[\w ]+ [\d,.]+\w(?:\/[\d,.]+\w)?❤$/
 
 // Logic
@@ -16,7 +17,11 @@ const onTick = () => {
 
     for (let idx = 0; idx < entityList.length; idx++) {
         let entity = entityList[idx]
-        if (entity.isDead() || !noStarTagRegex.test(entity.getName().removeFormatting())) continue
+        if (
+            entity.isDead() ||
+            blazeHealthRegex.test(entity.getName().removeFormatting()) ||
+            !noStarTagRegex.test(entity.getName().removeFormatting())
+            ) continue
 
         entity.entity.func_70106_y()
     }
