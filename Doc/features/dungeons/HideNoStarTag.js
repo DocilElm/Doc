@@ -12,11 +12,14 @@ const noStarTagRegex = /^(?:\[Lv\d+\] )?[\w ]+ [\d,.]+\w(?:\/[\d,.]+\w)?❤$/
 const onTick = () => {
     if (!WorldState.inDungeons() || !config.hideNoneStarredTags || Dungeons.inBossRoom()) return
     
-    World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).forEach(entity => {
-        if (entity.isDead() || !noStarTagRegex.test(entity.getName().removeFormatting())) return
+    const entityList = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
+
+    for (let idx = 0; idx < entityList.length; idx++) {
+        let entity = entityList[idx]
+        if (entity.isDead() || !noStarTagRegex.test(entity.getName().removeFormatting())) continue
 
         entity.entity.func_70106_y()
-    })
+    }
 }
 
 // Events
