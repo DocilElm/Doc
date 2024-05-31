@@ -545,6 +545,14 @@ class Settings {
     })
     mimicDeadMessage = "Mimic Killed!";
 
+    @SwitchProperty({
+        name: "Hide None Star Nametag",
+        description: "Hides none starred mobs name tags",
+        category: "Dungeons",
+        subcategory: "Dungeons"
+    })
+    hideNoneStarredTags = false;
+
     // Mining
     @SwitchProperty({
         name: "Emissary Waypoints",

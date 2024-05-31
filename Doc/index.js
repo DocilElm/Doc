@@ -31,6 +31,7 @@ import "./features/dungeons/RemoveDamageTag"
 import "./features/dungeons/PuzzleNames"
 import "./features/dungeons/TicTacToeSolver"
 import "./features/dungeons/MimicKilled"
+import "./features/dungeons/HideNoStarTag"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/GemstoneProfit"
