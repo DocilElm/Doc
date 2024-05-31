@@ -4,7 +4,9 @@ import Vector3 from "../../../BloomCore/utils/Vector3"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
+import { TextHelper } from "../../shared/Text"
 
 // Credits: https://github.com/Skytils/SkytilsMod/blob/1.x/src/main/kotlin/gg/skytils/skytilsmod/features/impl/dungeons/BloodHelper.kt
 // and also: https://github.com/Soopyboo32/SoopyV2/blob/master/src/features/dungeonSolvers/index.js
@@ -51,6 +53,9 @@ const mobsTextures = new Set([
 ])
 const entityList = new Map()
 const blacklisted = new Set()
+const Blocks = net.minecraft.init.Blocks
+const BlockObsidian = Blocks.field_150343_Z
+const BlockBarrier = Blocks.field_180401_cv
 const firstSpawnRegex = /^\[BOSS\] The Watcher\: Let\'s see how you can handle this\.$/
 const bloodDoneRegex = /^\[BOSS\] The Watcher\: You have proven yourself\. You may pass\.$/
 
@@ -58,10 +63,18 @@ const bloodDoneRegex = /^\[BOSS\] The Watcher\: You have proven yourself\. You m
 let mobsSpawned = 0
 let watcherEntity = null
 let bloodDone = false
+let inBlood = false
 
 // Logic
+onPuzzleRotation((rotation) => {
+    const obsidian = World.getBlockAt(...TextHelper.getRealCoord([-1, 68, -14], rotation))
+    const barrier = World.getBlockAt(...TextHelper.getRealCoord([-1, 78, -14], rotation))
+
+    inBlood = obsidian.type.mcBlock === BlockObsidian && barrier.type.mcBlock === BlockBarrier
+})
+
 const scanEntityLookMove = (mcEntity, [x, y, z]) => {
-    if (bloodDone || Dungeons.inBossRoom() || !WorldState.inDungeons() || Dungeons.getCurrentRoomName() !== "Blood" || !config.bloodHelper || !watcherEntity) return
+    if (bloodDone || !inBlood || !config.bloodHelper || !watcherEntity) return
 
     if (!(mcEntity instanceof net.minecraft.entity.item.EntityArmorStand)) return
 
@@ -118,7 +131,7 @@ const scanEntityLookMove = (mcEntity, [x, y, z]) => {
 }
 
 const highlightSpot = () => {
-    if (bloodDone || Dungeons.inBossRoom() || !watcherEntity || !config.bloodHelper) return
+    if (bloodDone || !inBlood || !watcherEntity || !config.bloodHelper) return
 
     entityList.forEach(obj => {
         const { entity, vectors, finalVector, time, started, uuid } = obj
@@ -178,6 +191,7 @@ new Event(feature, "worldUnload", () => {
     mobsSpawned = 0
     watcherEntity = null
     bloodDone = false
+    inBlood = false
 })
 
 // Starting events

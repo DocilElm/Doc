@@ -42,7 +42,6 @@ onPuzzleRotation((rotation) => {
     const bannerBottom2 = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bannerBottom2, rotation)).type.mcBlock
 
     inBlaze = (bannerTop === BlockBanner && bedrockTop === BlockBedrock) || (bannerBottom1 === BlockBanner && bannerBottom2 === BlockBanner)
-    if (inBlaze) ChatLib.chat(`${TextHelper.PREFIX} &aBlaze room detected`)
 })
 
 const registerWhen = () => (WorldState.inDungeons() && inBlaze) && (config.blazeSolverLine || config.blazeSolver)
