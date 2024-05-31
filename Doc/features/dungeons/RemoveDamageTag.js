@@ -7,7 +7,7 @@ const handleEntity = (entityID) => {
     const entity = World.getWorld().func_73045_a(entityID)
     if (!entity || !(entity instanceof net.minecraft.entity.item.EntityArmorStand)) return
     const name = entity.func_95999_t()
-    if (!name || !/^.\d[\d,.]+.$/.test(name?.removeFormatting())) return
+    if (!name || !/^.?\d[\d,.]+.*?$/.test(name?.removeFormatting())) return
 
     entity.func_70106_y()
 }
