@@ -2,6 +2,7 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import DungeonsState from "../../shared/Dungeons"
+import { onPuzzleRotation } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -12,16 +13,33 @@ import { WorldState } from "../../shared/World"
 const feature = new Feature("blazeSolver", "Dungeons", "")
 const healthValues = new Map()
 const blazeHealthRegex = /^\[Lv15\] Blaze [\d,]+\/([\d,]+)❤$/
-const requiredRoomID = new Set(["-60,-204", "-96,-204"])
+const Blocks = net.minecraft.init.Blocks
+const BlockBedrock = Blocks.field_150357_h
+const BlockBanner = Blocks.field_180393_cK
+const relativeCoords = {
+    banner: [-4, 59, -5],
+    bedrock: [5, 68, -8]
+}
 
 // Changeable variables
+let inBlaze = false
 let correctBlazes = []
 let coords = []
 let enteredRoom = null
 let blazeDone = null
+let previousCount = 0
 
 // Logic
-const registerWhen = () => (WorldState.inDungeons() && requiredRoomID.has(DungeonsState.getCurrentRoomID())) && (config.blazeSolverLine || config.blazeSolver)
+onPuzzleRotation((rotation) => {
+    if (!(WorldState.inDungeons() && (config.blazeSolverLine || config.blazeSolver))) return
+
+    const banner = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.banner, rotation))
+    const bedrock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bedrock, rotation))
+
+    inBlaze = banner.type.mcBlock === BlockBanner && bedrock.type.mcBlock === BlockBedrock
+})
+
+const registerWhen = () => (WorldState.inDungeons() && inBlaze) && (config.blazeSolverLine || config.blazeSolver)
 
 const scanEntities = () => {
     if (blazeDone) return
@@ -115,6 +133,8 @@ const scanBlazes = () => {
     if (currentBlazes === 9) return enteredRoom = Date.now()
 
     if (currentBlazes <= 0 && enteredRoom && !blazeDone) {
+        if (previousCount !== 1) return
+        
         ChatLib.chat(`${TextHelper.PREFIX} &aBlaze took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
         if (config.blazeSolverDone) ChatLib.command("pc Blaze Done")
 
@@ -126,6 +146,8 @@ const scanBlazes = () => {
 
         return
     }
+
+    previousCount = currentBlazes
 }
 
 // Events
