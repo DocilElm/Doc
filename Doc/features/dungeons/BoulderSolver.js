@@ -123,7 +123,7 @@ const onBlockPlacement = (block) => {
 
 // Events
 onPuzzleRotationExit(() => {
-    if (!enteredRoomAt) return
+    if (!enteredRoomAt || puzzleDone) return
 
     reset()
 })

@@ -2,7 +2,7 @@ import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
-import { onPuzzleRotation } from "../../shared/PuzzleHandler"
+import { onPuzzleRotation, onPuzzleRotationExit } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -230,8 +230,8 @@ new Event(feature, "worldUnload", () => {
     reset()
     puzzleDone = false
 })
-Dungeons.onRoomIDEvent((name) => {
-    if (name === "Tic Tac Toe") return
+onPuzzleRotationExit(() => {
+    if (currentRotation == null) return
 
     reset()
 })
