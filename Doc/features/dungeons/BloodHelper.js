@@ -181,8 +181,8 @@ const handleBloodDone = () => bloodDone = true
 
 // Events
 new Event(feature, "forgeEntityJoin", scanEntities, () => World.isLoaded() && WorldState.inDungeons() && config.bloodHelper, net.minecraft.entity.monster.EntityZombie)
-new Event(feature, "renderWorld", highlightSpot, () => WorldState.inDungeons() && Dungeons.getCurrentRoomName() === "Blood" && config.bloodHelper)
-new Event(feature, "onPacketLookMove", scanEntityLookMove, () => WorldState.inDungeons() && Dungeons.getCurrentRoomName() === "Blood" && config.bloodHelper)
+new Event(feature, "renderWorld", highlightSpot, () => WorldState.inDungeons() && inBlood && config.bloodHelper)
+new Event(feature, "onPacketLookMove", scanEntityLookMove, () => WorldState.inDungeons() && inBlood && config.bloodHelper)
 new Event(feature, "onChatPacket", handleChat, () => WorldState.inDungeons() && config.bloodHelper, firstSpawnRegex)
 new Event(feature, "onChatPacket", handleBloodDone, () => WorldState.inDungeons() && config.bloodHelper, bloodDoneRegex)
 new Event(feature, "worldUnload", () => {
