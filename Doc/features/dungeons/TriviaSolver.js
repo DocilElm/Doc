@@ -1,6 +1,6 @@
-import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
 import { Persistence } from "../../shared/Persistence"
+import { onPuzzleRotation, onPuzzleRotationExit } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -8,6 +8,16 @@ import { WorldState } from "../../shared/World"
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/TriviaSolver.js
 
 const stdata = Persistence.getDataFromURL("https://data.skytils.gg/solvers/oruotrivia.json")
+const Blocks = net.minecraft.init.Blocks
+const BlockGlowstone = Blocks.field_150426_aN
+const BlockGold = Blocks.field_150340_R
+const relativeCoords = {
+    glowstone: [ 0, 85, -2 ],
+    gold: [ 0, 84, -2 ],
+    "ⓐ": [ -5, 70, 9 ],
+    "ⓑ": [ 0, 70, 6 ],
+    "ⓒ": [ 5, 70, 9 ]
+}
 const solutions = new Map()
 // Make the data into solutions
 Object.keys(stdata)?.forEach(key => {
@@ -18,9 +28,12 @@ Object.keys(stdata)?.forEach(key => {
 })
 
 let enteredRoom = null
+let currentRotation = null
 let currentQuestion = null
 let currSolutions = []
 let currentBlock = null
+let currentSymbol = null
+
 // Used to change the chat color and position of the messages
 let chat = []
 let answers = []
@@ -39,6 +52,7 @@ const reset = () => {
     chat = []
     answers = []
     currentBlock = null
+    currentRotation = null
 }
 
 const inSolutions = (question, answer) => {
@@ -69,12 +83,15 @@ register("chat", (event) => {
         return
     }
 
-    const answerMatch = msg.match(/^ +[ⓐ|ⓑ|ⓒ] (.+)$/)
+    const answerMatch = msg.match(/^ +(ⓐ|ⓑ|ⓒ) (.+)$/)
     if (answerMatch) {
         cancel(event)
 
-        const isSol = inSolutions(currentQuestion, answerMatch[1])
-        if (isSol) currSolutions.push(answerMatch[1])
+        const isSol = inSolutions(currentQuestion, answerMatch[2])
+        if (isSol) {
+            currSolutions.push(answerMatch[2])
+            currentSymbol = answerMatch[1]
+        }
 
         const msg1 = isSol
             ? `&a&l${msg.replace(/^( +)/, "")}`
@@ -92,7 +109,6 @@ register("chat", (event) => {
         
         chat = []
         answers = []
-        currentBlock = null
 
         chat.push(`                                &b&l${msg.replace(/^( +)/, "")}`)
 
@@ -110,8 +126,32 @@ register("chat", (event) => {
         }
 })
 
+register("chat", () => {
+    if (!currentBlock) return
+
+    currentBlock = null
+    currentSymbol = null
+}).setCriteria(/^\[STATUE\] Oruo the Omniscient\: [\w]+ answered Question #\d correctly\!$/)
+
+onPuzzleRotation((rotation) => {
+    if (currentRotation != null || !config.triviaQuizSolver) return
+
+    const glowstoneBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.glowstone, rotation)).type.mcBlock
+    const goldBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.gold, rotation)).type.mcBlock
+
+    if (glowstoneBlock !== BlockGlowstone || goldBlock !== BlockGold) return
+
+    currentRotation = rotation
+})
+
+onPuzzleRotationExit(() => {
+    if (currentRotation == null) return
+
+    reset()
+})
+
 const checkArmorStand = () => {
-    if (Dungeons.getCurrentRoomName() !== "Quiz" || !config.triviaQuizSolver) return
+    if (currentRotation == null || !config.triviaQuizSolver) return
 
     World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
         .forEach(a => {
@@ -120,7 +160,6 @@ const checkArmorStand = () => {
             let [_, question, answer] = match
 
             if (currSolutions.some(a => a == answer)) {
-                currentBlock = World.getBlockAt(Math.floor(a.getX()), a.getY() + 1, Math.floor(a.getZ()))
                 a.getEntity().func_96094_a(`§6${question} §a§l${answer}`)
             
                 return
@@ -131,6 +170,13 @@ const checkArmorStand = () => {
 }
 
 register("step", checkArmorStand).setFps(1)
+register("tick", () => {
+    if (!config.triviaQuizSolver || currentRotation == null || !currentSymbol) return
+
+    currentBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords[currentSymbol], currentRotation))
+
+    currentSymbol = null
+})
 
 register("renderWorld", () => {
     if (!WorldState.inDungeons() || !config.triviaQuizSolver || !currentBlock) return
@@ -138,4 +184,7 @@ register("renderWorld", () => {
     RenderHelper.filledBlock(currentBlock, 0, 1, 0, 80 / 255, false)
 })
 
-register("worldUnload", () => reset())
+register("worldUnload", () => {
+    reset()
+    currentSymbol = null // just in case
+})
