@@ -3,7 +3,7 @@ import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
-import { onPuzzleRotation } from "../../shared/PuzzleHandler"
+import { onPuzzleRotation, onPuzzleRotationExit } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -123,9 +123,8 @@ const onBlockPlacement = (block) => {
 }
 
 // Events
-Dungeons.onRoomIDEvent((name) => {
-    if (!World.isLoaded() || !config.boulderSolver) return
-    if (name === "Boulder" && hasSolution) return
+onPuzzleRotationExit(() => {
+    if (!enteredRoomAt) return
 
     reset()
 })
