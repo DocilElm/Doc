@@ -5,7 +5,7 @@ import config from "../../config"
 import { Command, Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
-import { onPuzzleRotation } from "../../shared/PuzzleHandler"
+import { onPuzzleRotation, onPuzzleRotationExit } from "../../shared/PuzzleHandler"
 import { RenderHelper } from "../../shared/Render"
 import ScalableGui from "../../shared/Scalable"
 import { TextHelper } from "../../shared/Text"
@@ -418,9 +418,9 @@ new Keybind(`§fRecord custom waterboard`, Keyboard.KEY_NONE, "Doc")
 new Event(feature, "renderWorld", renderTimer, () => WorldState.inDungeons() && config.waterBoardSolver)
 new Event(feature, "renderOverlay", renderOverlay, () => WorldState.inDungeons() && config.waterBoardSolver)
 new Event(feature, "onPlayerBlockPlacement", detectBlockPlacement, () => WorldState.inDungeons() && config.waterBoardSolver)
-Dungeons.onRoomIDEvent((name) => {
-    if (name === "Water Board") return
-
+onPuzzleRotationExit(() => {
+    if (currentRoation == null) return
+    
     reset()
 })
 new Event(feature, "worldUnload", reset)

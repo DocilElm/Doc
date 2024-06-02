@@ -3,6 +3,7 @@ import { WorldState } from "../../Atomx/skyblock/World"
 import { TextHelper } from "./Text"
 
 const listeners = []
+const listenersExit = []
 const offsetsToCheck = [
     [0, 16],
     [-16, 0],
@@ -15,6 +16,7 @@ let lastDungIndex = null
 let idxTicks = 0
 
 export const onPuzzleRotation = (fn) => listeners.push(fn)
+export const onPuzzleRotationExit = (fn) => listenersExit.push(fn)
 
 // Big thank bloom
 const getPuzzleRotation = () => {
@@ -50,6 +52,8 @@ register("tick", () => {
 
     const posIndex = TextHelper.getDungeonsPosIndex()
 
+    if (lastDungIndex && posIndex !== lastDungIndex) listenersExit.forEach(fn => fn())
+    
     if (posIndex === lastDungIndex && idxTicks !== 0 && idxTicks % 20 === 0) return
 
     lastDungIndex = posIndex
