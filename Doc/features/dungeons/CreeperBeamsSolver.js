@@ -1,9 +1,8 @@
-import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { Persistence } from "../../shared/Persistence"
-import { onPuzzleRotation } from "../../shared/PuzzleHandler"
+import { onPuzzleRotation, onPuzzleRotationExit } from "../../shared/PuzzleHandler"
 import { RenderHelper, getBlockBoundingBox } from "../../shared/Render"
 import { TextHelper } from "../../shared/Text"
 import { WorldState } from "../../shared/World"
@@ -144,9 +143,8 @@ const renderSolutions = () => {
 new Event(feature, "tick", checkBlocks, () => WorldState.inDungeons() && config.creeperBeamsSolver)
 new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config.creeperBeamsSolver)
 new Event(feature, "worldUnload", reset)
-Dungeons.onRoomIDEvent((name) => {
-    if (!WorldState.inDungeons() || !config.creeperBeamsSolver) return
-    if (name === "Creeper Beams") return
+onPuzzleRotationExit(() => {
+    if (!enteredRoom) return
 
     reset()
 })
