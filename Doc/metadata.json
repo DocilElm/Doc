@@ -9,13 +9,13 @@
     "BeaconBeam",
     "requestV2",
     "PromiseV2",
-    "Vigilance",
     "ChestMenu",
     "PogData",
     "Atomx",
     "BloomCore",
     "DocGuiLib",
     "Elementa",
-    "KeybindFix"
+    "KeybindFix",
+    "Amaterasu"
   ]
 }
