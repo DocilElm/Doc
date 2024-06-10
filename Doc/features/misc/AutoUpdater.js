@@ -73,7 +73,7 @@ register("step", () => {
         return
     }
 
-    if (lastCheck && Date.now() - lastCheck < 30000 || !config.autoUpdater) return
+    if (lastCheck && Date.now() - lastCheck < 30000 || !config().autoUpdater) return
 
     request({
         url: "https://api.github.com/repos/DocilElm/Doc/releases/latest",

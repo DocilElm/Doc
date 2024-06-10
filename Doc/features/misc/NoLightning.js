@@ -4,7 +4,7 @@ import config from "../../config"
 // straight up copy and paste ^
 
 register("renderEntity", (_, __, ___, event) => {
-    if (!config.noLightning) return
+    if (!config().noLightning) return
 
     cancel(event)
 }).setFilteredClass(net.minecraft.entity.effect.EntityLightningBolt)

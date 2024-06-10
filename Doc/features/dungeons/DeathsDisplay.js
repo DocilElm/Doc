@@ -26,7 +26,7 @@ const renderDeaths = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderDeaths, () => World.isLoaded() && WorldState.inDungeons() && config.deathsDisplay && !editGui.isOpen())
+new Event(feature, "renderOverlay", renderDeaths, () => World.isLoaded() && WorldState.inDungeons() && config().deathsDisplay && !editGui.isOpen())
 
 // Starting events
 feature.start()

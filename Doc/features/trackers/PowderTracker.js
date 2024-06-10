@@ -43,7 +43,7 @@ editGui.onRender(() => {
 })
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.powderMiningTracker
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().powderMiningTracker
 
 const isDoublePowderEvent = () => /^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/.test(BossStatus?.field_82827_c?.removeFormatting()) && BossStatus?.field_82827_c?.removeFormatting()?.match(/^PASSIVE EVENT ([§\w\d]+)?2X POWDER RUNNING FOR [\d]+:([\d]+)$/)?.[2] >= 1
 
@@ -96,7 +96,7 @@ new Event(feature, "onChatPacket", addPowder, registerWhen, powderRecievedRegex)
 new Event(feature, "onChatPacket", addEssence, registerWhen, essenceRecievedRegex)
 new Event(feature, "onChatPacket", addChest, registerWhen, uncoveredChestRegex)
 new Event(feature, "tick", makeStringToDraw, registerWhen)
-new Event(feature, "renderOverlay", renderPowder, () => WorldState.getCurrentWorld() === requiredWorld && config.powderMiningTracker && stringToDraw)
+new Event(feature, "renderOverlay", renderPowder, () => WorldState.getCurrentWorld() === requiredWorld && config().powderMiningTracker && stringToDraw)
 
 new Command(feature, "rspowder", () => {
     currentSession = {

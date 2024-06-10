@@ -12,7 +12,7 @@ const editGui = new ScalableGui("gardenDisplay", defaultString).setCommand("gard
 const requiredWorld = "Garden"
 
 // Logic
-const registerWhen = () => config.gardenDisplay && WorldState.getCurrentWorld() === requiredWorld
+const registerWhen = () => config().gardenDisplay && WorldState.getCurrentWorld() === requiredWorld
 
 const renderString = () => {
     if (!registerWhen() || editGui.isOpen()) return

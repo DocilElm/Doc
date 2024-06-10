@@ -15,15 +15,15 @@ const editGui = new ScalableGui("phoenixInvincibilityTimer", defaultString).setC
 let phoenixProc = null
 
 // Logic
-const registerWhen = () => config.phoenixInvincibilityTimer
+const registerWhen = () => config().phoenixInvincibilityTimer
 
 const addCD = () => phoenixProc = Date.now()
 
 const renderString = () => {
     if (!registerWhen() || !phoenixProc || editGui.isOpen()) return
-    if ((Date.now() - phoenixProc) >= (config.phoenixPetTime === 1 ? 3000 : 4000)) return phoenixProc = null
+    if ((Date.now() - phoenixProc) >= (config().phoenixPetTime === 1 ? 3000 : 4000)) return phoenixProc = null
 
-    const timeRemaining = (config.phoenixPetTime === 1 ? 3000 : 4000) - (Date.now() - phoenixProc)
+    const timeRemaining = (config().phoenixPetTime === 1 ? 3000 : 4000) - (Date.now() - phoenixProc)
 
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())

@@ -7,7 +7,7 @@ const feature = new Feature("RemoveFrontView", "Misc", "")
 
 // Logic
 const renderOverlay = () => {
-    if (!World.isLoaded() || !config.removeFrontView) return
+    if (!World.isLoaded() || !config().removeFrontView) return
 
     if (Client.settings.getSettings().field_74320_O !== 2) return
 
@@ -15,7 +15,7 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.removeFrontView)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config().removeFrontView)
 
 // Starting events
 feature.start()

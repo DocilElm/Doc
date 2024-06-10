@@ -40,7 +40,7 @@ const onMouseClick = (_, __, mbtn, gui, event) => {
 }
 
 // Events
-new Event(feature, "guiMouseClick", onMouseClick, () => config.middleClickGui)
+new Event(feature, "guiMouseClick", onMouseClick, () => config().middleClickGui)
 
 // Starting events
 feature.start()

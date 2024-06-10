@@ -27,7 +27,7 @@ editGui.onRender(() => {
 })
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.gemstonesProfit
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().gemstonesProfit
 
 const addGemstoneAmount = (gemstone, amount) => {
     if (!startedMining) startedMining = Date.now()
@@ -64,7 +64,7 @@ const renderGemstones = () => {
 // Events
 new Event(feature, "tick", makeStringToDraw, registerWhen)
 new Event(feature, "onChatPacket", addGemstoneAmount, registerWhen, /^PRISTINE! You found .{1,2} Flawed ([\w]+) Gemstone x([\d]+)!$/)
-new Event(feature, "renderOverlay", renderGemstones, () => WorldState.getCurrentWorld() === requiredWorld && config.gemstonesProfit && startedMining && stringToDraw)
+new Event(feature, "renderOverlay", renderGemstones, () => WorldState.getCurrentWorld() === requiredWorld && config().gemstonesProfit && startedMining && stringToDraw)
 new Command(feature, "rsmsession", () => {
     profitMade = 0
     gemstonesMined = {}

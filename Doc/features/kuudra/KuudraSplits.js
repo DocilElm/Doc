@@ -56,7 +56,7 @@ editGui.onRender(() => {
 
 // Logic
 const renderOverlay = () => {
-    if (!config.kuudraSplits || WorldState.getCurrentWorld() !== "Kuudra" || editGui.isOpen()) return
+    if (!config().kuudraSplits || WorldState.getCurrentWorld() !== "Kuudra" || editGui.isOpen()) return
 
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -86,9 +86,9 @@ const renderOverlay = () => {
 messagesArray.forEach((msg, idx) => {
     new Event(feature, "onChatPacket", () => {
         phasesMsg[idx].time = Date.now()
-    }, () => WorldState.getCurrentWorld() === "Kuudra" && config.kuudraSplits, msg)
+    }, () => WorldState.getCurrentWorld() === "Kuudra" && config().kuudraSplits, msg)
 })
-new Event(feature, "renderOverlay", renderOverlay, () => WorldState.getCurrentWorld() === "Kuudra" && config.kuudraSplits)
+new Event(feature, "renderOverlay", renderOverlay, () => WorldState.getCurrentWorld() === "Kuudra" && config().kuudraSplits)
 new Event(feature, "worldUnload", () => {
     // Reset to default values
     phasesMsg.forEach(it => it.time = null)

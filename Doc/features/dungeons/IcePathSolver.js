@@ -89,7 +89,7 @@ const checkBlock = () => {
 }
 
 onPuzzleRotation((rotation, posIndex) => {
-    if (enteredRoom || !WorldState.inDungeons() || !config.icePathSolver) return
+    if (enteredRoom || !WorldState.inDungeons() || !config().icePathSolver) return
 
     const lanternBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.lanter, rotation))
     const hopperBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.hopper, rotation))
@@ -114,7 +114,7 @@ const renderSolutions = () => {
     RenderHelper.drawLineThroughPoints(renderLines, 0, 1, 0, 1, false)
 }
 
-new Event(feature, "tick", checkBlock, () => WorldState.inDungeons() && config.icePathSolver)
-new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config.icePathSolver)
+new Event(feature, "tick", checkBlock, () => WorldState.inDungeons() && config().icePathSolver)
+new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config().icePathSolver)
 
 feature.start()

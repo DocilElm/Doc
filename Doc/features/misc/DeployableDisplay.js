@@ -50,7 +50,7 @@ const scanForOrb = (entity) => {
     })
 }
 const scanEntities = () => {
-    if (!config.deployableDisplay) return
+    if (!config().deployableDisplay) return
 
     World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
         .filter(entity => entity.distanceTo(Player.getPlayer()) <= 60)
@@ -78,7 +78,7 @@ const scanEntities = () => {
 }
 
 const renderOverlay = () => {
-    if (!config.deployableDisplay || editGui.isOpen()) return
+    if (!config().deployableDisplay || editGui.isOpen()) return
 
     let currentDeployable = null
 
@@ -104,8 +104,8 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.deployableDisplay)
-new Event(feature, "step", scanEntities, () => World.isLoaded() && config.deployableDisplay, 1)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config().deployableDisplay)
+new Event(feature, "step", scanEntities, () => World.isLoaded() && config().deployableDisplay, 1)
 new Event(feature, "worldUnload", () => DeployablesList.clear())
 
 // Starting Events

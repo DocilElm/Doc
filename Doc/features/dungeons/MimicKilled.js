@@ -19,12 +19,12 @@ const onEntityDeath = (ctEntity) => {
     if (!(entity instanceof net.minecraft.entity.monster.EntityZombie)) return
     if (!entity.func_70631_g_() || entity.func_82169_q(0)) return
 
-    ChatLib.command(`pc ${config.mimicDeadMessage}`)
+    ChatLib.command(`pc ${config().mimicDeadMessage}`)
     sentMessage = true
 }
 
 // Events
-new Event(feature, "entityDeath", onEntityDeath, () => WorldState.inDungeons() && config.sendMimicDead)
+new Event(feature, "entityDeath", onEntityDeath, () => WorldState.inDungeons() && config().sendMimicDead)
 new Event(feature, "worldUnload", () => sentMessage = false)
 
 // Starting events

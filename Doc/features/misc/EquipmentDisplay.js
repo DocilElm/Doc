@@ -72,7 +72,7 @@ const onStep = () => {
                 .setOffset(-27)
                 .setCommand("equipment")
                 .setItem(barrier)
-                .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory && config.equipmentsDisplay)
+                .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory && config().equipmentsDisplay)
 
             return
         }
@@ -88,7 +88,7 @@ const onStep = () => {
             .setOffset(-27)
             .setCommand("equipment")
             .createItemByTexture(it[0])
-            .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory && config.equipmentsDisplay)
+            .setCheckFn(() => Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory && config().equipmentsDisplay)
             .onMouseHover((mx, my, gui) => {
                 RenderHelper.drawHoveringText(it[1], mx, my)
             })
@@ -96,10 +96,10 @@ const onStep = () => {
 }
 
 // Events
-new Event(feature, "step", onStep, () => World.isLoaded() && config.equipmentsDisplay, 1)
-new Event(feature, "onOpenWindowPacket", (windowName) => shouldScan = windowName === "Your Equipment and Stats", () => World.isLoaded() && config.equipmentsDisplay)
-new Event(feature, "onWindowItemsPacket", onWindowItems, () => World.isLoaded() && config.equipmentsDisplay)
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.equipmentsDisplay)
+new Event(feature, "step", onStep, () => World.isLoaded() && config().equipmentsDisplay, 1)
+new Event(feature, "onOpenWindowPacket", (windowName) => shouldScan = windowName === "Your Equipment and Stats", () => World.isLoaded() && config().equipmentsDisplay)
+new Event(feature, "onWindowItemsPacket", onWindowItems, () => World.isLoaded() && config().equipmentsDisplay)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config().equipmentsDisplay)
 
 // Starting events
 feature.start()

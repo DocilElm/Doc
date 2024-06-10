@@ -17,7 +17,7 @@ const defaultString = [
 ].join("\n")
 const editGui = new ScalableGui("bossSplits", defaultString).setCommand("bossSplitsDisplay")
 const bossSplits = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/BossSplits.json")
-const splits = new SplitsMaker(editGui, bossSplits, () => WorldState.inDungeons() && config.dungeonBossSplits)
+const splits = new SplitsMaker(editGui, bossSplits, () => WorldState.inDungeons() && config().dungeonBossSplits)
 
 // Logic
 const checkBossMessage = (bossName, _, __, formatted) => {

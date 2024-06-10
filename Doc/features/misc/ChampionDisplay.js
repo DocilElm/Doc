@@ -74,8 +74,8 @@ const drawString = () => {
 }
 
 // Events
-new Event(feature, "tick", createString, () => World.isLoaded() && config.championxpDisplay)
-new Event(feature, "renderOverlay", drawString, () => World.isLoaded() && stringToDraw && !editGui.isOpen() && config.championxpDisplay)
+new Event(feature, "tick", createString, () => World.isLoaded() && config().championxpDisplay)
+new Event(feature, "renderOverlay", drawString, () => World.isLoaded() && stringToDraw && !editGui.isOpen() && config().championxpDisplay)
 
 // Starting events
 feature.start()

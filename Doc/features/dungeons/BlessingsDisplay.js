@@ -11,7 +11,7 @@ const defaultString = `&bBlessing of Power 1\n&bBlessing of Life 1\n&bBlessing o
 const editGui = new ScalableGui("blessingDisplay", defaultString).setCommand("blessingsDisplayLocation")
 
 // Logic
-const registerWhen = () => WorldState.inDungeons() && config.blessingsDisplay
+const registerWhen = () => WorldState.inDungeons() && config().blessingsDisplay
 
 const renderString = () => {
     if (!registerWhen() || editGui.isOpen()) return

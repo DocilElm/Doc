@@ -15,7 +15,7 @@ let crates = []
 let toggle = true
 
 // Checks
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && toggle && config.cratesWaypoints
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && toggle && config().cratesWaypoints
 const checkToggleAndCrates = () => crates && registerWhen()
 
 // Logic

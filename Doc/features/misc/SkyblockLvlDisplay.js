@@ -22,13 +22,13 @@ const feature = new FeatureHandler("SkyblocklevelDisplay")
     .AddEvent("tabaddpacket", handleTabName, {
         criteria: regexData.CurrentSbLevel,
         registerWhen() {
-            return config.skyblockLevelDisplay
+            return config().skyblockLevelDisplay
         }
     })
     .AddEvent("tabupdatepacket", handleTabName, {
         criteria: regexData.CurrentSbLevel,
         registerWhen() {
-            return config.skyblockLevelDisplay
+            return config().skyblockLevelDisplay
         }
     })
     .AddEvent("renderOverlay", () => {
@@ -38,7 +38,7 @@ const feature = new FeatureHandler("SkyblocklevelDisplay")
         Renderer.finishDraw()
     }, {
         registerWhen() {
-            return World.isLoaded() && formattedLevel && !editGui.isOpen() && config.skyblockLevelDisplay
+            return World.isLoaded() && formattedLevel && !editGui.isOpen() && config().skyblockLevelDisplay
         }
     })
     .AddEvent("worldUnload", () => formattedLevel = null, {

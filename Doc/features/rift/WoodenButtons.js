@@ -13,7 +13,7 @@ const mainButtonsCoords = [ [-67, 71, -122],[-86, 71, -129],[-115, 72, -103],[-9
 
 // Logic
 const renderWorld = () => {
-    if (!World.isLoaded() || !config.woodenButtons) return
+    if (!World.isLoaded() || !config().woodenButtons) return
 
     WoodenButtonsData.forEach((block, index) => {
         if (Persistence.data.clickedWoodenButtons.some(it => it === block.toString())) return
@@ -38,8 +38,8 @@ const onClick = (block, [x, y, z]) => {
 }
 
 // Events
-new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && (WorldState.getCurrentArea() === "Dreadfarm" || WorldState.getCurrentArea() === "West Village") && config.woodenButtons)
-new Event(feature, "onPlayerBlockPlacement", onClick, () => WorldState.getCurrentWorld() === "The Rift" && (WorldState.getCurrentArea() === "Dreadfarm" || WorldState.getCurrentArea() === "West Village") && config.woodenButtons)
+new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && (WorldState.getCurrentArea() === "Dreadfarm" || WorldState.getCurrentArea() === "West Village") && config().woodenButtons)
+new Event(feature, "onPlayerBlockPlacement", onClick, () => WorldState.getCurrentWorld() === "The Rift" && (WorldState.getCurrentArea() === "Dreadfarm" || WorldState.getCurrentArea() === "West Village") && config().woodenButtons)
 new Command(feature, "resetbuttons", () => {
     Persistence.data.clickedWoodenButtons = []
     Persistence.data.save()

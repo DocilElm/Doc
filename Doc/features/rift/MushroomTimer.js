@@ -14,7 +14,7 @@ let lookingAtCoords = null
 
 // Logic
 const onTick = () => {
-    if (!World.isLoaded() || !config.mushroomTimer) return
+    if (!World.isLoaded() || !config().mushroomTimer) return
     if (WorldState.getCurrentArea() !== "Dreadfarm" || TextHelper.getSkyblockItemID(Player.getHeldItem()) !== "FARMING_WAND") {
         startedAt = null
         lookingAtCoords = null
@@ -45,8 +45,8 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "tick", onTick, () => WorldState.getCurrentWorld() === "The Rift" && config.mushroomTimer)
-new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && startedAt && config.mushroomTimer)
+new Event(feature, "tick", onTick, () => WorldState.getCurrentWorld() === "The Rift" && config().mushroomTimer)
+new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && startedAt && config().mushroomTimer)
 new Event(feature, "worldUnload", () => {
     startedAt = null
     lookingAtCoords = null

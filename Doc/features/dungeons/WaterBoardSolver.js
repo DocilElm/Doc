@@ -1,4 +1,3 @@
-import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import { WorldState } from "../../../Atomx/skyblock/World"
 import { Keybind } from "../../../KeybindFix"
 import config from "../../config"
@@ -124,7 +123,7 @@ const mapLeversBlock = () => {
 }
 
 const getSolutionFromCustom = () => {
-    const URL = config.waterBoardChannelURL
+    const URL = config().waterBoardChannelURL
     const fileName = URL.match(/.+\/(\w+\.json)/)?.[1]
     if (!fileName || !URL) return ChatLib.chat(`${TextHelper.PREFIX} &cError while getting the custom url solutions`)
 
@@ -135,7 +134,7 @@ const getSolutionFromCustom = () => {
 }
 
 const getSolution = () => {
-    switch (config.waterBoardChannelMode) {
+    switch (config().waterBoardChannelMode) {
         case 1: return solutions?.[roomData.variant]?.[roomData.subvariant]
         case 2: return customSolutions?.[roomData.variant]?.[roomData.subvariant]
         case 3: return getSolutionFromCustom()
@@ -220,7 +219,7 @@ const getVariant = () => {
 }
 
 onPuzzleRotation((rotation) => {
-    if (!WorldState.inDungeons() || currentRoation !== null || !config.waterBoardSolver) return
+    if (!WorldState.inDungeons() || currentRoation !== null || !config().waterBoardSolver) return
 
     const topPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.topPiston, rotation))
     let bottomPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bottomPiston, rotation))
@@ -243,7 +242,7 @@ onPuzzleRotation((rotation) => {
 })
 
 const renderTimer = () => {
-    if (!currentBoard || !config.waterBoardSolver) return
+    if (!currentBoard || !config().waterBoardSolver) return
     
     let toRender = []
 
@@ -302,7 +301,7 @@ const recordLevers = (leverObj) => {
 }
 
 const detectBlockPlacement = (block) => {
-    if (!config.waterBoardSolver || !openedWater && block.toString() === leversScanned.get("minecraft:water")?.block?.toString()) openedWater = Date.now()
+    if (!config().waterBoardSolver || !openedWater && block.toString() === leversScanned.get("minecraft:water")?.block?.toString()) openedWater = Date.now()
 
     // Detect if the player clicked a lever
     if (!leversScanned2.has(block.toString())) return
@@ -324,7 +323,7 @@ const detectBlockPlacement = (block) => {
 }
 
 const renderOverlay = () => {
-    if (shouldRecord || !config.waterBoardSolver) {
+    if (shouldRecord || !config().waterBoardSolver) {
         const text = `&a${((Date.now() - (openedWater ?? Date.now())) / 1000).toFixed(1)}s`
 
         Renderer.drawStringWithShadow(
@@ -415,9 +414,9 @@ new Keybind(`§fRecord custom waterboard`, Keyboard.KEY_NONE, "Doc")
     })
 
 // Events
-new Event(feature, "renderWorld", renderTimer, () => WorldState.inDungeons() && config.waterBoardSolver)
-new Event(feature, "renderOverlay", renderOverlay, () => WorldState.inDungeons() && config.waterBoardSolver)
-new Event(feature, "onPlayerBlockPlacement", detectBlockPlacement, () => WorldState.inDungeons() && config.waterBoardSolver)
+new Event(feature, "renderWorld", renderTimer, () => WorldState.inDungeons() && config().waterBoardSolver)
+new Event(feature, "renderOverlay", renderOverlay, () => WorldState.inDungeons() && config().waterBoardSolver)
+new Event(feature, "onPlayerBlockPlacement", detectBlockPlacement, () => WorldState.inDungeons() && config().waterBoardSolver)
 onPuzzleRotationExit(() => {
     if (currentRoation == null) return
     
@@ -467,7 +466,7 @@ new Command(feature, "recordingtutorial", () => {
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/Bloom/features/WaterBoardTimer.js
 // Detect chest opened. Chest animation means it'll only trigger when the chest is actually opened, so no cheesing!
 register("packetReceived", (packet) => {
-    if (!currentBoard || !openedWater || !config.waterBoardSolver) return
+    if (!currentBoard || !openedWater || !config().waterBoardSolver) return
 
     const pos = new BlockPos(packet.func_179825_a())
     const block = packet.func_148868_c()

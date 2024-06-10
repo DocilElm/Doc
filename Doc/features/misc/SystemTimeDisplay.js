@@ -13,7 +13,7 @@ editGui.onRender(() => {
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(`${colorList[config.systemTimeDisplayColor]}04:24:11 PM`, 0, 0)
+    Renderer.drawStringWithShadow(`${colorList[config().systemTimeDisplayColor]}04:24:11 PM`, 0, 0)
     Renderer.retainTransforms(false)
     Renderer.finishDraw()
 })
@@ -39,13 +39,13 @@ const renderOverlay = () => {
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(`${colorList[config.systemTimeDisplayColor]}${getTime()}`, 0, 0)
+    Renderer.drawStringWithShadow(`${colorList[config().systemTimeDisplayColor]}${getTime()}`, 0, 0)
     Renderer.retainTransforms(false)
     Renderer.finishDraw()
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => config.systemTimeDisplay)
+new Event(feature, "renderOverlay", renderOverlay, () => config().systemTimeDisplay)
 
 // Starting events
 feature.start()

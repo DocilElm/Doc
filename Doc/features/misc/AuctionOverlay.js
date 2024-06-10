@@ -65,7 +65,7 @@ const getItems = (str) => {
 const addTextToSign = (string) => {
     if (!string) return
 
-    if (config.auctionOverlayKeybind && ctGui.isOpen()) {
+    if (config().auctionOverlayKeybind && ctGui.isOpen()) {
         ctGui.close()
         ChatLib.command(`ahs ${string}`)
 
@@ -299,10 +299,10 @@ register("tick", () => {
     previousGui = containerName
 })
 
-const registerWhen = () => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiEditSign || ctGui.isOpen()) && (previousGui.includes("Auctions") || ctGui.isOpen() && previousGui.includes("Auction House")) && config.auctionOverlay
+const registerWhen = () => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiEditSign || ctGui.isOpen()) && (previousGui.includes("Auctions") || ctGui.isOpen() && previousGui.includes("Auction House")) && config().auctionOverlay
 
 register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (event) => {
-    if (config.auctionOverlayReset && firstType && !registerWhen()) {
+    if (config().auctionOverlayReset && firstType && !registerWhen()) {
         hoverText = []
         scrollable.clearChildren()
         buttonsClass.forEach(btnClass => btnClass._delete())
@@ -339,8 +339,8 @@ register("guiMouseClick", (mx, my, mbtn, _, event) => {
 
 register("guiKey", (char, keycode, gui, event) => {
     if (
-        config.auctionOverlay &&
-        config.auctionOverlayKeybind &&
+        config().auctionOverlay &&
+        config().auctionOverlayKeybind &&
         (Player?.getContainer()?.getName()?.includes("Auctions") || Player?.getContainer()?.getName()?.includes("Auction House")) &&
         gui instanceof net.minecraft.client.gui.inventory.GuiChest &&
         keycode === Keyboard.KEY_F &&

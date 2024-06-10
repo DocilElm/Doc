@@ -23,15 +23,15 @@ const itemEntities = new Map()
 let currentBlockClicked = null
 
 // Logic
-const registerWhen = () => WorldState.inDungeons() && config.secretsSound && !Dungeons.inBossRoom()
+const registerWhen = () => WorldState.inDungeons() && config().secretsSound && !Dungeons.inBossRoom()
 
 const playSound = () => {
     if (!registerWhen()) return
 
     World.playSound(
-        soundsList[config.secretsSoundType][0], // Sound
+        soundsList[config().secretsSoundType][0], // Sound
         1,
-        soundsList[config.secretsSoundType][1] // Pitch
+        soundsList[config().secretsSoundType][1] // Pitch
         )
 }
 

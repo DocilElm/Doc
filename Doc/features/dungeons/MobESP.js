@@ -12,7 +12,7 @@ const requiredWorld = "Catacombs"
 let mobsArray = []
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.mobESP
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().mobESP
 
 // Events
 new Event(feature, "step", () => {

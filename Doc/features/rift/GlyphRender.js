@@ -11,7 +11,7 @@ const glyphKeys = Object.keys(GlyphLocations)
 
 // Logic
 const renderWorld = () => {
-    if (!config.glyphRender) return
+    if (!config().glyphRender) return
 
     glyphKeys.forEach(key => {
         const [ x, y, z ] = GlyphLocations[key]
@@ -21,7 +21,7 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && (WorldState.getCurrentArea() === "Dreadfarm" || WorldState.getCurrentArea() === "West Village") && config.glyphRender)
+new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && (WorldState.getCurrentArea() === "Dreadfarm" || WorldState.getCurrentArea() === "West Village") && config().glyphRender)
 
 // Starting events
 feature.start()

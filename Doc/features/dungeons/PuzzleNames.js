@@ -47,10 +47,10 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && WorldState.inDungeons() && config.puzzleNamesDisplay)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && WorldState.inDungeons() && config().puzzleNamesDisplay)
 new Event(feature, "worldUnload", () => puzzles.clear())
 Dungeons.onPuzzleEvent((puzzleName, event, failedBy) => {
-    if (!config.puzzleNamesDisplay) return
+    if (!config().puzzleNamesDisplay) return
 
     puzzles.set(puzzleName, {
         displayText: `&d&l${puzzleName} ${PuzzleEnums[event]} ${failedBy ?? ""}`

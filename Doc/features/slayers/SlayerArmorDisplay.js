@@ -37,7 +37,7 @@ editGui.onRender(() => {
 
 // Logic
 const scanArmor = () => {
-    if (!World.isLoaded() || !config.slayerArmorDisplay) return
+    if (!World.isLoaded() || !config().slayerArmorDisplay) return
 
     const armor = [
         Player.armor.getHelmet(),
@@ -65,7 +65,7 @@ const scanArmor = () => {
 }
 
 const renderOverlay = () => {
-    if (!slayerArmor.size || editGui.isOpen() || !config.slayerArmorDisplay) return
+    if (!slayerArmor.size || editGui.isOpen() || !config().slayerArmorDisplay) return
 
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -81,8 +81,8 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "step", scanArmor, () => World.isLoaded() && config.slayerArmorDisplay, 5)
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && slayerArmor.size && config.slayerArmorDisplay)
+new Event(feature, "step", scanArmor, () => World.isLoaded() && config().slayerArmorDisplay, 5)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && slayerArmor.size && config().slayerArmorDisplay)
 
 // Starting events
 feature.start()

@@ -58,24 +58,24 @@ new FeatureHandler("ThreeWeirdosSolver")
     .AddEvent("chatpacket", handleChat, {
         criteria: /\[NPC\] (\w+): (.+)/,
         registerWhen() {
-            return WorldState.inDungeons() && config.threeWeirdosSolver
+            return WorldState.inDungeons() && config().threeWeirdosSolver
         }
     })
     .AddEvent("chatpacket", reset, {
         criteria: /^PUZZLE SOLVED\! (.{1,16}) wasn\'t fooled by .+\! Good job\!$/,
         registerWhen() {
-            return WorldState.inDungeons() && config.threeWeirdosSolver
+            return WorldState.inDungeons() && config().threeWeirdosSolver
         }
     })
     .AddEvent("chatpacket", reset, {
         criteria: /^PUZZLE FAIL\! (.{1,16}) was fooled by .+\! Yikes\!$/,
         registerWhen() {
-            return WorldState.inDungeons() && config.threeWeirdosSolver
+            return WorldState.inDungeons() && config().threeWeirdosSolver
         }
     })
     .AddEvent("renderWorld", renderSolution, {
         registerWhen() {
-            return WorldState.inDungeons() && currentChest && config.threeWeirdosSolver
+            return WorldState.inDungeons() && currentChest && config().threeWeirdosSolver
         }
     })
     .AddEvent("worldUnload", reset, {

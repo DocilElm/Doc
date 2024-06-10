@@ -32,7 +32,7 @@ let previousCount = 0
 
 // Logic
 onPuzzleRotation((rotation) => {
-    if (!(WorldState.inDungeons() && (config.blazeSolverLine || config.blazeSolver))) return
+    if (!(WorldState.inDungeons() && (config().blazeSolverLine || config().blazeSolver))) return
 
     // Top
     const bannerTop = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bannerTop, rotation)).type.mcBlock
@@ -44,7 +44,7 @@ onPuzzleRotation((rotation) => {
     inBlaze = (bannerTop === BlockBanner && bedrockTop === BlockBedrock) || (bannerBottom1 === BlockBanner && bannerBottom2 === BlockBanner)
 })
 
-const registerWhen = () => (WorldState.inDungeons() && inBlaze) && (config.blazeSolverLine || config.blazeSolver)
+const registerWhen = () => (WorldState.inDungeons() && inBlaze) && (config().blazeSolverLine || config().blazeSolver)
 
 const scanEntities = () => {
     if (blazeDone) return
@@ -95,14 +95,14 @@ const renderEntities = () => {
         // Save coords for the line drawing
         if (index <= 1) coords[index] = [x, y, z]
 
-        if (!config.blazeSolver) return
+        if (!config().blazeSolver) return
 
         // Render a box at the entity
         RenderHelper.drawEntityBoxFilled(x, y, z, 0.6, 1.8, r, g, b, 1)
     })
 
     // Check if coord index 1 exists if not return
-    if (!coords[1] || !config.blazeSolverLine) return
+    if (!coords[1] || !config().blazeSolverLine) return
 
     // Render a line towards the next blaze to kill
     RenderHelper.drawLineThroughPoints(
@@ -116,7 +116,7 @@ const renderEntities = () => {
 }
 
 const cancelEntity = (_, __, ___, event) => {
-    if (!config.blazeSolver) return
+    if (!config().blazeSolver) return
 
     cancel(event)
 }
@@ -141,7 +141,7 @@ const scanBlazes = () => {
         if (previousCount !== 1) return
 
         ChatLib.chat(`${TextHelper.PREFIX} &aBlaze took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
-        if (config.blazeSolverDone) ChatLib.command("pc Blaze Done")
+        if (config().blazeSolverDone) ChatLib.command("pc Blaze Done")
 
         enteredRoom = null
         blazeDone = true

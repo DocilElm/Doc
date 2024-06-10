@@ -27,7 +27,7 @@ let shouldScan = false
 let stringToDraw = null
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.visitorProfitDisplay
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().visitorProfitDisplay
 
 const checkWindowName = windowTitle => shouldScan = Object.keys(GardenVisitors).some(name => name === windowTitle)
 
@@ -195,7 +195,7 @@ new Event(feature, "onOpenWindowPacket", checkWindowName, registerWhen)
 new Event(feature, "onWindowItemsPacket", scanItems, registerWhen)
 new Event(feature, "tick", makeStringToDraw, registerWhen)
 new Event(feature, "step", scanEntities, () => visitorsData.size, 1)
-new Event(feature, "renderOverlay", renderVisitors, () => WorldState.getCurrentWorld() === requiredWorld && config.visitorProfitDisplay && stringToDraw)
+new Event(feature, "renderOverlay", renderVisitors, () => WorldState.getCurrentWorld() === requiredWorld && config().visitorProfitDisplay && stringToDraw)
 new Event(feature, "onChatPacket", removeVisitor, registerWhen, visitorDialogRegex)
 new Event(feature, "worldUnload", () => visitorsData.clear())
 

@@ -26,7 +26,7 @@ const renderPuzzles = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderPuzzles, () => World.isLoaded() && WorldState.inDungeons() && config.puzzlesDisplay && !editGui.isOpen())
+new Event(feature, "renderOverlay", renderPuzzles, () => World.isLoaded() && WorldState.inDungeons() && config().puzzlesDisplay && !editGui.isOpen())
 
 // Starting events
 feature.start()

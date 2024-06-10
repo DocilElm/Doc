@@ -74,7 +74,7 @@ onPuzzleRotation((rotation) => {
 })
 
 const scanEntityLookMove = (mcEntity, [x, y, z]) => {
-    if (bloodDone || !inBlood || !config.bloodHelper || !watcherEntity) return
+    if (bloodDone || !inBlood || !config().bloodHelper || !watcherEntity) return
 
     if (!(mcEntity instanceof net.minecraft.entity.item.EntityArmorStand)) return
 
@@ -131,7 +131,7 @@ const scanEntityLookMove = (mcEntity, [x, y, z]) => {
 }
 
 const highlightSpot = () => {
-    if (bloodDone || !inBlood || !watcherEntity || !config.bloodHelper) return
+    if (bloodDone || !inBlood || !watcherEntity || !config().bloodHelper) return
 
     entityList.forEach(obj => {
         const { entity, vectors, finalVector, time, started, uuid } = obj
@@ -155,7 +155,7 @@ const highlightSpot = () => {
 }
 
 const scanEntities = (mcEntity) => {
-    if (bloodDone || Dungeons.inBossRoom() || watcherEntity || !config.bloodHelper) return
+    if (bloodDone || Dungeons.inBossRoom() || watcherEntity || !config().bloodHelper) return
 
     Client.scheduleTask(2, () => {
         const entity = new Entity(mcEntity)
@@ -180,11 +180,11 @@ const handleChat = () => mobsSpawned = 4
 const handleBloodDone = () => bloodDone = true
 
 // Events
-new Event(feature, "forgeEntityJoin", scanEntities, () => World.isLoaded() && WorldState.inDungeons() && config.bloodHelper, net.minecraft.entity.monster.EntityZombie)
-new Event(feature, "renderWorld", highlightSpot, () => WorldState.inDungeons() && inBlood && config.bloodHelper)
-new Event(feature, "onPacketLookMove", scanEntityLookMove, () => WorldState.inDungeons() && inBlood && config.bloodHelper)
-new Event(feature, "onChatPacket", handleChat, () => WorldState.inDungeons() && config.bloodHelper, firstSpawnRegex)
-new Event(feature, "onChatPacket", handleBloodDone, () => WorldState.inDungeons() && config.bloodHelper, bloodDoneRegex)
+new Event(feature, "forgeEntityJoin", scanEntities, () => World.isLoaded() && WorldState.inDungeons() && config().bloodHelper, net.minecraft.entity.monster.EntityZombie)
+new Event(feature, "renderWorld", highlightSpot, () => WorldState.inDungeons() && inBlood && config().bloodHelper)
+new Event(feature, "onPacketLookMove", scanEntityLookMove, () => WorldState.inDungeons() && inBlood && config().bloodHelper)
+new Event(feature, "onChatPacket", handleChat, () => WorldState.inDungeons() && config().bloodHelper, firstSpawnRegex)
+new Event(feature, "onChatPacket", handleBloodDone, () => WorldState.inDungeons() && config().bloodHelper, bloodDoneRegex)
 new Event(feature, "worldUnload", () => {
     entityList.clear()
     blacklisted.clear()

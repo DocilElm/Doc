@@ -8,17 +8,17 @@ import { Feature } from "../../core/Feature"
 const feature = new Feature("timerTitleFishing", "Fishing", "")
 
 // Logic
-const registerWhen = () => World.isLoaded() && config.timerTitleFishing
+const registerWhen = () => World.isLoaded() && config().timerTitleFishing
 
 const showTitleEntity = () => {
-    if(!World.isLoaded() || !Player.getPlayer()?.field_71104_cf) return
+    if (!World.isLoaded() || !Player.getPlayer()?.field_71104_cf) return
 
     World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).forEach(entity => {
         const entityName = entity.getName()?.removeFormatting()
 
-        if(!/^(\!\!\!|\d+\.\d+)/.test(entityName)) return
+        if (!/^(\!\!\!|\d+\.\d+)/.test(entityName)) return
 
-        if(config.rgbTitleFishing) entity.getEntity().func_96094_a(`§Z${entityName}`)
+        if (config().rgbTitleFishing) entity.getEntity().func_96094_a(`§Z${entityName}`)
 
         Client.showTitle("", entity.getName(), 1, 10, 1)
     })

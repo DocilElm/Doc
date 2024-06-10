@@ -22,7 +22,7 @@ let shouldScan = false
 let currentChest = null
 
 // Logic
-const registerWhen = () => WorldState.inDungeons() && config.dungeonProfitDisplay
+const registerWhen = () => WorldState.inDungeons() && config().dungeonProfitDisplay
 const checkWindowTitle = windowTitle => {
     shouldScan = chestNames.has(windowTitle)
     currentChest = windowTitle
@@ -112,7 +112,7 @@ editGui.onRender(() => {
 new Event(feature, "onOpenWindowPacket", checkWindowTitle, registerWhen)
 new Event(feature, "onWindowItemsPacket", scanItems, registerWhen)
 new Event(feature, "tick", makeStringToDraw, registerWhen)
-new Event(feature, "renderOverlay", renderChestData, () => WorldState.inDungeons() && config.dungeonProfitDisplay && stringToDraw)
+new Event(feature, "renderOverlay", renderChestData, () => WorldState.inDungeons() && config().dungeonProfitDisplay && stringToDraw)
 new Event(feature, "worldUnload", () => {
     chestData.clear()
     currentChest = null

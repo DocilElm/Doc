@@ -35,8 +35,8 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "onSpawnParticle", onSpawnParticle, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Dreadfarm" && config.boxBerberis)
-new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && block && WorldState.getCurrentArea() === "Dreadfarm" && config.boxBerberis)
+new Event(feature, "onSpawnParticle", onSpawnParticle, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Dreadfarm" && config().boxBerberis)
+new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && block && WorldState.getCurrentArea() === "Dreadfarm" && config().boxBerberis)
 new Event(feature, "worldUnload", () => {
     block = null
 })

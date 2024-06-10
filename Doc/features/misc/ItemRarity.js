@@ -29,7 +29,7 @@ const renderSlot = (slot) => {
     if (!match || !(format in colors) || !TextHelper.getSkyblockItemID(item)) return
 
     const [ r, g, b ] = colors[format]
-    const color = Renderer.color(r, g, b, Math.floor(config.renderItemRarityOpacity * 255))
+    const color = Renderer.color(r, g, b, Math.floor(config().renderItemRarityOpacity * 255))
     const [ x1, y1, x2, y2 ] = [
         slot.getDisplayX(),
         slot.getDisplayY(),
@@ -42,7 +42,7 @@ const renderSlot = (slot) => {
     Tessellator.enableBlend()
     Tessellator.enableAlpha()
 
-    if (config.renderItemRarityShape === 0) {
+    if (config().renderItemRarityShape === 0) {
         // Top line
         Renderer.drawLine(color, x1, y1, x2, y1, 1.5)
         // Left line
@@ -54,8 +54,8 @@ const renderSlot = (slot) => {
     }
 
     // Ternary just for pain
-    if (config.renderItemRarityShape >= 1)
-        Renderer.drawCircle(color, x1 + 8, y1 + 8, 9, config.renderItemRarityShape === 1 ? 6 : 10)
+    if (config().renderItemRarityShape >= 1)
+        Renderer.drawCircle(color, x1 + 8, y1 + 8, 9, config().renderItemRarityShape === 1 ? 6 : 10)
 
     Tessellator.enableLighting()
     Tessellator.disableAlpha()
@@ -63,7 +63,7 @@ const renderSlot = (slot) => {
 }
 
 // Events
-new Event(feature, "renderSlot", renderSlot, () => World.isLoaded() && config.renderItemRarity)
+new Event(feature, "renderSlot", renderSlot, () => World.isLoaded() && config().renderItemRarity)
 
 // Starting events
 feature.start()

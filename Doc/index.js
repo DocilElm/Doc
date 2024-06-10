@@ -1,7 +1,5 @@
 import { Persistence } from "./shared/Persistence"
 import { TextHelper } from "./shared/Text"
-import { Command } from "./core/Events"
-import config from "./config"
 
 // Dungeons
 import "./features/dungeons/MobESP"
@@ -112,8 +110,6 @@ import "./features/rift/BoxSplatterHearts"
 import "./features/rift/EffigiesWaypoint"
 // Updater
 import "./features/misc/AutoUpdater"
-
-new Command(null, "doc", () => config.openGUI()).start()
 
 if (Persistence.data.firstTime) {
     ChatLib.chat(`${TextHelper.PREFIX} &aUse /doc for config menu`)

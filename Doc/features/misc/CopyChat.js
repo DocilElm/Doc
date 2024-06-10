@@ -49,6 +49,6 @@ const onMouseClick = (_, __, mouseButton) => {
 new FeatureHandler("CopyChat")
     .AddEvent("guiMouseClick", onMouseClick, {
         registerWhen() {
-            return Client.isInChat() && config.copyChat
+            return Client.isInChat() && config().copyChat
         }
     })

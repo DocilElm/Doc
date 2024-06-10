@@ -19,7 +19,7 @@ editGui.onRender(() => {
 
 // Logic
 const renderOverlay = () => {
-    if (!config.worldAgeDisplay || editGui.isOpen()) return
+    if (!config().worldAgeDisplay || editGui.isOpen()) return
     
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -30,7 +30,7 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.worldAgeDisplay)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config().worldAgeDisplay)
 
 // Starting events
 feature.start()

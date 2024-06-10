@@ -19,7 +19,7 @@ const drawTopLine = (coord) => {
 }
 
 const renderWorld = () => {
-    if (WorldState.getCurrentWorld() !== "Garden" || !TabListData.getPestsAlive() || !config.renderInfestedPlots) return
+    if (WorldState.getCurrentWorld() !== "Garden" || !TabListData.getPestsAlive() || !config().renderInfestedPlots) return
 
     TabListData.getInfestedPlots()?.split(", ")?.forEach(plot => {
         const coord = PlotsData[parseInt(plot)]
@@ -73,7 +73,7 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "renderWorld", renderWorld, () => World.isLoaded() && WorldState.getCurrentWorld() === "Garden" && config.renderInfestedPlots)
+new Event(feature, "renderWorld", renderWorld, () => World.isLoaded() && WorldState.getCurrentWorld() === "Garden" && config().renderInfestedPlots)
 
 // Starting events
 feature.start()

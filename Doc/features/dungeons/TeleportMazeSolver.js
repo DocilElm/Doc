@@ -72,7 +72,7 @@ const calculateAnglePads = (x0, z0, yaw) => {
 
 // Logic
 onPuzzleRotation((rotation, posIdx) => {
-    if (enteredRoom || !WorldState.inDungeons() || !config.teleportPadSolver || puzzleDone) return
+    if (enteredRoom || !WorldState.inDungeons() || !config().teleportPadSolver || puzzleDone) return
 
     const endPortalBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.endPortal, rotation))
     const ironBarBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.ironBar, rotation))
@@ -104,7 +104,7 @@ onPuzzleRotation((rotation, posIdx) => {
 })
 
 const onPlayerPos = ([x, y, z], yaw) => {
-    if (x % 0.5 !== 0 || y !== 69.5 || z % 0.5 !== 0 || !config.teleportPadSolver) return
+    if (x % 0.5 !== 0 || y !== 69.5 || z % 0.5 !== 0 || !config().teleportPadSolver) return
 
     const newPad = solution[getPadNear(x, z)]
     const oldPad = solution[getPadNear(Player.getX() - 1, Player.getZ() - 1)]
@@ -118,7 +118,7 @@ const onPlayerPos = ([x, y, z], yaw) => {
 }
 
 const onBlockPlacement = (block, arr) => {
-    if (!enteredRoom || !config.teleportPadSolver) return
+    if (!enteredRoom || !config().teleportPadSolver) return
 
     // Check it like this because the chest block doesnt actually spawn
     // until the player is near it and the rotation is scanned before that
@@ -142,9 +142,9 @@ const renderSolutions = () => {
 }
 
 // Events
-new Event(feature, "onPacketPlayerPosLook", onPlayerPos, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
-new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
-new Event(feature, "onPlayerBlockPlacement", onBlockPlacement, () => WorldState.inDungeons() && enteredRoom && config.teleportPadSolver)
+new Event(feature, "onPacketPlayerPosLook", onPlayerPos, () => WorldState.inDungeons() && enteredRoom && config().teleportPadSolver)
+new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && enteredRoom && config().teleportPadSolver)
+new Event(feature, "onPlayerBlockPlacement", onBlockPlacement, () => WorldState.inDungeons() && enteredRoom && config().teleportPadSolver)
 new Event(feature, "worldUnload", () => {
     reset()
     puzzleDone = false

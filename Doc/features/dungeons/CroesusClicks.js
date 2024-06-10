@@ -11,7 +11,7 @@ const feature = new Feature("croesusClicks", "Dungeons", "")
 const clickedSlots = new Set()
 
 // Logic
-const registerWhen = () => World.isLoaded() && config.showCroesusClicks
+const registerWhen = () => World.isLoaded() && config().showCroesusClicks
 
 // Gets the current arrow item name and if it's a glass pane just default to page 1
 const getCurrentPage = () => Player.getContainer()?.getItems()?.[53]?.getID() === 160 ? "Page1" : Player.getContainer()?.getItems()?.[53]?.getLore()?.[1]?.removeFormatting()?.replace(/ /g, "")
@@ -38,7 +38,7 @@ const renderSlots = (slot) => {
 
 // Events
 new Event(feature, "onClickWindowPacket", getClickedSlots, registerWhen)
-new Event(feature, "renderSlot", renderSlots, () => World.isLoaded() && Player.getContainer()?.getName() === "Croesus" && clickedSlots.size && config.showCroesusClicks)
+new Event(feature, "renderSlot", renderSlots, () => World.isLoaded() && Player.getContainer()?.getName() === "Croesus" && clickedSlots.size && config().showCroesusClicks)
 new Event(feature, "worldUnload", () => clickedSlots.clear())
 
 // Starting events

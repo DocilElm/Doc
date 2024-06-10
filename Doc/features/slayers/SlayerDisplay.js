@@ -52,7 +52,7 @@ const getEntitiesWithin = ([x, y, z], [x1, y1, z1]) => World.getWorld().func_728
 
 // Logic
 const onTick = () => {
-    if (!World.isLoaded() || !shouldScan || !config.slayerDisplay) return
+    if (!World.isLoaded() || !shouldScan || !config().slayerDisplay) return
     
     if (!displayList.spawnedBy) {
         World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).forEach(it => {
@@ -114,7 +114,7 @@ const renderOverlay = () => {
 }
 
 const renderWorld = () => {
-    if (!displayList.name || !config.slayerDisplayBox) return
+    if (!displayList.name || !config().slayerDisplayBox) return
 
     let [ width, height, y ] = /Sven|Tarantula/g.test(displayList.name.getName().removeFormatting())
         ? [ 1, 1, 1 ]
@@ -137,9 +137,9 @@ const renderWorld = () => {
 
 // Events
 new Event(feature, "onScoreboardPacket", () => shouldScan = true, () => World.isLoaded(), "Slay the boss!")
-new Event(feature, "tick", onTick, () => World.isLoaded() && shouldScan && config.slayerDisplay)
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && displayList.name && config.slayerDisplay)
-new Event(feature, "renderWorld", renderWorld, () => World.isLoaded() && displayList.name && config.slayerDisplay && config.slayerDisplayBox)
+new Event(feature, "tick", onTick, () => World.isLoaded() && shouldScan && config().slayerDisplay)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && displayList.name && config().slayerDisplay)
+new Event(feature, "renderWorld", renderWorld, () => World.isLoaded() && displayList.name && config().slayerDisplay && config().slayerDisplayBox)
 new Event(feature, "worldUnload", () => {
     shouldScan = false
     displayList = {

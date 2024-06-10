@@ -32,12 +32,12 @@ const handleTabName = (tabName, _, formatted) => {
 const feature = new FeatureHandler("PetDisplay")
     .AddEvent("tabaddpacket", handleTabName, {
         registerWhen() {
-            return config.petDisplay
+            return config().petDisplay
         }
     })
     .AddEvent("tabupdatepacket", handleTabName, {
         registerWhen() {
-            return config.petDisplay
+            return config().petDisplay
         }
     })
     .AddEvent("renderOverlay", () => {
@@ -47,7 +47,7 @@ const feature = new FeatureHandler("PetDisplay")
         Renderer.finishDraw()
     }, {
         registerWhen() {
-            return World.isLoaded() && petName && !editGui.isOpen() && config.petDisplay
+            return World.isLoaded() && petName && !editGui.isOpen() && config().petDisplay
         }
     })
     .AddEvent("worldUnload", () => {

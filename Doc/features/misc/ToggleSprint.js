@@ -9,7 +9,7 @@ import { TextHelper } from "../../shared/Text"
 const toggleSprintKeybind = new Keybind("§fToggle Sprint", Keyboard.KEY_NONE, "Doc")
 const sprintKey = new KeyBind(Client.getMinecraft().field_71474_y.field_151444_V)
 const forwardKey = new KeyBind(Client.getMinecraft().field_71474_y.field_74351_w)
-const editGui = new ScalableGui("toggleSprintDisplay", config.toggleSprintText ?? "&bToggle Sprint&f: &aEnabled").setCommand("edittoggleSprint")
+const editGui = new ScalableGui("toggleSprintDisplay", config().toggleSprintText ?? "&bToggle Sprint&f: &aEnabled").setCommand("edittoggleSprint")
 
 let hasEnabled = false
 
@@ -18,7 +18,7 @@ editGui.onRender(() => {
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(config.toggleSprintText ?? "&bToggle Sprint&f: &aEnabled", 0, 0)
+    Renderer.drawStringWithShadow(config().toggleSprintText ?? "&bToggle Sprint&f: &aEnabled", 0, 0)
     Renderer.retainTransforms(false)
     Renderer.finishDraw()
 })
@@ -45,12 +45,12 @@ forwardKey.registerKeyDown(() => {
 })
 
 register("renderOverlay", () => {
-    if (!World.isLoaded() || editGui.isOpen() || !Persistence.data.toggleSprint || !config.toggleSprintDisplay) return
+    if (!World.isLoaded() || editGui.isOpen() || !Persistence.data.toggleSprint || !config().toggleSprintDisplay) return
 
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
-    Renderer.drawStringWithShadow(config.toggleSprintText, 0, 0)
+    Renderer.drawStringWithShadow(config().toggleSprintText, 0, 0)
     Renderer.retainTransforms(false)
     Renderer.finishDraw()
 })

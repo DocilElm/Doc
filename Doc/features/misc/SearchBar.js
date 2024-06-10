@@ -121,7 +121,7 @@ editGui.setCustomSize((dir) => {
 })
 
 // Logic
-const registerWhen = () => config.searchBar && !editGui.isOpen()
+const registerWhen = () => config().searchBar && !editGui.isOpen()
 
 const renderSlots = () => {
     highlightSlots.forEach(obj => {

@@ -36,7 +36,7 @@ const makeButton = (slot, texture, command) => {
             })
             .setOffset(x, y)
             .setCalculateSize(true)
-            .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config.inventoryButtons)
+            .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config().inventoryButtons)
 
         return
     }
@@ -49,7 +49,7 @@ const makeButton = (slot, texture, command) => {
         })
         .setOffset(x, y)
         .setCalculateSize(true)
-        .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config.inventoryButtons)
+        .setCheckFn(() => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory || Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiChest) && config().inventoryButtons)
 }
 
 // Logic
@@ -66,7 +66,7 @@ const checkSettings = () => {
 }
 
 const drawSlots = () => {
-    if (!World.isLoaded() || !config.inventoryButtons) return
+    if (!World.isLoaded() || !config().inventoryButtons) return
     
     const currGui = Client.currentGui?.get()
     if (!(currGui instanceof net.minecraft.client.gui.inventory.GuiInventory || currGui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
@@ -110,7 +110,7 @@ const deletebutton = (slot) => {
 }
 
 // Events
-new Event(feature, "renderOverlay", drawSlots, () => World.isLoaded() && config.inventoryButtons)
+new Event(feature, "renderOverlay", drawSlots, () => World.isLoaded() && config().inventoryButtons)
 new Event(feature, "step", checkSettings, () => World.isLoaded(), 1)
 new Command(feature, "addbutton", addbutton)
 new Command(feature, "deletebutton", deletebutton)

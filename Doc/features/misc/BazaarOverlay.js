@@ -60,7 +60,7 @@ const getItems = (str) => {
 const addTextToSign = (string) => {
     if (!string) return
 
-    if (config.bazaarOverlayKeybind && ctGui.isOpen()) {
+    if (config().bazaarOverlayKeybind && ctGui.isOpen()) {
         ctGui.close()
         ChatLib.command(`bz ${string}`)
 
@@ -201,10 +201,10 @@ register("tick", () => {
     previousGui = containerName
 })
 
-const registerWhen = () => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiEditSign || ctGui.isOpen()) && previousGui.includes("Bazaar") && config.bazaarOverlay
+const registerWhen = () => (Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiEditSign || ctGui.isOpen()) && previousGui.includes("Bazaar") && config().bazaarOverlay
 
 register(net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent.Pre, (event) => {
-    if (config.bazaarOverlayReset && firstType && !registerWhen()) {
+    if (config().bazaarOverlayReset && firstType && !registerWhen()) {
         hoverText = []
         scrollable.clearChildren()
         buttonsClass.forEach(btnClass => btnClass._delete())
@@ -239,8 +239,8 @@ register("guiMouseClick", (mx, my, mbtn, _, event) => {
 
 register("guiKey", (char, keycode, gui, event) => {
     if (
-        config.bazaarOverlay &&
-        config.bazaarOverlayKeybind &&
+        config().bazaarOverlay &&
+        config().bazaarOverlayKeybind &&
         Player?.getContainer()?.getName()?.includes("Bazaar") &&
         gui instanceof net.minecraft.client.gui.inventory.GuiChest &&
         keycode === Keyboard.KEY_F &&

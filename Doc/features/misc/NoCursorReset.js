@@ -13,7 +13,7 @@ let ticks = 0
 
 // Logic
 const onWindowClosedPacket = () => {
-    if (!config.noCursorReset) return
+    if (!config().noCursorReset) return
 
     mx = Mouse.getX()
     my = Mouse.getY()
@@ -21,7 +21,7 @@ const onWindowClosedPacket = () => {
 }
 
 const onGuiRender = (_, __, gui) => {
-    if (!config.noCursorReset || !(gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
+    if (!config().noCursorReset || !(gui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
 
     if (ticks >= 2 && openedWindow && (Date.now() - openedWindow) <= 50) {
         Mouse.setCursorPosition(mx, my)
@@ -37,8 +37,8 @@ const onGuiRender = (_, __, gui) => {
 }
 
 // Events
-new Event(feature, "onWindowClosedPacket", onWindowClosedPacket, () => World.isLoaded() && config.noCursorReset)
-new Event(feature, "guiRender", onGuiRender, () => World.isLoaded() && config.noCursorReset)
+new Event(feature, "onWindowClosedPacket", onWindowClosedPacket, () => World.isLoaded() && config().noCursorReset)
+new Event(feature, "guiRender", onGuiRender, () => World.isLoaded() && config().noCursorReset)
 
 // Starting events
 feature.start()

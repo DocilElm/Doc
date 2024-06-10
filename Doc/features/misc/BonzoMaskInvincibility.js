@@ -12,7 +12,7 @@ const editGui = new ScalableGui("bonzoMaskInvincibilityTimer", defaultString).se
 let bonzoProc = null
 
 // Logic
-const registerWhen = () => config.bonzoMaskInvincibilityTimer
+const registerWhen = () => config().bonzoMaskInvincibilityTimer
 
 const addMaskCd = () => bonzoProc = Date.now()
 

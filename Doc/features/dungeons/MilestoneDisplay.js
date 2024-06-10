@@ -26,7 +26,7 @@ const renderMilestone = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderMilestone, () => World.isLoaded() && WorldState.inDungeons() && config.milestoneDisplay && !editGui.isOpen())
+new Event(feature, "renderOverlay", renderMilestone, () => World.isLoaded() && WorldState.inDungeons() && config().milestoneDisplay && !editGui.isOpen())
 
 // Starting events
 feature.start()

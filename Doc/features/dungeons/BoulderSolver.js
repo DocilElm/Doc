@@ -51,7 +51,7 @@ const reset = () => {
 // Logic
 // big thank unclaimedbloom6 for rotation scanner
 onPuzzleRotation((rotation, posIndex) => {
-    if (!WorldState.inDungeons() || !config.boulderSolver || enteredRoomAt || puzzleDone) return
+    if (!WorldState.inDungeons() || !config().boulderSolver || enteredRoomAt || puzzleDone) return
     
     // Room detection from here
     const block = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.ironbar, rotation))
@@ -127,7 +127,7 @@ onPuzzleRotationExit(() => {
 
     reset()
 })
-new Event(feature, "renderWorld", renderSolutions, () => World.isLoaded() && WorldState.inDungeons() && config.boulderSolver)
+new Event(feature, "renderWorld", renderSolutions, () => World.isLoaded() && WorldState.inDungeons() && config().boulderSolver)
 new Event(feature, "worldUnload", () => {
     reset()
     hasSolution = false

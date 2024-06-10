@@ -27,7 +27,7 @@ let currentValue = null
 let addScore = true
 
 // Logic
-const registerWhen = () => World.isLoaded() && config.RngMeter
+const registerWhen = () => World.isLoaded() && config().RngMeter
 
 const makeStringToDraw = (jsonData, dataType, value) => {
     if (!value) return stringToDraw = null
@@ -129,7 +129,7 @@ editGui.onRender(() => {
 
 // Events
 new Event(feature, "tick", tickChecks, registerWhen)
-new Event(feature, "renderOverlay", renderHandler, () => World.isLoaded() && config.RngMeter && stringToDraw)
+new Event(feature, "renderOverlay", renderHandler, () => World.isLoaded() && config().RngMeter && stringToDraw)
 new Event(feature, "onChatPacket", storeSlayerScore, registerWhen, storedSlayerXPRegex)
 new Event(feature, "onChatPacket", storeTeamScore, registerWhen, currentTeamScoreRegex)
 new Event(feature, "onChatPacket", checkCurrentReward, registerWhen, currentRewardRegex)

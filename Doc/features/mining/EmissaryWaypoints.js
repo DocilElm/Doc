@@ -18,7 +18,7 @@ const feature = new Feature("emissaryWaypoints", "Mining", "")
 const requiredWorld = "Dwarven Mines"
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.emissaryWaypoints
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().emissaryWaypoints
 
 const renderWaypoints = () => {
     Object.keys(emissaryCoords).forEach(name => {

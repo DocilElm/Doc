@@ -14,11 +14,11 @@ const blocks = new Map()
 const manhattanDistance = (x, y, x1, y1) => Math.abs(x - x1) + Math.abs(y - y1)
 
 const onChatPacket = (type, name, x1, y1, z1) => {
-    if (!config.chatWaypoint) return
+    if (!config().chatWaypoint) return
     if (Persistence.data.chatWaypointNames.some(it => it === name.toLowerCase())) return
-    if (!type && !config.chatWaypointAll) return
-    if (type === "Co-op" && !config.chatWaypointCoop) return
-    if (type === "Party" && !config.chatWaypointParty) return
+    if (!type && !config().chatWaypointAll) return
+    if (type === "Co-op" && !config().chatWaypointCoop) return
+    if (type === "Party" && !config().chatWaypointParty) return
 
     const [ x, y, z ] = [ parseFloat(x1), parseFloat(y1), parseFloat(z1) ]
     const arrstr = [x, y, z].toString()
@@ -51,7 +51,7 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "onChatPacket", onChatPacket, () => config.chatWaypoint, chatRegex)
+new Event(feature, "onChatPacket", onChatPacket, () => config().chatWaypoint, chatRegex)
 new Event(feature, "renderWorld", renderWorld, () => blocks.size && World.isLoaded())
 new Event(feature, "worldUnload", () => blocks.clear())
 new Command(feature, "chatwaypoint", (type, name) => {

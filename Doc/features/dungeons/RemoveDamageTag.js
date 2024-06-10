@@ -13,7 +13,7 @@ const handleEntity = (entityID) => {
 }
 
 register("packetReceived", (packet) => {
-    if (!WorldState.inDungeons() || !config.removeDamageTag) return
+    if (!WorldState.inDungeons() || !config().removeDamageTag) return
 
     Client.scheduleTask(() => handleEntity(packet.func_149024_d()))
 }).setFilteredClass(net.minecraft.network.play.server.S0FPacketSpawnMob)

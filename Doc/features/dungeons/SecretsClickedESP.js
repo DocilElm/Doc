@@ -17,7 +17,7 @@ const blocksToHighlight = new Map()
 let locked = false
 
 // Logic
-const registerWhen = () => WorldState.inDungeons() && config.showSecretsClicked
+const registerWhen = () => WorldState.inDungeons() && config().showSecretsClicked
 
 const checkSkullTexture = (blockPos) => {
     const textureID = World.getWorld().func_175625_s(blockPos.toMCBlock())?.func_152108_a()?.id?.toString()
@@ -49,9 +49,9 @@ const renderHighlight = () => {
 
     blocksToHighlight.forEach(obj => {
         const block = obj.block
-        const r = locked && block.type.getRegistryName() === "minecraft:chest" ? 1 : config.showSecretsClickedColor.getRed() / 255
-        const g = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config.showSecretsClickedColor.getGreen() / 255
-        const b = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config.showSecretsClickedColor.getBlue() / 255
+        const r = locked && block.type.getRegistryName() === "minecraft:chest" ? 1 : config().showSecretsClickedColor[0] / 255
+        const g = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config().showSecretsClickedColor[1] / 255
+        const b = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config().showSecretsClickedColor[2] / 255
 
         RenderHelper.outlineBlock(block, r, g, b, 1, true, 2, false)
         RenderHelper.filledBlock(block, r, g, b, 0.2, true)

@@ -9,7 +9,7 @@ const requiredWorld = "Catacombs"
 const criteria = "                             > EXTRA STATS <"
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.showExtraStats
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().showExtraStats
 const sendCommand = () => ChatLib.command("showextrastats")
 
 // Events

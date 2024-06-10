@@ -16,7 +16,7 @@ const resetSlayerMeterRegex =    /^You reset your selected drop for your ([\w ]+
 let shouldCheck = false
 
 // Logic
-const registerWhen = () => config.RngMeter
+const registerWhen = () => config().RngMeter
 
 const checkWindowName = windowTitle => shouldCheck = (validTitles.has(windowTitle) || /RNG Meter$/.test(windowTitle))
 

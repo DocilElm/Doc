@@ -10,7 +10,7 @@ const entityMap = new Map()
 
 // Logic
 const onSpawnParticle = (particle, type) => {
-    if (!config.boxSplatterHearts || type.func_179346_b() !== "heart" || particle.distanceTo(Player.getPlayer()) >= 15) return
+    if (!config().boxSplatterHearts || type.func_179346_b() !== "heart" || particle.distanceTo(Player.getPlayer()) >= 15) return
 
     const { x, y, z } = particle.getPos()
     const blockBelow = World.getBlockAt(x, y - 1, z)
@@ -25,7 +25,7 @@ const onSpawnParticle = (particle, type) => {
 }
 
 const renderWorld = () => {
-    if (!config.boxSplatterHearts || WorldState.getCurrentArea() !== "Stillgore Chteau") return
+    if (!config().boxSplatterHearts || WorldState.getCurrentArea() !== "Stillgore Chteau") return
 
     entityMap.forEach(obj => {
         if (obj.entity.isDead()) return entityMap.delete(obj.block.toString())
@@ -35,8 +35,8 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "spawnParticle", onSpawnParticle, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && config.boxSplatterHearts)
-new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && entityMap.size && config.boxSplatterHearts)
+new Event(feature, "spawnParticle", onSpawnParticle, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && config().boxSplatterHearts)
+new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && entityMap.size && config().boxSplatterHearts)
 new Event(feature, "worldUnload", () => entityMap.clear())
 
 // Starting events

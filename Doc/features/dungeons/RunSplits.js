@@ -36,7 +36,7 @@ let portalEntryChat = false
 let bossEntryChat = false
 
 // Logic
-const registerWhen = () => WorldState.inDungeons() && config.dungeonRunSplits
+const registerWhen = () => WorldState.inDungeons() && config().dungeonRunSplits
 
 const handleChatPacket = (_, __, ___, ____, formatted) => {
     const currentMessage = formatted.removeFormatting()

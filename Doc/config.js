@@ -63,7 +63,10 @@ config
     description: "Changes the mode for the display",
     options: ["Normal Mode","Compacted Mode"],
     value: 0,
-    subcategory: "Dungeons"
+    subcategory: "Dungeons",
+    shouldShow(data) {
+        return data.croesusProfitDisplay
+    }
 })
 .addSwitch({
     category: "Dungeons",

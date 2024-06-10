@@ -1,4 +1,3 @@
-import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
 import { getEtherwarpBlockSuccess, holdingAOTV } from "../../../BloomCore/utils/Utils"
 import { RenderHelper } from "../../shared/Render"
@@ -11,17 +10,17 @@ const feature = new Feature("EtherwarpOverlay", "Misc", "")
 
 // Logic
 const renderWorld = () => {
-    if (!config.etherwarpOverlay || !Player.isSneaking()) return
+    if (!config().etherwarpOverlay || !Player.isSneaking()) return
 
     const [ success, endBlock ] = getEtherwarpBlockSuccess(false, 61)
     if (!success || !endBlock) return
 
     const block = World.getBlockAt(...endBlock)
     const [ r, g, b, a ] = [
-        config.etherwarpOverlayColor.getRed() / 255,
-        config.etherwarpOverlayColor.getGreen() / 255,
-        config.etherwarpOverlayColor.getBlue() / 255,
-        config.etherwarpOverlayColor.getAlpha() / 255,
+        config().etherwarpOverlayColor[0],
+        config().etherwarpOverlayColor[1],
+        config().etherwarpOverlayColor[2],
+        config().etherwarpOverlayColor[3],
     ]
 
     RenderHelper.outlineBlock(block, r, g, b, a)
@@ -32,7 +31,7 @@ const renderWorld = () => {
 const registerWorld = register("renderWorld", renderWorld).unregister()
 
 register("tick", () => {
-    if (!World.isLoaded() || !holdingAOTV() || !config.etherwarpOverlay) return registerWorld.unregister()
+    if (!World.isLoaded() || !holdingAOTV() || !config().etherwarpOverlay) return registerWorld.unregister()
 
     registerWorld.register()
 })

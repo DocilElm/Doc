@@ -66,7 +66,7 @@ const inSolutions = (question, answer) => {
 }
 
 register("chat", (event) => {
-    if (!WorldState.inDungeons() || !config.triviaQuizSolver) return
+    if (!WorldState.inDungeons() || !config().triviaQuizSolver) return
 
     const evMsg = ChatLib.getChatMessage(event, true)
     const msg = evMsg?.removeFormatting()
@@ -134,7 +134,7 @@ register("chat", () => {
 }).setCriteria(/^\[STATUE\] Oruo the Omniscient\: [\w]+ answered Question #\d correctly\!$/)
 
 onPuzzleRotation((rotation) => {
-    if (currentRotation != null || !config.triviaQuizSolver) return
+    if (currentRotation != null || !config().triviaQuizSolver) return
 
     const glowstoneBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.glowstone, rotation)).type.mcBlock
     const goldBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.gold, rotation)).type.mcBlock
@@ -151,7 +151,7 @@ onPuzzleRotationExit(() => {
 })
 
 const checkArmorStand = () => {
-    if (currentRotation == null || !config.triviaQuizSolver) return
+    if (currentRotation == null || !config().triviaQuizSolver) return
 
     World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
         .forEach(a => {
@@ -171,7 +171,7 @@ const checkArmorStand = () => {
 
 register("step", checkArmorStand).setFps(1)
 register("tick", () => {
-    if (!config.triviaQuizSolver || currentRotation == null || !currentSymbol) return
+    if (!config().triviaQuizSolver || currentRotation == null || !currentSymbol) return
 
     currentBlock = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords[currentSymbol], currentRotation))
 
@@ -179,7 +179,7 @@ register("tick", () => {
 })
 
 register("renderWorld", () => {
-    if (!WorldState.inDungeons() || !config.triviaQuizSolver || !currentBlock) return
+    if (!WorldState.inDungeons() || !config().triviaQuizSolver || !currentBlock) return
 
     RenderHelper.filledBlock(currentBlock, 0, 1, 0, 80 / 255, false)
 })

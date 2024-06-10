@@ -23,7 +23,7 @@ const seaCreaturesRegex = /^\[Lv[\d]+\] ([\w ]+) ([\d\w.,]+)\/([\d\w.,]+)❤$/
 let renderEntities = []
 
 // Logic
-const registerWhen = () => World.isLoaded() && config.bossBarFishing
+const registerWhen = () => World.isLoaded() && config().bossBarFishing
 
 const checkEntities = () => {
     // Filter out the entities that dont match the regex

@@ -23,13 +23,13 @@ const getNameLore = (str, key) => {
 
     const [ _, format, format2, name ] = str.match(formattedRegex)
 
-    if (!config.enchantedBookAbbreviationColor && !key.includes("ultimate_")) return getName(name)
+    if (!config().enchantedBookAbbreviationColor && !key.includes("ultimate_")) return getName(name)
 
     return `${format ?? ""}${format2 ?? ""}${getName(name)}`
 }
 
 const renderSlot = (slot) => {
-    if (!World.isLoaded() || !config.enchantedBookLevel) return
+    if (!World.isLoaded() || !config().enchantedBookLevel) return
 
     const item = slot.getItem()
     if (!item || item.getID() !== 403) return
@@ -47,7 +47,7 @@ const renderSlot = (slot) => {
     Tessellator.pushMatrix()
     Tessellator.disableLighting()
 
-    if (config.enchantedBookAbbreviation) {
+    if (config().enchantedBookAbbreviation) {
         Renderer.translate(slot.getDisplayX(), slot.getDisplayY(), 280)
         Renderer.scale(0.9)
         Renderer.drawStringWithShadow(getNameLore(item.getLore()[1], keys[0]), 0, 0)
@@ -61,7 +61,7 @@ const renderSlot = (slot) => {
 }
 
 // Events
-new Event(feature, "renderSlot", renderSlot, () => World.isLoaded() && config.enchantedBookLevel)
+new Event(feature, "renderSlot", renderSlot, () => World.isLoaded() && config().enchantedBookLevel)
 
 // Starting events
 feature.start()

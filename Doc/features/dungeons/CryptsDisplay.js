@@ -26,7 +26,7 @@ const renderCrypts = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderCrypts, () => World.isLoaded() && WorldState.inDungeons() && config.cryptsDisplay && !editGui.isOpen())
+new Event(feature, "renderOverlay", renderCrypts, () => World.isLoaded() && WorldState.inDungeons() && config().cryptsDisplay && !editGui.isOpen())
 
 // Starting events
 feature.start()

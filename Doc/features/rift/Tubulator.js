@@ -21,7 +21,7 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Mirrorverse" && config.tubulatorRender)
+new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Mirrorverse" && config().tubulatorRender)
 
 // Starting events
 feature.start()

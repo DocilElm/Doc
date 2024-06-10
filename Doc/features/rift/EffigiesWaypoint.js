@@ -23,7 +23,7 @@ const list = new Map()
 const manhattanDistance = (x, y, x1, y1) => Math.abs(x - x1) + Math.abs(y - y1)
 
 const renderWorld = () => {
-    if (!list.size || !config.effigiesWaypoint) return
+    if (!list.size || !config().effigiesWaypoint) return
 
     list.forEach(it => {
         const distance = manhattanDistance(Player.getX(), Player.getZ(), it[0], it[2])
@@ -58,8 +58,8 @@ const scanScoreboard = () => {
 }
 
 // Events
-new Event(feature, "step", scanScoreboard, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && config.effigiesWaypoint, 1)
-new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && list.size && config.effigiesWaypoint)
+new Event(feature, "step", scanScoreboard, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && config().effigiesWaypoint, 1)
+new Event(feature, "renderWorld", renderWorld, () => WorldState.getCurrentWorld() === "The Rift" && WorldState.getCurrentArea() === "Stillgore Chteau" && list.size && config().effigiesWaypoint)
 
 // Starting events
 feature.start()

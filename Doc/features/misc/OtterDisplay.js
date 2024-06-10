@@ -24,7 +24,7 @@ editGui.onRender(() => {
 
 // Logic
 const changeImage = () => {
-    if (!config.otterDisplay) return
+    if (!config().otterDisplay) return
     if (changedAt && (Date.now() - changedAt) < 10000) return
 
     if (currentImage) currentImage.destroy()
@@ -47,8 +47,8 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "step", changeImage, () => World.isLoaded() && config.otterDisplay, 1)
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && currentImage && config.otterDisplay)
+new Event(feature, "step", changeImage, () => World.isLoaded() && config().otterDisplay, 1)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && currentImage && config().otterDisplay)
 
 // Starting events
 feature.start()

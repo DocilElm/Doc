@@ -21,13 +21,13 @@ const getNameLore = (str) => {
 
     const [ _, format, format2, name ] = str.match(formattedRegex)
 
-    if (!config.attributeShardAbbreviationColor) return getName(name)
+    if (!config().attributeShardAbbreviationColor) return getName(name)
 
     return `${format ?? ""}${format2 ?? ""}${getName(name)}`
 }
 
 const renderSlot = (slot) => {
-    if (!World.isLoaded() || !config.attributeShardLevel) return
+    if (!World.isLoaded() || !config().attributeShardLevel) return
 
     const item = slot.getItem()
     if (!item || item.getID() !== 409) return
@@ -45,7 +45,7 @@ const renderSlot = (slot) => {
     Tessellator.pushMatrix()
     Tessellator.disableLighting()
 
-    if (config.attributeShardAbbreviation) {
+    if (config().attributeShardAbbreviation) {
         Renderer.translate(slot.getDisplayX(), slot.getDisplayY(), 280)
         Renderer.scale(0.9)
         Renderer.drawStringWithShadow(getNameLore(item.getLore()[1]), 0, 0)
@@ -59,7 +59,7 @@ const renderSlot = (slot) => {
 }
 
 // Events
-new Event(feature, "renderSlot", renderSlot, () => World.isLoaded() && config.attributeShardLevel)
+new Event(feature, "renderSlot", renderSlot, () => World.isLoaded() && config().attributeShardLevel)
 
 // Starting events
 feature.start()

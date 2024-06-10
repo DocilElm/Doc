@@ -57,7 +57,7 @@ let currentVisitor = null
 const makeItemFromNbt = (nbt) => new Item(net.minecraft.item.ItemStack.func_77949_a(NBT.parse(nbt).rawNBT))
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.visitorBazaarButton
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().visitorBazaarButton
 
 const checkWindowName = windowTitle => shouldScan = GardenVisitorsArray.some(name => name === windowTitle)
 
@@ -109,7 +109,7 @@ const scanItems = (itemStacks) => {
                             .setOffset(27)
                             .setItem(makeItemFromNbt(itemObj))
                             .setCommand(`bz ${actualName}`)
-                            .setCheckFn(() => config.visitorBazaarButton)
+                            .setCheckFn(() => config().visitorBazaarButton)
                         )
 
                     return
@@ -120,7 +120,7 @@ const scanItems = (itemStacks) => {
                         .setOffset(27)
                         .createItemByTexture(itemObj)
                         .setCommand(`bz ${actualName}`)
-                        .setCheckFn(() => config.visitorBazaarButton)
+                        .setCheckFn(() => config().visitorBazaarButton)
                     )
 
                 return

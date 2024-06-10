@@ -29,9 +29,9 @@ let currentCombo = ""
 let stringToDraw = null
 
 // Logic
-const registerWhen = () => config.ghostTracker && WorldState.getCurrentWorld() === requiredWorld && WorldState.getCurrentArea() === requiredArea
+const registerWhen = () => config().ghostTracker && WorldState.getCurrentWorld() === requiredWorld && WorldState.getCurrentArea() === requiredArea
 
-const addKills = (xpAmount) => {
+const addKills = () => {
     const championXp = parseFloat(TextHelper.getExtraAttribute(Player.getHeldItem()).champion_combat_xp)
 
     // If no champion xp exists or champion xp equals to the last saved one

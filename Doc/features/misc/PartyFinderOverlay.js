@@ -69,7 +69,7 @@ const scanItemStack = (mcItemStacks) => {
 }
 
 const onGuiRender = () => {
-    if (!partyData.size || !config.partyFinderOverlay) return
+    if (!partyData.size || !config().partyFinderOverlay) return
     if (Player.getContainer().getName() !== "Party Finder") return partyData.clear()
 
     partyData.forEach(obj => {
@@ -85,9 +85,9 @@ const onGuiRender = () => {
 }
 
 // Events
-new Event(feature, "onOpenWindowPacket", onOpenWindow, () => World.isLoaded() && WorldState.getCurrentWorld() !== "Crimson Isle" && config.partyFinderOverlay)
-new Event(feature, "onWindowItemsPacket", scanItemStack, () => WorldState.getCurrentWorld() !== "Crimson Isle" && config.partyFinderOverlay)
-new Event(feature, "guiRender", onGuiRender, () => WorldState.getCurrentWorld() !== "Crimson Isle" && partyData.size && config.partyFinderOverlay)
+new Event(feature, "onOpenWindowPacket", onOpenWindow, () => World.isLoaded() && WorldState.getCurrentWorld() !== "Crimson Isle" && config().partyFinderOverlay)
+new Event(feature, "onWindowItemsPacket", scanItemStack, () => WorldState.getCurrentWorld() !== "Crimson Isle" && config().partyFinderOverlay)
+new Event(feature, "guiRender", onGuiRender, () => WorldState.getCurrentWorld() !== "Crimson Isle" && partyData.size && config().partyFinderOverlay)
 
 // Starting events
 feature.start()

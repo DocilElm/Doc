@@ -77,7 +77,7 @@ const checkBlocks = () => {
 
 // Logic
 onPuzzleRotation((rotation, posIdx) => {
-    if (enteredRoom || !WorldState.inDungeons() || !config.creeperBeamsSolver) return
+    if (enteredRoom || !WorldState.inDungeons() || !config().creeperBeamsSolver) return
 
     lastDungIndex = posIdx
     renderBlocks = []
@@ -133,15 +133,15 @@ const renderSolutions = () => {
         RenderHelper.filledBlock(block, r, g, b, 80 / 255, false)
         RenderHelper.filledBlock(block1, r, g, b, 80 / 255, false)
 
-        if (!config.creeperBeamsSolverLine) return
+        if (!config().creeperBeamsSolverLine) return
 
         RenderHelper.drawLineThroughPoints(obj.coords, r, g, b, 1, false)
     })
 }
 
 // Events
-new Event(feature, "tick", checkBlocks, () => WorldState.inDungeons() && config.creeperBeamsSolver)
-new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config.creeperBeamsSolver)
+new Event(feature, "tick", checkBlocks, () => WorldState.inDungeons() && config().creeperBeamsSolver)
+new Event(feature, "renderWorld", renderSolutions, () => WorldState.inDungeons() && config().creeperBeamsSolver)
 new Event(feature, "worldUnload", reset)
 onPuzzleRotationExit(() => {
     if (!enteredRoom) return

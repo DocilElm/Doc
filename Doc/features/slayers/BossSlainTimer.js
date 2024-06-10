@@ -11,7 +11,7 @@ let bossSpawned = null
 let bossSlainPacket = null
 
 // Logic
-const registerWhen = () => config.bossSlainTimer
+const registerWhen = () => config().bossSlainTimer
 
 const startBossTime = (message, event) => {
     if (message === "Slay the boss!") return bossSpawned = Date.now()

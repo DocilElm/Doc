@@ -23,7 +23,7 @@ editGui.onRender(() => {
 
 // Logic
 const onStep = () => {
-    if (!config.comissionDisplay) return
+    if (!config().comissionDisplay) return
 
     mapList.clear()
 
@@ -35,7 +35,7 @@ const onStep = () => {
 }
 
 const renderOverlay = () => {
-    if (!mapList.size || !(WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows") || !config.comissionDisplay) return
+    if (!mapList.size || !(WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows") || !config().comissionDisplay) return
 
     let y = 0
     Renderer.retainTransforms(true)

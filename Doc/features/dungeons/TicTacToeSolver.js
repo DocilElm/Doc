@@ -1,4 +1,3 @@
-import Dungeons from "../../../Atomx/skyblock/Dungeons"
 import config from "../../config"
 import { Event } from "../../core/Events"
 import { Feature } from "../../core/Feature"
@@ -84,7 +83,7 @@ const reset = () => {
 // We try to avoid as much as possible accidentally running this function
 // because whenever the board doesn't exist it computes ALOT (crashes game)
 const onAiMove = (board) => {
-    if (!config.tictactoeSolver || !board || !enteredRoom || currentRotation == null) return
+    if (!config().tictactoeSolver || !board || !enteredRoom || currentRotation == null) return
 
     renderBlocks = []
 
@@ -95,7 +94,7 @@ const onAiMove = (board) => {
 }
 
 const scanItemFrames = () => {
-    if (!config.tictactoeSolver || currentRotation == null || !enteredRoom || !WorldState.inDungeons() || puzzleDone) return
+    if (!config().tictactoeSolver || currentRotation == null || !enteredRoom || !WorldState.inDungeons() || puzzleDone) return
 
     const [ x, y, z ] = TextHelper.getRealCoord(relativeCoords.boardCorners[0], currentRotation)
     const [ x1, y1, z1 ] = TextHelper.getRealCoord(relativeCoords.boardCorners[1], currentRotation)
@@ -170,7 +169,7 @@ const scanItemFrames = () => {
 }
 
 onPuzzleRotation((rotation, posIndex) => {
-    if (!WorldState.inDungeons() || !config.tictactoeSolver || enteredRoom || puzzleDone) return
+    if (!WorldState.inDungeons() || !config().tictactoeSolver || enteredRoom || puzzleDone) return
 
     renderBlocks = []
 
@@ -210,7 +209,7 @@ const onChatMessage = (name, _, success = false) => {
 }
 
 const onBlockPlacement = (block, [ x, y, z ]) => {
-    if (!enteredRoom || !config.tictactoeSolver || currentRotation == null || block.type.getName() !== "Chest") return
+    if (!enteredRoom || !config().tictactoeSolver || currentRotation == null || block.type.getName() !== "Chest") return
 
     const rotatedCoord = TextHelper.rotateCoords(TextHelper.getRelativeCoord([Math.trunc(x), Math.trunc(y), Math.trunc(z)]), currentRotation)
 
@@ -221,10 +220,10 @@ const onBlockPlacement = (block, [ x, y, z ]) => {
     enteredRoom = null
 }
 
-new Event(feature, "step", scanItemFrames, () => WorldState.inDungeons() && enteredRoom && config.tictactoeSolver, 1)
-new Event(feature, "renderWorld", renderSolution, () => WorldState.inDungeons() && config.tictactoeSolver)
-new Event(feature, "onChatPacket", (name) => onChatMessage(name, null, true), () => WorldState.inDungeons() && enteredRoom && config.tictactoeSolver, successCriteria)
-new Event(feature, "onChatPacket", onChatMessage, () => WorldState.inDungeons() && enteredRoom && config.tictactoeSolver, failedCriteria)
+new Event(feature, "step", scanItemFrames, () => WorldState.inDungeons() && enteredRoom && config().tictactoeSolver, 1)
+new Event(feature, "renderWorld", renderSolution, () => WorldState.inDungeons() && config().tictactoeSolver)
+new Event(feature, "onChatPacket", (name) => onChatMessage(name, null, true), () => WorldState.inDungeons() && enteredRoom && config().tictactoeSolver, successCriteria)
+new Event(feature, "onChatPacket", onChatMessage, () => WorldState.inDungeons() && enteredRoom && config().tictactoeSolver, failedCriteria)
 new Event(feature, "onPlayerBlockPlacement", onBlockPlacement)
 new Event(feature, "worldUnload", () => {
     reset()

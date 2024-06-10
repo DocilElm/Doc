@@ -11,7 +11,7 @@ const noStarTagRegex = /^(?:\[Lv\d+\] )?[\w ]+ [\d,.]+\w(?:\/[\d,.]+\w)?❤$/
 
 // Logic
 const onTick = () => {
-    if (!WorldState.inDungeons() || !config.hideNoneStarredTags || Dungeons.inBossRoom()) return
+    if (!WorldState.inDungeons() || !config().hideNoneStarredTags || Dungeons.inBossRoom()) return
     
     const entityList = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
 
@@ -28,7 +28,7 @@ const onTick = () => {
 }
 
 // Events
-new Event(feature, "tick", onTick, () => WorldState.inDungeons() && config.hideNoneStarredTags && !Dungeons.inBossRoom())
+new Event(feature, "tick", onTick, () => WorldState.inDungeons() && config().hideNoneStarredTags && !Dungeons.inBossRoom())
 
 // Starting events
 feature.start()

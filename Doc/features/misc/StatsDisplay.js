@@ -13,7 +13,7 @@ const editGui = new ScalableGui("statsDisplay", defaultString).setCommand("stats
 let stringToDraw = null
 
 // Logic
-const registerWhen = () => config.statsDisplay
+const registerWhen = () => config().statsDisplay
 
 const makeStringToDraw = () => {
     const stats = TabListData.getStats()

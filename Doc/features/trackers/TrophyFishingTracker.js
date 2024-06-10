@@ -30,7 +30,7 @@ editGui.onRender(() => {
 })
 
 // Logic
-const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config.trophyFishingTracker
+const registerWhen = () => WorldState.getCurrentWorld() === requiredWorld && config().trophyFishingTracker
 
 const handleChat = (fishName, fishType, event, formatted) => {
     if(!fishesCaught[fishName]) fishesCaught[fishName] = { BRONZE: 0, SILVER: 0, GOLD: 0, DIAMOND: 0 }
@@ -65,7 +65,7 @@ const renderTrophy = () => {
 // Events
 new Event(feature, "chat", handleChat, registerWhen, /^TROPHY FISH\! You caught an? ([\w\d ]+) ([\w]+)\.$/)
 new Event(feature, "tick", makeStringToDraw, registerWhen)
-new Event(feature, "renderOverlay", renderTrophy, () => WorldState.getCurrentWorld() === requiredWorld && config.trophyFishingTracker && stringToDraw)
+new Event(feature, "renderOverlay", renderTrophy, () => WorldState.getCurrentWorld() === requiredWorld && config().trophyFishingTracker && stringToDraw)
 
 new Command(feature, "rstrophy", () => {
     fishesCaught = {}

@@ -12,9 +12,9 @@ const barrier = new Item("minecraft:barrier")
 
 // Logic
 const drawSlotBg = (item, x, y, internal = false) => {
-    if (!item && !config.armorDisplayBarrier && !internal) return
+    if (!item && !config().armorDisplayBarrier && !internal) return
 
-    if (config.armorDisplayBackground) {
+    if (config().armorDisplayBackground) {
         Renderer.drawRect(slotColor, x, y, 16, 16)
 
         // Top line
@@ -53,7 +53,7 @@ editGui.onRender(() => {
 })
 
 const renderOverlay = () => {
-    if (!config.armorDisplay || editGui.isOpen()) return
+    if (!config().armorDisplay || editGui.isOpen()) return
 
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -67,7 +67,7 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config.armorDisplay)
+new Event(feature, "renderOverlay", renderOverlay, () => World.isLoaded() && config().armorDisplay)
 
 // Starting events
 feature.start()

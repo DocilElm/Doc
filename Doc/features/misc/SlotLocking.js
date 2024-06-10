@@ -79,7 +79,7 @@ const isHotbarKeyDown = () => Client.settings.getSettings().field_151456_ac.some
 // Logic
 const onGuiKey = (_, keycode, gui, event) => {
     if (!(gui instanceof net.minecraft.client.gui.inventory.GuiChest || gui instanceof net.minecraft.client.gui.inventory.GuiInventory)) return
-    if (config.slotLockingSB && !ThePlayer.inSkyblock()) return
+    if (config().slotLockingSB && !ThePlayer.inSkyblock()) return
 
     if (isHotbarKey() && gui.getSlotUnderMouse()?.field_75222_d) {
         ChatLib.chat(`${TextHelper.PREFIX} &bWow! maybe don't bind that slot`)
@@ -126,7 +126,7 @@ const onGuiKey = (_, keycode, gui, event) => {
 
 const onMouseClick = (_, __, ___, gui, event) => {
     if (!(gui instanceof net.minecraft.client.gui.inventory.GuiChest || gui instanceof net.minecraft.client.gui.inventory.GuiInventory)) return
-    if (config.slotLockingSB && !ThePlayer.inSkyblock()) return
+    if (config().slotLockingSB && !ThePlayer.inSkyblock()) return
 
     if (isHotbarKey() && gui.getSlotUnderMouse()?.field_75222_d) {
         ChatLib.chat(`${TextHelper.PREFIX} &bWow! maybe don't bind that slot`)
@@ -158,7 +158,7 @@ const onMouseClick = (_, __, ___, gui, event) => {
 }
 
 const onPlayerDigging = (status, event) => {
-    if (config.slotLockingSB && !ThePlayer.inSkyblock()) return
+    if (config().slotLockingSB && !ThePlayer.inSkyblock()) return
     // Cant drop items in dungeons because of ability
     if (WorldState.inDungeons() && hasDungeonStarted) return
     if (!status.includes("DROP")) return
@@ -172,7 +172,7 @@ const onPlayerDigging = (status, event) => {
 
 const onGuiRender = (_, __, gui) => {
     if (!(gui instanceof net.minecraft.client.gui.inventory.GuiInventory)) return
-    if (config.slotLockingSB && !ThePlayer.inSkyblock()) return
+    if (config().slotLockingSB && !ThePlayer.inSkyblock()) return
 
     const size = Player.getContainer()?.getSize()
     const minimumSlots = size === 45 ? 5 : 9
@@ -215,11 +215,11 @@ const onGuiRender = (_, __, gui) => {
 const scoreboardPacket = () => hasDungeonStarted = true
 
 // Events
-new Event(feature, "guiKey", onGuiKey, () => config.slotLocking)
-new Event(feature, "guiMouseClick", onMouseClick, () => config.slotLocking)
-new Event(feature, "onPlayerDigging", onPlayerDigging, () => config.slotLocking)
-new Event(feature, "guiRender", onGuiRender, () => config.slotLocking && config.slotLockingDisplay)
-new Event(feature, "onScoreboardPacket", scoreboardPacket, () => config.slotLocking, /^Time Elapsed\: ([\w ]+)$/)
+new Event(feature, "guiKey", onGuiKey, () => config().slotLocking)
+new Event(feature, "guiMouseClick", onMouseClick, () => config().slotLocking)
+new Event(feature, "onPlayerDigging", onPlayerDigging, () => config().slotLocking)
+new Event(feature, "guiRender", onGuiRender, () => config().slotLocking && config().slotLockingDisplay)
+new Event(feature, "onScoreboardPacket", scoreboardPacket, () => config().slotLocking, /^Time Elapsed\: ([\w ]+)$/)
 new Event(feature, "worldUnload", () => hasDungeonStarted = false)
 
 // Starting events

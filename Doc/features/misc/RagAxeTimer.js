@@ -24,7 +24,7 @@ editGui.onRender(() => {
 })
 
 // Logic
-const registerWhen = () => World.isLoaded() && config.ragnarokAxeTimer
+const registerWhen = () => World.isLoaded() && config().ragnarokAxeTimer
 
 const updateCooldownAndCastTime = () => {
     lastCast = Date.now()
@@ -53,7 +53,7 @@ const renderCooldownStatus = () => {
 // Events
 new Event(feature, "tick", makeStringToDraw, registerWhen)
 new Event(feature, "onActionBarPacket", updateCooldownAndCastTime, registerWhen, /^.+CASTING IN 3s(.+)?$/)
-new Event(feature, "renderOverlay", renderCooldownStatus, () => World.isLoaded() && config.ragnarokAxeTimer && stringToDraw)
+new Event(feature, "renderOverlay", renderCooldownStatus, () => World.isLoaded() && config().ragnarokAxeTimer && stringToDraw)
 new Event(feature, "worldUnload", () => {
     lastCast = null
     cooldownTime = 20_000

@@ -35,7 +35,7 @@ const scanEntities = () => {
 }
 
 const renderWorld = () => {
-    if (!entities.length || !config.boxMiniboss) return
+    if (!entities.length || !config().boxMiniboss) return
 
     entities.forEach(entity => {
         let [ width, height, y ] = /Sven|Tarantula/g.test(entity.getName().removeFormatting())
@@ -59,8 +59,8 @@ const renderWorld = () => {
 }
 
 // Events
-new Event(feature, "step", scanEntities, () => World.isLoaded() && config.boxMiniboss, 1)
-new Event(feature, "renderWorld", renderWorld, () => World.isLoaded() && entities.length && config.boxMiniboss)
+new Event(feature, "step", scanEntities, () => World.isLoaded() && config().boxMiniboss, 1)
+new Event(feature, "renderWorld", renderWorld, () => World.isLoaded() && entities.length && config().boxMiniboss)
 
 // Starting events
 feature.start()

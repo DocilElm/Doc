@@ -6,7 +6,7 @@ import config from "../../config"
 const lividRegex = /^\w+ Livid$/
 
 register("entityDeath", (entity) => {
-    if (!config.noDeathAnimation || lividRegex.test(entity?.getName()?.removeFormatting())) return
+    if (!config().noDeathAnimation || lividRegex.test(entity?.getName()?.removeFormatting())) return
 
     entity.getEntity().func_70106_y()
 })

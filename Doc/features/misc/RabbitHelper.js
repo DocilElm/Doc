@@ -20,7 +20,7 @@ let renderIdx = null
 const onWindowOpen = (title) => Client.scheduleTask(2, () => shouldScan = title === "Chocolate Factory")
 
 const onTick = () => {
-    if (!World.isLoaded() || !shouldScan || !config.rabbitHelper) return
+    if (!World.isLoaded() || !shouldScan || !config().rabbitHelper) return
 
     const container = Player.getContainer()
     if (container.getName() !== "Chocolate Factory") return
@@ -61,7 +61,7 @@ const onTick = () => {
 }
 
 const onGuiRender = () => {
-    if (!World.isLoaded() || !config.rabbitHelper || !renderIdx || Player.getContainer().getName() !== "Chocolate Factory") return
+    if (!World.isLoaded() || !config().rabbitHelper || !renderIdx || Player.getContainer().getName() !== "Chocolate Factory") return
 
     const [ x, y ] = RenderHelper.getSlotRenderPosition(renderIdx)
     
@@ -76,18 +76,18 @@ const onGuiRender = () => {
 }
 
 // Events
-new Event(feature, "onOpenWindowPacket", onWindowOpen, () => World.isLoaded() && config.rabbitHelper)
-new Event(feature, "tick", onTick, () => World.isLoaded() && config.rabbitHelper)
+new Event(feature, "onOpenWindowPacket", onWindowOpen, () => World.isLoaded() && config().rabbitHelper)
+new Event(feature, "tick", onTick, () => World.isLoaded() && config().rabbitHelper)
 // Recalculate whenever the player buys a upgrade
 // doing it this way since the gui doesnt get updated via packet to not be constantly scanning
 new Event(feature, "onChatPacket", () => {
-    if (!config.rabbitHelper) return
+    if (!config().rabbitHelper) return
     
     shouldScan = true
     renderIdx = null
 }, () => World.isLoaded(), rabbitUpgradeRegex)
 new Event(feature, "onChatPacket", () => {
-    if (!config.rabbitHelper) return
+    if (!config().rabbitHelper) return
     
     shouldScan = true
     renderIdx = null

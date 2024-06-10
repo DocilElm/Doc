@@ -34,7 +34,7 @@ const onTabChange = (powderType, _, formatted) => {
 }
 
 const renderOverlay = () => {
-    if (!config.powderDisplay || !(WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows")) return
+    if (!config().powderDisplay || !(WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows")) return
 
     Renderer.retainTransforms(true)
     Renderer.translate(editGui.getX(), editGui.getY())
@@ -45,9 +45,9 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "onTabUpdatePacket", onTabChange, () => config.powderDisplay, powderRegex)
-new Event(feature, "onTabAddPacket", onTabChange, () => config.powderDisplay, powderRegex)
-new Event(feature, "renderOverlay", renderOverlay, () => config.powderDisplay && (WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows"))
+new Event(feature, "onTabUpdatePacket", onTabChange, () => config().powderDisplay, powderRegex)
+new Event(feature, "onTabAddPacket", onTabChange, () => config().powderDisplay, powderRegex)
+new Event(feature, "renderOverlay", renderOverlay, () => config().powderDisplay && (WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows"))
 new Event(feature, "worldUnload", () => powderList = {})
 
 // Starting events
