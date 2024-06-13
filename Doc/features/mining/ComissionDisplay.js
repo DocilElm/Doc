@@ -52,8 +52,8 @@ const renderOverlay = () => {
 }
 
 // Events
-new Event(feature, "renderOverlay", renderOverlay, () => (WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows") && mapList.size && config.comissionDisplay)
-new Event(feature, "step", onStep, () => (WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows") && config.comissionDisplay, 1)
+new Event(feature, "renderOverlay", renderOverlay, () => (WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows") && mapList.size && config().comissionDisplay)
+new Event(feature, "step", onStep, () => (WorldState.getCurrentWorld() === "Dwarven Mines" || WorldState.getCurrentWorld() === "Crystal Hollows") && config().comissionDisplay, 1)
 new Event(feature, "worldUnload", () => mapList.clear())
 
 // Starting events

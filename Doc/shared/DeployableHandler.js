@@ -25,7 +25,7 @@ editGui.onRender(() => {
     Renderer.scale(editGui.getScale())
     Renderer.drawStringWithShadow("&a180s", 1, 24)
 
-    if (!config.deployableDisplayStats) return Renderer.finishDraw()
+    if (!config().deployableDisplayStats) return Renderer.finishDraw()
     
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
@@ -138,7 +138,7 @@ export class Deployable {
         Renderer.scale(editGui.getScale())
         Renderer.drawStringWithShadow(time, x, 24)
         
-        if (!config.deployableDisplayStats) return Renderer.finishDraw()
+        if (!config().deployableDisplayStats) return Renderer.finishDraw()
 
         Renderer.translate(editGui.getX(), editGui.getY())
         Renderer.scale(editGui.getScale())
