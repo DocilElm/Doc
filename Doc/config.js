@@ -1,6 +1,24 @@
 import Settings from "../Amaterasu/core/Settings"
 import DefaultConfig from "../Amaterasu/core/DefaultConfig"
 const config = new DefaultConfig("Doc", "data/settings.json")
+const schemePath = "data/ColorScheme.json"
+
+const applyChanges = (configInstance) => {
+    const scheme = configInstance.handler.getColorScheme()
+
+    // Changing the scheme values to the config ones
+    scheme.Amaterasu.background.color = configInstance.settings.backgroundColor
+    scheme.Amaterasu.descriptionbackground.color = configInstance.settings.descriptionBackgroundColor
+    scheme.Divider.background.color = configInstance.settings.dividerBackgroundColor
+    scheme.DividerSubcategory.background.color = configInstance.settings.dividerBackgroundColor
+
+    // Saving the changes to the [File] so it can be loaded with the changes
+    FileLib.write("Doc", schemePath, JSON.stringify(scheme, null, 4))
+
+    // Apply the changes to the current [GUI]
+    configInstance.handler._setColorScheme(scheme)
+    configInstance.apply()
+}
 
 config
 .addSwitch({
@@ -1026,7 +1044,7 @@ config
     category: "General",
     configName: "CreatorText",
     title: "Creator: DocilElm",
-    description: "Module made by DocilElm with very much pain!",
+    description: "Module made by DocilElm with very much pain",
     centered: true
 })
 .addButton({
@@ -1060,9 +1078,40 @@ config
         Client.currentGui.close()
     }
 })
+.addButton({
+    category: "UI",
+    configName: "applybtn",
+    title: "Apply Changes",
+    description: "Applies the changes made to this GUI's theme",
+    placeHolder: "Apply",
+    onClick(config) {
+        applyChanges(config)
+    }
+})
+.addColorPicker({
+    configName: "backgroundColor",
+    title: "Background Color",
+    description: "Changes the background color of this GUI",
+    value: [0, 0, 0, 80],
+    subcategory: "Background"
+})
+.addColorPicker({
+    configName: "descriptionBackgroundColor",
+    title: "Description Background Color",
+    description: "Changes the description background color of this GUI",
+    value: [0, 0, 0, 80],
+    subcategory: "Description"
+})
+.addColorPicker({
+    configName: "dividerBackgroundColor",
+    title: "Divider Background Color",
+    description: "Changes the divider background color of this GUI",
+    value: [0, 0, 0, 80],
+    subcategory: "Divider"
+})
 
-const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Misc", "Updater"]
-const setting = new Settings("Doc", config, "data/ColorScheme.json")
+const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Misc", "Updater", "UI"]
+const setting = new Settings("Doc", config, schemePath)
     .setCommand("doc")
     .setCategorySort((a, b) => categories.indexOf(a.category) - categories.indexOf(b.category))
     .apply() // apply the sorting changes
