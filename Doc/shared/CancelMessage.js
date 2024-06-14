@@ -2,7 +2,6 @@ import ElementUtils from "../../DocGuiLib/core/Element"
 import ButtonElement from "../../DocGuiLib/elements/Button"
 import TextInputElement from "../../DocGuiLib/elements/TextInput"
 import { CramSiblingConstraint, UIRoundedRectangle } from "../../Elementa"
-import { scheme } from "./CommandAlias"
 import { Persistence } from "./Persistence"
 
 export const cancelsCreated = new Set()
@@ -28,11 +27,11 @@ export class CancelMessage {
             .setChildOf(this.parent)
 
         this.criteriaInput = new TextInputElement(this.criteria ?? "criteria", 1, 1, 60, 90)
-        this.criteriaInput._create(scheme).setChildOf(this.mainBox)
+        this.criteriaInput._create().setChildOf(this.mainBox)
         
         this.removeButton = new ButtonElement("Remove", 70, 1, 30, 90, false)
             .onMouseClickEvent(this._removeTitle.bind(this))
-            ._create(scheme)
+            ._create()
             .setColor(ElementUtils.getJavaColor([100, 30, 22, 150]))
             .setChildOf(this.mainBox)
     }

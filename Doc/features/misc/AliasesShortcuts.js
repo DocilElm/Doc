@@ -3,7 +3,7 @@ import HandleGui from "../../../DocGuiLib/core/Gui"
 import Button from "../../../DocGuiLib/elements/Button"
 import { CenterConstraint, ScrollComponent, UIRoundedRectangle, UIText } from "../../../Elementa"
 import { CancelMessage, cancelsCreated } from "../../shared/CancelMessage"
-import { CommandAlias, commandsCreated, scheme } from "../../shared/CommandAlias"
+import { CommandAlias, commandsCreated } from "../../shared/CommandAlias"
 import { KeybindShortcut, keybindsCreated } from "../../shared/KeyShortcutHandler"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/Text"
@@ -37,7 +37,7 @@ new Button("Alias", 0, 0, 15, 8, true)
         (80).percent()
     )
     .onMouseClickEvent(() => new CommandAlias(scroll))
-    ._create(scheme).setChildOf(bgbox)
+    ._create().setChildOf(bgbox)
 
 new Button("Key", 0, 0, 15, 8, true)
     ._setPosition(
@@ -45,7 +45,7 @@ new Button("Key", 0, 0, 15, 8, true)
         (80).percent()
     )
     .onMouseClickEvent(() => new KeybindShortcut(scroll))
-    ._create(scheme).setChildOf(bgbox)
+    ._create().setChildOf(bgbox)
 
 new Button("Title", 0, 0, 15, 8, true)
     ._setPosition(
@@ -53,7 +53,7 @@ new Button("Title", 0, 0, 15, 8, true)
         (80).percent()
     )
     .onMouseClickEvent(() => new TitleMessage(scroll))
-    ._create(scheme).setChildOf(bgbox)
+    ._create().setChildOf(bgbox)
 
 new Button("Cancel", 0, 0, 15, 8, true)
     ._setPosition(
@@ -61,7 +61,7 @@ new Button("Cancel", 0, 0, 15, 8, true)
         (80).percent()
     )
     .onMouseClickEvent(() => new CancelMessage(scroll))
-    ._create(scheme).setChildOf(bgbox)
+    ._create().setChildOf(bgbox)
 
 new Button("Save", 0, 0, 15, 8, true)
     ._setPosition(
@@ -76,7 +76,7 @@ new Button("Save", 0, 0, 15, 8, true)
 
         ChatLib.chat(`${TextHelper.PREFIX} &aSuccessfully created.`)
     })
-    ._create(scheme).setChildOf(bgbox)
+    ._create().setChildOf(bgbox)
 
 // Load command aliases from settings
 Object.keys(Persistence.data.commandAliases)?.forEach(key => {

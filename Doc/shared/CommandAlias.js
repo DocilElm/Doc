@@ -4,33 +4,6 @@ import TextInput from "../../DocGuiLib/elements/TextInput"
 import { CramSiblingConstraint, UIRoundedRectangle } from "../../Elementa"
 import { Persistence } from "./Persistence"
 
-export const scheme = {
-    "Button": {
-        "backgroundBox": [0, 0, 0, 80],
-        "backgroundBox1": [0, 0, 0, 0],
-        "lines": [0, 0, 0, 80],
-        "textColor": [255, 255, 255, 255],
-        "textScale": 1,
-        "mouseClick": [255, 255, 255, 80],
-        "mouseEnter": [0, 0, 0, 80],
-        "mouseLeave": [0, 0, 0, 0],
-        "mouseClickAnimation": "OUT_EXP",
-        "animationTime": 0.2,
-        "outlineColor": [255, 255, 255, 255],
-        "outlineThickness": 0.5
-    },
-    "TextInput": {
-        "backgroundBox": [0, 0, 0, 80],
-        "textColor": [255, 255, 255, 255],
-        "textScale": 1,
-        "mouseEnter": [0, 0, 0, 80],
-        "mouseLeave": [255, 255, 255, 255]
-    },
-    "Text": {
-        "textScale": 1,
-        "textColor": [255, 255, 255, 255]
-    }
-}
 export const commandsCreated = new Set()
 
 let commandCooldown = null
@@ -56,14 +29,14 @@ export class CommandAlias {
             .setChildOf(this.parent)
 
         this.aliasInput = new TextInput(this.alias ?? "alias", 1, 1, 30, 90)
-        this.aliasInput._create(scheme).setChildOf(this.mainBox)
+        this.aliasInput._create().setChildOf(this.mainBox)
 
         this.commandInput = new TextInput(this.command ?? "command", 35, 1, 30, 90)
-        this.commandInput._create(scheme).setChildOf(this.mainBox)
+        this.commandInput._create().setChildOf(this.mainBox)
         
         this.removeButton = new Button("Remove", 70, 1, 30, 90, false)
             .onMouseClickEvent(this._removeCommand.bind(this))
-            ._create(scheme)
+            ._create()
             .setColor(ElementUtils.getJavaColor([100, 30, 22, 150]))
             .setChildOf(this.mainBox)
     }

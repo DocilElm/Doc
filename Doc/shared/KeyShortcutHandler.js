@@ -3,7 +3,6 @@ import Button from "../../DocGuiLib/elements/Button"
 import TextInput from "../../DocGuiLib/elements/TextInput"
 import { CramSiblingConstraint, UIRoundedRectangle } from "../../Elementa"
 import { Persistence } from "./Persistence"
-import { scheme } from "./CommandAlias"
 import { TextHelper } from "./Text"
 
 export const keybindsCreated = new Set()
@@ -32,16 +31,16 @@ export class KeybindShortcut {
             .setChildOf(this.parent)
 
         this.commandInput = new TextInput(this.msg ?? "Message", 1, 1, 30, 90)
-        this.commandInput._create(scheme).setChildOf(this.mainBox)
+        this.commandInput._create().setChildOf(this.mainBox)
 
         this.setKeycodeButton = new Button("", 35, 1, 30, 90, false).onMouseClickEvent(this.onClick.bind(this))
-        this.setKeycodeButton._create(scheme).setChildOf(this.mainBox)
+        this.setKeycodeButton._create().setChildOf(this.mainBox)
 
         this.setText(this.keycode < 0 ? `M${this._getMouseButton()}` : Keyboard.getKeyName(this.keycode))
         
         this.removeButton = new Button("Remove", 68, 1, 30, 90, false)
             .onMouseClickEvent(this._removeKeybind.bind(this))
-            ._create(scheme)
+            ._create()
             .setColor(ElementUtils.getJavaColor([100, 30, 22, 150]))
             .setChildOf(this.mainBox)
     }
