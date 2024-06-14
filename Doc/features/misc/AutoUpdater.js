@@ -15,6 +15,29 @@ const Byte = Java.type("java.lang.Byte")
 const destination = `${Config.modulesFolder}/Doc/Doc.zip`
 const normalDestination = `${Config.modulesFolder}/Doc`
 
+/**
+ * - Compares two strings that are meant to represent the [current] and [new] versions
+ * - of this module (this only checks whether the [current] version is below the [new] version)
+ * @param {String} version1 The [current] version
+ * @param {String} version2 The [new] version
+ * @returns {null|boolean}
+ */
+const compareTo = (version1, version2) => {
+    const ver1 = version1.split(".")
+    const ver2 = version2.split(".")
+    // Checks which array has a greater length to use in the for-loop
+    const len = Math.max(ver1.length, ver2.length)
+
+    for (let i = 0; i < len; i++) {
+        let currentVersion = parseInt(ver1[i])
+        let newVersion = parseInt(ver2[i])
+
+        // Checks whether the [current] version is less than the [new] version
+        // returns true if it is otherwise returns nothing (which is falsy because js)
+        if (currentVersion < newVersion) return true
+    }
+}
+
 const update = (url) => {
     // https://github.com/Soopyboo32/SoopyV2UpdateButtonPatcher/blob/master/index.js#L143
     try {
@@ -81,10 +104,8 @@ register("step", () => {
     })
     .then(data => {
         const newVersion = data.tag_name?.replace("v", "")
-        const apiVersion = parseInt(newVersion.replace(/\./g, ""))
-        const localVersion = parseInt(currentVersion.replace(/\./g, ""))
 
-        if (apiVersion === localVersion) return
+        if (!compareTo(currentVersion, newVersion)) return
 
         ChatLib.command("docupdate", true)
     })
@@ -100,10 +121,8 @@ register("command", () => {
     })
     .then(data => {
         const newVersion = data.tag_name?.replace("v", "")
-        const apiVersion = parseInt(newVersion.replace(/\./g, ""))
-        const localVersion = parseInt(currentVersion.replace(/\./g, ""))
 
-        if (apiVersion === localVersion || localVersion > apiVersion) return ChatLib.chat(`${TextHelper.PREFIX} &aAlready up to date`)
+        if (!compareTo(currentVersion, newVersion)) return ChatLib.chat(`${TextHelper.PREFIX} &aAlready up to date`)
 
         const changelogs = data.body.replace(/(`+(?:diff)?)/g, "").trim().split("\r\n")
 
