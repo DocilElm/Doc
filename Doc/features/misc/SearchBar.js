@@ -18,11 +18,27 @@ const highlightSlots = new Map()
 const cachedSlots = new Map()
 const scheme = {
     "TextInput": {
-        "backgroundBox": [255, 255, 255, 100],
-        "textColor": [255, 255, 255, 255],
-        "textScale": 1,
-        "mouseEnter": [0, 0, 0, 80],
-        "mouseLeave": [255, 255, 255, 255]
+        "background": {
+            "color": [255, 255, 255, 100],
+            "outlineColor": [255, 255, 255, 255],
+            "outlineSize": 0,
+            "roundness": 3
+        },
+        "text": {
+            "color": [255, 255, 255, 255],
+            "scale": 1,
+            "padding": 3
+        },
+        "mouseEnterAnimation": {
+            "color": [0, 0, 0, 80],
+            "type": "OUT_EXP",
+            "time": 0.5
+        },
+        "mouseLeaveAnimation": {
+            "color": [255, 255, 255, 255],
+            "type": "OUT_EXP",
+            "time": 0.5
+        }
     }
 }
 
