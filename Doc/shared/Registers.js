@@ -203,13 +203,13 @@ FeatureManager
             const ctBlock = World.getBlockAt(x, y, z)
 
             fn(ctBlock, [x, y, z], blockPosition)
-        }).setFilteredClass(net.minecraft.network.play.client.C08PacketPlayerBlockPlacement)
+        }).setFilteredClass(net.minecraft.network.play.client.C08PacketPlayerBlockPlacement).unregister()
     )
     .createCustomEvent("onClickWindowPacket", (fn) => 
         register("packetSent", (packet, _) => {
             // Container name, Slot clicked
             fn(Player.getContainer().getName(), packet.func_149544_d())
-        }).setFilteredClass(net.minecraft.network.play.client.C0EPacketClickWindow)
+        }).setFilteredClass(net.minecraft.network.play.client.C0EPacketClickWindow).unregister()
     )
     .createCustomEvent("onPacketPlayerPosLook", (fn) =>
         register("packetReceived", (packet) => {
@@ -254,4 +254,4 @@ FeatureManager
 
         fn(particleType, [x, y, z], event)
     }).setFilteredClass(net.minecraft.network.play.server.S2APacketParticles).unregister())
-    .createCustomEvent("onWindowClosedPacket", (fn) => register("packetReceived", fn).setFilteredClass(net.minecraft.network.play.server.S2EPacketCloseWindow))
+    .createCustomEvent("onWindowClosedPacket", (fn) => register("packetReceived", fn).setFilteredClass(net.minecraft.network.play.server.S2EPacketCloseWindow).unregister())
