@@ -35,6 +35,13 @@ const getPuzzleRotation = () => {
         let bottomBlock = World.getBlockAt(rx, ry - 1, rz)
         let topBlock = World.getBlockAt(rx, ry + 1, rz)
 
+        // early enter blood with blood door closed
+        if (
+            bottomBlock.type.getID() === 7 &&
+            topBlock.type.getID() === 159 &&
+            block.type.getID() !== 0
+        ) return i * 90
+
         if (bottomBlock.type.getID() !== 7 || topBlock.type.getID() !== 0) continue
         if (block.type.getID() === 0) continue
     
