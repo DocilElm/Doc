@@ -23,7 +23,7 @@ const applyChanges = (configInstance) => {
 config
 .addSwitch({
     category: "Dungeons",
-    configName: "mobESP",
+    configName: "boxStarMobs",
     title: "Box Star Mobs",
     description: "Draws a box in starred mob (not see through walls)",
     subcategory: "Dungeons"
@@ -310,7 +310,10 @@ config
     description: "",
     value: "Mimic Killed!",
     placeHolder: "Mimic Killed!",
-    subcategory: "Dungeons"
+    subcategory: "Dungeons",
+    shouldShow(data) {
+        return data.sendMimicDead
+    }
 })
 .addSwitch({
     category: "Dungeons",
@@ -899,7 +902,7 @@ config
     category: "Misc",
     configName: "otterDisplay",
     title: "Otter Display",
-    description: "Displays otters. why ? why not.",
+    description: "Displays otters. why ? why not. (&bi got paid to make &bthis&r)",
     subcategory: "Misc"
 })
 .addSwitch({
@@ -1033,18 +1036,11 @@ config
     description: "Renders a waypoint like on the inactive effigies spot",
     subcategory: "Rift"
 })
-.addSwitch({
-    category: "Updater",
-    configName: "autoUpdater",
-    title: "Auto Updater",
-    description: "Enables this module's auto updater &c(fetches data every 30mins)",
-    subcategory: "Updater"
-})
 .addTextParagraph({
     category: "General",
     configName: "CreatorText",
     title: "Creator: DocilElm",
-    description: "Module made by DocilElm with very much pain",
+    description: "Module made by DocilElm (if it wasn't obvious enough)",
     centered: true
 })
 .addButton({
@@ -1110,7 +1106,7 @@ config
     subcategory: "Divider"
 })
 
-const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Misc", "Updater", "UI"]
+const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Misc", "UI"]
 const setting = new Settings("Doc", config, schemePath)
     .setCommand("doc")
     .setCategorySort((a, b) => categories.indexOf(a.category) - categories.indexOf(b.category))
