@@ -1,3 +1,4 @@
+import config from "../config"
 import Location from "../shared/Location"
 
 export default class Feature {
@@ -5,9 +6,11 @@ export default class Feature {
      * - Creates a new [Feature] class used to handle events stuff
      * @param {String} name The configName for this feature
      */
-    constructor(name) {
-        // Field needed for this [Feature]
+    constructor(name, world, area) {
+        // Fields needed for this [Feature]
         this.name = name
+        this.world = world?.toLowerCase()?.removeFormatting()
+        this.area = area?.toLowerCase()?.removeFormatting()
 
         // Events list
         this.events = []
@@ -20,6 +23,36 @@ export default class Feature {
             onRegister: [],
             onUnregister: []
         }
+
+        // Initial config value (true/false)
+        this.canRegister = config()[this.name]
+
+        // Events
+        config().getConfig().registerListener(this.name, (prev, value) => {
+            this.canRegister = value
+
+            if (!this.canRegister) return this._unregister()
+            if (this.world && !Location.inWorld(this.world)) return this._unregister()
+            if (this.area && !Location.inArea(this.area)) return this._unregister()
+
+            this._register()
+        })
+
+        Location.onWorldChange((worldName) => {
+            if (!this.world) return this._register()
+
+            if (worldName !== this.world) return this._unregister()
+
+            this._register()
+        })
+
+        Location.onAreaChange((areaName) => {
+            if (!this.area) return this._register()
+
+            if (!areaName.includes(this.area)) return this._unregister()
+
+            this._register()
+        })
     }
 
     /**
@@ -52,11 +85,7 @@ export default class Feature {
      * @returns this for method chaining
      */
     setWorld(str) {
-        Location.onWorldChange((worldName) => {
-            if (worldName !== str.toLowerCase().removeFormatting()) return this._unregister()
-
-            this._register()
-        })
+        this.world = str.toLowerCase()?.removeFormatting()
 
         return this
     }
@@ -68,11 +97,7 @@ export default class Feature {
      * @returns this for method chaining
      */
     setArea(str) {
-        Location.onAreaChange((areaName) => {
-            if (!areaName.includes(str.toLowerCase().removeFormatting())) return this._unregister()
-
-            this._register()
-        })
+        this.area = str.toLowerCase()?.removeFormatting()
 
         return this
     }
@@ -133,7 +158,7 @@ export default class Feature {
     }
 
     _register() {
-        if (this.hasRegistered) return this
+        if (this.hasRegistered || !this.canRegister) return this
 
         for (let idx = 0; idx < this.events.length; idx++) this.events[idx].register()
         for (let idx = 0; idx < this.listeners.onRegister.length; idx++) this.listeners.onRegister?.[idx]?.()
@@ -143,7 +168,7 @@ export default class Feature {
     }
 
     _unregister() {
-        if (!this.hasRegistered) return this
+        if (!this.hasRegistered || this.canRegister) return this
 
         for (let idx = 0; idx < this.events.length; idx++) this.events[idx].unregister()
         for (let idx = 0; idx < this.listeners.onRegister.length; idx++) this.listeners.onUnregister?.[idx]?.()
