@@ -8,7 +8,11 @@ export class Event {
         this.args = args
 
         // The register itself
-        this._register = customTriggers.get(this.name.toLowerCase())?.(this.cb, this.args) ?? register(this.name, this.cb).unregister()
+        this._register = typeof this.name === "number"
+                // Custom triggers are number enums
+                ? customTriggers.get(this.name)?.(this.cb, this.args)
+                // Normal are just strings
+                : register(this.name, this.cb).unregister()
 
         // Always start unregistered
         this.hasRegistered = false
