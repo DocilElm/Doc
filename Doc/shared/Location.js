@@ -28,6 +28,35 @@ export default new class Location {
      * - Creates the required registers for this class
      */
     _createRegisters() {
+        // Getting world/area data on `/ct load`
+        // trigger the corresponding listeners
+        this.registers.push(
+            register("gameLoad", () => {
+                if (!World.isLoaded()) return
+
+                // Getting the area
+                Scoreboard.getLines()
+                    ?.map(line => line?.getName()?.removeFormatting()?.replace(/[^\u0000-\u007F]/g, ""))
+                    ?.forEach(it => {
+                        const match = it?.match(/^  (\w.+)$/)?.[1]
+                        if (!match) return
+
+                        this.subarea = match.toLowerCase()
+                        this.listeners.subarea.forEach(it => it(this.subarea))
+                    })
+
+                // Getting the world
+                TabList.getNames()
+                    ?.forEach(it => {
+                        const match = it?.removeFormatting()?.match(/^(Area|Dungeon): ([\w\d ]+)$/)?.[2]
+                        if (!match) return
+
+                        this.area = match.toLowerCase().replace(/(area|dungeon): /, "")
+                        this.listeners.area.forEach(it => it(this.area))
+                    })
+            })
+        )
+
         // Getting scoreboard subarea
         this.registers.push(
             register("packetReceived", (packet) => {
