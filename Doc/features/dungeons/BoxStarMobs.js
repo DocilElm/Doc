@@ -1,4 +1,5 @@
 import { Event } from "../../core/Event"
+import EventEnums from "../../core/EventEnums"
 import Feature from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
 
@@ -32,9 +33,9 @@ const render = new Event("renderWorld", () => {
     })
 })
 
-const feature = new Feature("BoxStarMobs", "boxStarMobs")
+const feature = new Feature("boxStarMobs")
     .addEvent(
-        new Event("step", () => {
+        new Event(EventEnums.STEP, () => {
             mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => entity.getName().includes("✯ "))
         }, 3)
     )
