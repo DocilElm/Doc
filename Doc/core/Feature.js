@@ -47,9 +47,10 @@ export default class Feature {
         })
 
         Location.onAreaChange((areaName) => {
-            if (!this.area) return this._register()
+            if (!this.world) return
+            if (!this.area && Location.inWorld(this.world)) return this._register()
 
-            if (!areaName.includes(this.area)) return this._unregister()
+            if (!areaName?.includes(this.area)) return this._unregister()
 
             this._register()
         })
@@ -168,7 +169,7 @@ export default class Feature {
     }
 
     _unregister() {
-        if (!this.hasRegistered || this.canRegister) return this
+        if (!this.hasRegistered) return this
 
         for (let idx = 0; idx < this.events.length; idx++) this.events[idx].unregister()
         for (let idx = 0; idx < this.listeners.onRegister.length; idx++) this.listeners.onUnregister?.[idx]?.()

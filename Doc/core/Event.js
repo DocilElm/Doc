@@ -10,7 +10,7 @@ export class Event {
         // The register itself
         this._register = typeof this.name === "number"
                 // Custom triggers are number enums
-                ? customTriggers.get(this.name)?.(this.cb, this.args)
+                ? customTriggers.get(this.name)?.(this.cb, this.args)?.unregister()
                 // Normal are just strings
                 : register(this.name, this.cb).unregister()
 
