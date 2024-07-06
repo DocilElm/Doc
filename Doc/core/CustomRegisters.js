@@ -193,15 +193,18 @@ createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumer
 )
 
 // Client Packets
-createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn) => 
+createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn, wrapBP = true) => 
     register("packetSent", (packet, _) => {
         const position = packet.func_179724_a()
-        const blockPosition = new BlockPos(position)
     
-        const [ x, y, z ] = [blockPosition.x, blockPosition.y, blockPosition.z]
+        const [ x, y, z ] = [
+            position.func_177958_n(), // getX()
+            position.func_177956_o(), // getY()
+            position.func_177952_p() // getZ()
+        ]
         const ctBlock = World.getBlockAt(x, y, z)
 
-        fn(ctBlock, [x, y, z], blockPosition)
+        fn(ctBlock, [x, y, z], wrapBP ? new BlockPos(position) : position)
     }).setFilteredClass(net.minecraft.network.play.client.C08PacketPlayerBlockPlacement).unregister()
 )
 
