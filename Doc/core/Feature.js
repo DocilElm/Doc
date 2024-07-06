@@ -142,7 +142,7 @@ export default class Feature {
     _registerSubEvents() {
         if (this.hasRegisteredSub) return this
 
-        for (let idx = 0; idx < this.subevents.length; idx++) this.subevents[idx][0].register()
+        for (let idx = 0; idx < this.subevents.length; idx++) this.subevents?.[idx]?.[0]?.register()
         this.hasRegisteredSub = true
 
         return this
@@ -151,7 +151,7 @@ export default class Feature {
     _unregisterSubEvents() {
         if (!this.hasRegisteredSub) return this
 
-        for (let idx = 0; idx < this.subevents.length; idx++) this.subevents[idx][0].unregister()
+        for (let idx = 0; idx < this.subevents.length; idx++) this.subevents?.[idx]?.[0]?.unregister()
         this.hasRegisteredSub = false
 
         return this
@@ -173,6 +173,7 @@ export default class Feature {
         for (let idx = 0; idx < this.events.length; idx++) this.events[idx].unregister()
         for (let idx = 0; idx < this.listeners.onRegister.length; idx++) this.listeners.onUnregister?.[idx]?.()
         this.hasRegistered = false
+        this._unregisterSubEvents()
 
         return this
     }
