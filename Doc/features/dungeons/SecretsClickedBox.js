@@ -44,9 +44,11 @@ const feat = new Feature("showSecretsClicked", "catacombs")
         new Event("renderWorld", () => {
             blocksToHighlight.forEach(obj => {
                 const block = obj.block
-                const r = locked && block.type.getRegistryName() === "minecraft:chest" ? 255 : config().showSecretsClickedColor[0]
-                const g = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config().showSecretsClickedColor[1]
-                const b = locked && block.type.getRegistryName() === "minecraft:chest" ? 0 : config().showSecretsClickedColor[2]
+                const isChest = block.type.mcBlock instanceof net.minecraft.block.BlockChest
+
+                const r = locked && isChest ? 255 : config().showSecretsClickedColor[0]
+                const g = locked && isChest ? 0 : config().showSecretsClickedColor[1]
+                const b = locked && isChest ? 0 : config().showSecretsClickedColor[2]
         
                 RenderHelper.filledBlock(block, r, g, b, 51, true)
                 RenderHelper.outlineBlock(block, r, g, b, 255, true, 2)
