@@ -1,6 +1,9 @@
 const AxisAlignedBB = net.minecraft.util.AxisAlignedBB
 const GuiUtils = Java.type("net.minecraftforge.fml.client.config.GuiUtils")
 const RenderGlobal = Java.type("net.minecraft.client.renderer.RenderGlobal")
+const MCTessellator = Java.type("net.minecraft.client.renderer.Tessellator").func_178181_a()
+const DefaultVertexFormats = Java.type("net.minecraft.client.renderer.vertex.DefaultVertexFormats")
+const WorldRenderer = MCTessellator.func_178180_c()
 
 // From BloomCore
 const GuiContainer = Java.type("net.minecraft.client.gui.inventory.GuiContainer")
@@ -145,6 +148,18 @@ export class DGlStateManager {
         return this
     }
 
+    static enableDepth() {
+        GlStateManager.func_179126_j()
+
+        return this
+    }
+
+    static enableCull() {
+        GlStateManager.func_179089_o()
+
+        return this
+    }
+
     static disableTexture2D() {
         GlStateManager.func_179090_x()
 
@@ -165,6 +180,18 @@ export class DGlStateManager {
 
     static disableBlend() {
         GlStateManager.func_179084_k()
+
+        return this
+    }
+
+    static disableDepth() {
+        GlStateManager.func_179097_i()
+
+        return this
+    }
+
+    static disableCull() {
+        GlStateManager.func_179129_p()
 
         return this
     }
@@ -268,98 +295,104 @@ export class RenderHelper {
         Tessellator.popMatrix()
 
     }
-
-    /**
-     * - Draws an entity box with the given AxisAlignedBB values
-     * @param {AxisAlignedBB} axis 
-     * @param {Number} r 
-     * @param {Number} g 
-     * @param {Number} b 
-     * @param {Number} a 
-     * @param {Number} lineWidth
-     * @param {Boolean} phase 
-     */
-    static drawEntityAxis(axis, r, g, b, a, lineWidth = 1, phase = false) {
-        // const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis)
-        const [ x0, y0, z0, x1, y1, z1 ] = axis
-
-        Tessellator.pushMatrix()
-
-        GL11.glLineWidth(lineWidth)
-        Tessellator.begin(GL11.GL_LINE_STRIP, false)
-        GL11.glEnable(GL11.GL_LINE_SMOOTH)
-
-        GlStateManager.func_179129_p() // disableCullFace
-        Tessellator.enableBlend()
-        Tessellator.blendFunc(770, 771)
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-
-        if (phase) Tessellator.disableDepth()
-        
-        Tessellator.colorize(r, g, b, a)
-
-        Tessellator.pos(x0, y0, z0)
-        Tessellator.pos(x0, y0, z1)
-        Tessellator.pos(x1, y0, z1)
-        Tessellator.pos(x1, y0, z0)
-        Tessellator.pos(x0, y0, z0)
-        
-        Tessellator.pos(x0, y1, z0)
-        Tessellator.pos(x0, y1, z1)
-        Tessellator.pos(x1, y1, z1)
-        Tessellator.pos(x1, y1, z0)
-        Tessellator.pos(x0, y1, z0)
-
-        Tessellator.pos(x0, y1, z1)
-        Tessellator.pos(x0, y0, z1)
-        Tessellator.pos(x1, y0, z1)
-        Tessellator.pos(x1, y1, z1)
-        Tessellator.pos(x1, y1, z0)
-        Tessellator.pos(x1, y0, z0)
-
-        Tessellator.draw()
-
-        GlStateManager.func_179089_o() // enableCull
-        Tessellator.disableBlend()
-        Tessellator.depthMask(true)
-        Tessellator.enableTexture2D()
-        if (phase) Tessellator.enableDepth()
-
-        GL11.glDisable(GL11.GL_LINE_SMOOTH)
-        Tessellator.popMatrix()
-    }
-
+    
     static getRenderViewEntity() {
         return Client.getMinecraft().func_175606_aa() // getRenderViewEntity
     }
 
-    static drawOutlinedBox(aabb, r, g, b, a, lineWidth = 3) {
+    static getInterp() {
         const render = this.getRenderViewEntity()
         const pticks = Tessellator.getPartialTicks()
-        const realX = this.interpolate(render.field_70165_t, render.field_70142_S, pticks)
-        const realY = this.interpolate(render.field_70163_u, render.field_70137_T, pticks)
-        const realZ = this.interpolate(render.field_70161_v, render.field_70136_U, pticks)
+
+        return [
+            this.interpolate(render.field_70165_t, render.field_70142_S, pticks),
+            this.interpolate(render.field_70163_u, render.field_70137_T, pticks),
+            this.interpolate(render.field_70161_v, render.field_70136_U, pticks)
+        ]
+    }
+
+    static drawOutlinedBox(aabb, r, g, b, a, phase = true, lineWidth = 3, translate = true) {
+        const [ realX, realY, realZ ] = this.getInterp()
 
         DGlStateManager
             .pushMatrix()
-            .translate(-realX, -realY, -realZ)
             .disableTexture2D()
             .enableBlend()
             .disableLighting()
             .disableAlpha()
             .tryBlendFuncSeparate(770, 771, 1, 0)
-        
+
         GL11.glLineWidth(lineWidth)
+        
+        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
+        if (phase) DGlStateManager.disableDepth()
 
         RenderGlobal.func_181563_a(aabb, r, g, b, a)
 
+        if (translate) DGlStateManager.translate(realX, realY, realZ)
+        if (phase) DGlStateManager.enableDepth()
+
         DGlStateManager
-            .translate(realX, realY, realZ)
             .disableBlend()
             .enableAlpha()
             .enableTexture2D()
             .color(1, 1, 1, 1)
+            .popMatrix()
+
+        GL11.glLineWidth(2)
+    }
+
+    static drawFilledBox(aabb, r, g, b, a, phase = true, translate = true) {
+        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(aabb)
+        const [ realX, realY, realZ ] = this.getInterp()
+
+        DGlStateManager
+            .pushMatrix()
+            .disableCull()
+            .disableTexture2D()
+            .enableBlend()
+            .disableLighting()
+            .disableAlpha()
+            .tryBlendFuncSeparate(770, 771, 1, 0)
+
+        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
+        if (phase) DGlStateManager.disableDepth()
+
+        DGlStateManager.color(r / 255, g / 255, b / 255, a / 255)
+
+        WorldRenderer.func_181668_a(5, DefaultVertexFormats.field_181705_e)
+        WorldRenderer.func_181662_b(x0, y0, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y0, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x0, y0, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y0, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x0, y1, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y1, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x0, y1, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y1, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x0, y0, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y0, z0).func_181675_d()
+        MCTessellator.func_78381_a()
+
+        WorldRenderer.func_181668_a(7, DefaultVertexFormats.field_181705_e)
+        WorldRenderer.func_181662_b(x0, y0, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x0, y0, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x0, y1, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x0, y1, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y0, z0).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y0, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y1, z1).func_181675_d()
+        WorldRenderer.func_181662_b(x1, y1, z0).func_181675_d()
+        MCTessellator.func_78381_a()
+
+        if (translate) DGlStateManager.translate(realX, realY, realZ)
+        if (phase) DGlStateManager.enableDepth()
+
+        DGlStateManager
+            .disableBlend()
+            .enableAlpha()
+            .enableTexture2D()
+            .color(1, 1, 1, 1)
+            .enableCull()
             .popMatrix()
     }
 
@@ -377,7 +410,9 @@ export class RenderHelper {
      * @param {Number} lineWidth
      * @param {Boolean} phase 
      */
-    static drawEntityBox(x, y, z, w, h, r, g, b, a, lineWidth = 1, phase = false) {
+    static drawEntityBox(x, y, z, w, h, r, g, b, a, lineWidth = 1, phase = false, translate = true) {
+        if (x == null) return
+        
         const axis = new AxisAlignedBB(
             x - w / 2,
             y,
@@ -387,85 +422,7 @@ export class RenderHelper {
             z + w / 2
         )
 
-        // this.drawEntityAxis([x - w / 2, y, z - w / 2, x + w / 2, y + h, z + w / 2], r, g, b, a, lineWidth, phase)
-        this.drawOutlinedBox(axis, r, g, b, a, lineWidth)
-    }
-
-    /**
-     * - Draws an entity filled box with the given AxisAlignedBB values
-     * @param {AxisAlignedBB} axis 
-     * @param {Number} r 
-     * @param {Number} g 
-     * @param {Number} b 
-     * @param {Number} a 
-     * @param {Number} lineWidth
-     * @param {Boolean} phase 
-     */
-    static drawEntityAxisFilled(axis, r, g, b, a, lineWidth = 1, phase = false) {
-        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis)
-
-        Tessellator.pushMatrix()
-
-        GL11.glLineWidth(lineWidth)
-        Tessellator.begin(GL11.GL_QUADS, true)
-        GL11.glEnable(GL11.GL_LINE_SMOOTH)
-
-        GlStateManager.func_179129_p() // disableCullFace
-        Tessellator.enableBlend()
-        Tessellator.blendFunc(770, 771)
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-
-        if (phase) Tessellator.disableDepth()
-        
-        Tessellator.colorize(r, g, b, a)
-
-        const locations = [
-            [x1, y0, z1],
-            [x1, y0, z0],
-            [x0, y0, z0],
-            [x0, y0, z1],
-
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y1, z1],
-
-            [x0, y1, z1],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x0, y0, z1],
-
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x1, y0, z0],
-            [x1, y0, z1],
-
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x1, y0, z0],
-
-            [x0, y1, z1],
-            [x1, y1, z1],
-            [x1, y0, z1],
-            [x0, y0, z1]
-        ]
-
-        locations.forEach(([x, y, z]) => {
-            Tessellator.pos(x, y, z)
-        })
-
-        Tessellator.draw()
-
-        GlStateManager.func_179089_o() // enableCull
-        Tessellator.disableBlend()
-        Tessellator.depthMask(true)
-        Tessellator.enableTexture2D()
-        if (phase) Tessellator.enableDepth()
-
-        GL11.glDisable(GL11.GL_LINE_SMOOTH)
-        Tessellator.popMatrix()
+        this.drawOutlinedBox(axis, r, g, b, a, phase, lineWidth, translate)
     }
 
     /**
@@ -482,7 +439,9 @@ export class RenderHelper {
      * @param {Number} lineWidth
      * @param {Boolean} phase 
      */
-    static drawEntityBoxFilled(x, y, z, w, h, r, g, b, a, lineWidth = 1, phase = false) {
+    static drawEntityBoxFilled(x, y, z, w, h, r, g, b, a, phase = false, translate = true) {
+        if (x == null) return
+        
         const axis = new AxisAlignedBB(
             x - w / 2,
             y,
@@ -492,7 +451,7 @@ export class RenderHelper {
             z + w / 2
         )
 
-        this.drawEntityAxisFilled(axis, r, g, b, a, lineWidth, phase)
+        this.drawFilledBox(axis, r, g, b, a, phase, translate)
     }
 
     // TODO: add jsdocs to this
@@ -516,6 +475,16 @@ export class RenderHelper {
         )
     }
 
+    static getCTBlockAxis(ctBlock) {
+        // TODO: find a better workaround to this
+        // setBlockBoundsBasedOnState - func_180654_a
+        if (ctBlock.getState().func_177227_a().some(it => it instanceof net.minecraft.block.properties.PropertyDirection)) ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+    
+        // getSelectedBoundingBox - func_180646_a
+        return ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
+            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
+    }
+
     /**
      * - Renders an outline at the given [Block]
      * - This is (mostly) [Mojang]'s code
@@ -527,61 +496,10 @@ export class RenderHelper {
      * @param {Boolean} phase Whether it should show the outline through walls or not (`true` by default)
      * @param {Number} thickness The thickness of the line being rendered (`3` by default)
      */
-    static outlineBlock(ctBlock, r, g, b, a, phase = true, thickness = 3) {
+    static outlineBlock(ctBlock, r, g, b, a, phase = true, lineWidth = 3, translate = true) {
         if (!ctBlock) return
 
-        // TODO: find a better workaround to this
-        // setBlockBoundsBasedOnState - func_180654_a
-        if (ctBlock.getState().func_177227_a().some(it => it instanceof net.minecraft.block.properties.PropertyDirection)) ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
-    
-        // getSelectedBoundingBox - func_180646_a
-        const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
-            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
-
-        const [ minX, minY, minZ, maxX, maxY, maxZ ] = getAxisValues(axis)
-
-        Tessellator.pushMatrix()
-
-        GL11.glLineWidth(thickness)
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-        Tessellator.enableBlend()
-
-        if (phase) Tessellator.disableDepth()
-
-        Tessellator.begin(3)
-        Tessellator.pos(minX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(minX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(minX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.draw()
-
-        Tessellator.begin(3)
-        Tessellator.pos(minX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(minX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(minX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.draw()
-
-        Tessellator.begin(1)
-        Tessellator.pos(minX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(minX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, minY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, maxY, minZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(maxX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(minX, minY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.pos(minX, maxY, maxZ).colorize(r, g, b, a).tex(0, 0)
-        Tessellator.draw()
-
-        if (phase) Tessellator.enableDepth()
-
-        Tessellator.enableTexture2D()
-        Tessellator.disableBlend()
-        Tessellator.depthMask(true)
-        Tessellator.popMatrix()
+        this.drawOutlinedBox(this.getCTBlockAxis(ctBlock), r, g, b, a, phase, lineWidth, translate)
     }
 
     /**
@@ -594,75 +512,9 @@ export class RenderHelper {
      * @param {Number} a Alpha
      * @param {Boolean} phase Whether it should show the filled block through walls or not (`true` by default)
      */
-    static filledBlock(ctBlock, r, g, b, a, phase = true) {
+    static filledBlock(ctBlock, r, g, b, a, phase = true, translate = true) {
         if (!ctBlock) return
 
-        // TODO: find a better workaround to this
-        // setBlockBoundsBasedOnState - func_180654_a
-        if (ctBlock.getState().func_177227_a().some(it => it instanceof net.minecraft.block.properties.PropertyDirection)) ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
-    
-        // getSelectedBoundingBox - func_180646_a
-        const axis = ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
-            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
-
-        const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(axis, true)
-
-        Tessellator.pushMatrix()
-
-        Tessellator.begin(GL11.GL_QUADS)
-        GlStateManager.func_179129_p() // disableCullFace
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-        Tessellator.enableBlend()
-        
-        if (phase) Tessellator.disableDepth()
-        
-        Tessellator.colorize(r, g, b, a)
-        
-        const locations = [
-            [x1, y0, z1],
-            [x1, y0, z0],
-            [x0, y0, z0],
-            [x0, y0, z1],
-
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y1, z1],
-
-            [x0, y1, z1],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x0, y0, z1],
-
-            [x1, y1, z1],
-            [x1, y1, z0],
-            [x1, y0, z0],
-            [x1, y0, z1],
-
-            [x1, y1, z0],
-            [x0, y1, z0],
-            [x0, y0, z0],
-            [x1, y0, z0],
-
-            [x0, y1, z1],
-            [x1, y1, z1],
-            [x1, y0, z1],
-            [x0, y0, z1]
-        ]
-
-        locations.forEach(([x, y, z]) => {
-            Tessellator.pos(x, y, z)
-        })
-
-        Tessellator.draw()
-
-        if (phase) Tessellator.enableDepth()
-
-        GlStateManager.func_179089_o() // enableCull
-        Tessellator.enableTexture2D()
-        Tessellator.disableBlend()
-        Tessellator.depthMask(true)
-        Tessellator.popMatrix()
+        this.drawFilledBox(this.getCTBlockAxis(ctBlock), r, g, b, a, phase, translate)
     }
 }
