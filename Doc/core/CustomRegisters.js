@@ -24,6 +24,8 @@ createCustomEvent(EventEnums.CHAT, (fn, criteria) => register("chat", fn).setCri
 
 createCustomEvent(EventEnums.SOUNDPLAY, (fn, criteria) => register("soundPlay", fn).setCriteria(criteria).unregister())
 
+createCustomEvent(EventEnums.POSTRENDERENTITY, (fn, clazz) => register("postRenderEntity", fn).setFilteredClass(clazz).unregister())
+
 // Server Packets
 createCustomEvent(EventEnums.PACKET.SERVER.CHAT, (fn, criteria) => 
     register("packetReceived", (packet, event) => {

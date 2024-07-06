@@ -54,6 +54,7 @@ export default {
     SOUNDPLAY: idx++,
     COMMAND: idx++,
     RENDERENTITY: idx++,
+    POSTRENDERENTITY: idx++,
     PACKET: {
         CLIENT: {
             BLOCKPLACEMENT: idx++,
