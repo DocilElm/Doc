@@ -33,12 +33,13 @@ const render = new Event("renderWorld", () => {
     })
 })
 
-const feature = new Feature("boxStarMobs")
+const feat = new Feature("boxStarMobs", "catacombs")
     .addEvent(
         new Event(EventEnums.STEP, () => {
             mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => entity.getName().includes("✯ "))
+
+            feat.update()
         }, 3)
     )
-    .setWorld("catacombs")
-    .onRegister(() => render.register())
+    .addSubEvent(render, () => mobsArray.length)
     .onUnregister(() => render.unregister())
