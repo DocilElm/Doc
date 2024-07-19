@@ -39,6 +39,7 @@ export default class Feature {
         })
 
         Location.onWorldChange((worldName) => {
+            if (!worldName) return this._unregister()
             if (!this.world) return this._register()
 
             if (worldName !== this.world) return this._unregister()
@@ -47,8 +48,8 @@ export default class Feature {
         })
 
         Location.onAreaChange((areaName) => {
-            if (!this.world) return
-            if (!this.area && Location.inWorld(this.world)) return this._register()
+            if (!this.world || !this.area) return
+            // if (!this.area && Location.inWorld(this.world)) return this._register()
 
             if (!areaName?.includes(this.area)) return this._unregister()
 
