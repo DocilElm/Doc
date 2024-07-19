@@ -1,0 +1,458 @@
+{
+    "Riftstalker Bloodfiend": {
+        "Quantum Bundle": {
+            "formattedName": "§aEnchanted Book Bundle",
+            "minimumTier": 2,
+            "odds": 13.3333,
+            "scoreRequired": 1687
+        },
+        "◆ Soultwist Rune I": {
+            "formattedName": "§5◆ Soultwist Rune I",
+            "minimumTier": 2,
+            "odds": 11.7647,
+            "scoreRequired": 1912
+        },
+        "Bubba Blister": {
+            "formattedName": "§6Bubba Blister",
+            "minimumTier": 2,
+            "odds": 10,
+            "scoreRequired": 2250
+        },
+        "Fang-tastic Chocolate Chip": {
+            "formattedName": "§6Fang-tastic Chocolate Chip",
+            "minimumTier": 2,
+            "odds": 10,
+            "scoreRequired": 2250
+        },
+        "Guardian Lucky Block": {
+            "formattedName": "§6Guardian Lucky Block",
+            "minimumTier": 3,
+            "odds": 6.25,
+            "scoreRequired": 3600
+        },
+        "McGrubber's Burger": {
+            "formattedName": "§5McGrubber's Burger",
+            "minimumTier": 4,
+            "odds": 1.2195,
+            "scoreRequired": 18450
+        },
+        "Unfanged Vampire Part": {
+            "formattedName": "§6Unfanged Vampire Part",
+            "minimumTier": 4,
+            "odds": 1.2195,
+            "scoreRequired": 18450
+        },
+        "The One Bundle": {
+            "formattedName": "§6Enchanted Book Bundle",
+            "minimumTier": 5,
+            "odds": 1.7964,
+            "scoreRequired": 12525
+        }
+    },
+    "Revenant Horror": {
+        "Foul Flesh": {
+            "formattedName": "§9Foul Flesh",
+            "minimumTier": 2,
+            "odds": 16.2245,
+            "scoreRequired": 3081
+        },
+        "◆ Pestilence Rune I": {
+            "formattedName": "§2◆ Pestilence Rune I",
+            "minimumTier": 2,
+            "odds": 6.3202,
+            "scoreRequired": 7911
+        },
+        "Undead Catalyst": {
+            "formattedName": "§9Undead Catalyst",
+            "minimumTier": 2,
+            "odds": 2.0202,
+            "scoreRequired": 24750
+        },
+        "Enchanted Book (Smite VI)": {
+            "formattedName": "§aEnchanted Book (Smite VI§a)",
+            "minimumTier": 3,
+            "odds": 0.8112,
+            "scoreRequired": 61634
+        },
+        "Beheaded Horror": {
+            "formattedName": "§5Beheaded Horror",
+            "minimumTier": 3,
+            "odds": 0.1622,
+            "scoreRequired": 308175
+        },
+        "Revenant Catalyst": {
+            "formattedName": "§5Revenant Catalyst",
+            "minimumTier": 2,
+            "odds": 1.014,
+            "scoreRequired": 49308
+        },
+        "◆ Snake Rune I": {
+            "formattedName": "§a◆ Snake Rune I",
+            "minimumTier": 4,
+            "odds": 0.1517,
+            "scoreRequired": 329500
+        },
+        "Revenant Viscera": {
+            "formattedName": "§9Revenant Viscera",
+            "minimumTier": 5,
+            "odds": 13.7675,
+            "scoreRequired": 3631
+        },
+        "Scythe Blade": {
+            "formattedName": "§6Scythe Blade",
+            "minimumTier": 4,
+            "odds": 0.1033,
+            "scoreRequired": 484233
+        },
+        "Enchanted Book (Smite VII)": {
+            "formattedName": "§aEnchanted Book (Smite VII§a)",
+            "minimumTier": 5,
+            "odds": 0.0482,
+            "scoreRequired": 1037642
+        },
+        "Shard of the Shredded": {
+            "formattedName": "§6Shard of the Shredded",
+            "minimumTier": 5,
+            "odds": 0.0551,
+            "scoreRequired": 907937
+        },
+        "Warden Heart": {
+            "formattedName": "§6Warden Heart",
+            "minimumTier": 5,
+            "odds": 0.0138,
+            "scoreRequired": 3631749
+        }
+    },
+    "Tarantula Broodfather": {
+        "Toxic Arrow Poison": {
+            "formattedName": "§aToxic Arrow Poison",
+            "minimumTier": 2,
+            "odds": 15.2542,
+            "scoreRequired": 3277
+        },
+        "◆ Bite Rune I": {
+            "formattedName": "§a◆ Bite Rune I",
+            "minimumTier": 2,
+            "odds": 6.48,
+            "scoreRequired": 7716
+        },
+        "Spider Catalyst": {
+            "formattedName": "§9Spider Catalyst",
+            "minimumTier": 3,
+            "odds": 2.0627,
+            "scoreRequired": 24240
+        },
+        "Enchanted Book (Bane of Arthropods VI)": {
+            "formattedName": "§aEnchanted Book (Bane of Arthropods VI§a)",
+            "minimumTier": 3,
+            "odds": 0.8318,
+            "scoreRequired": 60110
+        },
+        "Fly Swatter": {
+            "formattedName": "§5Fly Swatter",
+            "minimumTier": 3,
+            "odds": 0.1664,
+            "scoreRequired": 300550
+        },
+        "Tarantula Talisman": {
+            "formattedName": "§5Tarantula Talisman",
+            "minimumTier": 3,
+            "odds": 0.1664,
+            "scoreRequired": 300550
+        },
+        "Digested Mosquito": {
+            "formattedName": "§6Digested Mosquito",
+            "minimumTier": 4,
+            "odds": 0.0582,
+            "scoreRequired": 858714
+        }
+    },
+    "Sven Packmaster": {
+        "Hamster Wheel": {
+            "formattedName": "§9Hamster Wheel",
+            "minimumTier": 2,
+            "odds": 16.6667,
+            "scoreRequired": 3000
+        },
+        "◆ Spirit Rune I": {
+            "formattedName": "§b◆ Spirit Rune I",
+            "minimumTier": 2,
+            "odds": 6.3154,
+            "scoreRequired": 7917
+        },
+        "Enchanted Book (Critical VI)": {
+            "formattedName": "§aEnchanted Book (Critical VI§a)",
+            "minimumTier": 3,
+            "odds": 0.8112,
+            "scoreRequired": 61634
+        },
+        "Furball": {
+            "formattedName": "§9Furball",
+            "minimumTier": 3,
+            "odds": 1.632,
+            "scoreRequired": 30637
+        },
+        "Red Claw Egg": {
+            "formattedName": "§5Red Claw Egg",
+            "minimumTier": 3,
+            "odds": 0.1217,
+            "scoreRequired": 410900
+        },
+        "◆ Couture Rune I": {
+            "formattedName": "§6◆ Couture Rune I",
+            "minimumTier": 4,
+            "odds": 0.2274,
+            "scoreRequired": 219833
+        },
+        "Overflux Capacitor": {
+            "formattedName": "§5Overflux Capacitor",
+            "minimumTier": 4,
+            "odds": 0.0406,
+            "scoreRequired": 1232700
+        },
+        "Grizzly Salmon": {
+            "formattedName": "§9Grizzly Salmon",
+            "minimumTier": 4,
+            "odds": 0.0568,
+            "scoreRequired": 880500
+        }
+    },
+    "Voidgloom Seraph": {
+        "Twilight Arrow Poison": {
+            "formattedName": "§aTwilight Arrow Poison",
+            "minimumTier": 2,
+            "odds": 15.1515,
+            "scoreRequired": 3300
+        },
+        "◆ Endersnake Rune I": {
+            "formattedName": "§5◆ Endersnake Rune I",
+            "minimumTier": 3,
+            "odds": 5.2977,
+            "scoreRequired": 9438
+        },
+        "Summoning Eye": {
+            "formattedName": "§5Summoning Eye",
+            "minimumTier": 2,
+            "odds": 0.6734,
+            "scoreRequired": 74250
+        },
+        "Enchanted Book (Mana Steal I)": {
+            "formattedName": "§aEnchanted Book (Mana Steal I§a)",
+            "minimumTier": 3,
+            "odds": 4.4709,
+            "scoreRequired": 11183
+        },
+        "Transmission Tuner": {
+            "formattedName": "§5Transmission Tuner",
+            "minimumTier": 3,
+            "odds": 2.2355,
+            "scoreRequired": 22366
+        },
+        "Null Atom": {
+            "formattedName": "§9Null Atom",
+            "minimumTier": 3,
+            "odds": 4.9404,
+            "scoreRequired": 10120
+        },
+        "Hazmat Enderman": {
+            "formattedName": "§6Hazmat Enderman",
+            "minimumTier": 3,
+            "odds": 1.5527,
+            "scoreRequired": 32202
+        },
+        "Pocket Espresso Machine": {
+            "formattedName": "§fPocket Espresso Machine",
+            "minimumTier": 4,
+            "odds": 0.3882,
+            "scoreRequired": 128809
+        },
+        "Enchanted Book (Smarty Pants I)": {
+            "formattedName": "§aEnchanted Book (Smarty Pants I§a)",
+            "minimumTier": 4,
+            "odds": 1.7644,
+            "scoreRequired": 28338
+        },
+        "◆ End Rune I": {
+            "formattedName": "§5◆ End Rune I",
+            "minimumTier": 4,
+            "odds": 0.6622,
+            "scoreRequired": 75505
+        },
+        "Handy Blood Chalice": {
+            "formattedName": "§fHandy Blood Chalice",
+            "minimumTier": 4,
+            "odds": 0.1764,
+            "scoreRequired": 283380
+        },
+        "Sinful Dice": {
+            "formattedName": "§5Sinful Dice",
+            "minimumTier": 4,
+            "odds": 0.4587,
+            "scoreRequired": 108992
+        },
+        "Exceedingly Rare Ender Artifact Upgrader": {
+            "formattedName": "§6Exceedingly Rare Ender Artifact Upgrader",
+            "minimumTier": 4,
+            "odds": 0.0282,
+            "scoreRequired": 1771125
+        },
+        "Void Conqueror Enderman Skin": {
+            "formattedName": "§5Void Conqueror Enderman Skin",
+            "minimumTier": 4,
+            "odds": 0.1656,
+            "scoreRequired": 302020
+        },
+        "Etherwarp Merger": {
+            "formattedName": "§5Etherwarp Merger",
+            "minimumTier": 4,
+            "odds": 0.4235,
+            "scoreRequired": 118075
+        },
+        "Judgement Core": {
+            "formattedName": "§6Judgement Core",
+            "minimumTier": 4,
+            "odds": 0.0565,
+            "scoreRequired": 885562
+        },
+        "◆ Enchant Rune I": {
+            "formattedName": "§7◆ Enchant Rune I",
+            "minimumTier": 4,
+            "odds": 0.0464,
+            "scoreRequired": 1078642
+        },
+        "Enchanted Book (Ender Slayer VII)": {
+            "formattedName": "§aEnchanted Book (Ender Slayer VII§a)",
+            "minimumTier": 4,
+            "odds": 0.0141,
+            "scoreRequired": 3542250
+        }
+    },
+    "Inferno Demonlord": {
+        "Enchanted Blaze Powder": {
+            "formattedName": "§aEnchanted Blaze Powder",
+            "minimumTier": 1,
+            "odds": 21.2598,
+            "scoreRequired": 2351
+        },
+        "◆ Lavatears Rune I": {
+            "formattedName": "§c◆ Lavatears Rune I",
+            "minimumTier": 3,
+            "odds": 1.9545,
+            "scoreRequired": 25582
+        },
+        "Wisp's Ice-Flavored Water I Splash Potion": {
+            "formattedName": "§fWisp's Ice-Flavored Water I Splash Potion",
+            "minimumTier": 2,
+            "odds": 2.809,
+            "scoreRequired": 17800
+        },
+        "Bundle of Magma Arrows": {
+            "formattedName": "§5Bundle of Magma Arrows",
+            "minimumTier": 2,
+            "odds": 8.427,
+            "scoreRequired": 5933
+        },
+        "Mana Disintegrator": {
+            "formattedName": "§9Mana Disintegrator",
+            "minimumTier": 2,
+            "odds": 3.9326,
+            "scoreRequired": 12714
+        },
+        "Scorched Books": {
+            "formattedName": "§dScorched Books",
+            "minimumTier": 2,
+            "odds": 2.2472,
+            "scoreRequired": 22250
+        },
+        "Kelvin Inverter": {
+            "formattedName": "§9Kelvin Inverter",
+            "minimumTier": 2,
+            "odds": 2.809,
+            "scoreRequired": 17800
+        },
+        "Blaze Rod Distillate": {
+            "formattedName": "§9Blaze Rod Distillate",
+            "minimumTier": 2,
+            "odds": 3.9326,
+            "scoreRequired": 12714
+        },
+        "Glowstone Distillate": {
+            "formattedName": "§9Glowstone Distillate",
+            "minimumTier": 2,
+            "odds": 3.9326,
+            "scoreRequired": 12714
+        },
+        "Magma Cream Distillate": {
+            "formattedName": "§9Magma Cream Distillate",
+            "minimumTier": 2,
+            "odds": 3.9326,
+            "scoreRequired": 12714
+        },
+        "Nether Wart Distillate": {
+            "formattedName": "§9Nether Wart Distillate",
+            "minimumTier": 2,
+            "odds": 3.9326,
+            "scoreRequired": 12714
+        },
+        "Gabagool Distillate": {
+            "formattedName": "§9Gabagool Distillate",
+            "minimumTier": 2,
+            "odds": 7.8652,
+            "scoreRequired": 6357
+        },
+        "Scorched Power Crystal": {
+            "formattedName": "§6Scorched Power Crystal",
+            "minimumTier": 3,
+            "odds": 3.2258,
+            "scoreRequired": 15500
+        },
+        "Archfiend Dice": {
+            "formattedName": "§5Archfiend Dice",
+            "minimumTier": 3,
+            "odds": 1.0753,
+            "scoreRequired": 46499
+        },
+        "Enchanted Book (Fire Aspect III)": {
+            "formattedName": "§aEnchanted Book (Fire Aspect III§a)",
+            "minimumTier": 4,
+            "odds": 1.2636,
+            "scoreRequired": 39568
+        },
+        "◆ Fiery Burst Rune I": {
+            "formattedName": "§c◆ Fiery Burst Rune I",
+            "minimumTier": 4,
+            "odds": 0.1737,
+            "scoreRequired": 287800
+        },
+        "❂ Flawed Opal Gemstone": {
+            "formattedName": "§a❂ §aFlawed Opal Gemstone",
+            "minimumTier": 4,
+            "odds": 2.78,
+            "scoreRequired": 17985
+        },
+        "Enchanted Book (Duplex I)": {
+            "formattedName": "§aEnchanted Book (§d§lDuplex I§a)",
+            "minimumTier": 4,
+            "odds": 1.7691,
+            "scoreRequired": 28262
+        },
+        "High Class Archfiend Dice": {
+            "formattedName": "§6High Class Archfiend Dice",
+            "minimumTier": 4,
+            "odds": 0.2172,
+            "scoreRequired": 230240
+        },
+        "Wilson's Engineering Plans": {
+            "formattedName": "§6Wilson's Engineering Plans",
+            "minimumTier": 4,
+            "odds": 0.0859,
+            "scoreRequired": 581882
+        },
+        "Subzero Inverter": {
+            "formattedName": "§6Subzero Inverter",
+            "minimumTier": 4,
+            "odds": 0.0859,
+            "scoreRequired": 581882
+        }
+    }
+}

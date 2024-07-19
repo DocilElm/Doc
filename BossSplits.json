@@ -1,0 +1,49 @@
+{
+    "Bonzo": {
+        "[BOSS] Bonzo: Oh I'm dead!": "&cFirst Kill",
+        "Cleared": "&aBonzo Kill"
+    },
+
+    "Scarf": {
+        "[BOSS] Scarf: Those toys are not strong enough I see.": "&7Undeads Kill",
+        "Cleared": "&aScarf Kill"
+    },
+
+    "The Professor": {
+        "[BOSS] The Professor: Oh? You found my Guardians' one weakness?": "&bGuardians",
+        "[BOSS] The Professor: I see. You have forced me to use my ultimate technique.": "&bProfessor",
+        "[BOSS] The Professor: What?! My Guardian power is unbeatable!": "&aBoss Kill",
+        "Cleared": "&aCleared"
+    },
+
+    "Thorn": {
+        "Cleared": "&aThorn"
+    },
+
+    "Livid": {
+        "Cleared": "&aLivid"
+    },
+
+    "Sadan": {
+        "[BOSS] Sadan: ENOUGH!": "&dTerracottas",
+        "[BOSS] Sadan: You did it. I understand now, you have earned my respect.": "&bGiants",
+        "Cleared": "&aSadan Kill"
+    },
+
+    "F7": {
+        "[BOSS] Storm: Pathetic Maxor, just like expected.": "&aMaxor",
+        "[BOSS] Goldor: Who dares trespass into my domain?": "&bStorm",
+        "Terms": "&eTerminals",
+        "[BOSS] Necron: You went further than any human before, congratulations.": "&7Goldor",
+        "Cleared": "&4Necron"
+    },
+
+    "M7": {
+        "[BOSS] Storm: Pathetic Maxor, just like expected.": "&aMaxor",
+        "[BOSS] Goldor: Who dares trespass into my domain?": "&bStorm",
+        "Terms": "&eTerminals",
+        "[BOSS] Necron: You went further than any human before, congratulations.": "&7Goldor",
+        "[BOSS] Necron: All this, for nothing...": "&cNecron",
+        "Cleared": "&4Wither King"
+    }
+}

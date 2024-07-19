@@ -1,0 +1,72 @@
+{
+    "§fWood Chest": {
+        "chestPrice": 0,
+        "totalvalue": 111610,
+        "profit": 111610,
+        "items": [
+            "&b- §5§o§aEnchanted Book (Feather Falling 6§a)",
+            "&b- §5§o§aEnchanted Book (Infinite Quiver 6§a)",
+            "&b- §5§o§dWither Essence §8x29",
+            "&b- §5§o§dUndead Essence §8x28"
+        ]
+    },
+    "§6Gold Chest": {
+        "chestPrice": 100000,
+        "totalvalue": 152931,
+        "profit": 52931,
+        "items": [
+            "&b- §5§o§aEnchanted Book (§d§lNo Pain No Gain 1§a)",
+            "&b- §5§o§aEnchanted Book (Rejuvenate 1§a)",
+            "&b- §5§o§dWither Essence §8x39",
+            "&b- §5§o§dUndead Essence §8x43"
+        ]
+    },
+    "§bDiamond Chest": {
+        "chestPrice": 250000,
+        "totalvalue": 211841,
+        "profit": -38159,
+        "items": [
+            "&b- §5§o§aEnchanted Book (Rejuvenate 1§a)",
+            "&b- §5§o§aEnchanted Book (§d§lUltimate Jerry 1§a)",
+            "&b- §5§o§aEnchanted Book (§d§lUltimate Wise 1§a)",
+            "&b- §5§o§dWither Essence §8x53",
+            "&b- §5§o§dUndead Essence §8x66"
+        ]
+    },
+    "§2Emerald Chest": {
+        "chestPrice": 500000,
+        "totalvalue": 248235,
+        "profit": -251765,
+        "items": [
+            "&b- §5§o§5Giant Tooth",
+            "&b- §5§o§5Hot Potato Book",
+            "&b- §5§o§dWither Essence §8x62",
+            "&b- §5§o§dUndead Essence §8x78"
+        ]
+    },
+    "§5Obsidian Chest": {
+        "chestPrice": 1000000,
+        "totalvalue": 284473,
+        "profit": -715527,
+        "items": [
+            "&b- §5§o§aEnchanted Book (§d§lLast Stand 1§a)",
+            "&b- §5§o§aEnchanted Book (§d§lWisdom 1§a)",
+            "&b- §5§o§aEnchanted Book (§d§lCombo 1§a)",
+            "&b- §5§o§aEnchanted Book (Rejuvenate 2§a)",
+            "&b- §5§o§dWither Essence §8x70",
+            "&b- §5§o§dUndead Essence §8x96"
+        ]
+    },
+    "§8Bedrock Chest": {
+        "chestPrice": 2000000,
+        "totalvalue": 365680,
+        "profit": -1634320,
+        "items": [
+            "&b- §5§o§aEnchanted Book (§d§lLast Stand 2§a)",
+            "&b- §5§o§aEnchanted Book (§d§lUltimate Wise 2§a)",
+            "&b- §5§o§6Necromancer Lord Boots",
+            "&b- §5§o§dWither Essence §8x91",
+            "&b- §5§o§dUndead Essence §8x117"
+        ]
+    }
+}
