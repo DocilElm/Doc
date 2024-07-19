@@ -67,6 +67,8 @@ export default class CustomSplits {
                     parent && this.timers?.[parentidx]?.child?.[idx]
                     ) return
 
+                // TODO: make this actually send a chat msg
+
                 if (parent) return this.timers[parentidx].child[idx] = Date.now()
                 this.timers[idx].timer = Date.now()
             }, criteria)
