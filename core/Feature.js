@@ -173,7 +173,7 @@ export default class Feature {
         if (!this.hasRegistered) return this
 
         for (let idx = 0; idx < this.events.length; idx++) this.events[idx].unregister()
-        for (let idx = 0; idx < this.listeners.onRegister.length; idx++) this.listeners.onUnregister?.[idx]?.()
+        for (let idx = 0; idx < this.listeners.onUnregister.length; idx++) this.listeners.onUnregister?.[idx]?.()
         this.hasRegistered = false
         this._unregisterSubEvents()
 
