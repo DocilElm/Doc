@@ -62,8 +62,8 @@ export class TextHelper {
     */
    static matchesCriteria(fn, criteria, unformatted, event, formatted) {
         if (!criteria) return fn(unformatted, event, formatted)
-        
-        else if (typeof(criteria) === "string") {
+
+        else if (typeof criteria === "string") {
             if (unformatted !== criteria) return
 
             return fn(unformatted, event, formatted)
