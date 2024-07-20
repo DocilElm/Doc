@@ -198,7 +198,7 @@ export default class CustomSplits {
 
         for (let idx = 0; idx < array.length; idx++) {
             let title = array[idx]
-            if (title === null) continue
+            if (!title) continue
 
             if (childRegex.test(title)) {
                 let timer = this.getTimerAt(idx)
@@ -222,6 +222,20 @@ export default class CustomSplits {
             let previousTimer = this.getPreviousTimer(idx)
 
             str += `${title.replace(timerRegex, (Math.max(0, (timer - previousTimer) / 1000)).toFixed(2))}s\n`
+        }
+
+        return str
+    }
+
+    buildExampleStr() {
+        const array = this.getTitles()
+        let str = ""
+
+        for (let idx = 0; idx < array.length; idx++) {
+            let it = array[idx]
+            if (!it) continue
+
+            str += `${it.replace(timerRegex, "0.00s").replace(childRegex, (_, id) => this.data[idx].children[id - 1].title.replace(timerRegex, "0.00s"))}\n`
         }
 
         return str
