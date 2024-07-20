@@ -5,10 +5,10 @@ import DraggableGui from "../../shared/DraggableGui"
 import Location from "../../shared/Location"
 import { Persistence } from "../../shared/Persistence"
 
-const exampleStr = split.buildExampleStr()
 const editGui = new DraggableGui("runSplits").setCommandName("editrunSplits")
 const RunSplits = Persistence.getDataFromFileOrLink("RunSplits.json", "https://raw.githubusercontent.com/DocilElm/Doc/api/dungeons/RunSplits.json")
 const split = new CustomSplits(RunSplits, () => Location.inWorld("catacombs"))
+const exampleStr = split.buildExampleStr()
 
 editGui.onDraw(() => {
     Renderer.retainTransforms(true)
