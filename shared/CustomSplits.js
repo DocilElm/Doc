@@ -1,5 +1,6 @@
 import { Event } from "../core/Event"
 import EventEnums from "../core/EventEnums"
+import { TextHelper } from "./TextHelper"
 
 const childRegex = /\$\{c(\d)\}/g
 const timerRegex = /\$\{1\}/
@@ -56,6 +57,32 @@ export default class CustomSplits {
         }
     }
 
+    _handleChat(idx, parentidx = null) {
+        if (parentidx != null) {
+            const theobj = this.data[parentidx]?.children?.[idx]
+            const chat = theobj?.chat
+            if (!chat) return
+
+            const time = ((Date.now() - this.getPreviousTimer(parentidx, idx)) / 1000).toFixed(2)
+
+            if (chat === "^") return ChatLib.chat(`${TextHelper.PREFIX} ${theobj.title.replace(timerRegex, time + "s")}`)
+
+            ChatLib.chat(`${TextHelper.PREFIX} ${theobj.chat.replace(timerRegex, time + "s")}`)
+
+            return
+        }
+
+        const theobj = this.data[idx]
+        const chat = theobj?.chat
+        if (!chat) return
+
+        const time = ((Date.now() - this.getPreviousTimer(idx)) / 1000).toFixed(2)
+
+        if (chat === "^") return ChatLib.chat(`${TextHelper.PREFIX} ${theobj.title.replace(timerRegex, time + "s")}`)
+        
+        ChatLib.chat(`${TextHelper.PREFIX} ${theobj.chat.replace(timerRegex, time + "s")}`)
+    }
+
     _makeEvent(criteria, obj, idx, parentidx) {
         const parent = Number.isInteger(parentidx)
 
@@ -67,7 +94,7 @@ export default class CustomSplits {
                     parent && this.timers?.[parentidx]?.child?.[idx]
                     ) return
 
-                // TODO: make this actually send a chat msg
+                this._handleChat(idx, parentidx)
 
                 if (parent) return this.timers[parentidx].child[idx] = Date.now()
                 this.timers[idx].timer = Date.now()
