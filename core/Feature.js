@@ -61,6 +61,8 @@ export default class Feature {
     }
 
     _checkWorld(worldName) {
+        if (this.world == null) return true
+
         if (Array.isArray(this.world))
             return this.world.some(it => it === worldName)
 

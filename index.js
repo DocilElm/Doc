@@ -15,3 +15,5 @@ import "./features/dungeons/SecretsSound"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"
+// Misc
+import "./features/misc/BlockOverlay"

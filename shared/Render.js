@@ -482,9 +482,11 @@ export class RenderHelper {
     }
 
     static getCTBlockAxis(ctBlock) {
+        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+
         // getSelectedBoundingBox - func_180646_a
         return ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
-            .func_72314_b(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026) // func_72314_b - expand
+            .func_72314_b(0.002, 0.002, 0.002) // func_72314_b - expand
     }
 
     /**
