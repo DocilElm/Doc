@@ -76,7 +76,8 @@ export default {
             PLAYERPOSLOOK: idx++,
             COLLECTITEM: idx++,
             ENTITYLOOKMOVE: idx++,
-            SPAWNPARTICLE: idx++
+            SPAWNPARTICLE: idx++,
+            SPAWNMOB: idx++
         },
         CUSTOM: {
             BLESSINGCHANGE: idx++

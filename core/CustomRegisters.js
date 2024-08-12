@@ -179,6 +179,12 @@ createCustomEvent(EventEnums.PACKET.SERVER.SPAWNPARTICLE, (fn) => register("pack
 
 createCustomEvent(EventEnums.PACKET.SERVER.WINDOWCLOSE, (fn) => register("packetReceived", fn).setFilteredClass(net.minecraft.network.play.server.S2EPacketCloseWindow).unregister())
 
+createCustomEvent(EventEnums.PACKET.SERVER.SPAWNMOB, (fn) => register("packetReceived", (packet) => {
+    scheduleTask(() => {
+        fn(packet.func_149024_d())
+    })
+}).setFilteredClass(net.minecraft.network.play.server.S0FPacketSpawnMob).unregister())
+
 // Custom Server Packets
 createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumeral = false) => 
     register("packetReceived", (packet) => {
