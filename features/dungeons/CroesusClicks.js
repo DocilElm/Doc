@@ -50,5 +50,5 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
         slotsClicked.clear()
         inCroesus = false
         cachedItems = null
-        currentPage = null  
+        currentPage = null
     })
