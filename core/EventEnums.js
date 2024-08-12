@@ -80,7 +80,8 @@ export default {
             SPAWNMOB: idx++
         },
         CUSTOM: {
-            BLESSINGCHANGE: idx++
+            BLESSINGCHANGE: idx++,
+            WINDOWCLOSE: idx++
         }
     },
     FORGE: {

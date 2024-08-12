@@ -206,6 +206,13 @@ createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumer
     }).setFilteredClass(net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter).unregister()
 )
 
+createCustomEvent(EventEnums.PACKET.CUSTOM.WINDOWCLOSE, (fn) => {
+    return [
+        register("packetReceived", fn).setFilteredClass(net.minecraft.network.play.server.S2EPacketCloseWindow),
+        register("packetSent", fn).setFilteredClass(net.minecraft.network.play.client.C0DPacketCloseWindow)
+    ]
+})
+
 // Client Packets
 createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn, wrapBP = true) => 
     register("packetSent", (packet) => {
