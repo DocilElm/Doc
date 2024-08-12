@@ -258,7 +258,7 @@ config
     category: "Dungeons",
     configName: "puzzlesDisplay",
     title: "Puzzles Display",
-    description: "Display the current amount of puzzles in the dungeon",
+    description: "Display the current amount of puzzles in the dungeon and also the puzzles that have been opened/done/failed",
     subcategory: "Dungeons"
 })
 .addSwitch({
@@ -287,13 +287,6 @@ config
     configName: "removeDamageTag",
     title: "Remove Damage Tag",
     description: "Removes every damage tag from rendering",
-    subcategory: "Dungeons"
-})
-.addSwitch({
-    category: "Dungeons",
-    configName: "puzzleNamesDisplay",
-    title: "Puzzle Names Display",
-    description: "Display the current status and names of the puzzles in tablist",
     subcategory: "Dungeons"
 })
 .addSwitch({
