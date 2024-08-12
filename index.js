@@ -18,3 +18,4 @@ import "./features/mining/PowderDisplay"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
+import "./features/misc/RemoveFrontView"
