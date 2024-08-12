@@ -1,6 +1,5 @@
 import Settings from "../Amaterasu/core/Settings"
 import DefaultConfig from "../Amaterasu/core/DefaultConfig"
-const config = new DefaultConfig("Doc", "data/settings.json")
 const schemePath = "data/ColorScheme.json"
 
 const applyChanges = (configInstance) => {
@@ -20,7 +19,7 @@ const applyChanges = (configInstance) => {
     configInstance.apply()
 }
 
-config
+const config = new DefaultConfig("Doc", "data/settings.json")
 .addSwitch({
     category: "Dungeons",
     configName: "boxStarMobs",
@@ -711,7 +710,7 @@ config
     configName: "renderItemRarityShape",
     title: "Render Item Rarity Shape",
     description: "Changes the shape of Render Item Rarity",
-    options: ["Box","Hexagon","Rounded"],
+    options: ["Lines", "Rect", "Rect & Lines", "Hexagon", "Rounded"],
     value: 0,
     subcategory: "Misc",
     shouldShow(data) {
