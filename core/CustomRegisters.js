@@ -257,7 +257,9 @@ let _scheduleTaskList = []
  */
 export const scheduleTask = (fn, delay = 1) => _scheduleTaskList.push([fn, delay])
 
-register("packetReceived", () => {
+register("packetReceived", (packet) => {
+    if (packet.func_148890_d() > 0) return
+
     for (let idx = _scheduleTaskList.length - 1; idx >= 0; idx--) {
         let delay = _scheduleTaskList[idx][1]--
 
