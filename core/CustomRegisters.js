@@ -241,7 +241,7 @@ createCustomEvent(EventEnums.PACKET.CLIENT.WINDOWCLOSE, (fn) => register("packet
 createCustomEvent(EventEnums.FORGE.ENTITYJOIN, (fn, clazz) => {
     // Credits: https://github.com/BetterMap/BetterMap/blob/main/Extra/Events/SecretTracker.js
     return register(net.minecraftforge.event.entity.EntityJoinWorldEvent, (event) => {
-        if (!(event.entity instanceof clazz)) return
+        if (clazz && !(event.entity instanceof clazz)) return
     
         fn(event.entity, event.entity.func_145782_y())
     }).unregister()
