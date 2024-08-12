@@ -17,3 +17,4 @@ import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"
 // Misc
 import "./features/misc/BlockOverlay"
+import "./features/misc/MiddleClickGuis"
