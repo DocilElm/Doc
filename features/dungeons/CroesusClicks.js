@@ -29,6 +29,7 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
     .addSubEvent(
         new Event(EventEnums.PACKET.CLIENT.WINDOWCLICK, (_, slot) => {
             if (slot <= 0 || slot >= 44) return
+            if (!cachedItems[slot] || cachedItems[slot]?.getID() === 160 || cachedItems[slot]?.getID() === 262) return
 
             slotsClicked.add(`${currentPage}${slot}`)
         }),
