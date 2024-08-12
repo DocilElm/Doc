@@ -36,7 +36,7 @@ export default class Feature {
             this.canRegister = value
 
             if (!this.canRegister) return this._unregister()
-            if (this._checkWorld(Location.area)) return this._unregister()
+            if (!this._checkWorld(Location.area)) return this._unregister()
             if (this.area && !Location.inArea(this.area)) return this._unregister()
 
             this._register()
