@@ -49,7 +49,6 @@ export default class Feature {
 
         Location.onAreaChange((areaName) => {
             if (!this.world || !this.area) return
-            // if (!this.area && Location.inWorld(this.world)) return this._register()
 
             if (!areaName?.includes(this.area)) return this._unregister()
 

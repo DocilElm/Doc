@@ -121,13 +121,13 @@ createCustomEvent(EventEnums.PACKET.SERVER.TABADD, (fn, criteria) =>
 )
 
 createCustomEvent(EventEnums.PACKET.SERVER.WINDOWITEMS, (fn) => 
-    register("packetReceived", (packet, _) => {
+    register("packetReceived", (packet) => {
         fn(packet.func_148910_d())
     }).setFilteredClass(net.minecraft.network.play.server.S30PacketWindowItems).unregister()
 )
 
 createCustomEvent(EventEnums.PACKET.SERVER.WINDOWOPEN, (fn) => 
-    register("packetReceived", (packet, _) => {
+    register("packetReceived", (packet) => {
         const windowTitle = packet.func_179840_c().func_150254_d().removeFormatting()
         const windowID = packet.func_148901_c()
         const hasSlots = packet.func_148900_g()
@@ -175,7 +175,7 @@ createCustomEvent(EventEnums.PACKET.SERVER.WINDOWCLOSE, (fn) => register("packet
 
 // Custom Server Packets
 createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumeral = false) => 
-    register("packetReceived", (packet, _) => {
+    register("packetReceived", (packet) => {
         let blessingsArray = []
 
         packet.func_179701_b()?.func_150253_a()?.forEach(chatComponent => {
@@ -196,7 +196,7 @@ createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumer
 
 // Client Packets
 createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn, wrapBP = true) => 
-    register("packetSent", (packet, _) => {
+    register("packetSent", (packet) => {
         const position = packet.func_179724_a()
     
         const [ x, y, z ] = [
@@ -211,7 +211,7 @@ createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn, wrapBP = true) =
 )
 
 createCustomEvent(EventEnums.PACKET.CLIENT.WINDOWCLICK, (fn) => 
-    register("packetSent", (packet, _) => {
+    register("packetSent", (packet) => {
         // Container name, Slot clicked
         fn(Player.getContainer().getName(), packet.func_149544_d())
     }).setFilteredClass(net.minecraft.network.play.client.C0EPacketClickWindow).unregister()
@@ -234,3 +234,26 @@ createCustomEvent(EventEnums.FORGE.ENTITYJOIN, (fn, clazz) => {
         fn(event.entity, event.entity.func_145782_y())
     }).unregister()
 })
+
+// Custom functions that require events
+let _scheduleTaskList = []
+/**
+ * - Runs the given function after the delay is done
+ * - NOTE: These are server ticks not client ticks for that use ct's one
+ * @param {() => void} fn The function to be ran
+ * @param {number?} delay The delay in ticks
+ */
+export const scheduleTask = (fn, delay = 1) => _scheduleTaskList.push([fn, delay])
+
+register("packetReceived", () => {
+    for (let idx = _scheduleTaskList.length - 1; idx >= 0; idx--) {
+        let delay = _scheduleTaskList[idx][1]--
+
+        if (delay !== 0) continue
+
+        let fn = _scheduleTaskList[idx][0]
+        fn()
+
+        _scheduleTaskList.splice(idx, 1)
+    }
+}).setFilteredClass(net.minecraft.network.play.server.S32PacketConfirmTransaction)
