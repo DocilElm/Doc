@@ -26,6 +26,12 @@ createCustomEvent(EventEnums.SOUNDPLAY, (fn, criteria) => register("soundPlay", 
 
 createCustomEvent(EventEnums.POSTRENDERENTITY, (fn, clazz) => register("postRenderEntity", fn).setFilteredClass(clazz).unregister())
 
+createCustomEvent(EventEnums.ENTITYDEATH, (fn, clazz) => register("entityDeath", (entity) => {
+    if (!(entity.entity instanceof clazz)) return
+
+    fn(entity)
+}).unregister())
+
 // Server Packets
 createCustomEvent(EventEnums.PACKET.SERVER.CHAT, (fn, criteria) => 
     register("packetReceived", (packet, event) => {

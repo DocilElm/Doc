@@ -55,6 +55,7 @@ export default {
     COMMAND: idx++,
     RENDERENTITY: idx++,
     POSTRENDERENTITY: idx++,
+    ENTITYDEATH: idx++,
     PACKET: {
         CLIENT: {
             BLOCKPLACEMENT: idx++,
