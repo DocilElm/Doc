@@ -40,7 +40,7 @@ const feat = new Feature("secretsSound", "catacombs")
             itemEntities.set(entityID, entity)
 
             feat.update()
-        })
+        }, net.minecraft.entity.item.EntityItem)
     )
     .addSubEvent(
         new Event(EventEnums.PACKET.SERVER.COLLECTITEM, (entityID) => {
