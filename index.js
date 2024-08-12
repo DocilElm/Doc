@@ -14,3 +14,4 @@ import "./features/dungeons/HideNoStarTag"
 import "./features/dungeons/SecretsSound"
 // Mining
 import "./features/mining/EmissaryWaypoints"
+import "./features/mining/PowderDisplay"
