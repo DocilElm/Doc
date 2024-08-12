@@ -12,3 +12,5 @@ import "./features/dungeons/MimicKilled"
 import "./features/dungeons/RemoveDmgTag"
 import "./features/dungeons/HideNoStarTag"
 import "./features/dungeons/SecretsSound"
+// Mining
+import "./features/mining/EmissaryWaypoints"
