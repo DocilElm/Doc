@@ -208,10 +208,16 @@ createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumer
 
 createCustomEvent(EventEnums.PACKET.CUSTOM.WINDOWCLOSE, (fn) => {
     return [
-        register("packetReceived", fn).setFilteredClass(net.minecraft.network.play.server.S2EPacketCloseWindow),
-        register("packetSent", fn).setFilteredClass(net.minecraft.network.play.client.C0DPacketCloseWindow)
+        register("packetReceived", fn).setFilteredClass(net.minecraft.network.play.server.S2EPacketCloseWindow).unregister(),
+        register("packetSent", fn).setFilteredClass(net.minecraft.network.play.client.C0DPacketCloseWindow).unregister()
     ]
 })
+
+createCustomEvent(EventEnums.PACKET.CUSTOM.TICK, (fn) => register("packetReceived", (packet) => {
+    if (packet.func_148890_d() > 0) return
+
+    fn()
+}).setFilteredClass(net.minecraft.network.play.server.S32PacketConfirmTransaction))
 
 // Client Packets
 createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn, wrapBP = true) => 
