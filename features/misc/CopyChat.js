@@ -5,7 +5,12 @@ import { TextHelper } from "../../shared/TextHelper"
 const Mouse = org.lwjgl.input.Mouse
 
 const add = (comp, arr, isBelow) => {
-    if (!comp || isBelow && !comp.func_150261_e()?.removeFormatting().startsWith(" ")) return
+    if (!comp) return
+    const str = comp.func_150261_e()?.removeFormatting()
+    if (
+        isBelow &&
+        (!str.startsWith(" ") || /^ \(\d+\)$/.test(str))
+    ) return
     const isCtrlDown = Client.isControlDown()
 
     const msg = isCtrlDown
@@ -30,7 +35,7 @@ new Feature("copyChat")
             let below = []
             let below2 = []
 
-            for (let idx = 0; idx < chatWidth; idx += 5) {
+            for (let idx = 0; idx < chatWidth; idx += 10) {
                 let comp = chatGui.func_146236_a(idx, y)
                 let compbelow = chatGui.func_146236_a(idx, y - (10 * scale))
                 // Just in case it's a triple line message
@@ -39,6 +44,8 @@ new Feature("copyChat")
                 add(comp, normal)
                 add(compbelow, below, true)
                 add(compbelow2, below2, true)
+
+                if (comp) idx += (Renderer.getStringWidth(comp.func_150261_e()) * scale)
             }
 
             ChatLib.command(`ct copy ${[...normal, ...below, ...below2].join("\n")}`, true)
