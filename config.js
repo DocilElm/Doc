@@ -527,15 +527,6 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Displays a timer with the current invincibility for the phoenix pet",
     subcategory: "Misc"
 })
-.addDropDown({
-    category: "Misc",
-    configName: "phoenixPetTime",
-    title: "Phoenix Pet Time",
-    description: "The amount of time to use as invincibility timer (this is here because for some reason it's 3s sometimes and others it's 4s)",
-    options: ["4 seconds","3 seconds"],
-    value: 0,
-    subcategory: "Misc"
-})
 .addSwitch({
     category: "Misc",
     configName: "statsDisplay",
