@@ -4,6 +4,7 @@ const RenderGlobal = Java.type("net.minecraft.client.renderer.RenderGlobal")
 const MCTessellator = Java.type("net.minecraft.client.renderer.Tessellator").func_178181_a()
 const DefaultVertexFormats = Java.type("net.minecraft.client.renderer.vertex.DefaultVertexFormats")
 const WorldRenderer = MCTessellator.func_178180_c()
+const IBlockStateAir = new BlockType("minecraft:air").getDefaultState()
 
 // From BloomCore
 const GuiContainer = Java.type("net.minecraft.client.gui.inventory.GuiContainer")
@@ -482,7 +483,7 @@ export class RenderHelper {
     }
 
     static getCTBlockAxis(ctBlock) {
-        if (World.getBlockStateAt(ctBlock.pos).toString() !== "minecraft:air")
+        if (ctBlock.getState() != IBlockStateAir)
             ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
 
         // getSelectedBoundingBox - func_180646_a
