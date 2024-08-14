@@ -482,7 +482,7 @@ export class RenderHelper {
     }
 
     static getCTBlockAxis(ctBlock) {
-        ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
+        if (ctBlock.type.getID() !== 0) ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
 
         // getSelectedBoundingBox - func_180646_a
         return ctBlock.type.mcBlock.func_180646_a(World.getWorld(), ctBlock.pos.toMCBlock())
