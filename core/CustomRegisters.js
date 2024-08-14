@@ -250,6 +250,10 @@ createCustomEvent(EventEnums.PACKET.CLIENT.WINDOWCLOSE, (fn) => register("packet
     fn()
 }).setFilteredClass(net.minecraft.network.play.client.C0DPacketCloseWindow).unregister())
 
+createCustomEvent(EventEnums.PACKET.CLIENT.HELDITEMCHANGE, (fn) => register("packetSent", (packet) => {
+    fn(packet.func_149614_c())
+}).setFilteredClass(net.minecraft.network.play.client.C09PacketHeldItemChange).unregister())
+
 // Forge Events
 createCustomEvent(EventEnums.FORGE.ENTITYJOIN, (fn, clazz) => {
     // Credits: https://github.com/BetterMap/BetterMap/blob/main/Extra/Events/SecretTracker.js

@@ -61,7 +61,8 @@ export default {
             BLOCKPLACEMENT: idx++,
             WINDOWCLICK: idx++,
             DIGGING: idx++,
-            WINDOWCLOSE: idx++
+            WINDOWCLOSE: idx++,
+            HELDITEMCHANGE: idx++
         },
         SERVER: {
             CHAT: idx++,
