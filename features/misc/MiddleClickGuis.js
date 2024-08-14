@@ -2,6 +2,8 @@ import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
 import { TextHelper } from "../../shared/TextHelper"
 
+// Credits: https://github.com/Skytils/SkytilsMod/blob/1.x/src/main/kotlin/gg/skytils/skytilsmod/features/impl/misc/MiscFeatures.kt#L428
+
 const avoidGuis = [
     "Wardrobe",
     "Drill Anvil",
