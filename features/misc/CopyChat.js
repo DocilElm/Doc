@@ -31,6 +31,8 @@ new Feature("copyChat")
             const scale = Client.settings.getSettings().field_74335_Z
             const chatWidth = 600 * scale
 
+            let hasNextLine = false
+
             let normal = []
             let below = []
             let below2 = []
@@ -42,8 +44,13 @@ new Feature("copyChat")
                 let compbelow2 = chatGui.func_146236_a(idx, y - (20 * scale))
 
                 add(comp, normal)
-                add(compbelow, below, true)
-                add(compbelow2, below2, true)
+                if (idx >= 0 && idx <= 10 && compbelow?.func_150261_e()?.removeFormatting()?.startsWith(" ")) {
+                    hasNextLine = true
+                }
+                if (hasNextLine) {
+                    add(compbelow, below, true)
+                    add(compbelow2, below2, true)
+                }
 
                 if (comp) idx += (Renderer.getStringWidth(comp.func_150261_e()) * scale)
             }
