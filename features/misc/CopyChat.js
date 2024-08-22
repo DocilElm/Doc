@@ -9,7 +9,7 @@ const add = (comp, arr, isBelow) => {
     const str = comp.func_150261_e()?.removeFormatting()
     if (
         isBelow &&
-        (!str.startsWith(" ") || /^ \(\d+\)$/.test(str))
+        (!str.startsWith(" ") || str.startsWith(" ☠") || /^ \(\d+\)$/.test(str))
     ) return
     const isCtrlDown = Client.isControlDown()
 
@@ -28,7 +28,7 @@ new Feature("copyChat")
 
             const y = Mouse.getY()
             const chatGui = Client.getChatGUI()
-            const scale = Client.settings.getSettings().field_74335_Z
+            const scale = Renderer.screen.getScale()
             const chatWidth = 600 * scale
 
             let hasNextLine = false
@@ -55,7 +55,7 @@ new Feature("copyChat")
                 if (comp) idx += (Renderer.getStringWidth(comp.func_150261_e()) * scale)
             }
 
-            ChatLib.command(`ct copy ${[...normal, ...below, ...below2].join("\n")}`, true)
+            ChatLib.command(`ct copy ${[...normal, ...below, ...below2].join("")}`, true)
             ChatLib.chat(`${TextHelper.PREFIX} &aCopied message to clipboard`)
         })
     )
