@@ -50,8 +50,8 @@ const feat = new Feature("chatWaypoint")
         coords.clear()
     })
 
-// Whitelist command
-addCommand("ctw", "&6Chat waypoints whitelist commands", (mode, name) => {
+// Blacklist command
+addCommand("ctw", "&6Chat waypoints Blacklist commands", (mode, name) => {
     if (!mode)
         return ChatLib.chat(`${TextHelper.PREFIX} &cMakes sure to add a mode &7(modes: add, remove, clear)&c and a username.&7(clear does not require a username)`)
 
