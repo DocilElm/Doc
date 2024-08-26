@@ -17,6 +17,7 @@ import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"
 // Garden
 import "./features/garden/GardenDisplay"
+import "./features/garden/PestsDisplay"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
@@ -39,3 +40,4 @@ import "./features/misc/EnchantedBookDisplay"
 import "./features/misc/AttributeShardDisplay"
 import "./features/misc/ChatWaypoint"
 import "./features/misc/HideEmtpyTooltip"
+
