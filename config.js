@@ -1091,7 +1091,6 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 
 const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Misc", "UI"]
 const setting = new Settings("Doc", config, schemePath)
-    .setCommand("doc")
     .setCategorySort((a, b) => categories.indexOf(a.category) - categories.indexOf(b.category))
     .apply() // apply the sorting changes
 
