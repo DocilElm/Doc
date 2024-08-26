@@ -518,4 +518,13 @@ export class RenderHelper {
             .enableTexture2D()
             .popMatrix()
     }
+
+    static renderWaypoint(text, x, y, z, r, g, b, a, phase = true) {
+        const block = World.getBlockAt(x, y, z)
+
+        this.outlineBlock(block, r, g, b, a, phase)
+        this.filledBlock(block, r, g, b, 50, phase)
+        Tessellator.drawString(text, x + 0.5, y + 5, z + 0.5, Renderer.WHITE, true)
+        this.renderBeaconBeam(x, y, z, r, g, b, a, phase)
+    }
 }
