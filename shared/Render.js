@@ -1,4 +1,6 @@
-const AxisAlignedBB = net.minecraft.util.AxisAlignedBB
+import { DGlStateManager } from "./DGlStateManager"
+
+const AxisAlignedBB = Java.type("net.minecraft.util.AxisAlignedBB")
 const GuiUtils = Java.type("net.minecraftforge.fml.client.config.GuiUtils")
 const RenderGlobal = Java.type("net.minecraft.client.renderer.RenderGlobal")
 const MCTessellator = Java.type("net.minecraft.client.renderer.Tessellator").func_178181_a()
@@ -6,38 +8,17 @@ const DefaultVertexFormats = Java.type("net.minecraft.client.renderer.vertex.Def
 const WorldRenderer = MCTessellator.func_178180_c()
 const IBlockStateAir = new BlockType("minecraft:air").getDefaultState()
 
+// From BeaconBeam module
+const ResourceLocation = Java.type("net.minecraft.util.ResourceLocation")
+const MathHelper = Java.type("net.minecraft.util.MathHelper")
+const beaconBeam = new ResourceLocation("textures/entity/beacon_beam.png")
+
 // From BloomCore
 const GuiContainer = Java.type("net.minecraft.client.gui.inventory.GuiContainer")
 const guiContainerLeftField = GuiContainer.class.getDeclaredField("field_147003_i")
 const guiContainerTopField = GuiContainer.class.getDeclaredField("field_147009_r")
 guiContainerLeftField.setAccessible(true)
 guiContainerTopField.setAccessible(true)
-
-/**
- * @param {Block} ctBlock 
- * @returns {Number[]} - A 6-long array of numbers with the [x0, y0, z0, x1, y1, z1] corners of the block's bounding box.
- */
-export const getBlockBoundingBox = (ctBlock, filled = false) => {
-    const mcBlock = ctBlock.type.mcBlock
-
-    if (ctBlock.type.getName().includes("Stair")) return [
-        ctBlock.getX(),
-        ctBlock.getY(),
-        ctBlock.getZ(),
-        ctBlock.getX() + 1,
-        ctBlock.getY() + 1,
-        ctBlock.getZ() + 1
-    ]
-
-    return [
-        ctBlock.getX() + mcBlock.func_149704_x() - (filled ? .01 : 0),
-        ctBlock.getY() + mcBlock.func_149665_z() - (filled ? .01 : 0),
-        ctBlock.getZ() + mcBlock.func_149706_B() - (filled ? .01 : 0),
-        ctBlock.getX() + mcBlock.func_149753_y() + (filled ? .01 : 0),
-        ctBlock.getY() + mcBlock.func_149669_A() + (filled ? .01 : 0),
-        ctBlock.getZ() + mcBlock.func_149693_C() + (filled ? .01 : 0)
-    ]
-}
 
 /**
  * - Gets the given [AxisAlignedBB] [Min] and [Max] positions
@@ -100,110 +81,6 @@ register("renderOverlay", () => {
     _drawTitle(currentTitle.title, currentTitle.subtitle)
 })
 
-export class DGlStateManager {
-    static pushMatrix() {
-        GlStateManager.func_179094_E()
-
-        return this
-    }
-
-    static popMatrix() {
-        GlStateManager.func_179121_F()
-
-        return this
-    }
-
-    static translate(x, y, z) {
-        GlStateManager.func_179137_b(x, y, z)
-
-        return this
-    }
-
-    static tryBlendFuncSeparate(srcFactor, dstFactor, srcFactorAlpha, dstFactorAlpha) {
-        GlStateManager.func_179120_a(srcFactor, dstFactor, srcFactorAlpha, dstFactorAlpha)
-
-        return this
-    }
-
-    static color(r, g, b, a) {
-        GlStateManager.func_179131_c(r, g, b, a)
-
-        return this
-    }
-
-    static enableBlend() {
-        GlStateManager.func_179147_l()
-
-        return this
-    }
-
-    static enableAlpha() {
-        GlStateManager.func_179141_d()
-
-        return this
-    }
-
-    static enableTexture2D() {
-        GlStateManager.func_179098_w()
-
-        return this
-    }
-
-    static enableDepth() {
-        GlStateManager.func_179126_j()
-
-        return this
-    }
-
-    static enableCull() {
-        GlStateManager.func_179089_o()
-
-        return this
-    }
-
-    static disableTexture2D() {
-        GlStateManager.func_179090_x()
-
-        return this
-    }
-
-    static disableLighting() {
-        GlStateManager.func_179140_f()
-
-        return this
-    }
-
-    static disableAlpha() {
-        GlStateManager.func_179118_c()
-
-        return this
-    }
-
-    static disableBlend() {
-        GlStateManager.func_179084_k()
-
-        return this
-    }
-
-    static disableDepth() {
-        GlStateManager.func_179097_i()
-
-        return this
-    }
-
-    static disableCull() {
-        GlStateManager.func_179129_p()
-
-        return this
-    }
-
-    static resetColor() {
-        GlStateManager.func_179117_G()
-
-        return this
-    }
-}
-
 export class RenderHelper {
     /**
      * - Gets the gui's X and Y values
@@ -221,6 +98,7 @@ export class RenderHelper {
             guiContainerTopField.get(mcGuiContainer)
         ]
     }
+
     /**
      * - Gets the given slotNumber's render position [x, y]
      * @param {Number} slotNumber 
@@ -482,6 +360,13 @@ export class RenderHelper {
         )
     }
 
+    /**
+     * - (mostly) Internal use.
+     * - Gets the [AxisAlignedBB] for the given [Block]
+     * - The same way mojang does it (kind of)
+     * @param {Block} ctBlock
+     * @returns 
+     */
     static getCTBlockAxis(ctBlock) {
         if (ctBlock.getState() != IBlockStateAir)
             ctBlock.type.mcBlock.func_180654_a(World.getWorld(), ctBlock.pos.toMCBlock())
@@ -492,15 +377,17 @@ export class RenderHelper {
     }
 
     /**
-     * - Renders an outline at the given [Block]
+     * - Renders an outline like at the given [Block]
      * - This is (mostly) [Mojang]'s code
-     * @param {Block} ctBlock The Ct Block to render an outline on
-     * @param {Number} r Red
-     * @param {Number} g Green
-     * @param {Number} b Blue
-     * @param {Number} a Alpha
-     * @param {Boolean} phase Whether it should show the outline through walls or not (`true` by default)
-     * @param {Number} thickness The thickness of the line being rendered (`3` by default)
+     * @param {Block} ctBlock
+     * @param {number} r Red (`0` - `255`)
+     * @param {number} g Green (`0` - `255`)
+     * @param {number} b Blue (`0` - `255`)
+     * @param {number} a Alpha (`0` - `255`)
+     * @param {boolean} phase Whether to render the filled block through walls or not (`true` by default)
+     * @param {number} lineWidth The width of the line to outline this block
+     * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
+     * @returns
      */
     static outlineBlock(ctBlock, r, g, b, a, phase = true, lineWidth = 3, translate = true) {
         if (!ctBlock) return
@@ -510,17 +397,125 @@ export class RenderHelper {
 
     /**
      * - Renders a filled block like at the given [Block]
-     * - Partially [Bloom]'s code
-     * @param {Block} ctBlock The Ct Block to render on
-     * @param {Number} r Red
-     * @param {Number} g Green
-     * @param {Number} b Blue
-     * @param {Number} a Alpha
-     * @param {Boolean} phase Whether it should show the filled block through walls or not (`true` by default)
+     * @param {Block} ctBlock
+     * @param {number} r Red (`0` - `255`)
+     * @param {number} g Green (`0` - `255`)
+     * @param {number} b Blue (`0` - `255`)
+     * @param {number} a Alpha (`0` - `255`)
+     * @param {boolean} phase Whether to render the filled block through walls or not (`true` by default)
+     * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
+     * @link Huge thanks to [Ch1ck3nNeedsRNG](https://github.com/PerseusPotter)
+     * @returns
      */
     static filledBlock(ctBlock, r, g, b, a, phase = true, translate = true) {
         if (!ctBlock) return
 
         this.drawFilledBox(this.getCTBlockAxis(ctBlock), r, g, b, a, phase, translate)
+    }
+
+    /**
+     * - Draws a beacon beam
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @param {number} r 0 - 255
+     * @param {number} g 0 - 255
+     * @param {number} b 0 - 255
+     * @param {number} a 0 - 255
+     * @param {boolean} phase Whether it should render through walls or not
+     * @param {number} height The limit height for the beam to render to (`300` by default)
+     * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
+     * @link From [NotEnoughUpdates](https://github.com/NotEnoughUpdates/NotEnoughUpdates/blob/master/src/main/java/io/github/moulberry/notenoughupdates/core/util/render/RenderUtils.java#L220)
+     */
+    static renderBeaconBeam(x, y, z, r, g, b, a, phase = false, height = 300, translate = true) {
+        const [ realX, realY, realZ ] = this.getInterp()
+
+        DGlStateManager.pushMatrix()
+
+        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
+        if (phase) DGlStateManager.disableDepth()
+
+        r = r / 255
+        g = g / 255
+        b = b / 255
+        a = a / 255
+
+        Client.getMinecraft().func_110434_K().func_110577_a(beaconBeam) //getTextureManager().bindTexture()
+
+        GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT)
+        GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT)
+
+        DGlStateManager
+            .disableLighting()
+            .enableCull()
+            .enableTexture2D()
+            .tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO)
+            .enableBlend()
+            .tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
+
+        const time = World.getTime() + Tessellator.getPartialTicks()
+        const d1 = MathHelper.func_181162_h(-time * 0.2 - MathHelper.func_76128_c(-time * 0.1))
+        const d2 = time * 0.025 * -1.5
+        const d4 = 0.5 + Math.cos(d2 + 2.356194490192345) * 0.2
+        const d5 = 0.5 + Math.sin(d2 + 2.356194490192345) * 0.2
+        const d6 = 0.5 + Math.cos(d2 + (Math.PI / 4)) * 0.2
+        const d7 = 0.5 + Math.sin(d2 + (Math.PI / 4)) * 0.2
+        const d8 = 0.5 + Math.cos(d2 + 3.9269908169872414) * 0.2
+        const d9 = 0.5 + Math.sin(d2 + 3.9269908169872414) * 0.2
+        const d10 = 0.5 + Math.cos(d2 + 5.497787143782138) * 0.2
+        const d11 = 0.5 + Math.sin(d2 + 5.497787143782138) * 0.2
+        const d14 = -1 + d1
+        const d15 = height * 2.5 + d14
+
+        WorldRenderer.func_181668_a(GL11.GL_QUADS, DefaultVertexFormats.field_181709_i)
+        WorldRenderer.func_181662_b(x + d4, y + height, z + d5).func_181673_a(1, d15).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d4, y, z + d5).func_181673_a(0, d14).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d6, y, z + d7).func_181673_a(0, d14).func_181666_a(r, g, b, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + d6, y + height, z + d7).func_181673_a(0, d15).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d10, y + height, z + d11).func_181673_a(1, d15).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d10, y, z + d11).func_181673_a(1, d14).func_181666_a(r, g, b, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + d8, y, z + d9).func_181673_a(0, d14).func_181666_a(r, g, b, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + d8, y + height, z + d9).func_181673_a(0, d15).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d6, y + height, z + d7).func_181673_a(1, d15).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d6, y, z + d7).func_181673_a(1, d14).func_181666_a(r, g, b, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + d10, y, z + d11).func_181673_a(0, d14).func_181666_a(r, g, b, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + d10, y + height, z + d11).func_181673_a(0, d15).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d8, y + height, z + d9).func_181673_a(1, d15).func_181666_a(r, g, b, a).func_181675_d()
+        WorldRenderer.func_181662_b(x + d8, y, z + d9).func_181673_a(1, d14).func_181666_a(r, g, b, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + d4, y, z + d5).func_181673_a(0, d14).func_181666_a(r, g, b, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + d4, y + height, z + d5).func_181673_a(0, d15).func_181666_a(r, g, b, a).func_181675_d()
+        MCTessellator.func_78381_a()
+
+        DGlStateManager.disableCull()
+
+        const d12 = -1 + d1
+        const d13 = height + d12
+
+        WorldRenderer.func_181668_a(GL11.GL_QUADS, DefaultVertexFormats.field_181709_i)
+        WorldRenderer.func_181662_b(x + 0.2, y + height, z + 0.2).func_181673_a(1, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.2, y, z + 0.2).func_181673_a(1, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y, z + 0.2).func_181673_a(0, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y + height, z + 0.2).func_181673_a(0, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y + height, z + 0.8).func_181673_a(1, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y, z + 0.8).func_181673_a(1, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.2, y, z + 0.8).func_181673_a(0, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.2, y + height, z + 0.8).func_181673_a(0, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y + height, z + 0.2).func_181673_a(1, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y, z + 0.2).func_181673_a(1, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y, z + 0.8).func_181673_a(0, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.8, y + height, z + 0.8).func_181673_a(0, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.2, y + height, z + 0.8).func_181673_a(1, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.2, y, z + 0.8).func_181673_a(1, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.2, y, z + 0.2).func_181673_a(0, d12).func_181666_a(r, g, b, 0.25).func_181675_d()
+        WorldRenderer.func_181662_b(x + 0.2, y + height, z + 0.2).func_181673_a(0, d13).func_181666_a(r, g, b, 0.25 * a).func_181675_d()
+        MCTessellator.func_78381_a()
+
+        if (translate) DGlStateManager.translate(realX, realY, realZ)
+        if (phase) DGlStateManager.enableDepth()
+
+        DGlStateManager
+            .disableLighting()
+            .enableTexture2D()
+            .popMatrix()
     }
 }
