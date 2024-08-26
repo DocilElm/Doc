@@ -15,6 +15,8 @@ import "./features/dungeons/SecretsSound"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"
+// Garden
+import "./features/garden/GardenDisplay"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
