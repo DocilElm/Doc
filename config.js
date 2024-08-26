@@ -964,6 +964,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     }
 })
 .addSwitch({
+    category: "Misc",
+    configName: "hideEmptyTooltip",
+    title: "Hide Empty ToolTip",
+    description: "Hides tooltip that have no text in them",
+    subcategory: "Misc"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
