@@ -1,3 +1,4 @@
 *.json
 *.toml
 Dev.js
+!metadata.json

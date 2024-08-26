@@ -1,0 +1,19 @@
+{
+  "name": "Doc",
+  "creator": "DocilElm",
+  "description": "doc is the best.",
+  "version": "4.4.5",
+  "entry": "index.js",
+  "changelog": "",
+  "requires": [
+    "requestV2",
+    "PromiseV2",
+    "ChestMenu",
+    "PogData",
+    "Atomx",
+    "DocGuiLib",
+    "Elementa",
+    "KeybindFix",
+    "Amaterasu"
+  ]
+}
