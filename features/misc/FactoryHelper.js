@@ -25,6 +25,8 @@ const feat = new Feature("rabbitHelper")
     )
     .addEvent(
         new Event(EventEnums.PACKET.CUSTOM.WINDOWCLOSE, () => {
+            inFactory = false
+            renderIdx = null
             feat.update()
         })
     )
@@ -32,7 +34,6 @@ const feat = new Feature("rabbitHelper")
         new Event(EventEnums.PACKET.SERVER.CHAT, () => {
             renderIdx = null
             inFactory = true
-
             feat.update()
         }, rabbitUpgradeRegex)
     )
@@ -40,7 +41,6 @@ const feat = new Feature("rabbitHelper")
         new Event(EventEnums.PACKET.SERVER.CHAT, () => {
             renderIdx = null
             inFactory = true
-
             feat.update()
         }, notEnoughChocoRegex)
     )

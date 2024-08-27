@@ -41,4 +41,3 @@ import "./features/misc/EnchantedBookDisplay"
 import "./features/misc/AttributeShardDisplay"
 import "./features/misc/ChatWaypoint"
 import "./features/misc/HideEmtpyTooltip"
-
