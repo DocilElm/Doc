@@ -56,7 +56,7 @@ export class Persistence {
      * A function to get data from an url instead of a local file
      * @param {string} url The url where the data is located
      * @param {*} defaultValue The default value to return if the data is not found (e.g [] or {})
-     * @returns {*} 
+     * @returns {*}
      */
     static getDataFromURL(url, defaultValue = {}) {
         return JSON.parse(FileLib.getUrlContent(url) ?? defaultValue)   
@@ -66,7 +66,7 @@ export class Persistence {
      * A function to get data from a local file
      * @param {string} filePath The relative path of where it is located in Doc/data
      * @param {*} defaultValue The default value to return if the data is not found (e.g [] or {})
-     * @returns {*} 
+     * @returns {*}
      */
     static getDataFromFile(filePath, defaultValue = {}) {
         return JSON.parse(FileLib.read("Doc", `data/${filePath}`)) ?? defaultValue
@@ -149,3 +149,7 @@ export class Persistence {
 register("gameUnload", () => {
     Persistence.data.save()
 })
+
+export class GardenApi {
+    static Visitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Atomx/main/api/GardenVisitors.json")
+}

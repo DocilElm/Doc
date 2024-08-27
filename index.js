@@ -18,6 +18,7 @@ import "./features/mining/PowderDisplay"
 // Garden
 import "./features/garden/GardenDisplay"
 import "./features/garden/PestsDisplay"
+import "./features/garden/VisitorProfit"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
