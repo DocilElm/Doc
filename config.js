@@ -573,7 +573,7 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     category: "Misc",
     configName: "inventoryButtons",
     title: "Inventory Buttons",
-    description: "Allows you to make inventory buttons that can run specific commands. customize them with: &a/addbutton &rand &c/deletebutton",
+    description: "Allows you to make inventory buttons that can run specific commands. customize them with: &a/doc invbtn",
     subcategory: "Misc"
 })
 .addSwitch({
