@@ -72,6 +72,7 @@ export class InventoryButton {
         this.yOffset = 0
         this.texture = null
         this.calculateSize = false
+        this.dirty = false
         this.checkFn = () => World.isLoaded()
 
         // Add [this] class to the list if it's defined
@@ -196,6 +197,8 @@ export class InventoryButton {
      * - If the user is using patcher inventory scale it'll take that into consideration.
      */
     draw() {
+        if (this.dirty) return
+
         const [ x, y ] = this._getBoundary()
 
         const patcherScale = getInventoryScale()
@@ -287,7 +290,7 @@ export class InventoryButton {
      * @returns
      */
     _mouseClick(mx, my, mbtn) {
-        if (!this.checkFn()) return
+        if (!this.checkFn() || this.dirty) return
         
         const [ x, y, x1, y1 ] = this._getBoundary()
         if (!(mx >= x && mx <= x1 && my >= y && my <= y1)) return
@@ -307,7 +310,7 @@ export class InventoryButton {
      * @returns
      */
     _mouseHover(mx, my, gui) {
-        if (!this.checkFn() || !this.mouseHoverFn) return
+        if (!this.checkFn() || !this.mouseHoverFn || this.dirty) return
         
         const [ x, y, x1, y1 ] = this._getBoundary()
         if (!(mx >= x && mx <= x1 && my >= y && my <= y1)) return
@@ -336,9 +339,21 @@ export class InventoryButton {
     }
 
     /**
+     * - Mostly internal use
+     * - Marks this instance `dirty` so it doesn't run it's click methods anymore
+     * @returns {this} this for method chaining
+     */
+    markDirty() {
+        this.dirty = true
+
+        return this
+    }
+
+    /**
      * - Deletes this class from the list and the internal list
      */
     delete() {
+        this.dirty = true
         allButtons.delete(this)
         if (this.list) this.list.delete(this)
         delete this

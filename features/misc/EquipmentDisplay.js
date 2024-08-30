@@ -131,5 +131,6 @@ const feat = new Feature("equipmentsDisplay")
     .onUnregister(() => {
         inInv = false
         inEquipment = false
+        buttons.forEach(v => v.delete())
         buttons.clear()
     })
