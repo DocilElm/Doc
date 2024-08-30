@@ -29,7 +29,7 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
     .addSubEvent(
         new Event(EventEnums.PACKET.SERVER.WINDOWITEMS, (mcItems) => {
             cachedItems = mcItems.map(it => it && new Item(it))
-            currentPage = cachedItems?.[53]?.getID() === 160 ? "Page1" : cachedItems?.[53]?.getName()?.getLore()?.[1]?.removeFormatting()?.replace(/ /g, "")
+            currentPage = cachedItems?.[53]?.getID() === 160 ? "Page1" : cachedItems?.[53]?.getLore()?.[1]?.removeFormatting()?.replace(/ /g, "")
         }),
         () => inCroesus
     )
@@ -44,7 +44,10 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
     )
     .addSubEvent(
         new Event("renderOverlay", () => {
-            for (let v of slotsClicked.values()) {
+            for (let a of slotsClicked.entries()) {
+                let [ k, v ] = a
+                if (!k.startsWith(currentPage)) continue
+
                 let [ x, y ] = v
 
                 Renderer.retainTransforms(true)
