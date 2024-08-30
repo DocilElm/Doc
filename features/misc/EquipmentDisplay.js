@@ -103,7 +103,6 @@ const feat = new Feature("equipmentsDisplay")
                 let texture = item.getNBT()?.toObject()?.tag?.SkullOwner?.Properties?.textures?.[0]?.Value
                 if (!texture) {
                     ChatLib.chat(`${TextHelper.PREFIX} &cError while attempting to get texture data for item&f: ${item.getName()}`)
-
                     continue
                 }
 
@@ -125,11 +124,12 @@ const feat = new Feature("equipmentsDisplay")
         }),
         () => buttons.size && inInv
     )
+    .onRegister(() => {
+        // Update the initial button list from cache (if it exists)
+        updateButtons(feat)
+    })
     .onUnregister(() => {
         inInv = false
         inEquipment = false
         buttons.clear()
     })
-
-// Update the initial button list from cache (if it exists)
-updateButtons(feat)
