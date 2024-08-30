@@ -29,25 +29,27 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
     .addSubEvent(
         new Event(EventEnums.PACKET.SERVER.WINDOWITEMS, (mcItems) => {
             cachedItems = mcItems.map(it => it && new Item(it))
-            currentPage = cachedItems?.[53]?.getID() === 160 ? "Page1" : cachedItems?.[53]?.getLore()?.[1]?.removeFormatting()?.replace(/ /g, "")
+            const page = cachedItems?.[53]?.getID() === 160 ? "Page1" : cachedItems?.[53]?.getLore()?.[1]?.removeFormatting()?.replace(/ /g, "")
+
+            if (!slotsClicked.has(page)) slotsClicked.set(page, new Map())
+
+            currentPage = slotsClicked.get(page)
+            feat.update()
         }),
         () => inCroesus
     )
     .addSubEvent(
         new Event(EventEnums.PACKET.CLIENT.WINDOWCLICK, (_, slot) => {
-            if (slot <= 0 || slot >= 44 || slotsClicked.has(slot)) return
+            if (slot <= 0 || slot >= 44 || currentPage.has(slot)) return
             if (!cachedItems[slot] || cachedItems[slot]?.getID() === 160 || cachedItems[slot]?.getID() === 262) return
 
-            slotsClicked.set(`${currentPage}${slot}`, RenderHelper.getSlotRenderPosition(slot))
+            currentPage.set(slot, RenderHelper.getSlotRenderPosition(slot))
         }),
         () => inCroesus
     )
     .addSubEvent(
         new Event("renderOverlay", () => {
-            for (let a of slotsClicked.entries()) {
-                let [ k, v ] = a
-                if (!k.startsWith(currentPage)) continue
-
+            for (let v of currentPage.values()) {
                 let [ x, y ] = v
 
                 Renderer.retainTransforms(true)
@@ -57,7 +59,7 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
                 Renderer.retainTransforms(false)
             }
         }),
-        () => inCroesus && slotsClicked.size
+        () => inCroesus && currentPage
     )
     .onUnregister(() => {
         slotsClicked.clear()
