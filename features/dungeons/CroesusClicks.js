@@ -49,7 +49,7 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
     )
     .addSubEvent(
         new Event("renderOverlay", () => {
-            for (let v of currentPage.values()) {
+            for (let v of currentPage?.values()) {
                 let [ x, y ] = v
 
                 Renderer.retainTransforms(true)
