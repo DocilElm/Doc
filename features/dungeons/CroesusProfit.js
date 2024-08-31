@@ -48,6 +48,7 @@ const getProfit = (lore) => {
         // If the chest is opened set the flag to be true
         if (/^Already opened!$/.test(unformatted)) {
             result.opened = true
+            result.profit = -Infinity
             break
         }
 
@@ -160,6 +161,10 @@ const feat = new Feature("croesusProfitDisplay", "dungeon hub")
                 if (item.getID() === 160) continue
 
                 chestData.push(getProfit(item.getLore()))
+            }
+
+            if (config().croesusProfitSort) {
+                chestData = chestData.sort((a, b) => b.profit - a.profit)
             }
 
             shouldScan = false

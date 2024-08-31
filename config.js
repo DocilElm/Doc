@@ -87,6 +87,16 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 })
 .addSwitch({
     category: "Dungeons",
+    configName: "croesusProfitSort",
+    title: "Croesus Profit Sort",
+    description: "Sorts the displayed data by most profit to least",
+    subcategory: "Dungeons",
+    shouldShow(data) {
+        return data.croesusProfitDisplay
+    }
+})
+.addSwitch({
+    category: "Dungeons",
     configName: "showExtraStats",
     title: "Show Extra Stats",
     description: "Automatically sends the /showextrastats command at the end of a run",
