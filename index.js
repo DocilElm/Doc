@@ -12,6 +12,7 @@ import "./features/dungeons/MimicKilled"
 import "./features/dungeons/RemoveDmgTag"
 import "./features/dungeons/HideNoStarTag"
 import "./features/dungeons/SecretsSound"
+import "./features/dungeons/CroesusProfit"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"
