@@ -104,7 +104,7 @@ const getProfit = (lore) => {
         result.profit += Price.getSellPrice(itemID)
     }
 
-    result.profit = result.profit - chestPrice
+    result.profit = result.profit - (chestPrice || 0)
 
     return result
 }
