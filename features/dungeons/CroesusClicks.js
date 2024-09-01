@@ -23,6 +23,7 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
     .addEvent(
         new Event(EventEnums.PACKET.CUSTOM.WINDOWCLOSE, () => {
             inCroesus = false
+            currentPage = null
             feat.update()
         })
     )
@@ -45,11 +46,13 @@ const feat = new Feature("showCroesusClicks", "dungeon hub")
 
             currentPage.set(slot, RenderHelper.getSlotRenderPosition(slot))
         }),
-        () => inCroesus
+        () => inCroesus && currentPage
     )
     .addSubEvent(
         new Event("renderOverlay", () => {
-            for (let v of currentPage?.values()) {
+            if (!currentPage) return
+
+            for (let v of currentPage.values()) {
                 let [ x, y ] = v
 
                 Renderer.retainTransforms(true)
