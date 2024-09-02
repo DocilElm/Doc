@@ -137,6 +137,14 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 })
 .addSwitch({
     category: "Dungeons",
+    configName: "puzzleRoomScanner",
+    title: "Puzzle Room Scanner",
+    description: "This is used for puzzle solvers if you don't use them you can &cdisable&r this",
+    value: true,
+    subcategory: "Dungeons"
+})
+.addSwitch({
+    category: "Dungeons",
     configName: "blazeSolver",
     title: "Blaze Solver",
     description: "Draws a box at the correct blaze",
