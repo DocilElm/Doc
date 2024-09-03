@@ -14,6 +14,7 @@ import "./features/dungeons/HideNoStarTag"
 import "./features/dungeons/SecretsSound"
 import "./features/dungeons/CroesusProfit"
 import "./features/dungeons/ChestProfit"
+import "./features/dungeons/BlazeSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"

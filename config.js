@@ -155,14 +155,31 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     configName: "blazeSolverDone",
     title: "Blaze Done",
     description: "Automatically says &bBlaze Done&r in party chat",
-    subcategory: "Dungeons"
+    subcategory: "Dungeons",
+    shouldShow(data) {
+        return data.blazeSolver
+    }
 })
 .addSwitch({
     category: "Dungeons",
     configName: "blazeSolverLine",
     title: "Blaze Solver Line",
-    description: "Draws a line at the next blaze to kill (this is independent from blaze solver)",
-    subcategory: "Dungeons"
+    description: "Draws a line at the next blaze to kill",
+    subcategory: "Dungeons",
+    shouldShow(data) {
+        return data.blazeSolver
+    }
+})
+.addSwitch({
+    category: "Dungeons",
+    configName: "blazeSolverHide",
+    title: "Blaze Solver Hide",
+    description: "Hides the blazes that are being rendered",
+    value: true,
+    subcategory: "Dungeons",
+    shouldShow(data) {
+        return data.blazeSolver
+    }
 })
 .addSwitch({
     category: "Dungeons",
