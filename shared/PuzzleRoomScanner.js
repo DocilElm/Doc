@@ -1,9 +1,11 @@
+import { scheduleTask } from "../core/CustomRegisters"
 import { Event } from "../core/Event"
 import Feature from "../core/Feature"
 import { TextHelper } from "./TextHelper"
 
 const listeners = []
 const listenersExit = []
+const listenersSch = []
 const offsetsToCheck = [
     [0, 16],
     [-16, 0],
@@ -21,6 +23,16 @@ let lastIdx = null
  * @returns
  */
 export const onPuzzleRotation = (fn) => listeners.push(fn)
+
+/**
+ * - Runs the given function whenever the rotation
+ * - is found for the current room but schedules the task
+ * - 2 server ticks after
+ * @param {(rotation: number, posIdx: number) => void} fn
+ * @returns
+ */
+export const onPuzzleScheduledRotation = (fn) => listenersSch.push(fn)
+
 /**
  * - Runs the given function whenever the player leaves a room
  * @param {() => void} fn
@@ -86,6 +98,12 @@ new Feature("puzzleRoomScanner", "catacombs")
             for (let idx = 0; idx < listeners.length; idx++) {
                 listeners[idx](rotation, posIdx)
             }
+
+            scheduleTask(() => {
+                for (let idx = 0; idx < listenersSch.length; idx++) {
+                    listenersSch[idx](rotation, posIdx)
+                }
+            }, 2)
         })
     )
     .onUnregister(() => {
