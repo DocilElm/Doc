@@ -22,14 +22,14 @@ const relativeCoords = {
 let inBlaze = false
 let isTop = false
 let blazes = []
-let startedAt = null
+let enteredRoomAt = null
 let lastBlazes = null
 
 const reset = () => {
     inBlaze = false
     isTop = false
     blazes = []
-    startedAt = null
+    enteredRoomAt = null
     lastBlazes = null
 }
 
@@ -40,9 +40,9 @@ const feat = new Feature("blazeSolver", "catacombs")
                 .filter(it => blazeHealthRegex.test(it.getName().removeFormatting()))
                 .map(it => [it, Math.floor(it.getName().removeFormatting().match(blazeHealthRegex)[1].replace(/,/g, ""))])
 
-            if (blazes.length === 9) startedAt = Date.now()
-            if (blazes.length === 0 && startedAt && lastBlazes === 1) {
-                ChatLib.chat(`${TextHelper.PREFIX} &aBlaze took&f: &6${((Date.now() - startedAt) / 1000).toFixed(2)}s`)
+            if (blazes.length === 9) enteredRoomAt = Date.now()
+            if (blazes.length === 0 && enteredRoomAt && lastBlazes === 1) {
+                TextHelper.sendPuzzleMsg("Blaze", enteredRoomAt)
                 if (config().blazeSolverDone) ChatLib.command("pc Blaze Done")
 
                 reset()
@@ -106,6 +106,8 @@ onPuzzleScheduledRotation((rotation) => {
     isTop = bannerTop === BlockBanner && bedrockTop === BlockBedrock
 
     if (!inBlaze) return
+
+    ChatLib.chat(`${TextHelper.PREFIX} &aBlaze room detected`)
 
     feat.update()
 })
