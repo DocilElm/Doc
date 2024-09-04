@@ -346,4 +346,13 @@ export class TextHelper {
 
         return posIndex
     }
+
+    /**
+     * - Sends a message formatted specifically for puzzle timer
+     * @param {string} name The name of the puzzle/solver
+     * @param {number} time The time of when the room was entered or puzzle was started at
+     */
+    static sendPuzzleMsg(name, time) {
+        ChatLib.chat(`${TextHelper.PREFIX} &a${name} took&f: &6${((Date.now() - time) / 1000).toFixed(2)}s`)
+    }
 }
