@@ -104,7 +104,6 @@ onPuzzleScheduledRotation((rotation) => {
 
     const theGrid = getBoulderGrid(rotation)
     const currentSolution = solutions[theGrid]
-    ChatLib.chat(theGrid)
     if (!currentSolution) return ChatLib.chat(`${TextHelper.PREFIX} &cBoulder room variant not found in the data`)
 
     ChatLib.chat(`${TextHelper.PREFIX} &aBoulder room detected`)
