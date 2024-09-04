@@ -83,7 +83,8 @@ export default {
         CUSTOM: {
             BLESSINGCHANGE: idx++,
             WINDOWCLOSE: idx++,
-            TICK: idx++
+            TICK: idx++,
+            OPENEDCHEST: idx++
         }
     },
     FORGE: {

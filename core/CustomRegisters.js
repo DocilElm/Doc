@@ -219,6 +219,37 @@ createCustomEvent(EventEnums.PACKET.CUSTOM.TICK, (fn) => register("packetReceive
     fn()
 }).setFilteredClass(net.minecraft.network.play.server.S32PacketConfirmTransaction))
 
+// Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/features/WaterBoardTimer.js
+createCustomEvent(EventEnums.PACKET.CUSTOM.OPENEDCHEST, (fn) => {
+    let time = null
+
+    return [
+        register("packetSent", (packet) => {
+            const position = packet.func_179724_a()
+
+            const [ x, y, z ] = [
+                position.func_177958_n(), // getX()
+                position.func_177956_o(), // getY()
+                position.func_177952_p() // getZ()
+            ]
+            const ctBlock = World.getBlockAt(x, y, z)
+            if (!(ctBlock.type.mcBlock instanceof net.minecraft.block.BlockChest)) return
+
+            time = Date.now()
+        }).setFilteredClass(net.minecraft.network.play.client.C08PacketPlayerBlockPlacement).unregister(),
+
+        register("packetReceived", (packet) => {
+            if (!time || time && Date.now() - time > 300) return
+
+            const block = packet.func_148868_c()
+            if (!(block instanceof net.minecraft.block.BlockChest)) return
+
+            fn()
+            time = null
+        }).setFilteredClass(net.minecraft.network.play.server.S24PacketBlockAction).unregister()
+    ]
+})
+
 // Client Packets
 createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn, wrapBP = true) => 
     register("packetSent", (packet) => {
