@@ -78,13 +78,15 @@ export default {
             COLLECTITEM: idx++,
             ENTITYLOOKMOVE: idx++,
             SPAWNPARTICLE: idx++,
-            SPAWNMOB: idx++
+            SPAWNMOB: idx++,
+            BLOCKCHANGE: idx++
         },
         CUSTOM: {
             BLESSINGCHANGE: idx++,
             WINDOWCLOSE: idx++,
             TICK: idx++,
-            OPENEDCHEST: idx++
+            OPENEDCHEST: idx++,
+            MULTIBLOCKCHANGE: idx++
         }
     },
     FORGE: {

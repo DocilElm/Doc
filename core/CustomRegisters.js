@@ -185,6 +185,14 @@ createCustomEvent(EventEnums.PACKET.SERVER.SPAWNMOB, (fn) => register("packetRec
     })
 }).setFilteredClass(net.minecraft.network.play.server.S0FPacketSpawnMob).unregister())
 
+createCustomEvent(EventEnums.PACKET.SERVER.BLOCKCHANGE, (fn) => register("packetReceived", (packet) => {
+    const pos = new BlockPos(packet.func_179827_b())
+    const block = World.getBlockAt(pos.x, pos.y, pos.z)
+    const packetBlock = packet.func_180728_a().func_177230_c()
+
+    fn(block, pos, packetBlock)
+}).setFilteredClass(net.minecraft.network.play.server.S23PacketBlockChange).unregister())
+
 // Custom Server Packets
 createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumeral = false) => 
     register("packetReceived", (packet) => {
@@ -218,6 +226,18 @@ createCustomEvent(EventEnums.PACKET.CUSTOM.TICK, (fn) => register("packetReceive
 
     fn()
 }).setFilteredClass(net.minecraft.network.play.server.S32PacketConfirmTransaction))
+
+createCustomEvent(EventEnums.PACKET.CUSTOM.MULTIBLOCKCHANGE, (fn) => register("packetReceived", (packet) => {
+    const list = packet.func_179844_a()
+
+    for (let v of list) {
+        let pos = new BlockPos(v.func_180090_a())
+        let packetBlock = v.func_180088_c().func_177230_c()
+        let block = World.getBlockAt(pos.x, pos.y, pos.z)
+
+        fn(block, pos, packetBlock)
+    }
+}).setFilteredClass(net.minecraft.network.play.server.S22PacketMultiBlockChange).unregister())
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/features/WaterBoardTimer.js
 createCustomEvent(EventEnums.PACKET.CUSTOM.OPENEDCHEST, (fn) => {
