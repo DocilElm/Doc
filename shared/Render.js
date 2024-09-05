@@ -157,7 +157,7 @@ export class RenderHelper {
 
         GL11.glLineWidth(lineWidth)
         Tessellator.begin(GL11.GL_LINE_STRIP)
-        GlStateManager.func_179129_p() // disableCullFace
+        DGlStateManager.disableCull()
         Tessellator.depthMask(false)
         Tessellator.disableTexture2D()
         Tessellator.enableBlend()
@@ -165,15 +165,17 @@ export class RenderHelper {
         if (phase) Tessellator.disableDepth()
 
         Tessellator.colorize(r, g, b, a)
-        points.forEach(([x, y, z]) => {
+
+        for (let idx = 0; idx < points.length; idx++) {
+            let [ x, y, z ] = points[idx]
             Tessellator.pos(x, y, z).tex(0, 0)
-        })
+        }
 
         Tessellator.draw()
 
         if (phase) Tessellator.enableDepth()
 
-        GlStateManager.func_179089_o() // enableCull
+        DGlStateManager.enableCull()
         Tessellator.enableTexture2D()
         Tessellator.disableBlend()
         Tessellator.depthMask(true)
@@ -526,5 +528,15 @@ export class RenderHelper {
         this.filledBlock(block, r, g, b, 50, phase)
         Tessellator.drawString(text, x + 0.5, y + 5, z + 0.5, Renderer.WHITE, true)
         this.renderBeaconBeam(x, y, z, r, g, b, a, phase)
+    }
+
+    /**
+     * - Draws an outline filled block
+     */
+    static outlineFilledBlock(ctBlock, r, g, b, a, phase = true, translate = true, a2 = 80) {
+        if (!ctBlock) return
+
+        this.outlineBlock(ctBlock, r, g, b, a, phase, 2, translate)
+        this.filledBlock(ctBlock, r, g, b, a2, phase, translate)
     }
 }
