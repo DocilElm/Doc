@@ -17,6 +17,7 @@ import "./features/dungeons/ChestProfit"
 import "./features/dungeons/BlazeSolver"
 import "./features/dungeons/BoulderSolver"
 import "./features/dungeons/CreeperBeamsSolver"
+import "./features/dungeons/ThreeWeirdosSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"
