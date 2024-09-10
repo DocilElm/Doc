@@ -1,6 +1,6 @@
 import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
-import renderBeaconBeam from "../../../BeaconBeam"
+import { RenderHelper } from "../../shared/Render"
 
 const emissaryCoords = {
     "Emissary Ceanna": [42, 134, 22],
@@ -18,8 +18,7 @@ new Feature("emissaryWaypoints", "dwarven mines")
             Object.keys(emissaryCoords).forEach(it => {
                 const [ x, y, z ] = emissaryCoords[it]
 
-                Tessellator.drawString(it, x, y + 3, z, Renderer.AQUA, false, .05, false)
-                renderBeaconBeam(x, y, z, 0, 1, 1, 1, true)
+                RenderHelper.renderWaypoint(it, x, y, z, 0, 255, 255, 255, true)
             })
         })
     )
