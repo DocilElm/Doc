@@ -44,10 +44,9 @@ new Feature("noCursorReset")
             windowClosed = Date.now()
         })
     )
-    .addEvent(
-        new Event("gameUnload", () => {
-            // field_71417_B - mouseHelper
-            Client.getMinecraft().field_71417_B = originalMouseHelper
-            windowClosed = null
-        })
-    )
+
+register("gameUnload", () => {
+    // field_71417_B - mouseHelper
+    Client.getMinecraft().field_71417_B = originalMouseHelper
+    windowClosed = null
+})

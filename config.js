@@ -219,6 +219,20 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     placeHolder: "https://raw.githubusercontent.com/Desco1/WaterSolver/master/src/main/resources/watertimes.json",
     subcategory: "Dungeons",
     shouldShow(data) {
+        return data.waterBoardSolver && data.waterBoardChannelMode === 3
+    }
+})
+.addButton({
+    category: "Dungeons",
+    configName: "changewaterboardtutorial",
+    title: "Water Board Recording Tutorial",
+    description: "Sends the tutorial for recording your own solutions to your chat &c(you can also just /doc wb tutorial)",
+    subcategory: "Dungeons",
+    onClick() {
+        ChatLib.command("doc wb tutorial", true)
+        Client.currentGui.close()
+    },
+    shouldShow(data) {
         return data.waterBoardSolver
     }
 })
@@ -1086,17 +1100,6 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     subcategory: "General",
     onClick() {
         ChatLib.command("docguis", true)
-    }
-})
-.addButton({
-    category: "Dungeons",
-    configName: "changewaterboardtutorial",
-    title: "Water Board Recording Tutorial",
-    description: "Sends the tutorial for recording your own solutions to your chat &c(you can also just /recordingtutorial)",
-    subcategory: "Dungeons",
-    onClick() {
-        ChatLib.command("recordingtutorial", true)
-        Client.currentGui.close()
     }
 })
 .addButton({
