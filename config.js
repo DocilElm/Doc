@@ -1099,7 +1099,7 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Changes the display location for all the guis",
     subcategory: "General",
     onClick() {
-        ChatLib.command("docguis", true)
+        ChatLib.command("doc editguis", true)
     }
 })
 .addButton({
