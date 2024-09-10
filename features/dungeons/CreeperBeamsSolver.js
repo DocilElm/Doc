@@ -7,7 +7,7 @@ import { onPuzzleRotationExit, onPuzzleScheduledRotation } from "../../shared/Pu
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/TextHelper"
 
-const lanterPairs = Persistence.getDataFromFileOrLink("CreeperBeamsSolutions.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/CreeperBeamsSolutions.json")
+const lanterPairs = Persistence.getDataFromFileOrLink("CreeperBeamsSolutions.json", "https://raw.githubusercontent.com/DocilElm/Doc-Data/main/dungeons/CreeperBeamsSolutions.json")
 const relativeCoords = {
     lantern: [0, 74, 0],
     stone: [1, 73, 0]

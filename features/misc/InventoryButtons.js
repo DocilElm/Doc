@@ -7,7 +7,7 @@ import { Persistence } from "../../shared/Persistence"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/TextHelper"
 
-const InventoryButtonsData = Persistence.getDataFromFileOrLink("InventoryButtonsData.json", "https://raw.githubusercontent.com/DocilElm/Doc/main/JsonData/InventoryButtonsData.json")
+const InventoryButtonsData = Persistence.getDataFromFileOrLink("InventoryButtonsData.json", "https://raw.githubusercontent.com/DocilElm/Doc-Data/main/misc/InventoryButtonsData.json")
 const leftSlots = [9, 18, 27, 36]
 const bottomSlots = [37, 38, 39, 40, 41, 42, 43]
 const rightSlots = [17, 26, 35, 44]
