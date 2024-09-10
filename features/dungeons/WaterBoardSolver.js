@@ -155,7 +155,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
                 RenderHelper.drawLineThroughPoints([v, v2], r, g, b, 1)
             }
         }),
-        () => data.variant
+        () => data.variant != null
     )
     .addSubEvent(
         new Event(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (block) => {
@@ -178,7 +178,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
 
             currentSolution?.[obj.name]?.splice(0, 1)
         }),
-        () => data.variant
+        () => data.variant != null
     )
     .addSubEvent(
         new Event(EventEnums.PACKET.CUSTOM.OPENEDCHEST, () => {
@@ -218,7 +218,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
             Renderer.retainTransforms(false)
             Renderer.finishDraw()
         }),
-        () => data.variant && config().waterBoardSolverDisplay
+        () => data.variant != null && config().waterBoardSolverDisplay
     )
     .onUnregister(() => {
         currentSolution = null
@@ -231,7 +231,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
         }
     })
 
-const getSolutionFromCustom = () => {
+const getSolutionFromCustom = (variant, subvariant) => {
     const URL = config().waterBoardChannelURL
     const fileName = URL.match(/.+\/(\w+\.json)/)?.[1]
     if (!fileName || !URL) return ChatLib.chat(`${TextHelper.PREFIX} &cError while getting the custom url solutions`)
@@ -239,7 +239,7 @@ const getSolutionFromCustom = () => {
     const otherSolution = Persistence.getDataFromFileOrLink(fileName, URL)
     if (!otherSolution) return ChatLib.chat(`${TextHelper.PREFIX} &cError while getting the custom url solutions`)
 
-    return otherSolution?.[roomData.variant]?.[roomData.subvariant]
+    return otherSolution?.[variant]?.[subvariant]
 }
 
 const getSolution = (variant, subvariant) => {
