@@ -5,7 +5,7 @@ import { TextHelper } from "../../shared/TextHelper"
 
 const cache = new Map()
 const cacheNumber = new Map()
-const formattedRegex = /^(§\w(?:§\w)*?)([\w ]+) [IVXLCDM\d]+( ✖)?$/
+const formattedRegex = /^(§\w(?:§\w)*?)([\w ]+) ([IVXLCDM\d]+)(?: ✖)?$/
 
 config().getConfig().registerListener("attributeShardAbbreviationColor", () => {
     cache.clear()
