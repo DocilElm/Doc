@@ -3,6 +3,12 @@ import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
 
+const Blocks = net.minecraft.init.Blocks
+const BlockFlowingLava = Blocks.field_150356_k
+const BlockLava = Blocks.field_150353_l
+const BlockFlowingWater = Blocks.field_150358_i
+const BlockWater = Blocks.field_150355_j
+const BlockAir = Blocks.field_150350_a
 const cachedColors = new Map()
 
 const getColor = (colors) => {
@@ -21,8 +27,13 @@ new Feature("blockOverlay")
     .addEvent(
         new Event("drawBlockHighlight", ({x, y, z}, event) => {
             const ctBlock = World.getBlockAt(x, y, z)
+            const mcBlock = ctBlock.type.mcBlock
 
-            if (ctBlock.type.mcBlock instanceof net.minecraft.block.BlockAir) return
+            if (mcBlock == BlockAir ||
+                mcBlock == BlockFlowingLava ||
+                mcBlock == BlockFlowingWater ||
+                mcBlock == BlockLava ||
+                mcBlock == BlockWater) return
 
             // If third person disable phase
             const phase = !(Client.settings.getSettings()?.field_74320_O === 1)
