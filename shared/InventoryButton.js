@@ -1,5 +1,6 @@
 import { RenderHelper } from "./Render"
 
+const ClientCommandHandler = net.minecraftforge.client.ClientCommandHandler.instance
 const PatcherConfig = Java.type("club.sk1er.patcher.config.PatcherConfig")
 const NBTTagCompoundClass = net.minecraft.nbt.NBTTagCompound
 const NBTTagListClass = net.minecraft.nbt.NBTTagList
@@ -172,7 +173,10 @@ export class InventoryButton {
     setCommand(command) {
         if (!command) throw new Error(`[Doc] InventoryButton class: ${command} is not a valid command`)
 
-        this.leftClickFn = () => ChatLib.command(command.replace(/\//, ""))
+        this.leftClickFn = () => {
+            const cmd = command.replace(/\//, "")
+            ChatLib.command(cmd, this._shouldSendAsClient(cmd))
+        }
 
         return this
     }
@@ -336,6 +340,18 @@ export class InventoryButton {
         
         // Bottom line
         Renderer.drawLine(slotBorderColor, x1, y2, x2, y2, 1)
+    }
+
+    /**
+     * - Internal use.
+     * @param {string} command
+     * @returns {boolean}
+     */
+    _shouldSendAsClient(command) {
+        const iCommand = ClientCommandHandler.func_71555_a().get(command)
+        if (!iCommand || !iCommand.func_71519_b(Player.getPlayer())) return false
+
+        return true
     }
 
     /**
