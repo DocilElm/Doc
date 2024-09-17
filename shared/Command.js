@@ -33,4 +33,9 @@ register("command", (...args) => {
     if (!cmd) return ChatLib.chat(`${TextHelper.PREFIX} &cInvalid command.`)
 
     cmd.fn?.(...args.slice(1))
-}).setName("doc")
+})
+    .setTabCompletions((arg) => {
+        if (arg.length > 1) return []
+        return Object.keys(commands)
+    })
+    .setName("doc")
