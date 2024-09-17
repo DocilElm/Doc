@@ -1,3 +1,4 @@
+const ClientCommandHandler = net.minecraftforge.client.ClientCommandHandler.instance
 const romanNumerals = {"M": 1000, "CM": 900, "D": 500, "CD": 400, "C": 100, "XC": 90, "L": 50, "XL": 40, "X": 10, "IX": 9, "V": 5, "IV": 4, "I": 1}
 const numberFormat = {"k": 1000, "M": 1000000, "B": 1000000000}
 
@@ -355,4 +356,16 @@ export class TextHelper {
     static sendPuzzleMsg(name, time) {
         ChatLib.chat(`${TextHelper.PREFIX} &a${name} took&f: &6${((Date.now() - time) / 1000).toFixed(2)}s`)
     }
+
+    /**
+    * - Checks whether the current player can send this command as client or not
+    * @param {string} command The command without `/`
+    * @returns {boolean} Whether it can or not
+    */
+    static shouldSendAsClient(command) {
+       const iCommand = ClientCommandHandler.func_71555_a().get(command)
+       if (!iCommand || !iCommand.func_71519_b(Player.getPlayer())) return false
+
+       return true
+   }
 }
