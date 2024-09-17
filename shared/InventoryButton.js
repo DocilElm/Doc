@@ -175,7 +175,7 @@ export class InventoryButton {
 
         this.leftClickFn = () => {
             const cmd = command.replace(/\//, "")
-            ChatLib.command(cmd, TextHelper.shouldSendAsClient(cmd))
+            ChatLib.command(cmd, TextHelper.shouldSendAsClient(cmd.split(" ")?.[0]))
         }
 
         return this
