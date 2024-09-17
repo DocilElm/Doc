@@ -5,16 +5,11 @@ import { CenterConstraint, CramSiblingConstraint, UIBlock, UIText } from "../../
 import { addCommand } from "../../shared/Command"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/TextHelper"
-import { AbstractGui } from "./AbstractGui"
+import { AbstractGui, textInputScheme } from "./AbstractGui"
 import { Button } from "./Button"
 
 const gui = new HandleGui()
 
-const textInputScheme = {
-    TextInput: {
-        background: { color: [45, 58, 75, 80] }
-    }
-}
 let commandCooldown = null
 
 class Alias {
@@ -117,7 +112,7 @@ class Alias {
     }
 }
 
-class CommandAliases extends AbstractGui {
+const cmdAlias = new class CommandAliases extends AbstractGui {
     constructor() {
         super("&b&lDoc Command Aliases")
         this.commandList = []
@@ -151,8 +146,6 @@ class CommandAliases extends AbstractGui {
     }
 }
 
-const cmdAlias = new CommandAliases()
-
 gui._drawNormal(cmdAlias.bgBoxComp)
 
 Object.keys(Persistence.data.commandAliases)?.forEach(key => {
@@ -160,6 +153,5 @@ Object.keys(Persistence.data.commandAliases)?.forEach(key => {
     cmdAlias._addAlias(key, obj.command)
 })
 
-addCommand("aliasc", "Opens the Command Aliases UI", () => {
-    gui.ctGui.open()
-})
+addCommand("aliasc", "Opens the Command Aliases UI", () => gui.ctGui.open())
+gui.registers.onClose(() => cmdAlias.onSave())
