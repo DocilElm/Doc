@@ -1019,6 +1019,25 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Hides tooltip that have no text in them",
     subcategory: "Misc"
 })
+.addSwitch({
+    category: "Misc",
+    configName: "renderItems",
+    title: "Render Items",
+    description: "Renders a filled box at any items on the ground",
+    subcategory: "Misc"
+})
+.addDropDown({
+    category: "Misc",
+    configName: "renderItemsMode",
+    title: "Render Items Mode",
+    description: "Changes the mode for [RenderItems] Distance -> Checks distance if can pick up &aGreen &7else &cRed",
+    options: ["Rarity", "Distance"],
+    value: 0,
+    subcategory: "Misc",
+    shouldShow(data) {
+        return data.renderItems
+    }
+})
 // .addSwitch({
 //     category: "Rift",
 //     configName: "mushroomTimer",

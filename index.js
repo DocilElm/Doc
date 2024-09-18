@@ -51,5 +51,6 @@ import "./features/misc/ChatWaypoint"
 import "./features/misc/HideEmtpyTooltip"
 import "./features/misc/InventoryButtons"
 import "./features/misc/EquipmentDisplay"
+import "./features/misc/RenderItems"
 // Gui
 import "./features/gui/CommandAliases"
