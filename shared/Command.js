@@ -40,7 +40,7 @@ register("command", (...args) => {
         if (!arg[0]) return allCommands
 
         const curr = allCommands.find(it => it.toLowerCase().startsWith(arg[0]?.toLowerCase()))
-        if (!curr) return
+        if (!curr) return []
 
         return [curr]
     })
