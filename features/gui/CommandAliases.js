@@ -67,10 +67,12 @@ class Alias {
     }
 
     create() {
-        if (!this.commandInput.textInput.getText() || !this.aliasInput.textInput.getText()) return
+        const cmdValue = this.commandInput.getText()
+        const aliasValue = this.aliasInput.getText()
+        if (!cmdValue || !aliasValue.getText()) return
 
-        this.command = this.commandInput.textInput.getText().replace(/\//, "")
-        this.alias = this.aliasInput.textInput.getText().replace(/\//, "")
+        this.command = cmdValue.replace(/\//, "")
+        this.alias = aliasValue.getText().replace(/\//, "")
 
         Persistence.data.commandAliases[this.alias] = { command: this.command }
     }
@@ -87,7 +89,7 @@ class Alias {
      * - Checks whether the command sent matches this [alias] for this [AliasCommand]
      * - if it does run the [command] for this class
      * @param {string} msg
-     * @param {*} event
+     * @param {CancellableEvent} event
      * @returns
      */
     messageSent(msg, event) {

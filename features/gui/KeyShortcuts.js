@@ -77,7 +77,7 @@ class Shortcut {
 
     create() {
         const ncode = this.keybindBtn.getValue()
-        const input = this.msgInput.textInput.getText()
+        const input = this.msgInput.getText()
         if (ncode === 0) return this.remove()
         if (!input) return
 
