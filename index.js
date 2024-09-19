@@ -54,3 +54,4 @@ import "./features/misc/EquipmentDisplay"
 import "./features/misc/RenderItems"
 // Gui
 import "./features/gui/CommandAliases"
+import "./features/gui/KeyShortcuts"
