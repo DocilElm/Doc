@@ -12,13 +12,13 @@ import { Button } from "./Button"
 const gui = new HandleGui()
 
 class Shortcut {
-    constructor(parent, keyCode, msg, shortcutList) {
+    constructor(parent, keyCode, msg, list) {
         this.parent = parent
         this.keyCode = keyCode
         this.msg = msg
-        this.shortcutList = shortcutList
-        this.shortcutList.push(this)
-        this.id = this.shortcutList.length - 1
+        this.list = list
+        this.list.push(this)
+        this.id = this.list.length - 1
         this.init()
     }
 
@@ -91,7 +91,7 @@ class Shortcut {
     remove() {
         this.parent.removeChild(this.mainBox)
         delete Persistence.data.keyShortcuts[this.keyCode]
-        this.shortcutList.splice(this.id, 1)
+        this.list.splice(this.id, 1)
 
         ChatLib.chat(`${TextHelper.PREFIX} &cRemoved KeyShortcut with key &b${this.keybindBtn._getKeyName().replace(/Key: /, "")}`)
     }
@@ -109,15 +109,14 @@ class Shortcut {
 
 const keyShortcuts = new class KeyShortcuts extends AbstractGui {
     constructor() {
-        super("&b&lDoc Key Shortcuts")
-        this.shortcutList = []
+        super("Key Shortcuts")
 
         register("clicked", (_, __, btn, state) => {
             if (!World.isLoaded() || !state || Client.isInGui()) return
 
-            for (let idx = 0; idx < this.shortcutList.length; idx++) {
+            for (let idx = 0; idx < this.list.length; idx++) {
                 /** @type {Shortcut} */
-                let shortcut = this.shortcutList[idx]
+                let shortcut = this.list[idx]
                 shortcut.onKeyPress(-100 + btn)
             }
         })
@@ -127,27 +126,27 @@ const keyShortcuts = new class KeyShortcuts extends AbstractGui {
             const key = Keyboard.getEventKey()
             if (!key) return
 
-            for (let idx = 0; idx < this.shortcutList.length; idx++) {
+            for (let idx = 0; idx < this.list.length; idx++) {
                 /** @type {Shortcut} */
-                let shortcut = this.shortcutList[idx]
+                let shortcut = this.list[idx]
                 shortcut.onKeyPress(key)
             }
         })        
     }
 
     _addShortcut(keyCode, msg) {
-        if (this.shortcutList.some(it => it.keyCode === keyCode && it.msg === msg)) return
-        new Shortcut(this.scrollComp, keyCode, msg, this.shortcutList)
+        if (this.list.some(it => it.keyCode === keyCode && it.msg === msg)) return
+        new Shortcut(this.scrollComp, keyCode, msg, this.list)
     }
 
     onAdd() {
-        new Shortcut(this.scrollComp, 0, "", this.shortcutList)
+        new Shortcut(this.scrollComp, 0, "", this.list)
     }
 
     onSave() {
-        for (let idx = 0; idx < this.shortcutList.length; idx++) {
+        for (let idx = 0; idx < this.list.length; idx++) {
             /** @type {Shortcut} */
-            let shortcut = this.shortcutList[idx]
+            let shortcut = this.list[idx]
             shortcut.create()
         }
 

@@ -12,8 +12,9 @@ export const textInputScheme = {
 }
 
 export class AbstractGui {
-    constructor(title) {
-        this.title = title.addColor()
+    constructor(name) {
+        this.list = []
+        this.title = `&b&lDoc ${name}`.addColor()
         this.bgBoxComp = new UIBlock(ElementUtils.getJavaColor([3, 7, 17, 255]))
             .setX(new CenterConstraint())
             .setY(new CenterConstraint())

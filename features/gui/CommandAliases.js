@@ -13,13 +13,13 @@ const gui = new HandleGui()
 let commandCooldown = null
 
 class Alias {
-    constructor(parent, command, alias, commandList) {
+    constructor(parent, command, alias, list) {
         this.command = command
         this.alias = alias
         this.parent = parent
-        this.commandList = commandList
-        this.commandList.push(this)
-        this.id = this.commandList.length - 1
+        this.list = list
+        this.list.push(this)
+        this.id = this.list.length - 1
         this.init()
     }
 
@@ -80,7 +80,7 @@ class Alias {
     remove() {
         this.parent.removeChild(this.mainBox)
         delete Persistence.data.commandAliases[this.alias]
-        this.commandList.splice(this.id, 1)
+        this.list.splice(this.id, 1)
 
         ChatLib.chat(`${TextHelper.PREFIX} &cRemoved Command Alias with alias &b${this.alias}`)
     }
@@ -116,31 +116,30 @@ class Alias {
 
 const cmdAlias = new class CommandAliases extends AbstractGui {
     constructor() {
-        super("&b&lDoc Command Aliases")
-        this.commandList = []
+        super("Command Aliases")
 
         register("messageSent", (msg, event) => {
             if (!msg.startsWith("/")) return
 
-            for (let idx = 0; idx < this.commandList.length; idx++) {
-                let alias = this.commandList[idx]
+            for (let idx = 0; idx < this.list.length; idx++) {
+                let alias = this.list[idx]
                 alias.messageSent(msg.replace(/\//g, ""), event)
             }
         })
     }
 
     _addAlias(alias, command) {
-        if (this.commandList.some(it => it.alias.toLowerCase() === alias.toLowerCase())) return
-        new Alias(this.scrollComp, command, alias, this.commandList)
+        if (this.list.some(it => it.alias.toLowerCase() === alias.toLowerCase() && it.command.toLowerCase() === command.toLowerCase())) return
+        new Alias(this.scrollComp, command, alias, this.list)
     }
 
     onAdd() {
-        new Alias(this.scrollComp, "", "", this.commandList)
+        new Alias(this.scrollComp, "", "", this.list)
     }
 
     onSave() {
-        for (let idx = 0; idx < this.commandList.length; idx++) {
-            let alias = this.commandList[idx]
+        for (let idx = 0; idx < this.list.length; idx++) {
+            let alias = this.list[idx]
             alias.create()
         }
 
