@@ -5,6 +5,9 @@ import { Button } from "./Button"
 export const textInputScheme = {
     TextInput: {
         background: { color: [45, 58, 75, 80] }
+    },
+    Keybind: {
+        background: { color: [45, 58, 75, 80] }
     }
 }
 
@@ -45,9 +48,4 @@ export class AbstractGui {
      * - Meant to be overriden
      */
     onAdd() {}
-
-    /**
-     * - Meant to be overriden
-     */
-    onSave() {}
 }
