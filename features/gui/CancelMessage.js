@@ -5,7 +5,7 @@ import { CenterConstraint, CramSiblingConstraint, UIBlock, UIText } from "../../
 import { addCommand } from "../../shared/Command"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/TextHelper"
-import { AbstractGui, textInputScheme } from "./AbstractGui"
+import { AbstractGui, bottomLineEffect, textInputScheme } from "./AbstractGui"
 import { Button } from "./Button"
 
 const gui = new HandleGui()
@@ -30,15 +30,10 @@ class CMessage {
             .setHeight((10).percent())
             .setChildOf(this.parent)
 
-        this.criteriaText = new UIText("Criteria: ")
-            .setX((0).pixels())
-            .setY(new CenterConstraint())
-            .setChildOf(this.mainBox)
-
         this.criteriaInput = new TextInputElement(this.criteria, 1, 1, 55, 90)
         this.criteriaInput
             ._setPosition(
-                new CramSiblingConstraint(2),
+                (15).percent(),
                 (0).percent()
             )
             ._create(textInputScheme)
@@ -54,6 +49,10 @@ class CMessage {
             .setChildOf(this.mainBox)
 
         this.removeButton.onClick(() => this.remove())
+
+        this.mainBox.enableEffect(bottomLineEffect([45, 58, 75, 150], 1.5, [
+            this.criteriaInput.bgBox
+        ]))
     }
 
     create(internal = false) {
@@ -97,7 +96,7 @@ class CMessage {
 
 const cancelMsg = new class CancelMessage extends AbstractGui {
     constructor() {
-        super("Cancel Message")
+        super("Cancel Message", ["Criteria"])
     }
 
     _addMsg(criteria) {
