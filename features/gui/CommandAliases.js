@@ -5,7 +5,7 @@ import { CenterConstraint, CramSiblingConstraint, UIBlock, UIText } from "../../
 import { addCommand } from "../../shared/Command"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/TextHelper"
-import { AbstractGui, textInputScheme } from "./AbstractGui"
+import { AbstractGui, bottomLineEffect, textInputScheme } from "./AbstractGui"
 import { Button } from "./Button"
 
 const gui = new HandleGui()
@@ -31,25 +31,16 @@ class Alias {
             .setHeight((10).percent())
             .setChildOf(this.parent)
 
-        this.aliasText = new UIText("Alias: ")
-            .setX((0).pixels())
-            .setY(new CenterConstraint())
-            .setChildOf(this.mainBox)
-
         this.aliasInput = new TextInputElement(this.alias, 1, 1, 25, 90)
         this.aliasInput._setPosition(
-            new CramSiblingConstraint(2),
+            (10).percent(),
             (0).percent()
         )
         this.aliasInput._create(textInputScheme).setChildOf(this.mainBox)
 
-        this.commandText = new UIText("Command: ")
-            .setX(new CramSiblingConstraint(2))
-            .setY(new CenterConstraint())
-            .setChildOf(this.mainBox)
         this.commandInput = new TextInputElement(this.command, 1, 1, 25, 90)
         this.commandInput._setPosition(
-            new CramSiblingConstraint(2),
+            (40).percent(),
             (0).percent()
         )
         this.commandInput._create(textInputScheme).setChildOf(this.mainBox)
@@ -57,13 +48,18 @@ class Alias {
         this.removeButton = new Button("&cX", [0, 0, 0, 0], [196, 3, 3, 255])
         this.removeButton
             .component
-            .setX(new CramSiblingConstraint(2))
+            .setX(new CramSiblingConstraint(5))
             .setY((1).percent())
             .setWidth((8).percent())
             .setHeight((90).percent())
             .setChildOf(this.mainBox)
 
         this.removeButton.onClick(() => this.remove())
+
+        this.mainBox.enableEffect(bottomLineEffect([45, 58, 75, 150], 1.5, [
+            this.aliasInput.bgBox,
+            this.commandInput.bgBox
+        ], true))
     }
 
     create() {
@@ -116,7 +112,7 @@ class Alias {
 
 const cmdAlias = new class CommandAliases extends AbstractGui {
     constructor() {
-        super("Command Aliases")
+        super("Command Aliases", ["Alias", "Criteria"], { startX: 15, padding: 30 })
 
         register("messageSent", (msg, event) => {
             if (!msg.startsWith("/")) return
