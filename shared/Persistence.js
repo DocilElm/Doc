@@ -5,7 +5,7 @@ export class Persistence {
         inventoryButtons: {},
         commandAliases: {},
         keyShortcuts: {},
-        showMessageTitle: {},
+        messageTitles: {},
         cancelMessage: {},
         auctionsClicked: [],
         auctionsStrings: [],
