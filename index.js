@@ -55,3 +55,4 @@ import "./features/misc/RenderItems"
 // Gui
 import "./features/gui/CommandAliases"
 import "./features/gui/KeyShortcuts"
+import "./features/gui/CancelMessage"
