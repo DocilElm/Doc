@@ -6,7 +6,7 @@ import { CenterConstraint, CramSiblingConstraint, UIBlock, UIText } from "../../
 import { addCommand } from "../../shared/Command"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/TextHelper"
-import { AbstractGui, textInputScheme } from "./AbstractGui"
+import { AbstractGui, bottomLineEffect, textInputScheme } from "./AbstractGui"
 import { Button } from "./Button"
 
 const gui = new HandleGui()
@@ -30,15 +30,10 @@ class Shortcut {
             .setHeight((10).percent())
             .setChildOf(this.parent)
 
-        this.msgText = new UIText("Message: ")
-            .setX((0).pixels())
-            .setY(new CenterConstraint())
-            .setChildOf(this.mainBox)
-
         this.msgInput = new TextInputElement(this.msg, 1, 1, 30, 90)
         this.msgInput
             ._setPosition(
-                new CramSiblingConstraint(2),
+                (10).percent(),
                 (0).percent()
             )
             ._create(textInputScheme)
@@ -47,7 +42,7 @@ class Shortcut {
         this.keybindBtn = new KeybindElement(this.keyCode, 0, 0, 25, 90)
         this.keybindBtn
             ._setPosition(
-                new CramSiblingConstraint(2),
+                (45).percent(),
                 (0).percent()
             )
             ._create(textInputScheme)
@@ -56,13 +51,18 @@ class Shortcut {
         this.removeButton = new Button("&cX", [0, 0, 0, 0], [196, 3, 3, 255])
         this.removeButton
             .component
-            .setX(new CramSiblingConstraint(3))
+            .setX(new CramSiblingConstraint(5))
             .setY((1).percent())
             .setWidth((8).percent())
             .setHeight((90).percent())
             .setChildOf(this.mainBox)
 
         this.removeButton.onClick(() => this.remove())
+
+        this.mainBox.enableEffect(bottomLineEffect([45, 58, 75, 150], 1.5, [
+            this.msgInput.bgBox,
+            this.keybindBtn.bgbox
+        ], true))
     }
 
     /**
@@ -109,7 +109,7 @@ class Shortcut {
 
 const keyShortcuts = new class KeyShortcuts extends AbstractGui {
     constructor() {
-        super("Key Shortcuts")
+        super("Key Shortcuts", ["Message", "Key"], { startX: 15, padding: 35 })
 
         register("clicked", (_, __, btn, state) => {
             if (!World.isLoaded() || !state || Client.isInGui()) return
