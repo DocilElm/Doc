@@ -180,6 +180,7 @@ export class RenderHelper {
         Tessellator.disableBlend()
         Tessellator.depthMask(true)
         Tessellator.popMatrix()
+        GL11.glLineWidth(2)
 
     }
     

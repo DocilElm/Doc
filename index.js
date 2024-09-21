@@ -27,6 +27,13 @@ import "./features/mining/ComissionDisplay"
 import "./features/garden/GardenDisplay"
 import "./features/garden/PestsDisplay"
 import "./features/garden/VisitorProfit"
+// Gui
+import "./features/gui/CommandAliases"
+import "./features/gui/KeyShortcuts"
+import "./features/gui/CancelMessage"
+import "./features/gui/TitleMessage"
+// Kuudra
+import "./features/kuudra/KuudraSplits"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
@@ -52,8 +59,3 @@ import "./features/misc/HideEmtpyTooltip"
 import "./features/misc/InventoryButtons"
 import "./features/misc/EquipmentDisplay"
 import "./features/misc/RenderItems"
-// Gui
-import "./features/gui/CommandAliases"
-import "./features/gui/KeyShortcuts"
-import "./features/gui/CancelMessage"
-import "./features/gui/TitleMessage"

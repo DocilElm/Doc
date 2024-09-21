@@ -513,13 +513,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 //     description: "Draws a beacon beam like waypoint for every kuudra crate",
 //     subcategory: "Kuudra"
 // })
-// .addSwitch({
-//     category: "Kuudra",
-//     configName: "kuudraSplits",
-//     title: "Kuudra Splits",
-//     description: "Displays the current kuudra splits",
-//     subcategory: "Kuudra"
-// })
+.addSwitch({
+    category: "Kuudra",
+    configName: "kuudraSplits",
+    title: "Kuudra Splits",
+    description: "Displays the current kuudra splits",
+    subcategory: "Kuudra"
+})
 .addSwitch({
     category: "Misc",
     configName: "ragnarokAxeTimer",
