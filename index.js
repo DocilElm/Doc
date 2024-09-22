@@ -34,6 +34,7 @@ import "./features/gui/CancelMessage"
 import "./features/gui/TitleMessage"
 // Kuudra
 import "./features/kuudra/KuudraSplits"
+import "./features/kuudra/CratesWaypoints"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"

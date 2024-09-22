@@ -506,13 +506,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 //     description: "Displays stuff from your current powder mining session",
 //     subcategory: "Tracker"
 // })
-// .addSwitch({
-//     category: "Kuudra",
-//     configName: "cratesWaypoints",
-//     title: "Crates Waypoints",
-//     description: "Draws a beacon beam like waypoint for every kuudra crate",
-//     subcategory: "Kuudra"
-// })
+.addSwitch({
+    category: "Kuudra",
+    configName: "cratesWaypoints",
+    title: "Crates Waypoints",
+    description: "Draws a beacon beam like waypoint for every kuudra crate",
+    subcategory: "Kuudra"
+})
 .addSwitch({
     category: "Kuudra",
     configName: "kuudraSplits",
