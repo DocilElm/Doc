@@ -3,6 +3,11 @@ import { TextHelper } from "./TextHelper"
 
 const commands = {}
 
+/**
+ * @param {string} name
+ * @param {string} description
+ * @param {(...args: string) () => void} fn
+ */
 export const addCommand = (name, description, fn) => {
     const component = new TextComponent(`&a- ${name} &b${description}`)
         .setHover("show_text", `Click to run /doc ${name}`)

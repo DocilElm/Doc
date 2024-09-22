@@ -101,9 +101,10 @@ export class Persistence {
      * @param {string} filePath The relative path of where it is located in Doc/data
      * @param {*} data The data to save to the file, defaults to an empty object
      * @param {boolean} createFolderTree Recursively create the needed folder tree
+     * @param {boolean} indent whether to indent the data that is being stringify into the file
      */
-    static saveDataToFile(filePath, data = {}, createFolderTree = true) {
-        FileLib.write("Doc", `data/${filePath}`, JSON.stringify(data, null, 4), createFolderTree)
+    static saveDataToFile(filePath, data = {}, createFolderTree = true, indent = true) {
+        FileLib.write("Doc", `data/${filePath}`, indent ? JSON.stringify(data, null, 4) : JSON.stringify(data), createFolderTree)
     }
 
     /**
