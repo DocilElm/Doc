@@ -65,10 +65,10 @@ class Alias {
     create() {
         const cmdValue = this.commandInput.getText()
         const aliasValue = this.aliasInput.getText()
-        if (!cmdValue || !aliasValue.getText()) return
+        if (!cmdValue || !aliasValue) return
 
         this.command = cmdValue.replace(/\//, "")
-        this.alias = aliasValue.getText().replace(/\//, "")
+        this.alias = aliasValue.replace(/\//, "")
 
         Persistence.data.commandAliases[this.alias] = { command: this.command }
     }
