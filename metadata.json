@@ -8,7 +8,6 @@
   "requires": [
     "requestV2",
     "PromiseV2",
-    "ChestMenu",
     "PogData",
     "Atomx",
     "DocGuiLib",

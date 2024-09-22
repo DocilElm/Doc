@@ -35,6 +35,8 @@ import "./features/gui/TitleMessage"
 // Kuudra
 import "./features/kuudra/KuudraSplits"
 import "./features/kuudra/CratesWaypoints"
+// Commands
+import "./features/commands/InventoryLog"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
