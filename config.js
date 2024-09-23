@@ -1073,13 +1073,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Renders filled blocks where you should step to avoid the lava &c(this is the second checkpoint in mirrorverse)",
     subcategory: "Rift"
 })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "tubulatorRender",
-//     title: "Tubulator Render",
-//     description: "Renders filled blocks where you should step",
-//     subcategory: "Rift"
-// })
+.addSwitch({
+    category: "Rift",
+    configName: "tubulatorRender",
+    title: "Tubulator Render",
+    description: "Renders filled blocks where you should step",
+    subcategory: "Rift"
+})
 // .addSwitch({
 //     category: "Rift",
 //     configName: "boxSplatterHearts",

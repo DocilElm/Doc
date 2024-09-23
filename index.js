@@ -43,6 +43,7 @@ import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
 import "./features/rift/GlyphRender"
 import "./features/rift/LavaMaze"
+import "./features/rift/Tubulator"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
