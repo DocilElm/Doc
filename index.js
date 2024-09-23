@@ -44,6 +44,7 @@ import "./features/rift/WoodenButtons"
 import "./features/rift/GlyphRender"
 import "./features/rift/LavaMaze"
 import "./features/rift/Tubulator"
+import "./features/rift/EffigiesWaypoint"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"

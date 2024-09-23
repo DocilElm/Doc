@@ -1080,20 +1080,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Renders filled blocks where you should step",
     subcategory: "Rift"
 })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "boxSplatterHearts",
-//     title: "Box Splatter Hearts",
-//     description: "Renders a box where the heart particles are in &4Stillgore Chteau &cthis breaks whenever you're close to a vampire slayer",
-//     subcategory: "Rift"
-// })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "effigiesWaypoint",
-//     title: "EffigiesWaypoint",
-//     description: "Renders a waypoint like on the inactive effigies spot",
-//     subcategory: "Rift"
-// })
+.addSwitch({
+    category: "Rift",
+    configName: "effigiesWaypoint",
+    title: "EffigiesWaypoint",
+    description: "Renders a waypoint like on the inactive effigies spot",
+    subcategory: "Rift"
+})
 .addTextParagraph({
     category: "General",
     configName: "CreatorText",
