@@ -77,8 +77,8 @@ export default class Feature {
      * @returns {boolean}
      */
     _checkWorld(worldName) {
-        if (!this.world) return true
         if (!worldName) return false
+        if (!this.world) return true
 
         if (this.isWorldArray) return this.world.some(it => it === worldName)
 
@@ -93,8 +93,8 @@ export default class Feature {
      * @returns {boolean}
      */
     _checkArea(areaName) {
-        if (!this.area) return true
         if (!areaName) return false
+        if (!this.area) return true
 
         if (this.isAreaArray) return this.area.some(it => areaName.includes(it))
 
@@ -113,7 +113,7 @@ export default class Feature {
         for (let reg of this.events) reg.unregister()
         for (let reg of this.subevents) reg[0].unregister()
         for (let listener of this._onUnregister) listener?.()
-        
+
         this.hasRegistered = false
 
         return this
