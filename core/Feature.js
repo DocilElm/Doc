@@ -3,75 +3,142 @@ import Location from "../shared/Location"
 
 export default class Feature {
     /**
-     * - Creates a new [Feature] class used to handle events stuff
-     * @param {string} name The configName for this feature
-     * @param {?string|string[]} world The world(s) to register this [Feature] with
-     * @param {string?} area The area to register this [Feature] with
+     * - Class that handles event based utilities
+     * - For example waiting for the proper world to be loaded in order
+     * - to register the event/subevents
+     * @param {string} name The feature name (config name) for this Feature
+     * @param {?string|string[]} world The required world for this Feature (if left empty it will not check)
+     * @param {?string|string[]} area The required area for this Feature (if left empty it will not check)
      */
-    constructor(name, world, area) {
-        // Fields needed for this [Feature]
-        this.name = name
-        this.world = Array.isArray(world)
-            ? world?.map(it => it?.toLowerCase()?.removeFormatting())
-            : world?.toLowerCase()?.removeFormatting()
-        this.area = area?.toLowerCase()?.removeFormatting()
+    constructor(name, world = null, area = null) {
+        // Main class fields
+        this.featureName = name
+        this.isWorldArray = Array.isArray(world)
+        this.isAreaArray = Array.isArray(area)
 
-        // Events list
+        // Required world/area stuff
+        this.world = this.isWorldArray
+            ? world.map(it => it.toLowerCase().removeFormatting())
+            : world?.toLocaleLowerCase()?.removeFormatting()
+        this.area = this.isAreaArray
+            ? area.map(it => it.toLowerCase().removeFormatting())
+            : area?.toLocaleLowerCase()?.removeFormatting()
+
+        // Initial config value
+        this.configValue = config()[this.featureName]
+
+        // Events stuff
         this.events = []
         this.subevents = []
         this.hasRegistered = false
-        this.hasRegisteredSub = false
 
-        // Listeners for this [Feature]
-        this.listeners = {
-            onRegister: [],
-            onUnregister: []
-        }
+        // Listeners
+        this._onRegister = []
+        this._onUnregister = []
 
-        // Initial config value (true/false)
-        this.canRegister = config()[this.name]
-
-        // Events
-        config().getConfig().registerListener(this.name, (prev, value) => {
-            this.canRegister = value
-
-            if (!this.canRegister) return this._unregister()
-            if (!this._checkWorld(Location.area)) return this._unregister()
-            if (this.area && !Location.inArea(this.area)) return this._unregister()
-
-            this._register()
-        })
-
-        Location.onWorldChange((worldName) => {
-            if (!worldName) return this._unregister()
-            if (!this.world) return this._register()
-
-            if (!this._checkWorld(worldName)) return this._unregister()
-
-            this._register()
-        })
-
-        Location.onAreaChange((areaName) => {
-            if (!this.world || !this.area) return
-
-            if (!areaName?.includes(this.area)) return this._unregister()
-
-            this._register()
-        })
+        // Initialize events
+        this._init()
     }
 
-    _checkWorld(worldName) {
-        if (this.world == null) return true
+    /**
+     * - Internal use.
+     * - Initializes the listeners required for this Feature
+     */
+    _init() {
+        config().getConfig().registerListener(this.featureName, (_, val) => {
+            this.configValue = val
 
-        if (Array.isArray(this.world))
-            return this.world.some(it => it === worldName)
+            if (!this.configValue) return this._unregister()
+            if (!this._checkWorld(Location.area) || !this._checkArea(Location.subarea)) return this._unregister()
+
+            this._register()
+        })
+
+        Location
+            .onWorldChange((worldName) => {
+                if (!this._checkWorld(worldName)) return this._unregister()
+                if (this.area && !this._checkArea(Location.subarea)) return this._unregister()
+
+                this._register()
+            })
+            .onAreaChange((areaName) => {
+                if (!this._checkArea(areaName)) return this._unregister()
+                if (this.world && !this._checkWorld(Location.area)) return this._unregister()
+
+                this._register()
+            })
+    }
+
+    /**
+     * - Checks whether the given [worldName] matches with this Feature's
+     * - required world.
+     * - NOTE: if there's no world it will always return `true`
+     * @param {string} worldName
+     * @returns {boolean}
+     */
+    _checkWorld(worldName) {
+        if (!this.world) return true
+        if (!worldName) return false
+
+        if (this.isWorldArray) return this.world.some(it => it === worldName)
 
         return worldName === this.world
     }
 
     /**
-     * - Adds the given [Register] event into the [events] list
-     * @param {Register} register 
+     * - Checks whether the given [areaName] matches with this Feature's
+     * - required area.
+     * - NOTE: if there's no area it will always return `true`
+     * @param {string} areaName
+     * @returns {boolean}
+     */
+    _checkArea(areaName) {
+        if (!this.area) return true
+        if (!areaName) return false
+
+        if (this.isAreaArray) return this.area.some(it => areaName.includes(it))
+
+        return areaName.includes(this.area)
+    }
+
+    /**
+     * - Internal use.
+     * - Unregisters all of the events and subevents for this Feature
+     * - Only unregisters if the events have been registered before-hand
+     * @returns this for method chaining
+     */
+    _unregister() {
+        if (!this.hasRegistered) return this
+
+        for (let reg of this.events) reg.unregister()
+        for (let reg of this.subevents) reg[0].unregister()
+        for (let listener of this._onUnregister) listener?.()
+        
+        this.hasRegistered = false
+
+        return this
+    }
+
+    /**
+     * - Internal use.
+     * - Registers all of the events and triggers the listener for this Feature
+     * - Only registers the events if it should and if they haven't been registered before-hand
+     * @returns this for method chaining
+     */
+    _register() {
+        if (this.hasRegistered || !this.configValue) return this
+
+        for (let reg of this.events) reg.register()
+        for (let listener of this._onRegister) listener?.()
+
+        this.hasRegistered = true
+
+        return this
+    }
+
+    /**
+     * - Adds a [Event] to this Feature
+     * @param {import("./Event").Event} register
      * @returns this for method chaining
      */
     addEvent(register) {
@@ -81,9 +148,9 @@ export default class Feature {
     }
 
     /**
-     * - Adds the given [Register] event into the [subevents] list
-     * @param {Register} register 
-     * @param {Function} fn The function to run whenever attempting to register/unregister this event (must return a `boolean` value)
+     * - Adds a [SubEvent] to this Feature
+     * @param {import("./Event").Event} register
+     * @param {() => boolean} fn The function that will be ran whenever this subevent gets updated
      * @returns this for method chaining
      */
     addSubEvent(register, fn) {
@@ -93,55 +160,36 @@ export default class Feature {
     }
 
     /**
-     * - Sets the world for this feature to register its events on
-     * - Will unregister them if it isn't
-     * @param {String} str 
-     * @returns this for method chaining
-     */
-    setWorld(str) {
-        this.world = str.toLowerCase()?.removeFormatting()
-
-        return this
-    }
-    
-    /**
-     * - Sets the area for this feature to register its events on
-     * - Will unregister them if it isn't
-     * @param {String} str 
-     * @returns this for method chaining
-     */
-    setArea(str) {
-        this.area = str.toLowerCase()?.removeFormatting()
-
-        return this
-    }
-
-    /**
-     * - Runs the given function only once whenever this [Feature]'s events are registered
-     * @param {Function} fn 
+     * - Calls the given function whenever this Feature's events have been registered
+     * @param {() => void} fn
      * @returns this for method chaining
      */
     onRegister(fn) {
-        this.listeners.onRegister.push(fn)
+        this._onRegister.push(fn)
 
         return this
     }
 
     /**
-     * - Runs the given function only once whenever this [Feature]'s events are unregistered
-     * @param {Function} fn 
+     * - Calls the given function whenever this Feature's events have been unregistered
+     * @param {() => void} fn
      * @returns this for method chaining
      */
     onUnregister(fn) {
-        this.listeners.onUnregister.push(fn)
+        this._onUnregister.push(fn)
 
         return this
     }
 
+    /**
+     * - Calls all of the subevents for update
+     * - Each subevent's function is ran to see whether it should be registered or not
+     * @returns this for method chaining
+     */
     update() {
-        for (let idx = 0; idx < this.subevents.length; idx++) {
-            let [ reg, fn ] = this.subevents[idx]
-
+        for (let it of this.subevents) {
+            /** @type {[import("./Event").Event, () => boolean]} */
+            let [ reg, fn ] = it
             if (!fn()) {
                 reg.unregister()
                 continue
@@ -149,45 +197,6 @@ export default class Feature {
 
             reg.register()
         }
-
-        return this
-    }
-
-    _registerSubEvents() {
-        if (this.hasRegisteredSub) return this
-
-        for (let idx = 0; idx < this.subevents.length; idx++) this.subevents?.[idx]?.[0]?.register()
-        this.hasRegisteredSub = true
-
-        return this
-    }
-
-    _unregisterSubEvents() {
-        if (!this.hasRegisteredSub) return this
-
-        for (let idx = 0; idx < this.subevents.length; idx++) this.subevents?.[idx]?.[0]?.unregister()
-        this.hasRegisteredSub = false
-
-        return this
-    }
-
-    _register() {
-        if (this.hasRegistered || !this.canRegister) return this
-
-        for (let idx = 0; idx < this.events.length; idx++) this.events[idx].register()
-        for (let idx = 0; idx < this.listeners.onRegister.length; idx++) this.listeners.onRegister?.[idx]?.()
-        this.hasRegistered = true
-
-        return this
-    }
-
-    _unregister() {
-        if (!this.hasRegistered) return this
-
-        for (let idx = 0; idx < this.events.length; idx++) this.events[idx].unregister()
-        for (let idx = 0; idx < this.subevents.length; idx++) this.subevents?.[idx]?.[0]?.unregister()
-        for (let idx = 0; idx < this.listeners.onUnregister.length; idx++) this.listeners.onUnregister?.[idx]?.()
-        this.hasRegistered = false
 
         return this
     }

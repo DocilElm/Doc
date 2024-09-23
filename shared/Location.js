@@ -116,8 +116,8 @@ export default new class Location {
 
     /**
      * - Checks whether the player is currently in the given world
-     * @param {String} str 
-     * @returns {Boolean}
+     * @param {string} str
+     * @returns {boolean}
      */
     inWorld(str) {
         if (!World.isLoaded() || !this.area) return false
@@ -127,8 +127,8 @@ export default new class Location {
 
     /**
      * - Checks whether the player is currently in the given area
-     * @param {String} str 
-     * @returns {Boolean}
+     * @param {string} str
+     * @returns {boolean}
      */
     inArea(str) {
         if (!World.isLoaded() || !this.subarea) return false
@@ -138,7 +138,7 @@ export default new class Location {
 
     /**
      * - Runs the given function whenever the World has changed (tablist area)
-     * @param {Function} fn 
+     * @param {(world: ?string) => void} fn 
      * @returns this for method chaining
      */
     onWorldChange(fn) {
@@ -149,7 +149,7 @@ export default new class Location {
 
     /**
      * - Runs the given function whenever the Area has changed (scoreboard area)
-     * @param {Function} fn 
+     * @param {(area: ?string) => void} fn 
      * @returns this for method chaining
      */
     onAreaChange(fn) {
