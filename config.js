@@ -1038,13 +1038,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
         return data.renderItems
     }
 })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "mushroomTimer",
-//     title: "Mushroom Timer",
-//     description: "Renders the amount of time in a countdown required to look at the mushroom in dreadfarm &c(this might not be accurate for all mushrooms)",
-//     subcategory: "Rift"
-// })
+.addSwitch({
+    category: "Rift",
+    configName: "mushroomTimer",
+    title: "Mushroom Timer",
+    description: "Renders the amount of time in a countdown required to look at the mushroom in dreadfarm &c(this might not be accurate for all mushrooms)",
+    subcategory: "Rift"
+})
 // .addSwitch({
 //     category: "Rift",
 //     configName: "woodenButtons",

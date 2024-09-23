@@ -39,6 +39,7 @@ import "./features/kuudra/CratesWaypoints"
 import "./features/commands/InventoryLog"
 // Rift
 import "./features/rift/BoxBerberis"
+import "./features/rift/MushroomTimer"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
