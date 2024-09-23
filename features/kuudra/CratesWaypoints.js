@@ -16,7 +16,7 @@ const entities = new Map()
 let shouldRender = false
 let crates = []
 
-const feat = new Feature("cratesWaypoints")
+const feat = new Feature("cratesWaypoints", "kuudra")
     .addEvent(
         new Event(EventEnums.FORGE.ENTITYJOIN, (entity, entityID) => {
             if (entities.has(entityID) || entity.field_70163_u > 67) return
