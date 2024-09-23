@@ -41,6 +41,7 @@ import "./features/commands/InventoryLog"
 import "./features/rift/BoxBerberis"
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
+import "./features/rift/GlyphRender"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"

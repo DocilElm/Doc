@@ -1059,13 +1059,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Renders a box where the berberis particles are currently at &c(this has a 20 block scan distance)",
     subcategory: "Rift"
 })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "glyphRender",
-//     title: "Glyph Render",
-//     description: "Renders a text in each of the glyph locations",
-//     subcategory: "Rift"
-// })
+.addSwitch({
+    category: "Rift",
+    configName: "glyphRender",
+    title: "Glyph Render",
+    description: "Renders a text in each of the glyph locations",
+    subcategory: "Rift"
+})
 // .addSwitch({
 //     category: "Rift",
 //     configName: "lavaMazeRender",
