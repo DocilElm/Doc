@@ -1052,13 +1052,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 //     description: "Renders a text and waypoint where the buttons should be clicked &b/resetbuttons &ato reset the clicked button list",
 //     subcategory: "Rift"
 // })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "boxBerberis",
-//     title: "Box Berberis",
-//     description: "Renders a box where the berberis particles are currently at &c(this has a 20 block scan distance)",
-//     subcategory: "Rift"
-// })
+.addSwitch({
+    category: "Rift",
+    configName: "boxBerberis",
+    title: "Box Berberis",
+    description: "Renders a box where the berberis particles are currently at &c(this has a 20 block scan distance)",
+    subcategory: "Rift"
+})
 // .addSwitch({
 //     category: "Rift",
 //     configName: "glyphRender",

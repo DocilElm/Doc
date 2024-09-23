@@ -37,6 +37,8 @@ import "./features/kuudra/KuudraSplits"
 import "./features/kuudra/CratesWaypoints"
 // Commands
 import "./features/commands/InventoryLog"
+// Rift
+import "./features/rift/BoxBerberis"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
