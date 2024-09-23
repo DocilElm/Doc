@@ -1045,13 +1045,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Renders the amount of time in a countdown required to look at the mushroom in dreadfarm &c(this might not be accurate for all mushrooms)",
     subcategory: "Rift"
 })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "woodenButtons",
-//     title: "Wooden Buttons",
-//     description: "Renders a text and waypoint where the buttons should be clicked &b/resetbuttons &ato reset the clicked button list",
-//     subcategory: "Rift"
-// })
+.addSwitch({
+    category: "Rift",
+    configName: "woodenButtons",
+    title: "Wooden Buttons",
+    description: "Renders a text and waypoint where the buttons should be clicked &b/doc rsbtn &ato reset the clicked button list",
+    subcategory: "Rift"
+})
 .addSwitch({
     category: "Rift",
     configName: "boxBerberis",

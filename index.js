@@ -40,6 +40,7 @@ import "./features/commands/InventoryLog"
 // Rift
 import "./features/rift/BoxBerberis"
 import "./features/rift/MushroomTimer"
+import "./features/rift/WoodenButtons"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
