@@ -1066,13 +1066,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Renders a text in each of the glyph locations",
     subcategory: "Rift"
 })
-// .addSwitch({
-//     category: "Rift",
-//     configName: "lavaMazeRender",
-//     title: "Lava Maze Render",
-//     description: "Renders filled blocks where you should step to avoid the lava &c(this is the second checkpoint in mirrorverse)",
-//     subcategory: "Rift"
-// })
+.addSwitch({
+    category: "Rift",
+    configName: "lavaMazeRender",
+    title: "Lava Maze Render",
+    description: "Renders filled blocks where you should step to avoid the lava &c(this is the second checkpoint in mirrorverse)",
+    subcategory: "Rift"
+})
 // .addSwitch({
 //     category: "Rift",
 //     configName: "tubulatorRender",

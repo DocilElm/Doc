@@ -42,6 +42,7 @@ import "./features/rift/BoxBerberis"
 import "./features/rift/MushroomTimer"
 import "./features/rift/WoodenButtons"
 import "./features/rift/GlyphRender"
+import "./features/rift/LavaMaze"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"
