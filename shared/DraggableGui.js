@@ -71,9 +71,7 @@ export default class DraggableGui {
     setCommandName(name) {
         this.commandName = name
 
-        register("command", () => {
-            this.ctGui.open()
-        }).setName(name)
+        addCommand(name, `Opens single editor for ${this.featureName}`, () => this.ctGui.open())
 
         return this
     }
