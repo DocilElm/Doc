@@ -174,7 +174,7 @@ export class TextHelper {
     static convertToNumber(string) {
         if (!/^([\d.,]+)([A-z]+)$/.test(string)) return parseFloat(string.replace(/,/g, ""))
 
-        const [ _, number, format ] = string.match(/^([\d.,]+)([A-z]+)$/)
+        const [ _, number, format ] = string.match(/^([\d\.,]+)([A-z]+)$/)
 
         return parseFloat(number) * numberFormat[format]
     }
