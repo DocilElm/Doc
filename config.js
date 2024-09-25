@@ -417,9 +417,17 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 // })
 .addSwitch({
     category: "Garden",
+    configName: "gardenEvents",
+    title: "Garden Events",
+    description: "Required for VisitorProfit & VisitorButton to work",
+    subcategory: "Garden",
+    value: true
+})
+.addSwitch({
+    category: "Garden",
     configName: "visitorProfitDisplay",
     title: "Visitor Profit Display",
-    description: "Displays most of the visitor's lore data and also the profit with copper and rare item. Neu visitor features breaks this feature",
+    description: "Displays most of the visitor's lore data and also the profit with copper and rare item. &cNeu visitor features breaks this feature",
     subcategory: "Garden"
 })
 .addSwitch({
@@ -436,13 +444,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Displays the player's tab stuff for pests",
     subcategory: "Garden"
 })
-// .addSwitch({
-//     category: "Garden",
-//     configName: "visitorBazaarButton",
-//     title: "Visitor Bazaar Button",
-//     description: "Displays a button that you can click whenever inside a visitor gui to go to the required item in bazaar",
-//     subcategory: "Garden"
-// })
+.addSwitch({
+    category: "Garden",
+    configName: "visitorBazaarButton",
+    title: "Visitor Bazaar Button",
+    description: "Displays a button that you can click whenever inside a visitor gui to go to the required item in bazaar",
+    subcategory: "Garden"
+})
 // .addSwitch({
 //     category: "Garden",
 //     configName: "renderInfestedPlots",
