@@ -27,6 +27,7 @@ import "./features/mining/ComissionDisplay"
 import "./features/garden/GardenDisplay"
 import "./features/garden/PestsDisplay"
 import "./features/garden/VisitorProfit"
+import "./features/garden/VisitorBzButton"
 // Gui
 import "./features/gui/CommandAliases"
 import "./features/gui/KeyShortcuts"
