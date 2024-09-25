@@ -38,13 +38,14 @@ new Feature("blockOverlay")
             // If third person disable phase
             const phase = !(Client.settings.getSettings()?.field_74320_O === 1)
             const color = getColor(config().blockOverlayColor)
+            const pticks = event.partialTicks
 
             const [ r, g, b, a ] = [color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()]
             const [ r1, g1, b1 ] = [color.getRed(), color.getGreen(), color.getBlue()]
 
             cancel(event)
 
-            RenderHelper.outlineBlock(ctBlock, r, g, b, a, phase, 2)
-            if (config().blockOverlayFill) RenderHelper.filledBlock(ctBlock, r1, g1, b1, 50, phase)
+            RenderHelper.outlineBlock(ctBlock, r, g, b, a, phase, 2, true, pticks)
+            if (config().blockOverlayFill) RenderHelper.filledBlock(ctBlock, r1, g1, b1, 50, phase, true, pticks)
         })
     )
