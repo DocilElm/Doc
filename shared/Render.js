@@ -188,19 +188,19 @@ export class RenderHelper {
         return Client.getMinecraft().func_175606_aa() // getRenderViewEntity
     }
 
-    static getInterp() {
+    static getInterp(customTicks) {
         const render = this.getRenderViewEntity()
         const pticks = Tessellator.getPartialTicks()
 
         return [
-            this.interpolate(render.field_70165_t, render.field_70142_S, pticks),
-            this.interpolate(render.field_70163_u, render.field_70137_T, pticks),
-            this.interpolate(render.field_70161_v, render.field_70136_U, pticks)
+            this.interpolate(render.field_70165_t, render.field_70142_S, customTicks || pticks),
+            this.interpolate(render.field_70163_u, render.field_70137_T, customTicks || pticks),
+            this.interpolate(render.field_70161_v, render.field_70136_U, customTicks || pticks)
         ]
     }
 
-    static drawOutlinedBox(aabb, r, g, b, a, phase = true, lineWidth = 3, translate = true) {
-        const [ realX, realY, realZ ] = this.getInterp()
+    static drawOutlinedBox(aabb, r, g, b, a, phase = true, lineWidth = 3, translate = true, customTicks) {
+        const [ realX, realY, realZ ] = this.getInterp(customTicks)
 
         DGlStateManager
             .pushMatrix()
@@ -231,9 +231,9 @@ export class RenderHelper {
         GL11.glLineWidth(2)
     }
 
-    static drawFilledBox(aabb, r, g, b, a, phase = true, translate = true) {
+    static drawFilledBox(aabb, r, g, b, a, phase = true, translate = true, customTicks) {
         const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(aabb)
-        const [ realX, realY, realZ ] = this.getInterp()
+        const [ realX, realY, realZ ] = this.getInterp(customTicks)
 
         DGlStateManager
             .pushMatrix()
@@ -394,10 +394,10 @@ export class RenderHelper {
      * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
      * @returns
      */
-    static outlineBlock(ctBlock, r, g, b, a, phase = true, lineWidth = 3, translate = true) {
+    static outlineBlock(ctBlock, r, g, b, a, phase = true, lineWidth = 3, translate = true, customTicks) {
         if (!ctBlock) return
 
-        this.drawOutlinedBox(this.getCTBlockAxis(ctBlock), r, g, b, a, phase, lineWidth, translate)
+        this.drawOutlinedBox(this.getCTBlockAxis(ctBlock), r, g, b, a, phase, lineWidth, translate, customTicks)
     }
 
     /**
@@ -412,10 +412,10 @@ export class RenderHelper {
      * @link Huge thanks to [Ch1ck3nNeedsRNG](https://github.com/PerseusPotter)
      * @returns
      */
-    static filledBlock(ctBlock, r, g, b, a, phase = true, translate = true) {
+    static filledBlock(ctBlock, r, g, b, a, phase = true, translate = true, customTicks) {
         if (!ctBlock) return
 
-        this.drawFilledBox(this.getCTBlockAxis(ctBlock), r, g, b, a, phase, translate)
+        this.drawFilledBox(this.getCTBlockAxis(ctBlock), r, g, b, a, phase, translate, customTicks)
     }
 
     /**
