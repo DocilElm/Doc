@@ -59,6 +59,12 @@ export class DGlStateManager {
         return this
     }
 
+    static enableLighting() {
+        GlStateManager.func_179145_e()
+
+        return this
+    }
+
     static disableTexture2D() {
         GlStateManager.func_179090_x()
 

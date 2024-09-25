@@ -225,6 +225,7 @@ export class RenderHelper {
             .enableAlpha()
             .enableTexture2D()
             .color(1, 1, 1, 1)
+            .enableLighting()
             .popMatrix()
 
         GL11.glLineWidth(2)
@@ -281,6 +282,7 @@ export class RenderHelper {
             .enableTexture2D()
             .color(1, 1, 1, 1)
             .enableCull()
+            .enableLighting()
             .popMatrix()
     }
 
@@ -517,7 +519,7 @@ export class RenderHelper {
         if (phase) DGlStateManager.enableDepth()
 
         DGlStateManager
-            .disableLighting()
+            .enableLighting()
             .enableTexture2D()
             .popMatrix()
     }
