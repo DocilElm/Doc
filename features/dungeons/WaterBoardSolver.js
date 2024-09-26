@@ -152,7 +152,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
                 if (!v || !v2) continue
 
                 let [ r, g, b ] = lineColors[idx]
-                RenderHelper.drawLineThroughPoints([v, v2], r, g, b, 1)
+                RenderHelper.drawLineThroughPoints([v, v2], r, g, b, 255, true, 2)
             }
         }),
         () => data.variant != null

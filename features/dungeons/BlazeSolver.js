@@ -78,7 +78,7 @@ const feat = new Feature("blazeSolver", "catacombs")
             if (!nextBlazes[1] || !config().blazeSolverLine) return
 
             // Draw line to next blaze
-            RenderHelper.drawLineThroughPoints(nextBlazes, 0, 1, 0, 1, false)
+            RenderHelper.drawLineThroughPoints(nextBlazes, 0, 255, 0, 255, false, 2)
         }),
         () => inBlaze && blazes.length
     )

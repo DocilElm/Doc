@@ -62,7 +62,7 @@ const feat = new Feature("creeperBeamsSolver", "catacombs")
 
                 if (!config().creeperBeamsSolverLine) continue
 
-                RenderHelper.drawLineThroughPoints(data.coords, r / 255, g / 255, b / 255, 255, false)
+                RenderHelper.drawLineThroughPoints(data.coords, r, g, b, 255, false, 2)
             }
         }),
         () => solutions.length && enteredRoomAt
