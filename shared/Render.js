@@ -143,45 +143,51 @@ export class RenderHelper {
     }
 
     /**
-     * 
-     * @param {Number[][]} points - List of vertices as [[x, y, z], [x, y, z], ...]
-     * @param {Number} r 
-     * @param {Number} g 
-     * @param {Number} b 
-     * @param {Number} a 
-     * @param {Boolean} phase - Show the line through walls
-     * @param {Number} lineWidth - The width of the line
+     * - Draws a line through the given points
+     * @param {number[][]} points The points in an array of arrays
+     * @param {number} r Red (`0` - `255`)
+     * @param {number} g Green (`0` - `255`)
+     * @param {number} b Blue (`0` - `255`)
+     * @param {number} a Alpha (`0` - `255`)
+     * @param {boolean} phase Whether to render the lines through walls or not (`true` by default)
+     * @param {number} lineWidth The width of the line
+     * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
      */
-    static drawLineThroughPoints(points, r, g, b, a, phase=true, lineWidth=3) {
-        Tessellator.pushMatrix()
+    static drawLineThroughPoints(points, r, g, b, a, phase = true, lineWidth = 3, translate = true) {
+        const [ realX, realY, realZ ] = this.getInterp()
 
         GL11.glLineWidth(lineWidth)
-        Tessellator.begin(GL11.GL_LINE_STRIP)
-        DGlStateManager.disableCull()
-        Tessellator.depthMask(false)
-        Tessellator.disableTexture2D()
-        Tessellator.enableBlend()
+        DGlStateManager
+            .pushMatrix()
+            .disableCull()
+            .disableLighting()
+            .disableTexture2D()
+            .enableBlend()
+            .tryBlendFuncSeparate(770, 771, 1, 0)
 
-        if (phase) Tessellator.disableDepth()
+        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
+        if (phase) DGlStateManager.disableDepth()
 
-        Tessellator.colorize(r, g, b, a)
+        DGlStateManager.color(r / 255, g / 255, b / 255, a / 255)
 
+        WorldRenderer.func_181668_a(3, DefaultVertexFormats.field_181705_e)
         for (let idx = 0; idx < points.length; idx++) {
             let [ x, y, z ] = points[idx]
-            Tessellator.pos(x, y, z).tex(0, 0)
+            WorldRenderer.func_181662_b(x, y, z).func_181675_d()
         }
+        MCTessellator.func_78381_a()
 
-        Tessellator.draw()
+        if (translate) DGlStateManager.translate(realX, realY, realZ)
+        if (phase) DGlStateManager.enableDepth()
 
-        if (phase) Tessellator.enableDepth()
-
-        DGlStateManager.enableCull()
-        Tessellator.enableTexture2D()
-        Tessellator.disableBlend()
-        Tessellator.depthMask(true)
-        Tessellator.popMatrix()
+        DGlStateManager
+            .color(1, 1, 1, 1)
+            .enableCull()
+            .enableLighting()
+            .enableTexture2D()
+            .enableBlend()
+            .popMatrix()
         GL11.glLineWidth(2)
-
     }
     
     static getRenderViewEntity() {
