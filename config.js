@@ -825,7 +825,7 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     category: "Misc",
     configName: "slotLockingDisplay",
     title: "Slot Locking Display",
-    description: "Adds the sba lock image to the locked slot and a line to the binded slots whenever shifting over them",
+    description: "Adds the sba locked image behind the item, if you shift it'll show a line towards the binded slot &cONLY WORKS IN INVENTORY",
     subcategory: "Misc",
     shouldShow(data) {
         return data.slotLocking

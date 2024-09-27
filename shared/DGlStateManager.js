@@ -29,6 +29,16 @@ export class DGlStateManager {
         return this
     }
 
+    static bindTexture(int) {
+        GlStateManager.func_179144_i(int)
+        return this
+    }
+
+    static scale(x, y) {
+        GlStateManager.func_179152_a(x, y || x, 1)
+        return this
+    }
+
     static enableBlend() {
         GlStateManager.func_179147_l()
 

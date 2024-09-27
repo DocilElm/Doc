@@ -3,7 +3,6 @@ import { scheduleTask } from "../../core/CustomRegisters"
 import { Event } from "../../core/Event"
 import EventEnums from "../../core/EventEnums"
 import Feature from "../../core/Feature"
-import Location from "../../shared/Location"
 import { RenderHelper } from "../../shared/Render"
 
 const entities = new HashMap()

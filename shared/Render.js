@@ -555,4 +555,21 @@ export class RenderHelper {
         this.outlineBlock(ctBlock, r, g, b, a, phase, 2, translate)
         this.filledBlock(ctBlock, r, g, b, a2, phase, translate)
     }
+
+    /**
+     * - Internal use.
+     * - Sets up the vertices for an image and begins drawing it
+     * @param {number} x
+     * @param {number} y
+     * @param {number} width
+     * @param {number} height
+     */
+    static _beginImage(x, y, width, height) {
+        WorldRenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g)
+        WorldRenderer.func_181662_b(x, y + height, 0).func_181673_a(0, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + width, y + height, 0).func_181673_a(1, 1).func_181675_d()
+        WorldRenderer.func_181662_b(x + width, y, 0).func_181673_a(1, 0).func_181675_d()
+        WorldRenderer.func_181662_b(x, y, 0).func_181673_a(0, 0).func_181675_d()
+        MCTessellator.func_78381_a()
+    }
 }
