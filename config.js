@@ -814,23 +814,23 @@ const config = new DefaultConfig("Doc", "data/settings.json")
         return data.chatWaypoint
     }
 })
-// .addSwitch({
-//     category: "Misc",
-//     configName: "slotLocking",
-//     title: "Slot Locking",
-//     description: "Allow you to lock slots and bind them with the set keybind",
-//     subcategory: "Misc"
-// })
-// .addSwitch({
-//     category: "Misc",
-//     configName: "slotLockingDisplay",
-//     title: "Slot Locking Display",
-//     description: "Adds a darker rectangle display to the locked slot and a line to the binded slots whenever shifting over them",
-//     subcategory: "Misc",
-//     shouldShow(data) {
-//         return data.slotLocking
-//     }
-// })
+.addSwitch({
+    category: "Misc",
+    configName: "slotLocking",
+    title: "Slot Locking",
+    description: "Allow you to lock slots and bind them with the set keybind",
+    subcategory: "Misc"
+})
+.addSwitch({
+    category: "Misc",
+    configName: "slotLockingDisplay",
+    title: "Slot Locking Display",
+    description: "Adds the sba lock image to the locked slot and a line to the binded slots whenever shifting over them",
+    subcategory: "Misc",
+    shouldShow(data) {
+        return data.slotLocking
+    }
+})
 // .addSwitch({
 //     category: "Misc",
 //     configName: "slotLockingSB",

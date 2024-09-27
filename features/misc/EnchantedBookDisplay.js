@@ -67,7 +67,7 @@ new Feature("enchantedBookLevel")
             Renderer.translate(slot.getDisplayX() + (16 - Renderer.getStringWidth(level)), slot.getDisplayY() + 8, 280)
             Renderer.drawStringWithShadow(level, 0, 0)
         
-            Tessellator.disableLighting()
+            Tessellator.enableLighting()
             Tessellator.popMatrix()
         })
     )

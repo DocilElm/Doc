@@ -23,7 +23,7 @@ guiContainerTopField.setAccessible(true)
 /**
  * - Gets the given [AxisAlignedBB] [Min] and [Max] positions
  * @param {AxisAlignedBB} axis 
- * @returns {[ Number, Number, Number, Number, Number, Number ]}
+ * @returns {[number, number, number, number, number, number]}
  */
 const getAxisValues = (axis, filled = false) => [
         axis.field_72340_a - (filled ? .01 : 0), // Min X
@@ -56,6 +56,12 @@ const _drawTitle = (title, subtitle) => {
     Renderer.drawStringWithShadow(subtitle, -(Renderer.getStringWidth(subtitle) / 2), 5)
 }
 
+/**
+ * - Draws a title with subtitle in the middle of the screen
+ * @param {string} title The title
+ * @param {string} subtitle The subtitle for this Title
+ * @param {number} ms The amount of ms this title should be displayed for
+ */
 export const showTitle = (title, subtitle, ms) => {
     currentTitle.title = title
     currentTitle.subtitle = subtitle
@@ -84,8 +90,8 @@ register("renderOverlay", () => {
 export class RenderHelper {
     /**
      * - Gets the gui's X and Y values
-     * @param {GuiContainer} mcGuiContainer The GuiContainer. if null it'll try to assign the current GuiContainer
-     * @returns {[Number, Number] | null}
+     * @param {GuiContainer?} mcGuiContainer The GuiContainer. if null it'll try to assign the current GuiContainer
+     * @returns {[number, number]?}
      */
     static getGuiRenderPositions(mcGuiContainer) {
         if (!Client.isInGui()) return
@@ -101,9 +107,9 @@ export class RenderHelper {
 
     /**
      * - Gets the given slotNumber's render position [x, y]
-     * @param {Number} slotNumber 
-     * @param {GuiContainer | null} mcGuiContainer
-     * @returns {[Number, Number]}
+     * @param {number} slotNumber 
+     * @param {GuiContainer?} mcGuiContainer
+     * @returns {[number, number]}
      */
     static getSlotRenderPosition(slotNumber, mcGuiContainer) {
         if (!Client.isInGui() || slotNumber == null) return
@@ -120,11 +126,11 @@ export class RenderHelper {
     /**
      * - Gets the GuiContainer [x1, y1, x2, y2] bounds using the last slot [44]
      * @param {GuiContainer} mcGuiContainer 
-     * @returns {[Number, Number, Number, Number]}
+     * @returns {[number, number, number, number]}
      */
     static getGuiRenderBoundings(mcGuiContainer) {
         if (!Client.isInGui()) return
-        
+
         if (!mcGuiContainer) mcGuiContainer = Client.currentGui.get()
 
         const [ x, y ] = [ guiContainerLeftField.get(mcGuiContainer), guiContainerTopField.get(mcGuiContainer) ]
@@ -189,7 +195,7 @@ export class RenderHelper {
             .popMatrix()
         GL11.glLineWidth(2)
     }
-    
+
     static getRenderViewEntity() {
         return Client.getMinecraft().func_175606_aa() // getRenderViewEntity
     }
@@ -217,7 +223,7 @@ export class RenderHelper {
             .tryBlendFuncSeparate(770, 771, 1, 0)
 
         GL11.glLineWidth(lineWidth)
-        
+
         if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
         if (phase) DGlStateManager.disableDepth()
 
@@ -294,21 +300,22 @@ export class RenderHelper {
 
     /**
      * - Draws an entity box with the given [x, y, z, w, h] values
-     * @param {Number} x 
-     * @param {Number} y 
-     * @param {Number} z 
-     * @param {Number} w 
-     * @param {Number} h 
-     * @param {Number} r 
-     * @param {Number} g 
-     * @param {Number} b 
-     * @param {Number} a 
-     * @param {Number} lineWidth
-     * @param {Boolean} phase 
+     * @param {number} x X axis
+     * @param {number} y Y axis
+     * @param {number} z Z axis
+     * @param {number} w Width
+     * @param {number} h Height
+     * @param {number} r Red (`0` - `255`)
+     * @param {number} g Green (`0` - `255`)
+     * @param {number} b Blue (`0` - `255`)
+     * @param {number} a Alpha (`0` - `255`)
+     * @param {boolean} phase Whether to render the box through walls or not (`false` by default)
+     * @param {number} lineWidth The width of the line
+     * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
      */
     static drawEntityBox(x, y, z, w, h, r, g, b, a, lineWidth = 1, phase = false, translate = true) {
         if (x == null) return
-        
+
         const axis = new AxisAlignedBB(
             x - w / 2,
             y,
@@ -323,21 +330,21 @@ export class RenderHelper {
 
     /**
      * - Draws an entity filled box with the given [x, y, z, w, h] values
-     * @param {Number} x 
-     * @param {Number} y 
-     * @param {Number} z 
-     * @param {Number} w 
-     * @param {Number} h 
-     * @param {Number} r 
-     * @param {Number} g 
-     * @param {Number} b 
-     * @param {Number} a 
-     * @param {Number} lineWidth
-     * @param {Boolean} phase 
+     * @param {number} x X axis
+     * @param {number} y Y axis
+     * @param {number} z Z axis
+     * @param {number} w Width
+     * @param {number} h Height
+     * @param {number} r Red (`0` - `255`)
+     * @param {number} g Green (`0` - `255`)
+     * @param {number} b Blue (`0` - `255`)
+     * @param {number} a Alpha (`0` - `255`)
+     * @param {boolean} phase Whether to render the filled box through walls or not (`false` by default)
+     * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
      */
     static drawEntityBoxFilled(x, y, z, w, h, r, g, b, a, phase = false, translate = true) {
         if (x == null) return
-        
+
         const axis = new AxisAlignedBB(
             x - w / 2,
             y,

@@ -75,6 +75,7 @@ new Feature("renderItemRarity")
 
             Tessellator.enableLighting()
             Tessellator.disableAlpha()
+            Tessellator.disableBlend()
             Tessellator.popMatrix()
         })
     )
