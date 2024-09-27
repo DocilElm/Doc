@@ -831,6 +831,18 @@ const config = new DefaultConfig("Doc", "data/settings.json")
         return data.slotLocking
     }
 })
+.addSlider({
+    categories: "Misc",
+    configName: "slotLockingDisplayOpacity",
+    title: "Slot Locking Display Opacity",
+    description: "Changes the opacity of the sba image",
+    options: [0.1, 1],
+    value: 0.4,
+    subcategory: "Misc",
+    shouldShow(data) {
+        return data.slotLockingDisplay
+    }
+})
 // .addSwitch({
 //     category: "Misc",
 //     configName: "slotLockingSB",

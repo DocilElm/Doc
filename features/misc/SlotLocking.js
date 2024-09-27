@@ -193,22 +193,17 @@ const feat = new Feature("slotLocking")
             // Credits: https://github.com/BiscuitDevelopment/SkyblockAddons/
 
             DGlStateManager
-                .pushMatrix()
                 .disableLighting()
-                .enableBlend()
-                .enableAlpha()
-                .color(1, 1, 1, 0.4)
+                .disableDepth()
 
             Renderer.translate(slot.getDisplayX(), slot.getDisplayY())
             Renderer.scale(16)
+            Renderer.colorize(1, 1, 1, config().slotLockingDisplayOpacity)
             lockImg.draw(0, 0, 16, 16)
 
             DGlStateManager
-                .color(1, 1, 1, 1)
-                .disableBlend()
-                .disableAlpha()
                 .enableLighting()
-                .popMatrix()
+                .enableDepth()
         }),
         () => inGui && Client.currentGui.get() instanceof net.minecraft.client.gui.inventory.GuiInventory && savedSlots.size && config().slotLockingDisplay
     )
