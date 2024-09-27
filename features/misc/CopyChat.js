@@ -4,21 +4,31 @@ import { TextHelper } from "../../shared/TextHelper"
 
 const Mouse = org.lwjgl.input.Mouse
 
-const add = (comp, arr, isBelow) => {
-    if (!comp) return
-    const str = comp.func_150261_e()?.removeFormatting()
-    if (
-        isBelow &&
-        (!str.startsWith(" ") || str.startsWith(" ☠") || /^ \(\d+\)$/.test(str))
-    ) return
+const getStr = (str, width, chatGui, y) => {
+    const scale = Renderer.screen.getScale()
     const isCtrlDown = Client.isControlDown()
+    const normalWidth = Renderer.getStringWidth(" ") * Renderer.screen.getScale()
+    let count = 0
 
-    const msg = isCtrlDown
-        ? comp.func_150261_e()?.replace(/§/g, "&")
-        : comp.func_150261_e()?.removeFormatting()?.replace(/§z/g, "")
-    if (arr.indexOf(msg) !== -1) return
+    for (let idx = 0; idx < width; idx++) {
+        let comp = chatGui.func_146236_a(idx, y)
+        if (!comp && count > 10) break
+        if (!comp) {
+            count++
+            idx += normalWidth
+            continue
+        }
 
-    arr.push(msg)
+        let text = isCtrlDown
+            ? comp.func_150261_e()?.replace(/§/g, "&")
+            : comp.func_150261_e()?.removeFormatting()?.replace(/§z/g, "")
+
+        str += text
+        idx += (Renderer.getStringWidth(comp.func_150261_e().removeFormatting()) * scale) - 1
+        count = 0
+    }
+
+    return str
 }
 
 new Feature("copyChat")
@@ -28,34 +38,11 @@ new Feature("copyChat")
 
             const y = Mouse.getY()
             const chatGui = Client.getChatGUI()
-            const scale = Renderer.screen.getScale()
-            const chatWidth = 600 * scale
+            const chatWidth = Client.getChatGUI().func_146228_f() * Renderer.screen.getScale()
 
-            let hasNextLine = false
+            let str = getStr("", chatWidth, chatGui, y)
 
-            let normal = []
-            let below = []
-            let below2 = []
-
-            for (let idx = 0; idx < chatWidth; idx += 10) {
-                let comp = chatGui.func_146236_a(idx, y)
-                let compbelow = chatGui.func_146236_a(idx, y - (10 * scale))
-                // Just in case it's a triple line message
-                let compbelow2 = chatGui.func_146236_a(idx, y - (20 * scale))
-
-                add(comp, normal)
-                if (idx >= 0 && idx <= 10 && compbelow?.func_150261_e()?.removeFormatting()?.startsWith(" ")) {
-                    hasNextLine = true
-                }
-                if (hasNextLine) {
-                    add(compbelow, below, true)
-                    add(compbelow2, below2, true)
-                }
-
-                if (comp) idx += (Renderer.getStringWidth(comp.func_150261_e()) * scale)
-            }
-
-            ChatLib.command(`ct copy ${[...normal, ...below, ...below2].join("")}`, true)
+            ChatLib.command(`ct copy ${str}`, true)
             ChatLib.chat(`${TextHelper.PREFIX} &aCopied message to clipboard`)
         })
     )
