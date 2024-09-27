@@ -23,7 +23,7 @@ export const addCommand = (name, description, fn) => {
 addCommand("help", "Shows this list")
 
 register("command", (...args) => {
-    if (!args) return config().getConfig().openGui()
+    if (!args?.[0]) return config().getConfig().openGui()
 
     if (args[0].toLowerCase() === "help") {
         ChatLib.chat(`${TextHelper.PREFIX} &aCommand List`)
