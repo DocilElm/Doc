@@ -1,6 +1,7 @@
 import config from "../../config"
 import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
+import { DGlStateManager } from "../../shared/DGlStateManager"
 import { RenderHelper } from "../../shared/Render"
 
 const Blocks = net.minecraft.init.Blocks
@@ -45,7 +46,29 @@ new Feature("blockOverlay")
 
             cancel(event)
 
-            RenderHelper.outlineBlock(ctBlock, r, g, b, a, phase, 2, true, pticks)
-            if (config().blockOverlayFill) RenderHelper.filledBlock(ctBlock, r1, g1, b1, 50, phase, true, pticks)
+            const [ rx, ry, rz ] = RenderHelper.getInterp(pticks)
+            const aabb = RenderHelper.getCTBlockAxis(ctBlock)
+
+            DGlStateManager
+                .pushMatrix()
+                .disableTexture2D()
+                .enableBlend()
+                .disableAlpha()
+                .tryBlendFuncSeparate(770, 771, 1, 0)
+                .translate(-rx, -ry, -rz)
+
+            if (phase) DGlStateManager.disableDepth()
+
+            RenderHelper.drawOutlinedBoundingBox(aabb, r, g, b, a)
+            if (config().blockOverlayFill) RenderHelper.drawFilledBoundingBox(aabb, r1, g1, b1, 50)
+
+            if (phase) DGlStateManager.enableDepth()
+
+            DGlStateManager
+                .enableTexture2D()
+                .disableBlend()
+                .enableAlpha()
+                .translate(rx, ry, rz)
+                .popMatrix()
         })
     )

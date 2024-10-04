@@ -211,54 +211,33 @@ export class RenderHelper {
         ]
     }
 
-    static drawOutlinedBox(aabb, r, g, b, a, phase = true, lineWidth = 3, translate = true, customTicks) {
-        const [ realX, realY, realZ ] = this.getInterp(customTicks)
-
-        DGlStateManager
-            .pushMatrix()
-            .disableTexture2D()
-            .enableBlend()
-            .disableLighting()
-            .disableAlpha()
-            .tryBlendFuncSeparate(770, 771, 1, 0)
-
-        GL11.glLineWidth(lineWidth)
-
-        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
-        if (phase) DGlStateManager.disableDepth()
-
+    /**
+     * - Calls the [drawOutlinedBoundingBox] from minecraft's [RenderGlobal]
+     * - NOTE: this does not setup anything in the stack, it directly calls the method.
+     * @param {AxisAlignedBB} aabb
+     * @param {number} r Red (`0` - `255`)
+     * @param {number} g Green (`0` - `255`)
+     * @param {number} b Blue (`0` - `255`)
+     * @param {number} a Alpha (`0` - `255`)
+     * @returns {this}
+     */
+    static drawOutlinedBoundingBox(aabb, r, g, b, a) {
         RenderGlobal.func_181563_a(aabb, r, g, b, a)
 
-        if (translate) DGlStateManager.translate(realX, realY, realZ)
-        if (phase) DGlStateManager.enableDepth()
-
-        DGlStateManager
-            .disableBlend()
-            .enableAlpha()
-            .enableTexture2D()
-            .color(1, 1, 1, 1)
-            .enableLighting()
-            .popMatrix()
-
-        GL11.glLineWidth(2)
+        return this
     }
 
-    static drawFilledBox(aabb, r, g, b, a, phase = true, translate = true, customTicks) {
+    /**
+     * - Draws a filled box at the given [AxisAlignedBB]
+     * - NOTE: this does not setup anything in the stack, it directly draws.
+     * @param {AxisAlignedBB} aabb 
+     * @param {number} r Red (`0` - `255`)
+     * @param {number} g Green (`0` - `255`)
+     * @param {number} b Blue (`0` - `255`)
+     * @param {number} a Alpha (`0` - `255`)
+     */
+    static drawFilledBoundingBox(aabb, r, g, b, a) {
         const [ x0, y0, z0, x1, y1, z1 ] = getAxisValues(aabb)
-        const [ realX, realY, realZ ] = this.getInterp(customTicks)
-
-        DGlStateManager
-            .pushMatrix()
-            .disableCull()
-            .disableTexture2D()
-            .enableBlend()
-            .disableLighting()
-            .disableAlpha()
-            .tryBlendFuncSeparate(770, 771, 1, 0)
-
-        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
-        if (phase) DGlStateManager.disableDepth()
-
         DGlStateManager.color(r / 255, g / 255, b / 255, a / 255)
 
         WorldRenderer.func_181668_a(5, DefaultVertexFormats.field_181705_e)
@@ -284,6 +263,56 @@ export class RenderHelper {
         WorldRenderer.func_181662_b(x1, y1, z1).func_181675_d()
         WorldRenderer.func_181662_b(x1, y1, z0).func_181675_d()
         MCTessellator.func_78381_a()
+    }
+
+    static drawOutlinedBox(aabb, r, g, b, a, phase = true, lineWidth = 3, translate = true, customTicks) {
+        const [ realX, realY, realZ ] = this.getInterp(customTicks)
+
+        DGlStateManager
+            .pushMatrix()
+            .disableTexture2D()
+            .enableBlend()
+            .disableLighting()
+            .disableAlpha()
+            .tryBlendFuncSeparate(770, 771, 1, 0)
+
+        GL11.glLineWidth(lineWidth)
+
+        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
+        if (phase) DGlStateManager.disableDepth()
+
+        this.drawOutlinedBoundingBox(aabb, r, g, b, a)
+
+        if (translate) DGlStateManager.translate(realX, realY, realZ)
+        if (phase) DGlStateManager.enableDepth()
+
+        DGlStateManager
+            .disableBlend()
+            .enableAlpha()
+            .enableTexture2D()
+            .color(1, 1, 1, 1)
+            .enableLighting()
+            .popMatrix()
+
+        GL11.glLineWidth(2)
+    }
+
+    static drawFilledBox(aabb, r, g, b, a, phase = true, translate = true, customTicks) {
+        const [ realX, realY, realZ ] = this.getInterp(customTicks)
+
+        DGlStateManager
+            .pushMatrix()
+            .disableCull()
+            .disableTexture2D()
+            .enableBlend()
+            .disableLighting()
+            .disableAlpha()
+            .tryBlendFuncSeparate(770, 771, 1, 0)
+
+        if (translate) DGlStateManager.translate(-realX, -realY, -realZ)
+        if (phase) DGlStateManager.disableDepth()
+
+        this.drawFilledBoundingBox(aabb, r, g, b, a)
 
         if (translate) DGlStateManager.translate(realX, realY, realZ)
         if (phase) DGlStateManager.enableDepth()
