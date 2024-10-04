@@ -49,6 +49,7 @@ new Feature("blockOverlay")
             const [ rx, ry, rz ] = RenderHelper.getInterp(pticks)
             const aabb = RenderHelper.getCTBlockAxis(ctBlock)
 
+            GL11.glLineWidth(2)
             DGlStateManager
                 .pushMatrix()
                 .disableTexture2D()
