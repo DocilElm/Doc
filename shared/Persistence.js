@@ -152,5 +152,5 @@ register("gameUnload", () => {
 })
 
 export class GardenApi {
-    static Visitors = Persistence.getDataFromURL("https://raw.githubusercontent.com/DocilElm/Atomx/main/api/GardenVisitors.json")
+    static Visitors = Persistence.getDataFromFileOrLink("GardenVisitors.json", "https://raw.githubusercontent.com/DocilElm/Atomx/main/api/GardenVisitors.json")
 }
