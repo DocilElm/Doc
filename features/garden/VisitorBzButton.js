@@ -46,7 +46,7 @@ const makeItemFromNbt = (nbt) => new Item(net.minecraft.item.ItemStack.func_7794
 
 const feat = new Feature("visitorBazaarButton", "garden")
     .addSubEvent(
-        new Event("renderOverlay", () => {
+        new Event("guiRender", () => {
             buttonsCreated.forEach(it => it.draw())
         }),
         () => buttonsCreated.size
