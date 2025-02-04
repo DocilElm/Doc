@@ -24,7 +24,7 @@ const getStr = (str, width, chatGui, y) => {
             : comp.func_150261_e()?.removeFormatting()?.replace(/§z/g, "")
 
         str += text
-        idx += (Renderer.getStringWidth(comp.func_150261_e().removeFormatting()) * scale) - 1
+        idx += (Renderer.getStringWidth(comp.func_150261_e()) * scale) - 1
         count = 0
     }
 
