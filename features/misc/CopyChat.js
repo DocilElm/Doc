@@ -28,6 +28,16 @@ const getStr = (str, width, chatGui, y) => {
         count = 0
     }
 
+    const ny = y - (10 * scale)
+    const compBelow = chatGui.func_146236_a(15, ny)
+    if (compBelow) {
+        const msg = compBelow.func_150261_e().removeFormatting()
+        print(`${msg}\n${/^ \w/.test(msg)}\n`)
+        if (/^ \w/.test(msg)) {
+            str = getStr(str, width, chatGui, ny)
+        }
+    }
+
     return str
 }
 
