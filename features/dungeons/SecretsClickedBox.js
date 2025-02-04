@@ -5,7 +5,7 @@ import Feature from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
 
 // Wither skull / Redstone skull
-const allowedIDs = new Set(["26bb1a8d-7c66-31c6-82d5-a9c04c94fb02", "edb0155f-379c-395a-9c7d-1b6005987ac8"])
+const allowedIDs = new Set(["e0f3e929-869e-3dca-9504-54c666ee6f23", "fed95410-aba1-39df-9b95-1d4f361eb66e"])
 const secretBlocks = new Set(["minecraft:chest", "minecraft:lever", "minecraft:skull", "minecraft:trapped_chest"])
 const lockedRegex = /^That chest is locked!$/
 const blocksToHighlight = new Map()
