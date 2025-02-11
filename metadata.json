@@ -1,8 +1,8 @@
 {
   "name": "Doc",
   "creator": "DocilElm",
-  "description": "doc is the best.",
-  "version": "4.15.8",
+  "description": "Quality of life features for hypixel skyblock",
+  "version": "4.16.8",
   "entry": "index.js",
   "changelog": "",
   "requires": [
