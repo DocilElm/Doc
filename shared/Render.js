@@ -7,6 +7,7 @@ const MCTessellator = Java.type("net.minecraft.client.renderer.Tessellator").fun
 const DefaultVertexFormats = Java.type("net.minecraft.client.renderer.vertex.DefaultVertexFormats")
 const WorldRenderer = MCTessellator.func_178180_c()
 const IBlockStateAir = new BlockType("minecraft:air").getDefaultState()
+const inRenderer = Renderer.INSTANCE
 
 // From BeaconBeam module
 const ResourceLocation = Java.type("net.minecraft.util.ResourceLocation")
@@ -600,5 +601,32 @@ export class RenderHelper {
         WorldRenderer.func_181662_b(x + width, y, 0).func_181673_a(1, 0).func_181675_d()
         WorldRenderer.func_181662_b(x, y, 0).func_181673_a(0, 0).func_181675_d()
         MCTessellator.func_78381_a()
+    }
+
+    static preDrawRect() {
+        Tessellator.enableBlend()
+        Tessellator.disableTexture2D()
+        Tessellator.tryBlendFuncSeparate(770, 771, 1, 0)
+    }
+
+    static postDrawRect() {
+        Tessellator.disableBlend()
+        Tessellator.enableTexture2D()
+        Tessellator.colorize(1, 1, 1,)
+    }
+
+    static drawRect(x, y, width, height, solid = true, lineWidth = null) {
+        if (lineWidth && lineWidth > 0) GL11.glLineWidth(lineWidth)
+        WorldRenderer.func_181668_a(solid ? 6 : 2, DefaultVertexFormats.field_181705_e)
+        WorldRenderer.func_181662_b(x, y + height, 0).func_181675_d()
+        WorldRenderer.func_181662_b(x + width, y + height, 0).func_181675_d()
+        WorldRenderer.func_181662_b(x + width, y, 0).func_181675_d()
+        WorldRenderer.func_181662_b(x, y, 0).func_181675_d()
+        MCTessellator.func_78381_a()
+        if (lineWidth && lineWidth > 0) GL11.glLineWidth(1)
+    }
+
+    static colorARGB(color) {
+        inRenderer.doColor$ctjs(color)
     }
 }
