@@ -46,6 +46,8 @@ import "./features/rift/GlyphRender"
 import "./features/rift/LavaMaze"
 import "./features/rift/Tubulator"
 import "./features/rift/EffigiesWaypoint"
+// Slayers
+import "./features/slayers/BossSlainTime"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"

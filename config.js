@@ -529,6 +529,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     subcategory: "Kuudra"
 })
 .addSwitch({
+    category: "Slayers",
+    configName: "slayerBossTime",
+    title: "Boss Slain Time",
+    description: "Shows in chat the time taken to kill the boss &cThis uses scoreboard to check"
+.addSwitch({
     category: "Misc",
     configName: "ragnarokAxeTimer",
     title: "Ragnarok Axe Cooldown Timer",
@@ -843,16 +848,6 @@ const config = new DefaultConfig("Doc", "data/settings.json")
         return data.slotLockingDisplay
     }
 })
-// .addSwitch({
-//     category: "Misc",
-//     configName: "slotLockingSB",
-//     title: "Slot Locking SB Only",
-//     description: "Makes this feature only work in skyblock",
-//     subcategory: "Misc",
-//     shouldShow(data) {
-//         return data.slotLocking
-//     }
-// })
 .addSwitch({
     category: "Misc",
     configName: "noCursorReset",
@@ -1166,9 +1161,12 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     subcategory: "Divider"
 })
 
-const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Misc", "UI"]
+const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Slayers", "Misc", "UI"]
 const setting = new Settings("Doc", config, schemePath)
     .setCategorySort((a, b) => categories.indexOf(a.category) - categories.indexOf(b.category))
-    .apply() // apply the sorting changes
+    // .apply() // apply the sorting changes
+
+setting.AmaterasuGui.descriptionElement.textWrap.enabled = false
+setting.AmaterasuGui.apply()
 
 export default () => setting.settings
