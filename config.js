@@ -533,6 +533,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     configName: "slayerBossTime",
     title: "Boss Slain Time",
     description: "Shows in chat the time taken to kill the boss &cThis uses scoreboard to check"
+})
+.addSwitch({
+    category: "Slayers",
+    configName: "slayerBossSpawnTime",
+    title: "Boss Spawn Time",
+    description: "Shows in chat the time taken to spawn the boss &cThis uses the auto start slayer chat message to check"
+})
 .addSwitch({
     category: "Misc",
     configName: "ragnarokAxeTimer",
