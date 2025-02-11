@@ -23,7 +23,7 @@ const feat = new Feature("slayerBossSpawnTime")
     .addSubEvent(
         new Event(EventEnums.PACKET.SERVER.SCOREBOARD, () => {
             new TextComponent(`${TextHelper.PREFIX} &aSlayer Boss Spawned! &aReal Time&f: &6${((Date.now() - startedAtTime) / 1000).toFixed(2)}s &aServer Time&f: &6${((serverTicks - startedAtTicks) * 0.05).toFixed(2)}s`)
-                .setHover("show_text", "&cServer ticks might not be 100% accurate")
+                .setHover("show_text", "&cServer time might not be 100% accurate")
                 .chat()
 
             serverTicks = 0
