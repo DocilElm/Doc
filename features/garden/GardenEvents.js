@@ -6,6 +6,7 @@ import { GardenApi } from "../../shared/Persistence"
 const visitorSet = new Set(Object.keys(GardenApi.Visitors))
 
 let inVisitor = false
+let triggeredListeners = false
 
 // Events listeners
 const _onVisior = []
@@ -40,6 +41,7 @@ const feat = new Feature("gardenEvents", "garden")
         new Event(EventEnums.PACKET.CUSTOM.WINDOWCLOSE, () => {
             inVisitor = false
             for (let fn of _onVisiorClose) fn()
+            triggeredListeners = false
 
             feat.update()
         }),
@@ -49,6 +51,7 @@ const feat = new Feature("gardenEvents", "garden")
         new Event(EventEnums.PACKET.SERVER.WINDOWITEMS, (items) => {
             if (!items[13] || !items[29]) {
                 inVisitor = false
+                triggeredListeners = false
                 feat.update()
                 return
             }
@@ -57,14 +60,19 @@ const feat = new Feature("gardenEvents", "garden")
             const isVisitor = /^Offers Accepted: [\d]+$/.test(visitorSkull.getLore()?.[4]?.removeFormatting())
             if (!isVisitor) {
                 inVisitor = false
+                triggeredListeners = false
                 feat.update()
                 return
             }
 
             const visitorName = visitorSkull.getName()
 
-            for (let fn of _onVisior)
+            for (let fn of _onVisior) {
+                if (triggeredListeners) break
                 fn(visitorName, new Item(items[29]))
+            }
+
+            triggeredListeners = true
         }),
         () => inVisitor
     )
