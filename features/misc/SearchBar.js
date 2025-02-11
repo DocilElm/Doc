@@ -264,7 +264,7 @@ const feat = new Feature("searchBar")
 
                 if (/\,/g.test(findString)) {
                     const tempArr = findString.split(",")
-                    const match = tempArr.map(str => itemName.includes(str.toLowerCase()) || itemLore.includes(str.toLowerCase())).includes(false)
+                    const match = tempArr.map(str => itemName.includes(str.trim().toLowerCase()) || itemLore.includes(str.trim().toLowerCase())).includes(false)
 
                     if (match) return
 
