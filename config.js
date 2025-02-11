@@ -603,13 +603,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 //     description: "Displays your current stats that are in tab",
 //     subcategory: "Misc"
 // })
-// .addSwitch({
-//     category: "Misc",
-//     configName: "searchBar",
-//     title: "Search Bar",
-//     description: "Displays a search bar that can let you well... search! item lore or item name",
-//     subcategory: "Misc"
-// })
+.addSwitch({
+    category: "Misc",
+    configName: "searchBar",
+    title: "Search Bar",
+    description: "Displays a search bar that can let you well... search! item lore or item name",
+    subcategory: "Misc"
+})
 .addSwitch({
     category: "Misc",
     configName: "championxpDisplay",
