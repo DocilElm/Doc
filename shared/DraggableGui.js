@@ -29,7 +29,7 @@ export default class DraggableGui {
         this.width = null
         this.height = null
         this.commandName = null
-        this.customSize = false // used later on
+        this.customSize = null
         this.selected = false // used later on
 
         // Add listeners to this [DraggableGui]
@@ -37,7 +37,7 @@ export default class DraggableGui {
             if (dir === 1) Persistence.data[this.featureName].scale += 0.02
             else Persistence.data[this.featureName].scale -= 0.02
 
-            // if (this.customSize) this.customSize(dir) // later
+            if (this.customSize) this.customSize(dir) // later
         })
 
         this.ctGui.registerMouseDragged((mx, my) => {
@@ -90,6 +90,11 @@ export default class DraggableGui {
         if (width != null) this.width = width
         if (height != null) this.height = height
 
+        return this
+    }
+
+    setCustomSize(cb) {
+        this.customSize = cb
         return this
     }
 
