@@ -19,6 +19,7 @@ import "./features/dungeons/BoulderSolver"
 import "./features/dungeons/CreeperBeamsSolver"
 import "./features/dungeons/ThreeWeirdosSolver"
 import "./features/dungeons/WaterBoardSolver"
+import "./features/dungeons/TriviaSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"

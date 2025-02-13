@@ -295,13 +295,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Display your current milestone in dungeons",
     subcategory: "Dungeons"
 })
-// .addSwitch({
-//     category: "Dungeons",
-//     configName: "triviaQuizSolver",
-//     title: "Trivia Solver",
-//     description: "Trivia solver changes the color of the answer to &aGreen&r and the incorrect answer to &cRed&r &4This will make it so you cannot click on the chat message",
-//     subcategory: "Dungeons"
-// })
+.addSwitch({
+    category: "Dungeons",
+    configName: "triviaQuizSolver",
+    title: "Trivia Solver",
+    description: "Trivia solver changes the color of the answer to &aGreen&r and the incorrect answer to &cRed&r &4This will make it so you cannot click on the chat message",
+    subcategory: "Dungeons"
+})
 .addSwitch({
     category: "Dungeons",
     configName: "puzzlesDisplay",
