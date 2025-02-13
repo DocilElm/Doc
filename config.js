@@ -1128,6 +1128,16 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 })
 .addButton({
     category: "General",
+    configName: "SupportButton",
+    title: "Support Me",
+    description: "Buy me a coffee for better/more features",
+    subcategory: "General",
+    onClick() {
+        java.awt.Desktop.getDesktop().browse(new java.net.URI("https://ko-fi.com/docilelm"))
+    }
+})
+.addButton({
+    category: "General",
     configName: "mainEditGui",
     title: "Edit Guis",
     description: "Changes the display location for all the guis",
@@ -1173,7 +1183,10 @@ const setting = new Settings("Doc", config, schemePath)
     .setCategorySort((a, b) => categories.indexOf(a.category) - categories.indexOf(b.category))
     // .apply() // apply the sorting changes
 
-setting.AmaterasuGui.descriptionElement.textWrap.enabled = false
+const textWrap = setting.AmaterasuGui.descriptionElement.textWrap
+textWrap.enabled = false
+textWrap.linesLimit = 2
+textWrap.wrapHeight = 6.5
 setting.AmaterasuGui.apply()
 
 export default () => setting.settings
