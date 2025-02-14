@@ -612,7 +612,7 @@ export class RenderHelper {
     static postDrawRect() {
         Tessellator.disableBlend()
         Tessellator.enableTexture2D()
-        Tessellator.colorize(1, 1, 1,)
+        Tessellator.colorize(1, 1, 1, 1)
     }
 
     static drawRect(x, y, width, height, solid = true, lineWidth = null) {
