@@ -1061,6 +1061,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     }
 })
 .addSwitch({
+    configName: "cultivatingDisplay",
+    title: "Cultivating Display",
+    description: "Displays your currently held item cultivating's xp and level"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
