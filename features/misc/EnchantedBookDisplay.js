@@ -54,6 +54,7 @@ new Feature("enchantedBookLevel")
             if (!match) return
 
             const level = getLevel(match[3])
+            if (level == null) return
 
             Tessellator.pushMatrix()
             Tessellator.disableLighting()
