@@ -1081,6 +1081,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Displays your currently held drill fuel"
 })
 .addSwitch({
+    configName: "noEndermanTeleport",
+    title: "No Enderman Teleport",
+    description: "Cancels the teleport of an enderman whenever being hit"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
