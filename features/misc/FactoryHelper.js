@@ -89,7 +89,10 @@ const feat = new Feature("rabbitHelper")
         new Event("renderOverlay", () => {
             if (!Client.isInGui()) return
 
-            const [ x, y ] = RenderHelper.getSlotRenderPosition(renderIdx)
+            let pos = RenderHelper.getSlotRenderPosition(renderIdx)
+            if (!pos || pos?.[0] == null) return
+
+            const [ x, y ] = pos
 
             Renderer.translate(0, 0, 100)
             Renderer.drawRect(
