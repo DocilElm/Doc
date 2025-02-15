@@ -4,7 +4,7 @@ import Feature from "../../core/Feature"
 import DraggableGui from "../../shared/DraggableGui"
 
 const editGui = new DraggableGui("comissionsDisplay").setCommandName("editcomissionsDisplay")
-const comissionsRegex = /^ ([\w ]+): (?:[\d,.]+%|DONE)$/
+const comissionsRegex = /^ ([\w' ]+): (?:[\d,.]+%|DONE)$/
 const mapList = new Set()
 
 editGui.onDraw(() => {
@@ -32,6 +32,8 @@ const feat = new Feature("comissionDisplay", ["Dwarven Mines", "Crystal Hollows"
     )
     .addSubEvent(
         new Event("renderOverlay", () => {
+            if (editGui.isOpen()) return
+
             let y = 0
             Renderer.retainTransforms(true)
             Renderer.translate(editGui.getX(), editGui.getY())
