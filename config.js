@@ -1071,6 +1071,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Displays your inventory in a hud like display"
 })
 .addSwitch({
+    configName: "compactDisplay",
+    title: "Compact Display",
+    description: "Displays your currently held item compact's xp and level"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
