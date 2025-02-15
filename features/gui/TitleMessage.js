@@ -79,8 +79,8 @@ class Title {
     }
 
     create(internal = false) {
-        const titleValue = this.titleInput.getText()
-        const criteriaValue = this.criteriaInput.getText()
+        const titleValue = this.titleInput.getValue()
+        const criteriaValue = this.criteriaInput.getValue()
         // Update time because this can be changed without
         // changing the other params so to avoid not saving time
         // we do this ugly workaround
@@ -90,9 +90,10 @@ class Title {
                 title: this.title,
                 time: this.time
             }
+            this.dirty = true
         }
 
-        if (!(criteriaValue || titleValue) && !internal) return
+        if ((!criteriaValue || !titleValue) && !internal) return
         if (this._register) this.removeRegister()
 
         if (!internal) {
@@ -129,6 +130,7 @@ class Title {
         this.markDirty()
         this._register.unregister()
         this._register = null
+        this.dirty = false
     }
 }
 
@@ -160,6 +162,7 @@ gui._drawNormal(titleMsg.bgBoxComp)
 
 for (let k in Persistence.data.messageTitles) {
     let v = Persistence.data.messageTitles[k]
+    if (v == null || k == null) continue
     titleMsg._addTitle(v.title, k, v.time)
 }
 
