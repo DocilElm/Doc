@@ -1076,6 +1076,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Displays your currently held item compact's xp and level"
 })
 .addSwitch({
+    configName: "drillFuelDisplay",
+    title: "Drill Fuel Display",
+    description: "Displays your currently held drill fuel"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
