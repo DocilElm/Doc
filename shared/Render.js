@@ -8,6 +8,10 @@ const DefaultVertexFormats = Java.type("net.minecraft.client.renderer.vertex.Def
 const WorldRenderer = MCTessellator.func_178180_c()
 const IBlockStateAir = new BlockType("minecraft:air").getDefaultState()
 const inRenderer = Renderer.INSTANCE
+const mcRenderItemField = Java.type("net.minecraft.client.Minecraft").class.getDeclaredField("field_175621_X")
+mcRenderItemField.setAccessible(true)
+const MCRenderItem = mcRenderItemField.get(Client.getMinecraft())
+export const MCRenderHelper = Java.type("net.minecraft.client.renderer.RenderHelper")
 
 // From BeaconBeam module
 const ResourceLocation = Java.type("net.minecraft.util.ResourceLocation")
@@ -628,5 +632,19 @@ export class RenderHelper {
 
     static colorARGB(color) {
         inRenderer.doColor$ctjs(color)
+    }
+
+    static drawItem(item, x, y, scale = 1, zlvl = 200) {
+        if (scale !== 1) Renderer.scale(scale)
+
+        Tessellator.colorize(1, 1, 1, 1)
+        MCRenderHelper.func_74519_b()
+        MCRenderHelper.func_74520_c()
+        MCRenderItem.field_77023_b = zlvl
+        MCRenderItem.func_175042_a(item.itemStack, x / scale, y / scale)
+        MCRenderHelper.func_74518_a()
+        MCRenderHelper.func_74518_a()
+
+        if (scale !== 1) Renderer.scale(1 / scale)
     }
 }

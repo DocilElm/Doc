@@ -1066,6 +1066,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Displays your currently held item cultivating's xp and level"
 })
 .addSwitch({
+    configName: "inventoryHudDisplay",
+    title: "Inventory Hud",
+    description: "Displays your inventory in a hud like display"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
