@@ -1086,6 +1086,21 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Cancels the teleport of an enderman whenever being hit"
 })
 .addSwitch({
+    configName: "inventoryHistoryDisplay",
+    title: "Inventory History Display",
+    description: "Displays the items changed, removed or added to your inventory"
+})
+.addSlider({
+    configName: "inventoryHistoryTime",
+    title: "Inventory History Time",
+    description: "Sets the amount of time the text should stay on screen (in seconds)",
+    options: [0, 30],
+    value: 2,
+    shouldShow(data) {
+        return data.inventoryHistoryDisplay
+    }
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
