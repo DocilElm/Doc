@@ -3,19 +3,42 @@ import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
 import DraggableGui from "../../shared/DraggableGui"
 
-const makeObj = (/** @type {Item} */item) => {
+// TODO: fix skulls triggering change because its the same item id
+const MCItem = Java.type("net.minecraft.item.Item")
+
+const makeObj = (/** @type {MCItem} */item) => {
     if (!item) return
 
-    let id = item.getID()
-    let name = item.getName()
+    let id = MCItem.func_150891_b(item./* getItem */func_77973_b())
+    let name = item.func_82833_r() // getDisplayName
     // If it's a book use lore instead of name
-    if (id === 403) name = item.getLore()[1]
+    if (id === 403) name = item./* getTooltip */func_82840_a(Player.getPlayer(), Client.getMinecraft()./* gameSettings */field_71474_y./* advancedItemTooltips */field_82882_x)[1]
 
     return {
         id,
-        stackSize: item.getStackSize(),
+        stackSize: item./* stackSize */field_77994_a,
         name,
         item
+    }
+}
+
+const getInventory = () => {
+    const inv = Player.getPlayer()./* inventory */field_71071_by
+    return {
+        inventory: inv,
+        getItems() {
+            const invSize = inv./* getSizeInventory */func_70302_i_()
+            let arr = []
+
+            for (let idx = 0; idx < invSize; idx++) {
+                arr.push(makeObj(inv./* getStackInSlot */func_70301_a(idx)))
+            }
+
+            return arr
+        },
+        getName() {
+            return inv./* getDisplayName */func_145748_c_()
+        }
     }
 }
 
@@ -51,7 +74,7 @@ const onChange = (item, previousItem) => {
 const feat = new Feature("inventoryHistoryDisplay")
     .addEvent(
         new Event("tick", () => {
-            const currentInv = Player.getInventory().getItems().map(makeObj)
+            const currentInv = getInventory().getItems()
 
             for (let idx = 0; idx < currentInv.length; idx++) {
                 let item = currentInv[idx]
