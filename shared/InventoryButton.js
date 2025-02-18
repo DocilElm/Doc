@@ -91,9 +91,12 @@ export class InventoryButton {
      */
     _getBoundary() {
         const containerSize = Player.getContainer().getSize()
-        const [ x, y ] = this.calculateSize && containerSize > 45
+        const pos = this.calculateSize && containerSize > 45
             ? RenderHelper.getSlotRenderPosition(this.slot + (containerSize - 45))
             : RenderHelper.getSlotRenderPosition(this.slot)
+        if (!pos) return [ 0, 0, 0, 0 ]
+
+        const [ x, y ] = pos
 
         return [
             x + this.xOffset,
