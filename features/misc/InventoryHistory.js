@@ -3,13 +3,12 @@ import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
 import DraggableGui from "../../shared/DraggableGui"
 
-// TODO: fix skulls triggering change because its the same item id
 const MCItem = Java.type("net.minecraft.item.Item")
 
 const makeObj = (/** @type {MCItem} */item) => {
     if (!item) return
 
-    let id = MCItem.func_150891_b(item./* getItem */func_77973_b())
+    let id = MCItem./* getIdFromItem */func_150891_b(item./* getItem */func_77973_b())
     let name = item.func_82833_r() // getDisplayName
     // If it's a book use lore instead of name
     if (id === 403) name = item./* getTooltip */func_82840_a(Player.getPlayer(), Client.getMinecraft()./* gameSettings */field_71474_y./* advancedItemTooltips */field_82882_x)[1]
@@ -40,6 +39,16 @@ const getInventory = () => {
             return inv./* getDisplayName */func_145748_c_()
         }
     }
+}
+
+const getSignature = (itemStack) => {
+    return itemStack
+        ./* getTagCompound */func_77978_p()
+        ./* getCompoundTag */func_74775_l("SkullOwner")
+        ./* getCompoundTag */func_74775_l("Properties")
+        ./* getTag */func_74781_a("textures")
+        ./* getCompoundTagAt */func_150305_b(0)
+        ./* getString */func_74779_i("Signature")
 }
 
 const editGui = new DraggableGui("inventoryHistoryDisplay").setCommandName("editinventoryhistorydisplay")
@@ -94,6 +103,14 @@ const feat = new Feature("inventoryHistoryDisplay")
 
                 if (previousItem.id !== item.id) continue
                 if (previousItem.stackSize === item.stackSize) continue
+                // If item is a skull check for it's signature instead
+                if (
+                    previousItem.id === 397 &&
+                    item.id === 397 &&
+                    // If the signatures aren't equals this means that the current item
+                    // should not trigger a change
+                    getSignature(previousItem.item) !== getSignature(item.item)
+                ) continue
 
                 onChange(item, previousItem)
             }
