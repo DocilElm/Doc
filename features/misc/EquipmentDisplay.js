@@ -93,7 +93,9 @@ const feat = new Feature("equipmentsDisplay")
         new Event(EventEnums.PACKET.SERVER.WINDOWITEMS, (items) => {
             for (let idx = 0; idx < equipmentSlots.length; idx++) {
                 let slot = equipmentSlots[idx]
-                let item = new Item(items[slot])
+                let mcItem = items[slot]
+                if (!mcItem) continue
+                let item = new Item(mcItem)
 
                 if (item.getName().removeFormatting() === "Empty Equipment Slot") {
                     Persistence.data.equipments[idx] = ["no"]
