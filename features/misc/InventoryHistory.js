@@ -103,9 +103,8 @@ const feat = new Feature("inventoryHistoryDisplay")
 
                 if (previousItem.id !== item.id) continue
                 if (previousItem.stackSize === item.stackSize) continue
-                // If item is a skull check for it's signature instead
                 if (
-                    previousItem.id === 397 &&
+                    // If item is a skull check for it's signature instead
                     item.id === 397 &&
                     // If the signatures aren't equals this means that the current item
                     // should not trigger a change
