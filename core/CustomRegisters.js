@@ -329,11 +329,13 @@ register("packetReceived", (packet) => {
     if (packet.func_148890_d() > 0) return
 
     for (let idx = _scheduleTaskList.length - 1; idx >= 0; idx--) {
-        let delay = _scheduleTaskList[idx][1]--
+        let task = _scheduleTaskList[idx]
+        if (!task) continue
+        let delay = task[1]--
 
         if (delay !== 0) continue
 
-        let fn = _scheduleTaskList[idx][0]
+        let fn = task[0]
         fn()
 
         _scheduleTaskList.splice(idx, 1)
