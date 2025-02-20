@@ -14,6 +14,12 @@ const avoidGuis = [
     "Auctions",
     "Abiphone"
 ]
+const avoidGuisNeu = [
+    "Chronomatron (",
+    "Ultrasequencer (",
+    "Superpairs ("
+]
+const hasneu = net.minecraftforge.fml.common.Loader.isModLoaded("notenoughupdates")
 
 new Feature("middleClickGui")
     .addEvent(
@@ -25,6 +31,7 @@ new Feature("middleClickGui")
 
             const slot = gui.getSlotUnderMouse()?.field_75222_d
             if (!slot || slot >= containerSize || avoidGuis.some(it => container.getName()?.startsWith(it))) return
+            if (hasneu && avoidGuisNeu.some(it => container.getName()?.startsWith(it))) return
 
             const item = container.getItems()[slot]
             if (
