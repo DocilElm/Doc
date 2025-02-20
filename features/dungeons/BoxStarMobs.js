@@ -36,7 +36,11 @@ const render = new Event("renderWorld", () => {
 const feat = new Feature("boxStarMobs", "catacombs")
     .addEvent(
         new Event(EventEnums.STEP, () => {
-            mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand).filter(entity => entity.getName().includes("✯ "))
+            mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
+                .filter(entity =>
+                    entity.getName().includes("✯ ") &&
+                    !World.getWorld()./* getEntityByID */func_73045_a(entity.entity./* getEntityId */func_145782_y() - 1)?./* isDead */field_70128_L
+                    )
 
             feat.update()
         }, 3)
