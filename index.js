@@ -50,6 +50,7 @@ import "./features/rift/EffigiesWaypoint"
 // Slayers
 import "./features/slayers/BossSlainTime"
 import "./features/slayers/BossSpawnTime"
+import "./features/slayers/SlayerBossDisplay"
 // Misc
 import "./features/misc/BlockOverlay"
 import "./features/misc/MiddleClickGuis"

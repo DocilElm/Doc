@@ -347,7 +347,7 @@ export class RenderHelper {
      * @param {number} lineWidth The width of the line
      * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
      */
-    static drawEntityBox(x, y, z, w, h, r, g, b, a, lineWidth = 1, phase = false, translate = true) {
+    static drawEntityBox(x, y, z, w, h, r, g, b, a, lineWidth = 1, phase = false, translate = true, customTicks = null) {
         if (x == null) return
 
         const axis = new AxisAlignedBB(
@@ -359,7 +359,7 @@ export class RenderHelper {
             z + w / 2
         )
 
-        this.drawOutlinedBox(axis, r, g, b, a, phase, lineWidth, translate)
+        this.drawOutlinedBox(axis, r, g, b, a, phase, lineWidth, translate, customTicks)
     }
 
     /**
@@ -376,7 +376,7 @@ export class RenderHelper {
      * @param {boolean} phase Whether to render the filled box through walls or not (`false` by default)
      * @param {boolean} translate Whether to translate the rendering coords to the [RenderViewEntity] coords (`true` by default)
      */
-    static drawEntityBoxFilled(x, y, z, w, h, r, g, b, a, phase = false, translate = true) {
+    static drawEntityBoxFilled(x, y, z, w, h, r, g, b, a, phase = false, translate = true, customTicks = null) {
         if (x == null) return
 
         const axis = new AxisAlignedBB(
@@ -388,7 +388,7 @@ export class RenderHelper {
             z + w / 2
         )
 
-        this.drawFilledBox(axis, r, g, b, a, phase, translate)
+        this.drawFilledBox(axis, r, g, b, a, phase, translate, customTicks)
     }
 
     // TODO: add jsdocs to this

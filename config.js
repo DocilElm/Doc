@@ -541,6 +541,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Shows in chat the time taken to spawn the boss &cThis uses the auto start slayer chat message to check"
 })
 .addSwitch({
+    configName: "slayerBossDisplay",
+    title: "Slayer Boss Display",
+    description: "Displays the slayer's current health and time as well as highlighting the boss"
+})
+.addSwitch({
     category: "Misc",
     configName: "ragnarokAxeTimer",
     title: "Ragnarok Axe Cooldown Timer",
@@ -1218,7 +1223,7 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     subcategory: "Divider"
 })
 
-const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Slayer", "Tracker", "Kuudra", "Rift", "Slayers", "Misc", "UI"]
+const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Tracker", "Kuudra", "Rift", "Slayers", "Misc", "UI"]
 const setting = new Settings("Doc", config, schemePath)
     .setCategorySort((a, b) => categories.indexOf(a.category) - categories.indexOf(b.category))
     // .apply() // apply the sorting changes
