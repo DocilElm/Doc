@@ -2,8 +2,10 @@ import { scheduleTask } from "../../core/CustomRegisters"
 import { Event } from "../../core/Event"
 import EventEnums from "../../core/EventEnums"
 import Feature from "../../core/Feature"
+import { addCommand } from "../../shared/Command"
 import DraggableGui from "../../shared/DraggableGui"
 import { RenderHelper } from "../../shared/Render"
+import { TextHelper } from "../../shared/TextHelper"
 
 const editGui = new DraggableGui("slayerBossDisplay").setCommandName("editslayerbossdisplay")
 const spawnedByRegex = /^Spawned by: (\w+)$/
@@ -14,6 +16,16 @@ let currentBoss = {
     timeEntity: null,
     hpEntity: null,
     id: null
+}
+let carryingUser = null
+
+const reset = () => {
+    currentBoss = {
+        spawnedBy: null,
+        timeEntity: null,
+        hpEntity: null,
+        id: null
+    }
 }
 
 editGui.onDraw(() => {
@@ -55,7 +67,7 @@ const feat = new Feature("slayerBossDisplay")
                 entities.put(entityId - 3, obj)
 
                 // Prioritize user's boss
-                if (spawnedBy === Player.getName())
+                if (spawnedBy === Player.getName() || carryingUser === spawnedBy.toLowerCase())
                     currentBoss = obj
 
                 feat.update()
@@ -83,12 +95,7 @@ const feat = new Feature("slayerBossDisplay")
             if (!currentBoss.hpEntity) return
             if (currentBoss.hpEntity./* isDead */field_70128_L) {
                 entities.clear()
-                currentBoss = {
-                    spawnedBy: null,
-                    timeEntity: null,
-                    hpEntity: null,
-                    id: null
-                }
+                reset()
                 feat.update()
                 return
             }
@@ -123,10 +130,18 @@ const feat = new Feature("slayerBossDisplay")
     )
     .onUnregister(() => {
         entities.clear()
-        currentBoss = {
-            spawnedBy: null,
-            timeEntity: null,
-            hpEntity: null,
-            id: null
-        }
+        reset()
     })
+
+addCommand("slayercarry", "Set a user to the carry mode for Slayer Boss Display", (name) => {
+    if (!name) {
+        reset()
+        carryingUser = null
+        feat.update()
+        ChatLib.chat(`${TextHelper.PREFIX} &cCarry user cleared.`)
+        return
+    }
+
+    carryingUser = name.toLowerCase()
+    ChatLib.chat(`${TextHelper.PREFIX} &aSuccessfully set user &b${name} &afor carry mode.`)
+})
