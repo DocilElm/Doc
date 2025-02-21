@@ -543,7 +543,7 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 .addSwitch({
     configName: "slayerBossDisplay",
     title: "Slayer Boss Display",
-    description: "Displays the slayer's current health and time as well as highlighting the boss"
+    description: "Displays the slayer's current health and time as well as highlighting the boss &bUse middle click to detect a different slayer boss"
 })
 .addSwitch({
     category: "Misc",

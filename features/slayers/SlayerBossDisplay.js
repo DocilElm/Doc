@@ -12,7 +12,8 @@ const entities = new HashMap()
 let currentBoss = {
     spawnedBy: null,
     timeEntity: null,
-    hpEntity: null
+    hpEntity: null,
+    id: null
 }
 
 editGui.onDraw(() => {
@@ -41,24 +42,29 @@ const feat = new Feature("slayerBossDisplay")
                 if (!match) return
 
                 const [ _, spawnedBy ] = match
-                if (spawnedBy !== Player.getName()) return
 
                 // -1 -> timer (02:59)
                 // -2 -> armrostand name (☠ Voidgloom Seraph IV 64.2M❤)
                 // -3 -> actual entity (Enderman)
-                entities.put(entityId - 3, "test")
-                currentBoss = {
+                const obj = {
                     spawnedBy: entityName, // This name should never change therefor we can set it static
                     timeEntity: World.getWorld()./* getEntityByID */func_73045_a(entityId - 1),
-                    hpEntity: World.getWorld()./* getEntityByID */func_73045_a(entityId - 2)
+                    hpEntity: World.getWorld()./* getEntityByID */func_73045_a(entityId - 2),
+                    id: entityId - 3
                 }
+                entities.put(entityId - 3, obj)
+
+                // Prioritize user's boss
+                if (spawnedBy === Player.getName())
+                    currentBoss = obj
+
                 feat.update()
             })
         })
     )
     .addSubEvent(
         new Event("renderEntity", (entity, _, pticks) => {
-            if (!entities.containsKey(entity.entity.func_145782_y())) return
+            if (entity.entity.func_145782_y() !== currentBoss?.id) return
             RenderHelper.drawEntityBox(
                 entity.getX(),
                 entity.getY(),
@@ -68,18 +74,20 @@ const feat = new Feature("slayerBossDisplay")
                 0, 255, 255, 255, 2, false, true, pticks
             )
         }),
-        () => entities.size()
+        () => currentBoss
     )
     .addSubEvent(
         new Event("renderOverlay", () => {
             if (editGui.isOpen()) return
             // I am lazy
+            if (!currentBoss.hpEntity) return
             if (currentBoss.hpEntity./* isDead */field_70128_L) {
                 entities.clear()
                 currentBoss = {
                     spawnedBy: null,
                     timeEntity: null,
-                    hpEntity: null
+                    hpEntity: null,
+                    id: null
                 }
                 feat.update()
                 return
@@ -100,6 +108,17 @@ const feat = new Feature("slayerBossDisplay")
             Renderer.retainTransforms(false)
             Renderer.finishDraw()
         }),
+        () => currentBoss
+    )
+    .addSubEvent(
+        new Event("clicked", (_, __, mbtn, isDown) => {
+            if (mbtn !== 2 || !isDown) return
+            const entityId = Player.lookingAt().entity?.func_145782_y()
+            if (!entityId || !entities.containsKey(entityId)) return
+
+            currentBoss = entities.get(entityId)
+            feat.update()
+        }),
         () => entities.size()
     )
     .onUnregister(() => {
@@ -107,6 +126,7 @@ const feat = new Feature("slayerBossDisplay")
         currentBoss = {
             spawnedBy: null,
             timeEntity: null,
-            hpEntity: null
+            hpEntity: null,
+            id: null
         }
     })
