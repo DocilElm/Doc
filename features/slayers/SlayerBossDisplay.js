@@ -121,7 +121,10 @@ const feat = new Feature("slayerBossDisplay")
         new Event("clicked", (_, __, mbtn, isDown) => {
             if (mbtn !== 2 || !isDown) return
             const entityId = Player.lookingAt().entity?.func_145782_y()
-            if (!entityId || !entities.containsKey(entityId)) return
+            if (!entityId || !entities.containsKey(entityId)) {
+                if (currentBoss) reset() && feat.update()
+                return
+            }
 
             currentBoss = entities.get(entityId)
             feat.update()
