@@ -1,49 +1,82 @@
+import { scheduleTask } from "../../core/CustomRegisters"
 import { Event } from "../../core/Event"
 import EventEnums from "../../core/EventEnums"
 import Feature from "../../core/Feature"
 import { RenderHelper } from "../../shared/Render"
 
-let mobsArray = []
+const mobs = new HashMap()
 
-const render = new Event("renderWorld", () => {
-    mobsArray.forEach(entity => {
-        if (entity.getName().includes("Fels")) {
-            RenderHelper.drawEntityBox(
-                entity.getX(),
-                entity.getY() - 3,
-                entity.getZ(),
-                0.6,
-                0.7,
-                255, 51, 255, 255,
-                2
-            )
+let useSeverTicks = false
 
-            return
-        }
+const scanEntityName = (mcEntity, entityId, feat) => {
+    const name = mcEntity./* getName */func_70005_c_()
+    if (!name.includes("✯ ")) return
 
-        RenderHelper.drawEntityBox(
-            entity.getX(),
-            entity.getY() - 2,
-            entity.getZ(),
-            0.6,
-            2,
-            0, 255, 255, 255,
-            2
-        )
-    })
-})
+    const entityBelowId = entityId - (name.includes("Withermancer") ? 3 : 1)
+    const entityBelow = World.getWorld()./* getEntityByID */func_73045_a(entityBelowId)
+    if (!entityBelow) return
+    if (entityBelow instanceof net.minecraft.entity.monster.EntityEnderman) {
+        mobs.put(entityBelowId, [
+            /* width */0.6,
+            /* height */0.7,
+            /* red */255,
+            /* green */51,
+            /* blue */255,
+            /* alpha */255
+        ])
+        feat.update()
+        return
+    }
+
+    mobs.put(entityBelowId, [
+        /* width */entityBelow./* width */field_70130_N,
+        /* height */entityBelow./* height */field_70131_O + 0.2, // "magic number" - an attempt to try to make the hitbox go over the armor the entity is wearing
+        /* red */0,
+        /* green */255,
+        /* blue */255,
+        /* alpha */255
+    ])
+    feat.update()
+}
 
 const feat = new Feature("boxStarMobs", "catacombs")
     .addEvent(
-        new Event(EventEnums.STEP, () => {
-            mobsArray = World.getAllEntitiesOfType(net.minecraft.entity.item.EntityArmorStand)
-                .filter(entity =>
-                    entity.getName().includes("✯ ") &&
-                    !World.getWorld()./* getEntityByID */func_73045_a(entity.entity./* getEntityId */func_145782_y() - 1)?./* isDead */field_70128_L
-                    )
-
-            feat.update()
-        }, 3)
+        new Event(EventEnums.PACKET.SERVER.SCOREBOARD, () => {
+            useSeverTicks = true
+        }, /^Time Elapsed\: 03s$/)
     )
-    .addSubEvent(render, () => mobsArray.length)
-    .onUnregister(() => render.unregister())
+    .addEvent(
+        new Event(EventEnums.FORGE.ENTITYJOIN, (mcEntity, entityId) => {
+            // Scan with client ticks if the server packets aren't able to arrive yet
+            if (!useSeverTicks) {
+                Client.scheduleTask(3, () => scanEntityName(mcEntity, entityId, feat))
+                return
+            }
+
+            scheduleTask(() => scanEntityName(mcEntity, entityId, feat))
+        })
+    )
+    .addSubEvent(
+        new Event("renderEntity", (entity, _, pticks) => {
+            const entityId = entity.entity./* getEntityId */func_145782_y()
+            const data = mobs.get(entityId)
+            if (!data) return
+            if (entity.isDead()) return mobs.remove(entityId)
+
+            const [ width, height, r, g, b, a ] = data
+
+            RenderHelper.drawEntityBox(
+                entity.getX(),
+                entity.getY(),
+                entity.getZ(),
+                width,
+                height,
+                r, g, b, a, 2, false, true, pticks
+            )
+        }),
+        () => mobs.size()
+    )
+    .onUnregister(() => {
+        mobs.clear()
+        useSeverTicks = false
+    })
