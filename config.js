@@ -920,22 +920,22 @@ const config = new DefaultConfig("Doc", "data/settings.json")
         return data.systemTimeDisplay
     }
 })
-// .addSwitch({
-//     category: "Misc",
-//     configName: "toggleSprintDisplay",
-//     title: "Toggle Sprint Display",
-//     description: "Displays the assigned text whenever ToggleSprint is enabled &b(take a look at your keybinds if you don't know how to toggle it)",
-//     subcategory: "Misc"
-// })
-// .addTextInput({
-//     category: "Misc",
-//     configName: "toggleSprintText",
-//     title: "Toggle Sprint Display Text",
-//     description: "The text that ToggleSprint feature will display",
-//     value: "&bToggle Sprint&f: &aEnabled",
-//     placeHolder: "&bToggle Sprint&f: &aEnabled",
-//     subcategory: "Misc"
-// })
+.addSwitch({
+    category: "Misc",
+    configName: "toggleSprintDisplay",
+    title: "Toggle Sprint Display",
+    description: "Displays the assigned text whenever ToggleSprint is enabled &b(take a look at your keybinds if you don't know how to toggle it)",
+    subcategory: "Misc"
+})
+.addTextInput({
+    category: "Misc",
+    configName: "toggleSprintText",
+    title: "Toggle Sprint Display Text",
+    description: "The text that ToggleSprint feature will display",
+    value: "&bToggle Sprint&f: &aEnabled",
+    placeHolder: "&bToggle Sprint&f: &aEnabled",
+    subcategory: "Misc"
+})
 .addSwitch({
     category: "Misc",
     configName: "noDeathAnimation",
