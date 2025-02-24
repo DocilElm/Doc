@@ -7,7 +7,7 @@ import { Persistence } from "../../shared/Persistence"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/TextHelper"
 
-const chatRegex = /^(Co-op|Party)?(?: > )?(?:\[\d+\] .? ?)?(?:\[[^\]]+\] )?(\w{1,16}): x: (-?\d+), y: (-?\d+), z: (-?\d+)$/
+const chatRegex = /^(Co-op|Party)?(?: > )?(?:\[\d+\] .? ?)?(?:\[[^\]]+\] )?(\w{1,16}): x: (-?\d+), y: (-?\d+), z: (-?\d+) ?$/
 const coords = new Map()
 
 const distanceTo = (x, y, z, x1, y1, z1) => Math.hypot(x - x1, y - y1, z - z1)
