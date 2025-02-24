@@ -270,6 +270,16 @@ createCustomEvent(EventEnums.PACKET.CUSTOM.OPENEDCHEST, (fn) => {
     ]
 })
 
+createCustomEvent(EventEnums.PACKET.SERVER.SETSLOT, (fn) => {
+    return register("packetReceived", (packet) => {
+        const windowId = packet.func_149175_c()
+        const slotId = packet.func_149173_d()
+        const itemStack = packet.func_149174_e()
+
+        fn(slotId, itemStack, windowId)
+    }).setFilteredClass(net.minecraft.network.play.server.S2FPacketSetSlot).unregister()
+})
+
 // Client Packets
 createCustomEvent(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (fn, wrapBP = true) => 
     register("packetSent", (packet) => {

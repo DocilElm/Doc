@@ -17,6 +17,7 @@ export class Persistence {
         clickedWoodenButtons: [],
         partyCommandList: [],
         toggleSprint: false,
+        quiverArrows: null,
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

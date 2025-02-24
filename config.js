@@ -1106,6 +1106,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     }
 })
 .addSwitch({
+    configName: "quiverDisplay",
+    title: "Quiver Display",
+    description: "Displays your current arrows as well as the quantity"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",

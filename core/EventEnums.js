@@ -79,7 +79,8 @@ export default {
             ENTITYLOOKMOVE: idx++,
             SPAWNPARTICLE: idx++,
             SPAWNMOB: idx++,
-            BLOCKCHANGE: idx++
+            BLOCKCHANGE: idx++,
+            SETSLOT: idx++
         },
         CUSTOM: {
             BLESSINGCHANGE: idx++,
