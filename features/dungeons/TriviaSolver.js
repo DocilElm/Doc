@@ -42,7 +42,6 @@ const reset = () => {
     chat = []
     currentSolutions = []
     answers = []
-    enteredRoom = null
     currentBlock = null
     currentRotation = null
 }
@@ -131,6 +130,7 @@ const feat = new Feature("triviaQuizSolver", "catacombs")
             ) {
                 ChatLib.chat(`${TextHelper.PREFIX} &aTrivia took&f: &6${((Date.now() - enteredRoom) / 1000).toFixed(2)}s`)
                 reset()
+                enteredRoom = null
             }
         })
     )
@@ -173,6 +173,7 @@ const feat = new Feature("triviaQuizSolver", "catacombs")
     )
     .onUnregister(() => {
         reset()
+        enteredRoom = null
     })
 
 onPuzzleScheduledRotation((rotation) => {
