@@ -2,8 +2,13 @@ import config from "../../config"
 import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
 import DraggableGui from "../../shared/DraggableGui"
+import { TextHelper } from "../../shared/TextHelper"
 
 const MCItem = Java.type("net.minecraft.item.Item")
+const editGui = new DraggableGui("inventoryHistoryDisplay").setCommandName("editinventoryhistorydisplay")
+
+let items = []
+let history = {}
 
 const makeObj = (/** @type {MCItem} */item) => {
     if (!item) return
@@ -51,11 +56,6 @@ const getSignature = (itemStack) => {
         ./* getString */func_74779_i("Signature")
 }
 
-const editGui = new DraggableGui("inventoryHistoryDisplay").setCommandName("editinventoryhistorydisplay")
-
-let items = []
-let history = []
-
 editGui.onDraw(() => {
     Renderer.translate(editGui.getX(), editGui.getY())
     Renderer.scale(editGui.getScale())
@@ -64,20 +64,42 @@ editGui.onDraw(() => {
 })
 
 const onAdd = (item) => {
-    history.push([`&a+${item.stackSize} ${item.name}`, Date.now()])
+    const stack = Math.abs(item.stackSize + (history[item.name]?.stack || 0))
+    history[item.name] = {
+        stack: stack,
+        str: `&a+${TextHelper.addCommasTrunc(stack)} ${item.name}`,
+        time: Date.now()
+    }
 }
 
 const onRemove = (previousItem) => {
-    history.push([`&c-${previousItem.stackSize} ${previousItem.name}`, Date.now()])
+    const stack = previousItem.stackSize - (history[previousItem.name]?.stack || 0)
+    history[previousItem.name] = {
+        stack: stack,
+        str: `&c-${TextHelper.addCommasTrunc(Math.abs(stack))} ${previousItem.name}`,
+        time: Date.now()
+    }
 }
 
 const onChange = (item, previousItem) => {
     if (previousItem.stackSize < item.stackSize) {
-        history.push([`&a+${item.stackSize - previousItem.stackSize} ${item.name}`, Date.now()])
+        const stack = item.stackSize - previousItem.stackSize
+        const stackSize = stack + (history[item.name]?.stack || 0)
+        history[item.name] = {
+            stack: stackSize,
+            str: `&a+${TextHelper.addCommasTrunc(Math.abs(stackSize))} ${item.name}`,
+            time: Date.now()
+        }
         return
     }
 
-    history.push([`&c-${previousItem.stackSize - item.stackSize} ${item.name}`, Date.now()])
+    const stack = previousItem.stackSize - item.stackSize
+    const stackSize = stack + (history[item.name]?.stack || 0)
+    history[item.name] = {
+        stack: stackSize,
+        str: `&c-${TextHelper.addCommasTrunc(Math.abs(stackSize))} ${item.name}`,
+        time: Date.now()
+    }
 }
 
 const feat = new Feature("inventoryHistoryDisplay")
@@ -126,16 +148,21 @@ const feat = new Feature("inventoryHistoryDisplay")
             Renderer.translate(editGui.getX(), editGui.getY())
             Renderer.scale(editGui.getScale())
 
+            const limitTime = (config().inventoryHistoryTime * 1000)
             const currentTime = Date.now()
-            for (let idx = history.length - 1; idx >= 0; idx--) {
-                let data = history[idx]
-                if (currentTime - data[1] > (config().inventoryHistoryTime * 1000)) {
-                    history.splice(idx, 1)
+
+            const list = Object.keys(history)
+
+            for (let idx = list.length - 1; idx >= 0; idx--) {
+                let key = list[idx]
+                let data = history[key]
+
+                if (currentTime - data.time > limitTime) {
+                    delete history[key]
                     continue
                 }
-                let str = data[0]
 
-                Renderer.drawStringWithShadow(str, 0, idx === history.length - 1 ? 0 : 9 * (idx + 1))
+                Renderer.drawStringWithShadow(data.str, 0, idx === history.length - 1 ? 0 : 9 * (idx + 1))
             }
 
             Renderer.retainTransforms(false)
@@ -145,5 +172,5 @@ const feat = new Feature("inventoryHistoryDisplay")
     )
     .onUnregister(() => {
         items = []
-        history = []
+        history = {}
     })
