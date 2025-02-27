@@ -224,11 +224,13 @@ const feat = new Feature("waterBoardSolver", "catacombs")
         currentSolution = null
         openedWater = null
         levers = []
-        shouldRecord = false
         data = {
             variant: null,
             subvariant: null
         }
+        leversRecorded = {}
+        render = []
+        shouldRecord = false
     })
 
 const getSolutionFromCustom = (variant, subvariant) => {
@@ -314,6 +316,9 @@ onPuzzleScheduledRotation((rotation) => {
         data.variant = variant
         data.subvariant = subvariant
         currentSolution = getSolution(variant, subvariant)
+        if (!currentSolution) {
+            ChatLib.chat(`${TextHelper.PREFIX} &cSeems like the WaterBoard scanner could not find the correct solution, you might need to re-enter the room for it to properly work.`)
+        }
 
         feat.update()
     }, 8)
