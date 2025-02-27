@@ -52,7 +52,9 @@ const feat = new Feature("rabbitHelper")
             renderIdx = null
 
             const chocolatePurse = parseFloat(items?.[13]?.getName()?.removeFormatting()?.replace(/[,.]/g, ""))
-            if (!chocolatePurse) return ChatLib.chat(`${TextHelper.PREFIX} &clooks like we couldn't find the chocolates you currently have.`)
+            if (chocolatePurse == null)
+                return ChatLib.chat(`${TextHelper.PREFIX} &clooks like we couldn't find the chocolates you currently have.`)
+            if (!chocolatePurse) return
 
             const rabbitData = rabbitSlots.map((it, idx) => {
                 const item = items[it]
