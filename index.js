@@ -20,6 +20,7 @@ import "./features/dungeons/CreeperBeamsSolver"
 import "./features/dungeons/ThreeWeirdosSolver"
 import "./features/dungeons/WaterBoardSolver"
 import "./features/dungeons/TriviaSolver"
+import "./features/dungeons/TicTacToeSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"

@@ -243,13 +243,12 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Boulder solver with optimized solutions &4The scanner might break sometimes",
     subcategory: "Dungeons"
 })
-// .addSwitch({
-//     category: "Dungeons",
-//     configName: "tictactoeSolver",
-//     title: "Tic Tac Toe Solver",
-//     description: "Tic Tac Toe solver &4The scanner might break sometimes",
-//     subcategory: "Dungeons"
-// })
+.addSwitch({
+    configName: "tictactoeSolver",
+    title: "Tic Tac Toe Solver",
+    description: "Tic Tac Toe solver &bHuge thanks to unclaimedbloom6",
+    subcategory: "Dungeons"
+})
 .addSwitch({
     category: "Dungeons",
     configName: "creeperBeamsSolver",
