@@ -368,6 +368,19 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Highlights the correct livid during boss fight"
 })
 .addSwitch({
+    configName: "autoRequeueDungeons",
+    title: "Auto Requeue Dungeon",
+    description: "Automatically requeues the dungeon instance whenever the message is received &bIf a player does !dt in party chat it'll stop this from running until someone says !r"
+})
+.addSwitch({
+    configName: "autoRequeueDungeonsChestMode",
+    title: "Auto Requeue Chest Mode",
+    description: "Makes the &bAuto Requeue Dungeons&r feature only work whenever you open a chest",
+    shouldShow(data) {
+        return data.autoRequeueDungeons
+    }
+})
+.addSwitch({
     category: "Mining",
     configName: "emissaryWaypoints",
     title: "Emissary Waypoints",
