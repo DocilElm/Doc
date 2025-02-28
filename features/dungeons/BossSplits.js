@@ -76,8 +76,8 @@ const feat = new Feature("dungeonBossSplits", "catacombs")
 
                 subevents.splice(idx, 1)
             }
+            split.onTimeUpdate = null
         }
-        split.onTimeUpdate = null
         split = null
         previousFloor = null
     })
