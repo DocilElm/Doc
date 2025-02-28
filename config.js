@@ -363,6 +363,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     subcategory: "Dungeons"
 })
 .addSwitch({
+    configName: "lividSolver",
+    title: "Livid Solver",
+    description: "Highlights the correct livid during boss fight"
+})
+.addSwitch({
     category: "Mining",
     configName: "emissaryWaypoints",
     title: "Emissary Waypoints",

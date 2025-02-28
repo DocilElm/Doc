@@ -193,6 +193,10 @@ createCustomEvent(EventEnums.PACKET.SERVER.BLOCKCHANGE, (fn) => register("packet
     fn(block, pos, packetBlock)
 }).setFilteredClass(net.minecraft.network.play.server.S23PacketBlockChange).unregister())
 
+createCustomEvent(EventEnums.PACKET.SERVER.MULTIBLOCKCHANGE, (fn) => register("packetReceived", (packet) => {
+    fn(packet./* getChangedBlocks */func_179844_a())
+}).setFilteredClass(net.minecraft.network.play.server.S22PacketMultiBlockChange).unregister())
+
 // Custom Server Packets
 createCustomEvent(EventEnums.PACKET.CUSTOM.BLESSINGCHANGE, (fn, decodeRomanNumeral = false) => 
     register("packetReceived", (packet) => {

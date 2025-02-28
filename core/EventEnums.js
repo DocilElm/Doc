@@ -80,7 +80,8 @@ export default {
             SPAWNPARTICLE: idx++,
             SPAWNMOB: idx++,
             BLOCKCHANGE: idx++,
-            SETSLOT: idx++
+            SETSLOT: idx++,
+            MULTIBLOCKCHANGE: idx++
         },
         CUSTOM: {
             BLESSINGCHANGE: idx++,
