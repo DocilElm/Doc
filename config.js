@@ -102,13 +102,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Automatically sends the /showextrastats command at the end of a run",
     subcategory: "Dungeons"
 })
-// .addSwitch({
-//     category: "Dungeons",
-//     configName: "dungeonBossSplits",
-//     title: "Boss Splits",
-//     description: "Displays your current dungeon boss's splits",
-//     subcategory: "Dungeons"
-// })
+.addSwitch({
+    category: "Dungeons",
+    configName: "dungeonBossSplits",
+    title: "Boss Splits",
+    description: "Displays your current dungeon boss's splits",
+    subcategory: "Dungeons"
+})
 // .addSwitch({
 //     category: "Dungeons",
 //     configName: "blessingsDisplay",

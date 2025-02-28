@@ -22,6 +22,7 @@ import "./features/dungeons/WaterBoardSolver"
 import "./features/dungeons/TriviaSolver"
 import "./features/dungeons/TicTacToeSolver"
 import "./features/dungeons/LividSolver"
+import "./features/dungeons/BossSplits"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"

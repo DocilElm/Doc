@@ -20,6 +20,9 @@ export default class CustomSplits {
         // Events
         this.events = []
 
+        // Scuffed listener for now
+        this.onTimeUpdate = null
+
         this._init()
     }
 
@@ -95,6 +98,8 @@ export default class CustomSplits {
                     ) return
 
                 this._handleChat(idx, parentidx)
+
+                if (this.onTimeUpdate) this.onTimeUpdate()
 
                 if (parent) return this.timers[parentidx].child[idx] = Date.now()
                 this.timers[idx].timer = Date.now()
