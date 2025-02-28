@@ -249,6 +249,12 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Tic Tac Toe solver &bHuge thanks to unclaimedbloom6",
     subcategory: "Dungeons"
 })
+.addColorPicker({
+    configName: "tictactoeSolverBtnColor",
+    title: "TicTacToe Highlight Color",
+    description: "The color that will be used to highlight the best move in &bTicTacToe Solver",
+    value: [0, 150, 150, 255]
+})
 .addSwitch({
     category: "Dungeons",
     configName: "creeperBeamsSolver",

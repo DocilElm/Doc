@@ -1,3 +1,4 @@
+import config from "../../config"
 import { scheduleTask } from "../../core/CustomRegisters"
 import { Event } from "../../core/Event"
 import EventEnums from "../../core/EventEnums"
@@ -133,7 +134,8 @@ const feat = new Feature("tictactoeSolver")
     )
     .addSubEvent(
         new Event("renderWorld", () => {
-            RenderHelper.outlineFilledBlock(bestMove, 0, 150, 150, 255, false)
+            const color = config().tictactoeSolverBtnColor
+            RenderHelper.outlineFilledBlock(bestMove, color[0], color[1], color[2], color[3], false)
         }),
         () => bestMove !== null
     )
