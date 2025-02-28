@@ -12,9 +12,9 @@ const editGui = new DraggableGui("bossSplits").setCommandName("editbosssplits")
 const dungeonFloorRegex = AtomxApi.getRegexData().Dungeons.Floor
 const bossSplits = Persistence.getDataFromFileOrLink("BossSplits.json", "https://raw.githubusercontent.com/DocilElm/Doc-Data/refs/heads/main/dungeons/BossSplits.json")
 const defaultString = [
-    `&dTerracotta&f: &610s`,
-    `&bGiants&f: &610s`,
-    `&aSadan&f: &610s`,
+    `&dTerracotta&f: &a10s`,
+    `&bGiants&f: &a10s`,
+    `&aSadan&f: &a10s`,
 ].join("\n")
 
 let previousFloor = null
