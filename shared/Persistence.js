@@ -18,6 +18,7 @@ export class Persistence {
         partyCommandList: [],
         toggleSprint: false,
         quiverArrows: null,
+        smolderingPolarization: { time: 0 },
         apiCheckTime: null,
         firstTime: true
     }, "data/.data.json")

@@ -1134,6 +1134,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     description: "Displays your current arrows as well as the quantity"
 })
 .addSwitch({
+    configName: "smolderingPolarizationDisplay",
+    title: "Smoldering Polarization Display",
+    description: "Displays the amount of time left in your smoldering polarization effect"
+})
+.addSwitch({
     category: "Rift",
     configName: "mushroomTimer",
     title: "Mushroom Timer",
