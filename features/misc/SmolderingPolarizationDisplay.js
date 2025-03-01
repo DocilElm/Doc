@@ -73,7 +73,7 @@ const feat = new Feature("smolderingPolarizationDisplay")
                     total += seconds * 1000
                     Persistence.data.smolderingPolarization.time = total
                     registerTime = Date.now() + (Persistence.data.smolderingPolarization.time || 1)
-                    ChatLib.chat(`${TextHelper.PREFIX} &cDetected Smoldering Polarization`)
+                    ChatLib.chat(`${TextHelper.PREFIX} &bDetected Smoldering Polarization`)
                     break
                 }
 
@@ -86,7 +86,7 @@ const feat = new Feature("smolderingPolarizationDisplay")
 
                 Persistence.data.smolderingPolarization.time = total
                 registerTime = Date.now() + (Persistence.data.smolderingPolarization.time || 1)
-                ChatLib.chat(`${TextHelper.PREFIX} &cDetected Smoldering Polarization`)
+                ChatLib.chat(`${TextHelper.PREFIX} &bDetected Smoldering Polarization`)
                 break
             }
 
