@@ -1,7 +1,7 @@
 import { Event } from "../../core/Event"
 import EventEnums from "../../core/EventEnums"
 import Feature from "../../core/Feature"
-import { onPuzzleScheduledRotation } from "../../shared/PuzzleRoomScanner"
+import { onPuzzleRotationExit, onPuzzleScheduledRotation } from "../../shared/PuzzleRoomScanner"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/TextHelper"
 import Vector3 from "../../../BloomCore/utils/Vector3"
@@ -37,6 +37,9 @@ class Cell {
 const reset = () => {
     renderBlocks = []
     enteredRoom = null
+    cells = null
+    minX = null
+    minZ = null
 }
 
 const manhattanDistance = (x, z, x1, z1) => Math.abs(x - x1) + Math.abs(z - z1)
@@ -114,6 +117,7 @@ const feat = new Feature("teleportMazeSolver", "catacombs")
                 }
 
                 reset()
+                feat.update()
                 return
             }
             newPad.blacklisted = true
@@ -194,5 +198,10 @@ onPuzzleScheduledRotation((rotation) => {
 
     enteredRoom = Date.now()
 
+    feat.update()
+})
+
+onPuzzleRotationExit(() => {
+    reset()
     feat.update()
 })
