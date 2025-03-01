@@ -279,13 +279,13 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 //     description: "Ice Path solver &eThis is just a simple static solver it does not try to find the best path so be aware &4The scanner might break sometimes",
 //     subcategory: "Dungeons"
 // })
-// .addSwitch({
-//     category: "Dungeons",
-//     configName: "teleportPadSolver",
-//     title: "Teleport Maze Solver",
-//     description: "Teleport Maze solver &bAdds &cRed &bcolor to the pads you have been through also highlights &aGreen &bthe right one &4The scanner might break sometimes",
-//     subcategory: "Dungeons"
-// })
+.addSwitch({
+    category: "Dungeons",
+    configName: "teleportMazeSolver",
+    title: "Teleport Maze Solver",
+    description: "Teleport Maze solver &bAdds &cRed &bcolor to the pads you have been through also highlights &aGreen &bthe right one &bHuge thanks to unclaimedbloom6",
+    subcategory: "Dungeons"
+})
 .addSwitch({
     category: "Dungeons",
     configName: "cryptsDisplay",

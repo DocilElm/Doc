@@ -24,6 +24,7 @@ import "./features/dungeons/TicTacToeSolver"
 import "./features/dungeons/LividSolver"
 import "./features/dungeons/BossSplits"
 import "./features/dungeons/AutoRequeueDungeons"
+import "./features/dungeons/TeleportMazeSolver"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"
