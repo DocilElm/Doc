@@ -1259,6 +1259,9 @@ const config = new DefaultConfig("Doc", "data/settings.json")
 const categories = ["General", "Dungeons", "Mining", "Fishing", "Garden", "Tracker", "Kuudra", "Rift", "Slayers", "Misc", "UI"]
 const setting = new Settings("Doc", config, schemePath)
     .setCategorySort((a, b) => categories.indexOf(a.category) - categories.indexOf(b.category))
+    .setClickSound(() => {
+        World.playSound("gui.button.press", 1, 1)
+    })
     // .apply() // apply the sorting changes
 
 const textWrap = setting.AmaterasuGui.descriptionElement.textWrap
