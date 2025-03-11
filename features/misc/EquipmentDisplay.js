@@ -51,6 +51,8 @@ const updateButtons = (feat) => {
             continue
         }
 
+        if (!texture) continue
+
         // Otherwise if the [texture] exists
         // we'll create the item via the [createItemByTexture] method
         // and add its lore as the hover value
