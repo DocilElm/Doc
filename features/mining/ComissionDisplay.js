@@ -16,7 +16,7 @@ editGui.onDraw(() => {
     Renderer.finishDraw()
 })
 
-const feat = new Feature("comissionDisplay", ["Dwarven Mines", "Crystal Hollows"])
+const feat = new Feature("comissionDisplay", ["Dwarven Mines", "Crystal Hollows", "Mineshaft"])
     .addEvent(
         new Event(EventEnums.STEP, () => {
             mapList.clear()

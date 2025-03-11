@@ -636,12 +636,13 @@ export class RenderHelper {
 
     static drawItem(item, x, y, scale = 1, zlvl = 200) {
         if (scale !== 1) Renderer.scale(scale)
+        if (item instanceof Item) item = item.itemStack
 
         Tessellator.colorize(1, 1, 1, 1)
         MCRenderHelper.func_74519_b()
         MCRenderHelper.func_74520_c()
         MCRenderItem.field_77023_b = zlvl
-        MCRenderItem.func_175042_a(item.itemStack, x / scale, y / scale)
+        MCRenderItem.func_175042_a(item, x / scale, y / scale)
         MCRenderHelper.func_74518_a()
         MCRenderHelper.func_74518_a()
 
