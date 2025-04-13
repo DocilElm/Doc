@@ -1,5 +1,6 @@
 import AtomxApi from "../../../Atomx/AtomxApi"
 import Price from "../../../Atomx/skyblock/Price"
+import config from "../../config"
 import { Event } from "../../core/Event"
 import EventEnums from "../../core/EventEnums"
 import Feature from "../../core/Feature"
@@ -77,6 +78,8 @@ const feat = new Feature("visitorProfitDisplay", "garden")
     })
 
 onVisitor((visitorName, acceptButton) => {
+    if (!config().visitorProfitDisplay) return
+
     const currentData = {
         name: visitorName,
         requiredItems: [],
