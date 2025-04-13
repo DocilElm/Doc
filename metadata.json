@@ -2,7 +2,7 @@
   "name": "Doc",
   "creator": "DocilElm",
   "description": "Quality of life features for hypixel skyblock",
-  "version": "4.19.9",
+  "version": "4.20.9",
   "entry": "index.js",
   "changelog": "",
   "requires": [
