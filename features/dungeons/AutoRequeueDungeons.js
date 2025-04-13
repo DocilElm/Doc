@@ -12,6 +12,7 @@ const feat = new Feature("autoRequeueDungeons")
     .addEvent(
         new Event(EventEnums.PACKET.SERVER.CHAT, (name, msg) => {
             if (msg.toLowerCase() === "r") {
+                ChatLib.chat(`${TextHelper.PREFIX} &a${shouldDownTime} is ready`)
                 shouldDownTime = null
                 return
             }
@@ -36,7 +37,7 @@ const feat = new Feature("autoRequeueDungeons")
             if (config().autoRequeueDungeonsChestMode) return
 
             ChatLib.command("instancerequeue")
-        }, /^ +Click HERE to re-queue into The Catacombs\!$/)
+        }, /^ *> EXTRA STATS <$/)
     )
     .addSubEvent(
         new Event(EventEnums.PACKET.SERVER.CHAT, () => {
@@ -46,4 +47,8 @@ const feat = new Feature("autoRequeueDungeons")
     )
     .onUnregister(() => {
         commandReceived = false
+        if (shouldDownTime) {
+            ChatLib.chat(`${TextHelper.PREFIX} &aDowntime has been resetted.`)
+            shouldDownTime = null
+        }
     })
