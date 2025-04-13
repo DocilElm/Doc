@@ -77,22 +77,28 @@ const handleBinding = (slotNumber, event, feat) => {
     feat.update()
 }
 
+let lastGui = null
+let guiCloseListener = []
+let guiOpenListener = []
+
+const onGuiClose = (cb) => guiCloseListener.push(cb)
+const onGuiOpen = (cb) => guiOpenListener.push(cb)
+
 const feat = new Feature("slotLocking")
     .addEvent(
-        new Event("guiOpened", (event) => {
-            Client.scheduleTask(2, () => {
-                const gui = event.gui
-                inGui = (gui instanceof net.minecraft.client.gui.inventory.GuiChest || gui instanceof net.minecraft.client.gui.inventory.GuiInventory)
-                feat.update()
-            })
+        new Event("tick", () => {
+            const currentGui = Client.currentGui.get()
+
+            if (!lastGui && !currentGui) return
+            if (lastGui && lastGui === currentGui) return
+
+            if (!lastGui || !currentGui?.equals(lastGui)) guiCloseListener.forEach((it) => it())
+
+            lastGui = currentGui
+
+            if (!lastGui) return
+            guiOpenListener.forEach((it) => it(lastGui))
         })
-    )
-    .addSubEvent(
-        new Event("guiClosed", () => {
-            inGui = false
-            feat.update()
-        }),
-        () => inGui
     )
     .addSubEvent(
         new Event("guiKey", (_, keyCode, gui, event) => {
@@ -217,7 +223,8 @@ const feat = new Feature("slotLocking")
     )
     .addSubEvent(
         new Event("renderOverlay", () => {
-            const slotIdx = Client.currentGui.get().getSlotUnderMouse()?.field_75222_d
+            const slotIdx = Client.currentGui.get()?.getSlotUnderMouse()?.field_75222_d
+            if (!slotIdx) return
             const boundSlot = savedSlots.get(slotIdx)
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && boundSlot) {
                 const [ x, y ] = RenderHelper.getSlotRenderPosition(slotIdx)
@@ -234,3 +241,15 @@ const feat = new Feature("slotLocking")
         clickedSlot = false
         inGui = false
     })
+
+onGuiClose(() => {
+    if (!inGui) return
+
+    inGui = false
+    feat.update()
+})
+
+onGuiOpen((gui) => {
+    inGui = (gui instanceof net.minecraft.client.gui.inventory.GuiChest || gui instanceof net.minecraft.client.gui.inventory.GuiInventory)
+    feat.update()
+})
