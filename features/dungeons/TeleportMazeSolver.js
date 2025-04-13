@@ -4,7 +4,7 @@ import Feature from "../../core/Feature"
 import { onPuzzleRotationExit, onPuzzleScheduledRotation } from "../../shared/PuzzleRoomScanner"
 import { RenderHelper } from "../../shared/Render"
 import { TextHelper } from "../../shared/TextHelper"
-import Vector3 from "../../../BloomCore/utils/Vector3"
+import Vec3 from "../../shared/Vec3"
 
 // Credits: https://github.com/UnclaimedBloom6/BloomModule/blob/main/features/TeleportMazeSolver.js
 // pretty much just an entire copy paste since it works well enough
@@ -78,7 +78,7 @@ const isPadInStartOrEndCell = (tpPad) => {
 }
 
 const calculateAnglePads = (x0, z0, yaw, feat) => {
-    const eyeVector = Vector3.fromPitchYaw(0, yaw)
+    const eyeVector = Vec3.fromPitchYaw(0, yaw)
 
     renderBlocks = []
 
@@ -86,7 +86,7 @@ const calculateAnglePads = (x0, z0, yaw, feat) => {
         for (let pad of cell.pads) {
             if (isPadInStartOrEndCell(pad) || pad.blacklisted) continue
 
-            let padVec = new Vector3(pad.x + 0.5 - x0, 0, pad.z + 0.5 - z0)
+            let padVec = new Vec3(pad.x + 0.5 - x0, 0, pad.z + 0.5 - z0)
             let angle = eyeVector.getAngleDeg(padVec)
             pad.angle += angle
             renderBlocks.push(pad)
