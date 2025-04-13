@@ -663,7 +663,7 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     category: "Misc",
     configName: "copyChat",
     title: "Copy Chat",
-    description: "Allows you to copy any chat message by &bRigh Clicking&r the text in chat &cIf you hold &bControl&r &cit'll copy the formatted message&r",
+    description: "Allows you to copy any chat message by &bRight Clicking&r the text in chat &cIf you hold &bControl&r &cit'll copy the formatted message&r",
     subcategory: "Misc"
 })
 .addSwitch({
