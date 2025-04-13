@@ -62,8 +62,7 @@ const checkSaved = () => {
 
 new Feature("inventoryButtons")
     .addEvent(
-        new Event("renderOverlay", () => {
-            const currGui = Client.currentGui?.get()
+        new Event("guiRender", (mx, my, currGui) => {
             if (!(currGui instanceof net.minecraft.client.gui.inventory.GuiInventory || currGui instanceof net.minecraft.client.gui.inventory.GuiChest)) return
 
             buttonsCreated.forEach(it => it.draw())

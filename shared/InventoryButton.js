@@ -220,7 +220,7 @@ export class InventoryButton {
 
         this._drawOutline() // Draw outline for rect
         Renderer.drawRect(slotColor, x, y, 16, 16) // Draws a rect that's similar to a slot
-        this.item.draw(x, y) // Draw the item in this position
+        this.item.draw(x, y, 1, 100) // Draw the item in this position
 
         Renderer.retainTransforms(false)
         Renderer.finishDraw()
