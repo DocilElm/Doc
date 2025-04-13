@@ -45,7 +45,7 @@ export const createSkull = (texture) => {
  * - Gets the current patcher [InventoryScale]
  * @returns {number?}
  */
-const getInventoryScale = () => PatcherConfig?.inventoryScale
+const getInventoryScale = () => PatcherConfig?.["class"] instanceof java.lang.Class ? PatcherConfig.inventoryScale : null
 
 // Used to store all instances of [InventoryButton]
 // this is used to call the [_mouseClick] method later on
