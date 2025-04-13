@@ -45,31 +45,32 @@ const reset = () => {
 const manhattanDistance = (x, z, x1, z1) => Math.abs(x - x1) + Math.abs(z - z1)
 
 const getCellAt = (x, z) => {
-    if (x < minX || x > minX + 23 || z < minZ || z > minZ + 23) return null
+    if (!cells) return
+    if (x < minX || x > minX + 23 || z < minZ || z > minZ + 23) return
 
     const cx = Math.floor((x - minX) / 8)
     const cz = Math.floor((z - minZ) / 8)
 
-    return cells.find(a => a.xidx == cx && a.zidx == cz) ?? null
+    return cells.find(a => a.xidx == cx && a.zidx == cz)
 }
 
 const getPadNear = (x, z) => {
     const cell = getCellAt(x, z)
-    if (!cell) return null
+    if (!cell) return
 
     for (let pad of cell.pads) {
         let dist = manhattanDistance(x, z, pad.x, pad.z)
         if (dist <= 3) return pad
     }
 
-    return null
+    return
 }
 
 const isPadInStartOrEndCell = (tpPad) => {
-    if (cells[4].pads.find(it => it === tpPad)) return true
+    if (cells?.[4]?.pads?.find(it => it === tpPad)) return true
 
     for (let cell of cells) {
-        if (cell.pads.size !== 1 || cell == cells[4] || !cell.pads.find(it => it === tpPad)) continue
+        if (cell.pads.size !== 1 || cell == cells?.[4] || !cell.pads.find(it => it === tpPad)) continue
         return true
     }
 
@@ -103,7 +104,7 @@ const feat = new Feature("teleportMazeSolver", "catacombs")
 
             const newPad = getPadNear(x, z)
             const oldPad = getPadNear(Player.getX(), Player.getZ())
-            if (!newPad || !oldPad) return ChatLib.chat("could not find tp pads")
+            if (!newPad || !oldPad) return
 
             if (isPadInStartOrEndCell(newPad)) {
                 if (renderBlocks.length > 1)
@@ -166,6 +167,7 @@ onPuzzleScheduledRotation((rotation) => {
             let x = cx + dx
             let z = cz + dz
             let block = World.getBlockAt(x, 69, z)
+            if (!block) continue
             if (block.type.getID() !== 120) continue
 
             pads.push({
