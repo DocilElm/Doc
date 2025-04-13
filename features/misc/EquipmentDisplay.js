@@ -123,7 +123,7 @@ const feat = new Feature("equipmentsDisplay")
         () => inEquipment
     )
     .addSubEvent(
-        new Event("renderOverlay", () => {
+        new Event("guiRender", () => {
             buttons.forEach(it => it.draw())
         }),
         () => buttons.size && inInv
