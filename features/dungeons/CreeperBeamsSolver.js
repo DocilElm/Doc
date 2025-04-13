@@ -27,18 +27,24 @@ const equals = (pos, pos2) => Math.floor(pos.x) === Math.floor(pos2.x) && Math.f
 
 const checkBlocks = (feat, pos, packetBlock) => {
     for (let idx = solutions.length - 1; idx >= 0; idx--) {
-        let blocks = solutions[idx].blocks
+        let data = solutions[idx]
+        let blocks = data.blocks
 
         if (
             (equals(pos, blocks[0].pos) || equals(pos, blocks[1].pos)) &&
             packetBlock === net.minecraft.init.Blocks.field_180397_cI
             ) {
-                solutions.splice(idx, 1)
+                data.blacklisted = true
                 continue
         }
+        if (
+            (equals(pos, blocks[0].pos) || equals(pos, blocks[1].pos)) &&
+            packetBlock !== net.minecraft.init.Blocks.field_180397_cI && data.blacklisted
+            )
+                data.blacklisted = false
     }
 
-    if (solutions.length === 0) {
+    if (solutions.filter((it) => !it.blacklisted).length === 0) {
         TextHelper.sendPuzzleMsg("Creeper Beams", enteredRoomAt)
         solutions = []
         enteredRoomAt = null
@@ -52,7 +58,7 @@ const feat = new Feature("creeperBeamsSolver", "catacombs")
         new Event("renderWorld", () => {
             for (let idx = 0; idx < 4; idx++) {
                 let data = solutions[idx]
-                if (!data) continue
+                if (!data || data.blacklisted) continue
 
                 let [ block, block1 ] = data.blocks
                 let [ r, g, b ] = data.color
@@ -110,7 +116,8 @@ onPuzzleScheduledRotation((rotation) => {
                 [ Math.floor(block.getX()) + 0.5, Math.floor(block.getY()) + 0.5, Math.floor(block.getZ()) + 0.5 ],
                 [ Math.floor(block1.getX()) + 0.5, Math.floor(block1.getY()) + 0.5, Math.floor(block1.getZ()) + 0.5 ]
             ],
-            color: pairColors[idx]
+            color: pairColors[idx],
+            blacklisted: false
         })
 
         idx++
