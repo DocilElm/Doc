@@ -35,6 +35,7 @@ let currentBoard = [
     null, null, null,
     null, null, null
 ]
+let checkedCoords = []
 let currentRotation = null
 let mapEntities = []
 let bestMove = null
@@ -51,7 +52,7 @@ const getBoardIdx = (entityX, entityY, entityZ) => {
     return rotatedIdx
 }
 
-const feat = new Feature("tictactoeSolver")
+const feat = new Feature("tictactoeSolver", "catacombs")
     .addEvent(
         new Event(EventEnums.FORGE.ENTITYJOIN, (mcEntity) => {
             if (done) return
@@ -79,6 +80,9 @@ const feat = new Feature("tictactoeSolver")
                     mcEntity./* posY */field_70163_u,
                     mcEntity./* posZ */field_70161_v - 0.5
                 ]
+
+                if (checkedCoords.findIndex((it) => it.toString() === [entityX, entityY, entityZ].toString()) !== -1) return
+                checkedCoords.push([entityX, entityY, entityZ])
 
                 if (currentRotation !== null) {
                     currentBoard[getBoardIdx(entityX, entityY, entityZ)] = status
@@ -111,6 +115,7 @@ const feat = new Feature("tictactoeSolver")
                 mapEntities = []
                 bestMove = null
                 enteredAt = null
+                checkedCoords = []
                 feat.update()
             }, 2)
         }, /^PUZZLE SOLVED\! \w+ tied Tic Tac Toe\! Good job\!$/),
@@ -127,6 +132,7 @@ const feat = new Feature("tictactoeSolver")
                 mapEntities = []
                 bestMove = null
                 enteredAt = null
+                checkedCoords = []
                 feat.update()
             }, 2)
         }, /^PUZZLE FAIL\! \w+ lost Tic Tac Toe\! Yikes\!$/),
@@ -150,6 +156,7 @@ const feat = new Feature("tictactoeSolver")
         bestMove = null
         enteredAt = null
         done = false
+        checkedCoords = []
     })
 
 onPuzzleScheduledRotation((rotation) => {
