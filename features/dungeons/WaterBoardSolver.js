@@ -70,8 +70,9 @@ const lineColors = [
 
 let currentSolution = null
 let levers = []
-let openedWater = false
+let openedWater = null
 let render = []
+let ticksIn = 0
 
 let shouldRecord = false
 let leversRecorded = {}
@@ -106,10 +107,16 @@ const recordLever = (obj) => {
     const { name } = obj
     if (!(name in leversRecorded)) leversRecorded[name] = { array: [], name }
 
-    leversRecorded[name].array.push(Date.now())
+    leversRecorded[name].array.push((ticksIn - openedWater) * 0.05)
 }
 
 const feat = new Feature("waterBoardSolver", "catacombs")
+    .addSubEvent(
+        new Event(EventEnums.PACKET.CUSTOM.TICK, () => {
+            ticksIn++
+        }),
+        () => data.variant !== null
+    )
     .addSubEvent(
         new Event("renderWorld", () => {
             if (!currentSolution) return
@@ -135,7 +142,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
                         continue
                     }
 
-                    let timeRemaining = time - ((Date.now() - openedWater) / 1000)
+                    let timeRemaining = time - ((ticksIn - openedWater) * 0.05)
                     if (timeRemaining <= 4) leverLines.push([ block.getX(), block.getY(), block.getZ() ])
 
                     str = timeRemaining <= 0 ? `§eClick now` : `§a${timeRemaining.toFixed(2)}s`
@@ -160,7 +167,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
     .addSubEvent(
         new Event(EventEnums.PACKET.CLIENT.BLOCKPLACEMENT, (block) => {
             if (!openedWater && block.toString() === getLeverByName("minecraft:water")?.block?.toString()) {
-                openedWater = Date.now()
+                openedWater = ticksIn
                 feat.update()
             }
 
@@ -171,7 +178,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
 
             // Removes the first index so that the user doesn't see the "click now" even when it shouldn't
             const time = currentSolution?.[obj.name]?.[0]
-            const actualTime = openedWater ? time - ((Date.now() - openedWater) / 1000) : 10
+            const actualTime = openedWater ? time - ((ticksIn - openedWater) * 0.05) : 10
 
             if (time <= 0) return currentSolution?.[obj.name]?.splice(0, 1)
             if (actualTime >= 1) return
@@ -182,10 +189,12 @@ const feat = new Feature("waterBoardSolver", "catacombs")
     )
     .addSubEvent(
         new Event(EventEnums.PACKET.CUSTOM.OPENEDCHEST, () => {
-            TextHelper.sendPuzzleMsg("Water Board", openedWater)
+            ChatLib.chat(`${TextHelper.PREFIX} &aWater Board took&f: &6${((ticksIn - openedWater) * 0.05).toFixed(2)}s`)
             currentSolution = null
             openedWater = null
             levers = []
+            ticksIn = 0
+            feat.update()
         }),
         () => openedWater
     )
@@ -194,7 +203,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
             if (editGui.isOpen()) return
 
             if (shouldRecord) {
-                const text = `&a${((Date.now() - (openedWater ?? Date.now())) / 1000).toFixed(1)}s`
+                const text = `&a${((ticksIn - (openedWater ?? ticksIn)) * 0.05).toFixed(1)}s`
         
                 Renderer.drawStringWithShadow(
                     text,
@@ -231,6 +240,7 @@ const feat = new Feature("waterBoardSolver", "catacombs")
         leversRecorded = {}
         render = []
         shouldRecord = false
+        ticksIn = 0
     })
 
 const getSolutionFromCustom = (variant, subvariant) => {
@@ -278,9 +288,7 @@ const getVariant = (rotation, currentY) => {
     return variant
 }
 
-onPuzzleScheduledRotation((rotation) => {
-    if (!config().waterBoardSolver) return
-
+const scanRoom = (rotation, depth = 0) => {
     const topPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.topPiston, rotation))
     let bottomPiston = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bottomPiston, rotation))
     const bottomBlueWool = World.getBlockAt(...TextHelper.getRealCoord(relativeCoords.bottomBlueWool, rotation))
@@ -316,12 +324,21 @@ onPuzzleScheduledRotation((rotation) => {
         data.variant = variant
         data.subvariant = subvariant
         currentSolution = getSolution(variant, subvariant)
-        if (!currentSolution) {
-            ChatLib.chat(`${TextHelper.PREFIX} &cSeems like the WaterBoard scanner could not find the correct solution, you might need to re-enter the room for it to properly work.`)
-        }
+        if (!currentSolution && depth <= 4) {
+            scheduleTask(() => {
+                scanRoom(rotation, depth + 1)
+            }, 5)
+            return
+        } else if (!currentSolution) ChatLib.chat(`${TextHelper.PREFIX} &cSeems like the WaterBoard scanner could not find the correct solution, you might need to re-enter the room for it to properly work.`)
 
         feat.update()
     }, 8)
+}
+
+onPuzzleScheduledRotation((rotation) => {
+    if (!config().waterBoardSolver) return
+
+    scanRoom(rotation)
 })
 
 onPuzzleRotationExit(() => {
@@ -334,6 +351,7 @@ onPuzzleRotationExit(() => {
     }
     leversRecorded = {}
     render = []
+    ticksIn = 0
     feat.update()
 })
 
@@ -354,7 +372,7 @@ new Keybind("§fRecord custom waterboard", Keyboard.KEY_NONE, "Doc")
                 let { array, name } = leversRecorded[k]
 
                 currentSolution[name] = array.map(v => {
-                    let time = (v - (openedWater ?? Date.now())) / 1000
+                    let time = (v - (openedWater ?? ticksIn))
 
                     return time < 0 ? "0" : time.toFixed(1)
                 })
