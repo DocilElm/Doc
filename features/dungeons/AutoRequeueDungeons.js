@@ -20,7 +20,7 @@ const feat = new Feature("autoRequeueDungeons")
 
             shouldDownTime = name
             ChatLib.chat(`${TextHelper.PREFIX} &bUser &6${shouldDownTime} &bneeds downtime`)
-        }, /^Party > (?:\[\d+\] .? ?)?(?:\[[^\]]+\] )?(\w{1,16}): !(\w{1,2})$/)
+        }, /^Party > (?:\[\d+\] .? ?)?(?:\[[^\]]+\] )?(\w{1,16}): !(\w{1,2})(?: [\w ]+)?$/)
     )
     .addEvent(
         new Event(EventEnums.PACKET.SERVER.CHAT, () => {
