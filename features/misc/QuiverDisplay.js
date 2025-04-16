@@ -17,7 +17,7 @@ editGui.onDraw(() => {
 const feat = new Feature("quiverDisplay")
     .addEvent(
         new Event(EventEnums.PACKET.SERVER.SETSLOT, (slotId, itemStack) => {
-            if (slotId !== 44) return
+            if (slotId !== 44 || !itemStack) return
             const id = MCItem./* getIdFromItem */func_150891_b(itemStack./* getItem */func_77973_b())
             if (id !== 288) return
 
