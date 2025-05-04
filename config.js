@@ -96,6 +96,15 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     }
 })
 .addSwitch({
+    configName: "croesusEssenceProfit",
+    title: "Croesus Essence Profit",
+    description: "Whether or not to take into account the essence's prices for profit detection",
+    value: true,
+    shouldShow(data) {
+        return data.croesusProfitDisplay
+    }
+})
+.addSwitch({
     category: "Dungeons",
     configName: "showExtraStats",
     title: "Show Extra Stats",

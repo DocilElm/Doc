@@ -92,7 +92,8 @@ const getProfit = (lore) => {
         if (essenceRegex.test(unformatted)) {
             let [ _, type, amount ] = unformatted.match(essenceRegex)
 
-            result.profit += Price.getSellPrice(`ESSENCE_${type}`.toUpperCase()) * Math.floor(amount)
+            if (config().croesusEssenceProfit)
+                result.profit += Price.getSellPrice(`ESSENCE_${type}`.toUpperCase()) * Math.floor(amount)
             result.items.push(`\n${lore[idx]}`)
 
             continue
