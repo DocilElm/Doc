@@ -23,6 +23,8 @@ export class Persistence {
         firstTime: true
     }, "data/.data.json")
 
+    static runsData = new PogObject("Doc", {}, "data/runslogged.json")
+
     static dungeonBossEntryMessage = new Set([
         "[BOSS] Bonzo: Gratz for making it this far, but I'm basically unbeatable.",
         "[BOSS] Scarf: This is where the journey ends for you, Adventurers.",
@@ -151,6 +153,7 @@ export class Persistence {
 
 register("gameUnload", () => {
     Persistence.data.save()
+    Persistence.runsData.save()
 })
 
 export class GardenApi {

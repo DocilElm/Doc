@@ -25,6 +25,7 @@ import "./features/dungeons/LividSolver"
 import "./features/dungeons/BossSplits"
 import "./features/dungeons/AutoRequeueDungeons"
 import "./features/dungeons/TeleportMazeSolver"
+import "./features/dungeons/RunsLogger"
 // Mining
 import "./features/mining/EmissaryWaypoints"
 import "./features/mining/PowderDisplay"

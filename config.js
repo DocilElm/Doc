@@ -396,6 +396,11 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     }
 })
 .addSwitch({
+    configName: "runslogger",
+    title: "Runs Logger",
+    description: "Logs all of your successfully completed runs. This data can be found under the \"/doc runs\" command. &cBeware this runs extra stats itself if you have other mod that does it this might double trigger it."
+})
+.addSwitch({
     category: "Mining",
     configName: "emissaryWaypoints",
     title: "Emissary Waypoints",
