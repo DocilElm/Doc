@@ -17,6 +17,7 @@ const date = new Date()
 const todayDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 
 let currFloor = null
+let hasAdded = false
 let currentData = {
     deaths: 0,
     secrets: 0,
@@ -109,6 +110,7 @@ const feat = new Feature("runslogger", "catacombs")
     )
     .addSubEvent(
         new Event(EventEnums.PACKET.SERVER.CHAT, (secrets) => {
+            if (hasAdded) return reset()
             currentData.secrets = +secrets
             currentData.milestone = Dungeon.getMilestone(true)
             currentData.taken = Date.now()
@@ -118,12 +120,14 @@ const feat = new Feature("runslogger", "catacombs")
 
             Persistence.runsData[todayDate][currFloor].push(currentData)
 
+            hasAdded = true
             reset()
         }, secretsFoundRegex),
         () => currFloor && currentData.time
     )
     .onUnregister(() => {
         reset()
+        hasAdded = false
     })
 
 addCommand("runs", "&bShows your runs logged data", (date, floor) => {
