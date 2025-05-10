@@ -1,7 +1,7 @@
 import ElementUtils from "../../../DocGuiLib/core/Element"
 import HandleGui from "../../../DocGuiLib/core/Gui"
 import TextInputElement from "../../../DocGuiLib/elements/TextInput"
-import { CenterConstraint, CramSiblingConstraint, UIBlock, UIText } from "../../../Elementa"
+import { CramSiblingConstraint, UIBlock } from "../../../Elementa"
 import { addCommand } from "../../shared/Command"
 import { Persistence } from "../../shared/Persistence"
 import { TextHelper } from "../../shared/TextHelper"
@@ -89,12 +89,11 @@ class Alias {
      * @returns
      */
     messageSent(msg, event) {
-        if (commandCooldown && (Date.now() - commandCooldown) <= 3000) return
-
         if (msg === this.alias) {
-            commandCooldown = Date.now()
             cancel(event)
+            if (commandCooldown && (Date.now() - commandCooldown) <= 3000) return
             ChatLib.command(this.command, TextHelper.shouldSendAsClient(this.command.split(" ")?.[0]))
+            commandCooldown = Date.now()
 
             return
         }
@@ -104,9 +103,10 @@ class Alias {
 
         if (cmd !== this.alias || !args) return
 
-        commandCooldown = Date.now()
         cancel(event)
+        if (commandCooldown && (Date.now() - commandCooldown) <= 3000) return
         ChatLib.command(`${this.command} ${args}`, TextHelper.shouldSendAsClient(this.command.split(" ")?.[0]))
+        commandCooldown = Date.now()
     }
 }
 
