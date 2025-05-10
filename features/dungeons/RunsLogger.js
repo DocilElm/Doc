@@ -10,7 +10,7 @@ import { Persistence } from "../../shared/Persistence"
 const extraStatsRegex = /^ *> EXTRA STATS <$/
 const floorStatsRegex = /^ *(Master Mode )?The Catacombs - Floor ([VI]+) Stats$/
 const teamScoreRegex = /^ *Team Score: (\d+) \((\w\+?)\)$/
-const defeatedRegex = /^ *☠ Defeated (?:[\w ]+) in ([\dms ]+)$/
+const defeatedRegex = /^ *☠ Defeated (?:[\w, ]+) in ([\dms ]+)$/
 const deathsRegex = /^ *Deaths: (\d+)$/
 const secretsFoundRegex = /^ *Secrets Found: (\d+)$/
 const date = new Date()
