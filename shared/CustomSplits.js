@@ -1,3 +1,5 @@
+import { getTicks } from "../../tska/shared/ServerTick"
+import TimeFormatter from "../../tska/shared/TimeFormatter"
 import { Event } from "../core/Event"
 import EventEnums from "../core/EventEnums"
 import { TextHelper } from "./TextHelper"
@@ -22,6 +24,8 @@ export default class CustomSplits {
 
         // Scuffed listener for now
         this.onTimeUpdate = null
+        /** @private */
+        this.formatTime = false
 
         this._init()
     }
@@ -34,6 +38,10 @@ export default class CustomSplits {
             this.timers.push({ timer: null, child: [] })
             this._makeFromType(obj, idx)
         }
+    }
+
+    getCurrentTime() {
+        return getTicks() * 50
     }
 
     _makeFromType(obj, idx, parentidx) {
@@ -66,7 +74,7 @@ export default class CustomSplits {
             const chat = theobj?.chat
             if (!chat) return
 
-            const time = ((Date.now() - this.getPreviousTimer(parentidx, idx)) / 1000).toFixed(2)
+            const time = ((this.getCurrentTime() - this.getPreviousTimer(parentidx, idx)) / 1000).toFixed(2)
 
             if (chat === "^") return ChatLib.chat(`${TextHelper.PREFIX} ${theobj.title.replace(timerRegex, time + "s")}`)
 
@@ -79,7 +87,7 @@ export default class CustomSplits {
         const chat = theobj?.chat
         if (!chat) return
 
-        const time = ((Date.now() - this.getPreviousTimer(idx)) / 1000).toFixed(2)
+        const time = ((this.getCurrentTime() - this.getPreviousTimer(idx)) / 1000).toFixed(2)
 
         if (chat === "^") return ChatLib.chat(`${TextHelper.PREFIX} ${theobj.title.replace(timerRegex, time + "s")}`)
         
@@ -101,8 +109,8 @@ export default class CustomSplits {
 
                 if (this.onTimeUpdate) this.onTimeUpdate()
 
-                if (parent) return this.timers[parentidx].child[idx] = Date.now()
-                this.timers[idx].timer = Date.now()
+                if (parent) return this.timers[parentidx].child[idx] = this.getCurrentTime()
+                this.timers[idx].timer = this.getCurrentTime()
             }, criteria)
         )
 
@@ -208,14 +216,17 @@ export default class CustomSplits {
             if (childRegex.test(title)) {
                 let timer = this.getTimerAt(idx)
                 let previousTimer = this.getPreviousTimer(idx)
+                let seconds = Math.max(0, (timer - previousTimer) / 1000)
+                let time = this.formatTime ? TimeFormatter.toFormat(seconds) : `${seconds.toFixed(2)}s`
 
                 str += title
-                    .replace(timerRegex, `${(Math.max(0, (timer - previousTimer) / 1000)).toFixed(2)}s`)
+                    .replace(timerRegex, time)
                     .replace(childRegex, (_, it) => {
                         let childidx = it - 1
                         let ctimer = this.getTimerAt(idx, childidx)
                         let cpreviousTimer = this.getPreviousTimer(idx, childidx)
-                        let childtime = `${(Math.max(0, (ctimer - cpreviousTimer) / 1000)).toFixed(2)}s`
+                        let cseconds = Math.max(0, (ctimer - cpreviousTimer) / 1000)
+                        let childtime = this.formatTime ? TimeFormatter.toFormat(cseconds) : `${cseconds.toFixed(2)}s`
 
                         return this.data[idx].children[childidx].title.replace(timerRegex, childtime)
                     }) + "\n"
@@ -225,8 +236,10 @@ export default class CustomSplits {
 
             let timer = this.getTimerAt(idx)
             let previousTimer = this.getPreviousTimer(idx)
+            let seconds = Math.max(0, (timer - previousTimer) / 1000)
+            let time = this.formatTime ? TimeFormatter.toFormat(seconds) : `${seconds.toFixed(2)}s`
 
-            str += `${title.replace(timerRegex, (Math.max(0, (timer - previousTimer) / 1000)).toFixed(2))}s\n`
+            str += `${title.replace(timerRegex, time)}\n`
         }
 
         return str
@@ -255,17 +268,17 @@ export default class CustomSplits {
     }
 
     getTimerAt(idx, childIdx = null) {
-        if (childIdx !== null) return this.timers[idx]?.child?.[childIdx] ?? Date.now()
+        if (childIdx !== null) return this.timers[idx]?.child?.[childIdx] ?? this.getCurrentTime()
 
-        return this.timers[idx]?.timer ?? Date.now()
+        return this.timers[idx]?.timer ?? this.getCurrentTime()
     }
 
     getPreviousTimer(idx, childIdx = null) {
         if (childIdx !== null) {
-            return this.timers[this.data?.[idx]?.children?.[childIdx]?.useTimerAt]?.timer ?? this.timers[idx - 1]?.timer ?? Date.now()
+            return this.timers[this.data?.[idx]?.children?.[childIdx]?.useTimerAt]?.timer ?? this.timers[idx - 1]?.timer ?? this.getCurrentTime()
         }
 
-        return this.timers[this.data?.[idx]?.useTimerAt]?.timer ?? this.timers[idx - 1]?.timer ?? Date.now()
+        return this.timers[this.data?.[idx]?.useTimerAt]?.timer ?? this.timers[idx - 1]?.timer ?? this.getCurrentTime()
     }
 
     getEvents() {

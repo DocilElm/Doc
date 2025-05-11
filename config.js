@@ -53,6 +53,14 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     subcategory: "Dungeons"
 })
 .addSwitch({
+    configName: "dungeonRunSplitsFormat",
+    title: "Run Splits Format",
+    description: "Whether it should display the time as &b100s &ror &b01m 40s",
+    shouldShow(data) {
+        return data.dungeonRunSplits
+    }
+})
+.addSwitch({
     category: "Dungeons",
     configName: "dungeonProfitDisplay",
     title: "Chest Profit",

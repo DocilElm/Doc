@@ -1,3 +1,4 @@
+import config from "../../config"
 import { Event } from "../../core/Event"
 import Feature from "../../core/Feature"
 import CustomSplits from "../../shared/CustomSplits"
@@ -9,6 +10,11 @@ const editGui = new DraggableGui("runSplits").setCommandName("editrunSplits")
 const RunSplits = Persistence.getDataFromFileOrLink("RunSplits.json", "https://raw.githubusercontent.com/DocilElm/Doc-Data/main/dungeons/RunSplits.json")
 const split = new CustomSplits(RunSplits, () => Location.inWorld("catacombs"))
 const exampleStr = split.buildExampleStr()
+split.formatTime = config().dungeonRunSplitsFormat
+
+config().getConfig().registerListener("dungeonRunSplitsFormat", (_, n) => {
+    split.formatTime = n
+})
 
 editGui.onDraw(() => {
     Renderer.retainTransforms(true)
