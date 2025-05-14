@@ -217,7 +217,7 @@ export default class CustomSplits {
                 let timer = this.getTimerAt(idx)
                 let previousTimer = this.getPreviousTimer(idx)
                 let seconds = Math.max(0, (timer - previousTimer) / 1000)
-                let time = this.formatTime ? TimeFormatter.toFormat(seconds) : `${seconds.toFixed(2)}s`
+                let time = this.formatTime ? TimeFormatter.format(seconds) : `${seconds.toFixed(2)}s`
 
                 str += title
                     .replace(timerRegex, time)
@@ -226,7 +226,7 @@ export default class CustomSplits {
                         let ctimer = this.getTimerAt(idx, childidx)
                         let cpreviousTimer = this.getPreviousTimer(idx, childidx)
                         let cseconds = Math.max(0, (ctimer - cpreviousTimer) / 1000)
-                        let childtime = this.formatTime ? TimeFormatter.toFormat(cseconds) : `${cseconds.toFixed(2)}s`
+                        let childtime = this.formatTime ? TimeFormatter.format(cseconds) : `${cseconds.toFixed(2)}s`
 
                         return this.data[idx].children[childidx].title.replace(timerRegex, childtime)
                     }) + "\n"
@@ -237,7 +237,7 @@ export default class CustomSplits {
             let timer = this.getTimerAt(idx)
             let previousTimer = this.getPreviousTimer(idx)
             let seconds = Math.max(0, (timer - previousTimer) / 1000)
-            let time = this.formatTime ? TimeFormatter.toFormat(seconds) : `${seconds.toFixed(2)}s`
+            let time = this.formatTime ? TimeFormatter.format(seconds) : `${seconds.toFixed(2)}s`
 
             str += `${title.replace(timerRegex, time)}\n`
         }
