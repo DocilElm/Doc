@@ -75,7 +75,7 @@ const feat = new Feature("lividSolver", "catacombs")
         new Event(EventEnums.FORGE.ENTITYJOIN, (mcEntity) => {
             scheduleTask(() => {
                 const name = mcEntity./* getName */func_70005_c_()
-                if (name !== `${lividData[1]} Livid`) return
+                if (name !== `${lividData?.[1]} Livid`) return
         
                 livid = mcEntity
                 feat.update()
