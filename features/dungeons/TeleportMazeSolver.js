@@ -132,7 +132,7 @@ const feat = new Feature("teleportMazeSolver", "catacombs")
     )
     .addSubEvent(
         new Event("renderWorld", () => {
-            if (!renderBlocks?.[0]) return
+            if (!renderBlocks?.[0] || !cells) return
             RenderHelper.outlineFilledBlock(renderBlocks?.[0]?.block, 0, 255, 0, 100, false)
 
             for (let cell of cells) {
@@ -142,7 +142,7 @@ const feat = new Feature("teleportMazeSolver", "catacombs")
                 }
             }
         }),
-        () => renderBlocks.length
+        () => renderBlocks.length && cells
     )
     .onUnregister(() => reset())
 
