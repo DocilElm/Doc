@@ -1099,11 +1099,21 @@ const config = new DefaultConfig("Doc", "data/settings.json")
     subcategory: "Misc"
 })
 .addDropDown({
+    configName: "renderItemsName",
+    title: "Render Items Name",
+    description: "Whether to draw the items' name and in what mode",
+    options: ["None", "Name", "Name Color"],
+    value: 0,
+    shouldShow(data) {
+        return data.renderItems
+    }
+})
+.addDropDown({
     category: "Misc",
     configName: "renderItemsMode",
     title: "Render Items Mode",
-    description: "Changes the mode for [RenderItems] Distance -> Checks distance if can pick up &aGreen &7else &cRed",
-    options: ["Rarity", "Distance"],
+    description: "Changes the mode for [RenderItems] &bDistance&r -> Checks distance if can pick up &aGreen &7else &cRed&r, if &bDistance Dungeon&r is selected it'll only apply the distance highlight inside of dungeon out side of this it'll be rarity based",
+    options: ["Rarity", "Distance", "Distance Dungeon"],
     value: 0,
     subcategory: "Misc",
     shouldShow(data) {
